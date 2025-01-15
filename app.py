@@ -33,6 +33,14 @@ def loginEstudiante():
     correo= request.form['correo']
     resultado = inicioSesionEstudiante(matricula,correo) #Llamada a la funcion de inicio de sesion que nos reedirige a la pagina de principal del estudiante
     return resultado
+
+#Editar el perfil del estudiante juasjuas
+@app.route('/editarPerfilEstudiante',methods=['POST'])
+def editarPerfilEstudiante():
+    matricula = request.form['Matricula']
+    correo = request.form['Correo']
+    return render_template('perfiles/editarPerfilEstudiante.html',Matricula = matricula,Correo = correo)
+
 #Validacion del login de coordinacion
 @app.route('/logincoordinacion',methods=['POST'])
 def logincoordinacion():

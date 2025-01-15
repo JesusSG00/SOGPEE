@@ -127,6 +127,8 @@ def enviarDocumentos():
     evaluacion = request.files.get('evaluacion3')
     matricula = request.form['matricula']
     correo = request.form['correo']
+    validar = request.form['validar']
+    
     if parcial != "":
         if cartas is None and proyecto is None: #Se valida si la carta y el proyecto estan vacios
             ruta_03 = guardar03(evaluacion,parcial,nombre,matricula) #Se obtiene la ruta del archivo 03
@@ -252,7 +254,8 @@ def inicioSesionEstudiante(matricula,correo):
                 ApellidoM = ok[4]
                 Telefono = ok[5]
                 Correo = ok[6]
-                return render_template('/perfiles/evaluacionEstudiante.html',Matricula=Matricula,Nombre1=Nombre1,Nombre2=Nombre2,ApellidoM=ApellidoM,ApellidoP=ApellidoP,Telefono=Telefono,Correo=Correo,proyecto = proyecto,asesor=asesor)
+                validar = verificarAsignacionProyecto(matricula)
+                return render_template('/perfiles/evaluacionEstudiante.html',Matricula=Matricula,Nombre1=Nombre1,Nombre2=Nombre2,ApellidoM=ApellidoM,ApellidoP=ApellidoP,Telefono=Telefono,Correo=Correo,proyecto = proyecto,asesor=asesor,validar= validar)
             else:
                 return 'no encontado'
     except Exception as e:
@@ -649,6 +652,18 @@ def obtenerRutaPDF(proyecto,parcial):
     except Exception as e:
         return f'error--------aqui-------->{e}'
     
+
+def verificarAsignacionProyecto(Matricula):
+    try:
+        query = text("SELECT matricula FROM Proyecto Matricula = :Matricula")
+        with engine.connect() as conn:
+            ok= conn.execute(query,{'Matricula':Matricula})
+            succ = ok.fetchone()
+            if succ:
+                return True 
+    except Exception as e:
+        return False
+
 def visualizarPDF(ruta):
     pdf_path = ruta
     try:

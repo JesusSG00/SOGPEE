@@ -34,6 +34,7 @@ def loginEstudiante():
     resultado = inicioSesionEstudiante(matricula,correo) #Llamada a la funcion de inicio de sesion que nos reedirige a la pagina de principal del estudiante
     return resultado
 
+
 #Editar el perfil del estudiante juasjuas
 @app.route('/editarPerfilEstudiante',methods=['POST'])
 def editarPerfilEstudiante():
@@ -136,7 +137,7 @@ def enviarDocumentos():
     matricula = request.form['matricula']
     correo = request.form['correo']
     validar = request.form['validar']
-    
+
     if parcial != "":
         if cartas is None and proyecto is None: #Se valida si la carta y el proyecto estan vacios
             ruta_03 = guardar03(evaluacion,parcial,nombre,matricula) #Se obtiene la ruta del archivo 03

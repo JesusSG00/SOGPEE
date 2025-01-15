@@ -137,7 +137,8 @@ def enviarDocumentos():
     matricula = request.form['matricula']
     correo = request.form['correo']
     validar = request.form['validar']
-
+    if validar == "False":
+        return render_template('error/errorValidar.html', matricula=matricula,correo=correo)
     if parcial != "":
         if cartas is None and proyecto is None: #Se valida si la carta y el proyecto estan vacios
             ruta_03 = guardar03(evaluacion,parcial,nombre,matricula) #Se obtiene la ruta del archivo 03
@@ -245,8 +246,11 @@ def descargaPdf():
     ruta = obtenerRutaPDF(proyecto,parcial)
     return descargarPDF(ruta)
 
-
-
+@app.route('/Regresar',methods=['POST'])
+def regresar():
+    matricula = request.form['matricula']
+    correo = request.form['correo']
+    return inicioSesionEstudiante(matricula,correo)
 
 def inicioSesionEstudiante(matricula,correo):
     proyecto = cargarProyectoAlumno(matricula)

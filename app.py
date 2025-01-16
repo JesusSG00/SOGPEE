@@ -136,17 +136,20 @@ def enviarDocumentos():
     evaluacion = request.files.get('evaluacion3')
     matricula = request.form['matricula']
     correo = request.form['correo']
-    validar = request.form['validar']
-    if validar == "False":
-        return render_template('error/errorValidar.html', matricula=matricula,correo=correo)
     if parcial != "":
         if cartas is None and proyecto is None: #Se valida si la carta y el proyecto estan vacios
+            validar = request.form['validar']
+            if validar == "False":
+                return render_template('error/errorValidar.html', matricula=matricula,correo=correo)
             ruta_03 = guardar03(evaluacion,parcial,nombre,matricula) #Se obtiene la ruta del archivo 03
             guardarRuta03(matricula,ruta_03,parcial) #Se guarda la ruta del archivo 03 en la base de datos
         if proyecto is None and evaluacion is None: #Se valida si el proyecto y la evaluacion estan vacios
             ruta_carta = guardarCartas(cartas,parcial,nombre,matricula) #Se obtiene la ruta de la carta
             guardarCartass(matricula,ruta_carta,parcial)#Se guarda la ruta de la carta en la base de datos
         if cartas is None and evaluacion is None:#Se valida si la carta y la evaluacion estan vacios
+            validar = request.form['validar']
+            if validar == "False":
+                return render_template('error/errorValidar.html', matricula=matricula,correo=correo)
             ruta_proyecto = guardarProyectos(proyecto,parcial,nombre,matricula)#Se obtiene la ruta del proyecto
             guardarRutaDocumentos(matricula,ruta_proyecto,parcial,proyectoN)#Se guarda la ruta del proyecto en la base de datos
     else:
@@ -704,3 +707,83 @@ def visualizarPDF(ruta):
     except Exception as e:
         # Retornar None como URL y el mensaje de error
         return None, str(e)
+
+
+
+@app.route('/registrar_academico', methods=['POST'])
+def registrar_academico():
+    nombre1 = request.form['nombre1']
+    nombre2 = request.form['nombre2']
+    apellidoP = request.form['apellidoP']
+    apellidoM = request.form['apellidoM']
+    telefono = request.form['telefono']
+    correo = request.form['correo']
+    
+    try:
+        query = text("""
+            INSERT INTO asesoracademico (Nombre1, Nombre2, ApellidoP, ApellidoM, Telefono, Correo)
+            VALUES (:nombre1, :nombre2, :apellidoP, :apellidoM, :telefono, :correo)
+        """)
+        with engine.connect() as conn:
+            conn.execute(query, {
+                'nombre1': nombre1,
+                'nombre2': nombre2,
+                'apellidoP': apellidoP,
+                'apellidoM': apellidoM,
+                'telefono': telefono,
+                'correo': correo     
+            })
+            conn.commit()
+        return render_template('Cargas/agregar_asesores.html')
+    except Exception as e:
+        return f'Error al registrar: {e}'
+    
+
+@app.route('/registrar_empresarial', methods=['POST'])
+def registrar_empresarial():
+    nombre1 = request.form['nombre1']
+    nombre2 = request.form['nombre2']
+    apellidoP = request.form['apellidoP']
+    apellidoM = request.form['apellidoM']
+    telefono = request.form['telefono']
+    correo = request.form['correo']
+    empresa = request.form['empresa']
+    try:
+        query = text("""
+            INSERT INTO asesorempresarial (Nombre1, Nombre2, ApellidoP, ApellidoM, Telefono, Correo,Empresa)
+            VALUES (:nombre1, :nombre2, :apellidoP, :apellidoM, :telefono, :correo, :empresa)
+        """)
+        with engine.connect() as conn:
+            conn.execute(query, {
+                'nombre1': nombre1,
+                'nombre2': nombre2,
+                'apellidoP': apellidoP,
+                'apellidoM': apellidoM,
+                'telefono': telefono,
+                'correo': correo,
+                'empresa': empresa   
+            })
+            conn.commit()
+        return render_template('Cargas/agregar_asesores.html')
+    except Exception as e:
+        return f'Error al registrar: {e}'
+
+
+
+@app.route('/registro_asesor',methods=['POST'])
+def registro_asesor():
+    opcion = cargarsesorEmp()
+    return render_template('/registro_asesor.html',cargar98975 = opcion)
+
+@app.route('/registrarAsesor', methods=['POST'])
+def cambiaraqui():
+    opcion = cargarsesorEmp()
+    return render_template('registro_asesor.html',cargar98975 = opcion)
+
+def cargarsesorEmp():
+    query = text("SELECT Nombre from Empresa")
+    with engine.connect() as conn:
+        ok= conn.execute(query)
+        if ok:
+            opciones = ''.join([f'<option value="{row[0]}">{row[0]}</option>' for row in ok])
+            return opciones

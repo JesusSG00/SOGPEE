@@ -124,7 +124,7 @@
         
         <div id="form-asesor-academico" class="form-container active">
             <h1>Registrar Asesor Académico</h1>
-            <form action="/guardar_asesor" method="POST">
+            <form action="/registrar_academico" method="POST">
                 <div class="form-group">
                     <label for="nombre1">Primer Nombre:</label>
                     <input type="text" id="nombre1" name="nombre1" required>
@@ -153,9 +153,10 @@
             </form>
         </div>
         
+        
         <div id="form-asesor-empresarial" class="form-container">
             <h1>Registrar Asesor Empresarial</h1>
-            <form action="/guardar_asesor_empresarial" method="POST">
+            <form action="/registrar_empresarial" method="POST">
                 <div>
                     <label for="nombre1">Primer Nombre:</label>
                     <input type="text" id="nombre1" name="nombre1" required>
@@ -181,20 +182,19 @@
                     <input type="email" id="correo" name="correo" required>
                 </div>
                 <div id="asesor-empresarial" class="section">
-                    <label for="asesor-emp-campo1">Empresa y Asesor:*</label>
+                    <label for="asesor-emp-campo1">Empresa:*</label>
                     <p id="txtmin">Seleccionar</p>
-
-                    <select name="AsesorEmpresarial" id="AsesorEpm">
-                        {{cargar | safe}}
-                        {{cargar | safe}}
+                    <select name="empresa" id="AsesorEpm" required>
+                        {{ cargar98975 | safe }}
                     </select>
                 </div>
-                
-                
-                
+            
                 <button type="submit">Registrar Asesor</button>
             </form>
+            
         </div>
+        
+        
         
     </div>
 </body>

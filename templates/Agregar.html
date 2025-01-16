@@ -3,87 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cuestionario</title>
+    <title>Formulario de Proyecto</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f7fc;
             margin: 0;
             padding: 20px;
-            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
+
         .container {
+            background: #ffffff;
             max-width: 800px;
-            margin: 0 auto;
-            background-color: #fff;
+            width: 100%;
             padding: 30px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
         }
-        nav {
-            background-color: #333;
-            color: #fff;
-            padding: 10px;
+
+        h1 {
+            text-align: center;
+            color: #34495e;
             margin-bottom: 20px;
+            font-size: 28px;
         }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
         nav button {
-            background-color: #444;
-            color: #fff;
+            padding: 10px 20px;
             border: none;
-            padding: 10px 15px;
-            margin-right: 5px;
+            border-radius: 6px;
+            background-color: #3498db;
+            color: white;
             cursor: pointer;
-            transition: background-color 0.3s;
+            font-weight: bold;
+            font-size: 14px;
+            transition: background 0.3s ease;
         }
-        nav button:hover, nav button.active {
-            background-color: #3db490;
+
+        nav button.active,
+        nav button:hover {
+            background-color: #217dbb;
         }
+
         .section {
             display: none;
         }
+
         .section.active {
             display: block;
         }
+
         label {
             display: block;
-            padding: 10px;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #34495e;
         }
-        input[type="text"], input[type="number"] {
-            width: 100%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        button[type="submit"] {
-            background-color: #5cb85c;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button[type="submit"]:hover {
-            background-color: #4cae4c;
-        }
-        .estudiante-form {
-            border: 1px solid #ddd;
-            padding: 30px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-        }
-#txtmin {
-font-size: 12px;          
-color: #808080;          
-font-style: italic;       
-margin-top: 0px;        
-margin-bottom: 0px;      
-}
 
+        input, select {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #bdc3c7;
+            border-radius: 6px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, select:focus {
+            border-color: #2980b9;
+            outline: none;
+        }
+
+        button.submit {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            background-color: #27ae60;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button.submit:hover {
+            background-color: #219150;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-title {
+            margin-bottom: 20px;
+        }
+
+        .estudiante-form {
+            margin-bottom: 15px;
+            border: 1px solid #bdc3c7;
+            border-radius: 6px;
+            padding: 15px;
+            background-color: #f9f9f9;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <h1>Formulario de Proyecto</h1>
         <nav>
             <button onclick="showSection('titulo')" class="active">Título</button>
             <button onclick="showSection('asesor-empresarial')">Empresa / Asesor Empresarial</button>
@@ -94,13 +135,13 @@ margin-bottom: 0px;
         <form id="cuestionarioForm" action="/guardartodo" method="post">
             <div id="titulo" class="section active">
                 <label for="titulo-cuestionario">Título del proyecto:*</label>
-                <input type="text" id="titulo-cuestionario" name="titulocuestionario" required>
+                <input type="text" id="titulo-cuestionario" name="titulocuestionario" required placeholder="Ejemplo: Gestion de archivos">
                 
                 <label for="num-integrantes">Número de Integrantes:*</label>
                 <input type="number" id="num-integrantes" name="numintegrantes" min="1" max="5" value="1" required>
                 
-                <label for="campo3-titulo">Funcion del proyecto:*</label>
-                <input type="text" id="campo3-titulo" name="FuncionProyecto" required>
+                <label for="campo3-titulo">Función del proyecto:*</label>
+                <input type="text" id="campo3-titulo" name="FuncionProyecto" required placeholder="Ejemplo: Automatización de procesos">
             </div>
 
             <div id="asesor-empresarial" class="section">
@@ -120,28 +161,22 @@ margin-bottom: 0px;
             </div>
 
             <div id="empresa" class="section">
-                    <label for="empresa-autocomplete">Empresa:</label>
-
+                <label for="empresa-autocomplete">Empresa:</label>
             </div>
 
             <div id="estudiante" class="section">
                 <div id="estudiantes-container"></div>
-                <button type="submit">Asignar</button>
+                <button type="submit" class="submit">Asignar</button>
             </div>
         </form>
     </div>
 
     <script>
         function showSection(sectionId) {
-            // Ocultar todas las secciones
             document.querySelectorAll('.section').forEach(section => {
                 section.classList.remove('active');
             });
-            
-            // Mostrar la sección seleccionada
             document.getElementById(sectionId).classList.add('active');
-            
-            // Actualizar botones de navegación
             document.querySelectorAll('nav button').forEach(button => {
                 button.classList.remove('active');
             });
@@ -151,14 +186,14 @@ margin-bottom: 0px;
         function createEstudianteForm(index) {
             return `
                 <div class="estudiante-form">
-                        <h3>Estudiante ${index + 1}</h3>
-                        <label for="estudiante-${index}-campo1">Matricula:</label>
-                        <input type="text" id="estudiante-${index}-campo1" name="estudiante-${index}-campo1" required>
+                    <h3>Estudiante ${index + 1}</h3>
+                    <label for="estudiante-${index}-campo1">Matrícula:</label>
+                    <input type="text" id="estudiante-${index}-campo1" name="estudiante-${index}-campo1" required>
                 </div>
             `;
         }
 
-        document.getElementById('num-integrantes').addEventListener('change', function() {
+        document.getElementById('num-integrantes').addEventListener('change', function () {
             const numEstudiantes = this.value;
             const container = document.getElementById('estudiantes-container');
             container.innerHTML = '';
@@ -167,10 +202,7 @@ margin-bottom: 0px;
             }
         });
 
-
-
-        // Inicializar el formulario de estudiantes
         document.getElementById('num-integrantes').dispatchEvent(new Event('change'));
-    </script>    
+    </script>
 </body>
 </html>

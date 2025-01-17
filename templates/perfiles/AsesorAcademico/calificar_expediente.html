@@ -31,7 +31,7 @@
             <!-- Columna derecha -->
             <div class="right-column">
                 <div class="form-group">
-                    <h1>Calificar Expediente</h1>
+                    <h1>Calificar Expediente del proyecto {{proyecto}}</h1>
                     <label for="parcial">Parcial</label>
                     <select id="parcial" name="parcial">
                         <option value="">Seleccionar Parcial</option>
@@ -42,95 +42,100 @@
 
                     <label for="estudiante">Nombre del estudiante:</label>
                     <select id="estudiante" name="estudiante">
-                        <option value="">...Seleccionar...</option>
+                        <option value="">Seleccionar Alumno</option>
+                        {{estudiantes | safe}}
                     </select>
                 </div>
             </div>
         </div>
-
+        
         <!-- Tabla de evaluación Parcial 1 -->
-        <div id="evaluation-container-1" class="evaluation-container">
-            <table class="evaluation-table">
-                <thead>
-                    <tr>
-                        <th>Apartado</th>
-                        <th>Calificación (5-10)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Antecedentes</td>
-                        <td>
-                            <select>
-                                <option value="">Seleccionar</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Planteamiento del Problema</td>
-                        <td>
-                            <select>
-                                <option value="">Seleccionar</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Justificación</td>
-                        <td>
-                            <select>
-                                <option value="">Seleccionar</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Objetivo General</td>
-                        <td>
-                            <select>
-                                <option value="">Seleccionar</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Objetivos Específicos</td>
-                        <td>
-                            <select>
-                                <option value="">Seleccionar</option>
-                                <option value="5">5</option>
-                                <option value="6">6</option>
-                                <option value="7">7</option>
-                                <option value="8">8</option>
-                                <option value="9">9</option>
-                                <option value="10">10</option>
-                            </select>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <form action="/calificarProyectoU1" method="post">
+            <input type="hidden" id="matricula" name="matricula" value="">
+            <div id="evaluation-container-1" class="evaluation-container">
+                <table class="evaluation-table">
+                    <thead>
+                        <tr>
+                            <th>Apartado</th>
+                            <th>Calificación (5-10)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Antecedentes</td>
+                            <td>
+                                <select name="Antecedentes" id="Antecedentes" required>
+                                    <option value="">Seleccionar</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Planteamiento del Problema</td>
+                            <td>
+                                <select name="Planteamiento" id="Planteamiento" required>
+                                    <option value="">Seleccionar</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Justificación</td>
+                            <td>
+                                <select name="Justificacion" id="Justificacion" required>
+                                    <option value="">Seleccionar</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Objetivo General</td>
+                            <td>
+                                <select name="Objetivo" id="Objetivo" required>
+                                    <option value="">Seleccionar</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Objetivos Específicos</td>
+                            <td>
+                                <select name="ObjetivoEspecifico" id="ObjetivoEspecifico" required>
+                                    <option value="">Seleccionar</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table><br>
+                <button>Calificar</button>
+            </div>
+        </form>
 
         <!-- Tabla de evaluación Parcial 2 -->
         <div id="evaluation-container-2" class="evaluation-container">
@@ -276,29 +281,15 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const parcialSelect = document.getElementById('parcial');
-            const estudianteSelect = document.getElementById('estudiante');
             const evaluationContainers = {
                 '1': document.getElementById('evaluation-container-1'),
                 '2': document.getElementById('evaluation-container-2'),
                 '3': document.getElementById('evaluation-container-3')
             };
 
-            // Simulated list of students (you would typically populate this from a backend)
-            const students = [
-                'Fernando Simon Salvador Luz',
-                'Daniel Santiago Cruz',
-                'Jesus Margarito Santos Garcia',
-                'Jorge Enrique Servin Alvarez',
-                'Cristopher Edmundo Viveros German'
-            ];
+         
 
-            // Populate students dropdown
-            students.forEach(student => {
-                const option = document.createElement('option');
-                option.value = student;
-                option.textContent = student;
-                estudianteSelect.appendChild(option);
-            });
+          
 
             // Show/hide evaluation tables based on selected partial
             parcialSelect.addEventListener('change', function() {
@@ -313,6 +304,15 @@
                     evaluationContainers[selectedPartial].style.display = 'block';
                 }
             });
+        });
+
+    const selectElement = document.getElementById('estudiante');
+    const resultadoSpan = document.getElementById('matricula');
+    
+
+    selectElement.addEventListener('change', function() {
+    const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpan.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
         });
     </script>
 </body>

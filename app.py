@@ -233,7 +233,11 @@ def calificarExpediente():
     nombre = request.form['nombre']
     telefono = request.form['telefono']
     correo = request.form['correo']
-    return render_template('perfiles/AsesorAcademico/calificar_expediente.html',nombre = nombre,telefono = telefono,correo = correo)
+    proyecto = request.form['proyectoC']
+    ID = IDproyecto(proyecto)
+    estudiantes = obtenerMatricula(ID)
+    return render_template('perfiles/AsesorAcademico/calificar_expediente.html',nombre = nombre,telefono = telefono,correo = correo,proyecto= proyecto,estudiantes=estudiantes)
+
 
 @app.route('/calificarSer',methods=['POST'])
 def calificarSer():
@@ -536,6 +540,51 @@ def promedio(question11,question12,question13,question14,question15,question16,q
     promedio = round(promedio,2)
     return promedio
 
+
+@app.route('/calificarProyectoU1',methods=['POST'])
+def calificarProyectoU1():
+    Matricula = request.form['matricula']
+    validado = validarCalificado(Matricula)
+    if validado:
+        return render_template('cargas/calificacion.html')
+    else:
+        Antecedentes = int(request.form['Antecedentes'])
+        Planteamiento = int(request.form['Planteamiento'])
+        Justificacion = int(request.form['Justificacion'])
+        Objetivo = int(request.form['Objetivo'])
+        ObjetivoEspecifico = int(request.form['ObjetivoEspecifico'])
+        Calificacion = (Antecedentes+Planteamiento+Justificacion+Objetivo+ObjetivoEspecifico)/5
+        calificado = calificar(Matricula,Calificacion)
+        if calificado:
+            return "Cy"
+        else:
+            return "Ño"
+    
+
+
+def calificar(matricula,calificacion):
+    try:
+        query = text("INSERT INTO calificacionproyecto (Alumno, Calificacion,Parcial) VALUES (:Alumno,:Calificacion,'Parcial 1')")
+        with engine.connect() as conn:
+            conn.execute(query,{'Alumno':matricula,'Calificacion':calificacion})
+            conn.commit()
+            return True
+    except Exception as e:
+        return f'error---------------->{e}'
+
+def validarCalificado(matricula):
+    try:
+        query = text("SELECT Alumno FROM calificacionproyecto WHERE Alumno =:Matricula")
+        with engine.connect() as conn:
+            ok = conn.execute(query,{'Matricula':matricula})
+            ok = ok.fetchone()
+            if ok:
+                return True
+            else:
+                return False
+    except Exception as e:
+        return f'error---------------->{e}'    
+
 def guardarForm08(promedio,veracidad,matricula):
     try:
         query = text("INSERT INTO encuesta08 (Promedio, Veracidad, Matricula) VALUES (:Promedio,:Veracidad,:Matricula)")
@@ -787,3 +836,21 @@ def cargarsesorEmp():
         if ok:
             opciones = ''.join([f'<option value="{row[0]}">{row[0]}</option>' for row in ok])
             return opciones
+        
+def IDproyecto(Proyecto):
+    query = text("SELECT ProyectoID FROM proyecto WHERE Nombre = :Proyecto")
+    with engine.connect() as conn:
+        ok= conn.execute(query,{'Proyecto':Proyecto})
+        ok = ok.fetchone()
+        return ok[0]
+    
+def obtenerMatricula(Proyecto):
+    query = text("""SELECT estudiante.Matricula, estudiante.Nombre1, estudiante.Nombre2, estudiante.ApellidoP, estudiante.ApellidoM
+                FROM estudiante
+                JOIN equipos ON equipos.Matricula = estudiante.Matricula
+                WHERE equipos.Id_Proyecto = :Proyecto;""")
+    with engine.connect() as conn:
+        ok= conn.execute(query,{'Proyecto':Proyecto})
+        ok = ok.fetchall()
+        opciones = ''.join([f'<option value="{row[0]}">{row[1]} {row[2]} {row[3]} {row[4]}</option>' for row in ok])      
+        return opciones

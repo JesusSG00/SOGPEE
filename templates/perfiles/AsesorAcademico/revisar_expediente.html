@@ -115,12 +115,12 @@
                 <h1>Revisar expediente</h1>
                     <label for="titulo">Nombre del proyecto:</label>
                     <select id="titulo" name="titulo">
-                        <option value="Seleccionar">..Seleccionar..</option>
+                        <option value="0">Seleccionar Proyecto</option>
                         {{resultado | safe}}
                     </select>
                     <label for="parcial">Parcial (Solo para ver archivo)</label>
                     <select name="parcial" id="parcial">
-                        <option value="">..Seleccionar..</option>
+                        <option value="0">Seleccionar Parcial</option>
                         <option value="Parcial1">Parcial 1</option>
                         <option value="Parcial2">Parcial 2</option>
                         <option value="Parcial3">Parcial 3</option>
@@ -133,10 +133,11 @@
                         </form>
                         <form action="/calificarExpediente" method="post">
                             <button class="btn btn-calificar">Calificar expediente</button>
-                            <input type="hidden" name="proyecto" id="proyecto" value="">
+                            <input type="hidden" name="proyectoC" id="proyectoC" value="">
                             <input type="hidden" id="nombre" name="nombre" value="{{Nombre1}} {{Nombre2}} {{ApellidoP}} {{ApellidoM}}">
                             <input type="hidden" id="telefono" name="telefono" value="{{Telefono}}">
                             <input type="hidden" id="correo" name="correo" value="{{Correo}}">
+
                         </form>
                         <form action="/calificarSer" method="post">
                             <button class="btn btn-Ser">Calificar Ser</button>
@@ -153,6 +154,7 @@
     <script>
     const selectElement = document.getElementById('titulo');
     const resultadoSpan = document.getElementById('proyecto');
+    const resultadoSpanC = document.getElementById('proyectoC');
     const selectElement2 = document.getElementById('parcial');
     const resultadoSpan2 = document.getElementById('parcialB');
     
@@ -160,6 +162,12 @@
     selectElement.addEventListener('change', function() {
     const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
     resultadoSpan.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
+        });
+
+
+    selectElement.addEventListener('change', function() {
+    const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanC.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
         });
 
     

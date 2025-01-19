@@ -16,9 +16,11 @@
             <p>Realizar alguna corrección a la calificación?</p>
             <div class="dobleForm">
                 <form method="post" action="/correccionSi" id="formulario">
+                    <input type="hidden" name="matricula" value="{{matricula}}">
                     <button>Si</button>
                 </form>
                 <form action="/correccionNo" method="post">
+                    
                     <button id="No">No</button>
                 </form>
             </div>

@@ -604,7 +604,7 @@ def calificarProyectoU1():
     Matricula = request.form['matricula']
     validado = validarCalificado(Matricula)
     if validado:
-        return render_template('cargas/calificacion.html')
+        return render_template('cargas/calificacion.html',matricula = Matricula)
     else:
         Antecedentes = int(request.form['Antecedentes'])
         Planteamiento = int(request.form['Planteamiento'])
@@ -618,40 +618,41 @@ def calificarProyectoU1():
         else:
             return "Ño"
         
-@app.route('/calificarProyectoP1',methods=['POST'])
-def calificarProyectoP1():
-    Matricula = request.form['matricula']
-    validado = validarCalificado(Matricula)
+@app.route('/calificarProyectoU2',methods=['POST'])
+def calificarProyectoU2():
+    Matricula = request.form['matriculau2']
+    validado = validarCalificadoU2(Matricula)
     if validado:
-        return render_template('cargas/calificacion.html')
+        return render_template('cargas/calificacion.html',matricula = Matricula)
     else:
-        Antecedentes = int(request.form['Antecedentes'])
-        Planteamiento = int(request.form['Planteamiento'])
-        Justificacion = int(request.form['Justificacion'])
-        Objetivo = int(request.form['Objetivo'])
-        ObjetivoEspecifico = int(request.form['ObjetivoEspecifico'])
-        Calificacion = (Antecedentes+Planteamiento+Justificacion+Objetivo+ObjetivoEspecifico)/5
-        calificado = calificar(Matricula,Calificacion)
+        Marco = int(request.form['Marco'])
+        Metodologia = int(request.form['Metodologia'])
+        Cronograma = int(request.form['Cronograma'])
+        DesarrolloProyecto = int(request.form['DesarrolloProyecto'])
+
+        Calificacion = (Marco+Metodologia+Cronograma+DesarrolloProyecto)/4
+        calificado = calificarU2(Matricula,Calificacion)
         if calificado:
             return "Cy"
         else:
             return "Ño"
         
 
+        
+
 @app.route('/calificarProyectoU3',methods=['POST'])
 def calificarProyectoU3():
-    Matricula = request.form['matricula']
-    validado = validarCalificado(Matricula)
+    Matricula = request.form['matriculau3']
+    validado = validarCalificadoU3(Matricula)
     if validado:
-        return render_template('cargas/calificacion.html')
+        return render_template('cargas/calificacion.html',matricula = Matricula)
     else:
-        Antecedentes = int(request.form['Antecedentes'])
-        Planteamiento = int(request.form['Planteamiento'])
-        Justificacion = int(request.form['Justificacion'])
-        Objetivo = int(request.form['Objetivo'])
-        ObjetivoEspecifico = int(request.form['ObjetivoEspecifico'])
-        Calificacion = (Antecedentes+Planteamiento+Justificacion+Objetivo+ObjetivoEspecifico)/5
-        calificado = calificar(Matricula,Calificacion)
+        Resultados = int(request.form['Resultados'])
+        Conclusiones = int(request.form['Conclusiones'])
+        Referencias = int(request.form['Referencias'])
+        Anexos = int(request.form['Anexos'])
+        Calificacion = (Resultados+Conclusiones+Referencias+Anexos)/4
+        calificado = calificarU3(Matricula,Calificacion)
         if calificado:
             return "Cy"
         else:
@@ -669,15 +670,6 @@ def calificar(matricula,calificacion):
     except Exception as e:
         return f'error---------------->{e}'
     
-def calificarP2(matricula,calificacion):
-    try:
-        query = text("INSERT INTO calificacionproyecto (Alumno, Calificacion,Parcial) VALUES (:Alumno,:Calificacion,'Parcial 2')")
-        with engine.connect() as conn:
-            conn.execute(query,{'Alumno':matricula,'Calificacion':calificacion})
-            conn.commit()
-            return True
-    except Exception as e:
-        return f'error---------------->{e}'
 
 def validarCalificado(matricula):
     try:
@@ -690,10 +682,24 @@ def validarCalificado(matricula):
             else:
                 return False
     except Exception as e:
+        return f'error---------------->{e}'  
+
+
+def validarCalificadoU2(matricula):
+    try:
+        query = text("SELECT Alumno FROM calificacionproyecto WHERE Alumno =:Matricula AND Parcial = 'Parcial 2'")
+        with engine.connect() as conn:
+            ok = conn.execute(query,{'Matricula':matricula})
+            ok = ok.fetchone()
+            if ok:
+                return True
+            else:
+                return False
+    except Exception as e:
         return f'error---------------->{e}'   
 
 
-def calificarP2(matricula,calificacion):
+def calificarU2(matricula,calificacion):
     try:
         query = text("INSERT INTO calificacionproyecto (Alumno, Calificacion,Parcial) VALUES (:Alumno,:Calificacion,'Parcial 2')")
         with engine.connect() as conn:
@@ -702,10 +708,21 @@ def calificarP2(matricula,calificacion):
             return True
     except Exception as e:
         return f'error---------------->{e}'
+    
 
-def validarCalificadoP2(matricula):
+def calificarU3(matricula,calificacion):
     try:
-        query = text("SELECT Alumno FROM calificacionproyecto WHERE Alumno =:Matricula")
+        query = text("INSERT INTO calificacionproyecto (Alumno, Calificacion,Parcial) VALUES (:Alumno,:Calificacion,'Parcial 3')")
+        with engine.connect() as conn:
+            conn.execute(query,{'Alumno':matricula,'Calificacion':calificacion})
+            conn.commit()
+            return True
+    except Exception as e:
+        return f'error---------------->{e}'
+
+def validarCalificadoU3(matricula):
+    try:
+        query = text("SELECT Alumno FROM calificacionproyecto WHERE Alumno =:Matricula AND Parcial = 'Parcial 3'")
         with engine.connect() as conn:
             ok = conn.execute(query,{'Matricula':matricula})
             ok = ok.fetchone()

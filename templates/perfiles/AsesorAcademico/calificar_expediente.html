@@ -137,6 +137,8 @@
             </div>
         </form>
         <form action="/calificarProyectoU2" method="post">
+        <input type="hidden" id="matriculau2" name="matriculau2" value="">
+
             <!-- Tabla de evaluación Parcial 2 -->
             <div id="evaluation-container-2" class="evaluation-container">
                 <table class="evaluation-table">
@@ -210,6 +212,8 @@
 
         </form>
         <form action="/calificarProyectoU3" method="post">
+        <input type="hidden" id="matriculau3" name="matriculau3" value="">
+
             <!-- Tabla de evaluación Parcial 3 -->
             <div id="evaluation-container-3" class="evaluation-container">
                 <table class="evaluation-table">
@@ -314,11 +318,17 @@
 
     const selectElement = document.getElementById('estudiante');
     const resultadoSpan = document.getElementById('matricula');
+    const resultadoSpanu2 = document.getElementById('matriculau2');
+    const resultadoSpanu3 = document.getElementById('matriculau3');
     
 
     selectElement.addEventListener('change', function() {
     const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
     resultadoSpan.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
+    const textoSeleccionadou2 = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanu2.value = textoSeleccionadou2 !== "--Selecciona una opción--" ? textoSeleccionadou2 : "Ninguno";
+    const textoSeleccionadou3 = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanu3.value = textoSeleccionadou3 !== "--Selecciona una opción--" ? textoSeleccionadou3 : "Ninguno";
         });
     </script>
 </body>

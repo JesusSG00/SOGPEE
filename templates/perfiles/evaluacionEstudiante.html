@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/evaluacionEstudiante.css') }}">
 </head>
 <body>
+    
 <header class="container-fluid d-flex justify-content-center p-2">
     <div class="logoUPT">
         <a href="/" class="logo-upt">
@@ -34,6 +35,13 @@
             <div class="form-group">
                 <label for="correo">Correo:</label>
                 <input type="email" id="correo" name="correo" value="{{Correo}}" disabled>
+            </div>
+            <div class="form-group">
+                <form action="/editarEstudiante" method="post">
+                    <input type="hidden" name="Matricula" value="{{Matricula}}">
+                    <input type="hidden" id="correo" name="correo" value="{{Correo}}">
+                    <button class="btn btn-evaluar" name="accion" value="evaluar">Editar</button>
+                </form>
             </div>
            
         </div>

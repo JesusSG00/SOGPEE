@@ -36,11 +36,68 @@ def loginEstudiante():
 
 
 #Editar el perfil del estudiante juasjuas
-@app.route('/editarPerfilEstudiante',methods=['POST'])
-def editarPerfilEstudiante():
-    matricula = request.form['Matricula']
-    correo = request.form['Correo']
-    return render_template('perfiles/editarPerfilEstudiante.html',Matricula = matricula,Correo = correo)
+@app.route('/editarEstudiante', methods=['GET', 'POST'])
+def editarEstudiante():
+    return render_template('perfiles/EditarEstudiante/editarEstudiante.html')
+    # try:
+    #     query = text("SELECT Matricula, Nombre1, Nombre2, ApellidoP, ApellidoM, Telefono, Correo FROM estudiante WHERE Matricula = :matricula")
+    #     with engine.connect() as conn:
+    #         estudiante = conn.execute(query, {'matricula': matricula}).fetchone()
+    #         if estudiante:
+    #             return render_template(
+    #                 'perfiles/EditarEstudiante/editarEstudiante.html',
+    #                 Matricula=estudiante[0],
+    #                 Nombre1=estudiante[1],
+    #                 Nombre2=estudiante[2],
+    #                 ApellidoP=estudiante[3],
+    #                 ApellidoM=estudiante[4],
+    #                 Telefono=estudiante[5],
+    #                 Correo=estudiante[6]
+    #             )
+    #         else:
+    #             # Mensaje de error al usuario
+    #             return 'Estudiante no encontrado', 404
+    # except Exception as e:
+    #     # Mensaje de error al usuario
+    #     return f'Error: {e}', 500
+
+
+#Actualizar el perfil del estudiante
+@app.route('/ActualizarEstudiante', methods=['POST'])
+def actualizar_estudiante():
+    try:
+        data = {
+            'matricula': request.form['matricula'],
+            'nombre': request.form['nombre'],
+            'apellidos': request.form['apellidos'],
+            'telefono': request.form['telefono'],
+            'correo': request.form['correo']
+        }
+        nombres = data['nombre'].split()
+        apellidos = data['apellidos'].split()
+        
+        query = text("""
+            UPDATE estudiante 
+            SET Nombre1 = :nombre1, Nombre2 = :nombre2, ApellidoP = :apellidoP, ApellidoM = :apellidoM, 
+                Telefono = :telefono, Correo = :correo 
+            WHERE Matricula = :matricula
+        """)
+        with engine.connect() as conn:
+            conn.execute(query, {
+                'nombre1': nombres[0],
+                'nombre2': nombres[1] if len(nombres) > 1 else '',
+                'apellidoP': apellidos[0],
+                'apellidoM': apellidos[1] if len(apellidos) > 1 else '',
+                'telefono': data['telefono'],
+                'correo': data['correo'],
+                'matricula': data['matricula']
+            })
+            Flask('Datos actualizados exitosamente.', 'success')
+            return (url_for('editar_estudiante', matricula=data['matricula']))
+    except Exception as e:
+        Flask(f'Error al actualizar los datos: {e}', 'danger')
+        return ('/')
+
 
 #Validacion del login de coordinacion
 @app.route('/logincoordinacion',methods=['POST'])
@@ -561,7 +618,7 @@ def calificarProyectoU1():
             return "Ño"
         
 @app.route('/calificarProyectoP1',methods=['POST'])
-def calificarProyectoU1():
+def calificarProyectoP1():
     Matricula = request.form['matricula']
     validado = validarCalificado(Matricula)
     if validado:
@@ -581,7 +638,7 @@ def calificarProyectoU1():
         
 
 @app.route('/calificarProyectoU3',methods=['POST'])
-def calificarProyectoU1():
+def calificarProyectoU3():
     Matricula = request.form['matricula']
     validado = validarCalificado(Matricula)
     if validado:

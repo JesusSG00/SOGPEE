@@ -16,71 +16,82 @@
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous"
         />
+
+        <link rel="stylesheet" href="{{url_for('static',filename='css/editar_estudiante.css')}}">
     </head>
 
     <body>
-        <header>
-            <!-- place navbar here -->
+        <header class="container-fluid d-flex justify-content-center bg-white p-2">
+            <a href="/" class="logo-upt">
+                <img src="../static/img/logo_upt.png" alt="Logo UPT" height="80">
+            </a>
         </header>
         
-        <main class="container">
-            <div class="form-card mt-5 bg-white p-4">
-                <h1 class="text-center">Editar datos</h1>
-                <form action="{{ url_for('editarEstudiante') }}" method="POST">
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre(s):</label>
-                        <div class="d-flex align-items-center gap-2">
-                            <input type="text" id="nombre" name="nombre" class="form-control" value="{{ Nombre1 }} {{ Nombre2 }}" disabled>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Editar</button>
+        <main class="container my-5">
+            <div class="text-center pb-2">
+                <h1>Editar Datos</h1>
+            </div>
+            <div class="card shadow-sm">
+                
+                <div class="card-body">
+                    <form action="{{ url_for('editarEstudiante') }}" method="POST">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre(s):</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="text" id="nombre" name="nombre" class="form-control" value="{{ Nombre1 }} {{ Nombre2 }}" disabled>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Editar</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="mb-3">
-                        <label for="apellidos" class="form-label">Apellidos:</label>
-                        <div class="d-flex align-items-center gap-2">
-                            <input type="text" id="apellidos" name="apellidos" class="form-control" value="{{ ApellidoP }} {{ ApellidoM }}" disabled>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Editar</button>
-                            </div>
-
-                        </div>
-                      
-                    </div>
-                    <div class="mb-3">
-                        <label for="matricula" class="form-label">Matrícula:</label>
-                        <div class="d-flex align-items-center gap-2">
-                            <input type="text" id="matricula" name="matricula" class="form-control" value="{{ Matricula }}" disabled>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Editar</button>
+                        <div class="mb-3">
+                            <label for="apellidos" class="form-label">Apellidos:</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="text" id="apellidos" name="apellidos" class="form-control" value="{{ ApellidoP }} {{ ApellidoM }}" disabled>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Editar</button>
+                                </div>
                             </div>
                         </div>
-                        
-                    </div>
-                    <div class="mb-3">
-                        <label for="telefono" class="form-label">Teléfono:</label>
-                        <div class="d-flex align-items-center gap-2">
-                            <input type="tel" id="telefono" name="telefono" class="form-control" value="{{ Telefono }}" disabled>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Editar</button>
+                        <div class="mb-3">
+                            <label for="matricula" class="form-label">Matrícula:</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="text" id="matricula" name="matricula" class="form-control" value="{{ Matricula }}" disabled>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Editar</button>
+                                </div>
                             </div>
                         </div>
-                        
-                    </div>
-                    <div class="mb-3">
-                        <label for="correo" class="form-label">Correo:</label>
-                        <div class="d-flex align-items-center gap-2">
-                            <input type="email" id="correo" name="correo" class="form-control" value="{{ Correo }}" disabled>
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary">Editar</button>
+                        <div class="mb-3">
+                            <label for="telefono" class="form-label">Teléfono:</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="tel" id="telefono" name="telefono" class="form-control" value="{{ Telefono }}" disabled>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Editar</button>
+                                </div>
                             </div>
                         </div>
-                        
-                    </div>
-                    
-                </form>
+                        <div class="mb-3">
+                            <label for="correo" class="form-label">Correo:</label>
+                            <div class="d-flex align-items-center gap-2">
+                                <input type="email" id="correo" name="correo" class="form-control" value="{{ Correo }}" disabled>
+                                <div class="d-grid">
+                                    <button type="submit" class="btn btn-primary">Editar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <form action="/inicioSesionEstudiante" method="post">
+                                <button type="submit" class="btn btn-primary">Regresar</button>
+                            </form>
+                            
+                        </div>
+                    </form>
+                </div>
+                
             </div>
         </main>
+        
 
         <footer>
             <!-- place footer here -->

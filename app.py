@@ -354,6 +354,7 @@ def inicioSesionCoordinacion(correo,password):
     except Exception as e:
             return f'{e}'
     
+#hola
 def inicioSesionCoordinacion2(correo,password):
     opcion = cargarAsesorEmp()
     asesorAcademico = cargarAsesorAcademico()

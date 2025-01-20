@@ -614,9 +614,9 @@ def calificarProyectoU1():
         Calificacion = (Antecedentes+Planteamiento+Justificacion+Objetivo+ObjetivoEspecifico)/5
         calificado = calificar(Matricula,Calificacion)
         if calificado:
-            return "Cy"
+            return "Poner una carga aqui"
         else:
-            return "Ño"
+            return "Poner una carga negativa aqui"
         
 @app.route('/calificarProyectoU2',methods=['POST'])
 def calificarProyectoU2():
@@ -633,9 +633,9 @@ def calificarProyectoU2():
         Calificacion = (Marco+Metodologia+Cronograma+DesarrolloProyecto)/4
         calificado = calificarU2(Matricula,Calificacion)
         if calificado:
-            return "Cy"
+            return "Poner una carga aqui"
         else:
-            return "Ño"
+            return "Poner una carga negativa aqui"
         
 
         
@@ -654,9 +654,9 @@ def calificarProyectoU3():
         Calificacion = (Resultados+Conclusiones+Referencias+Anexos)/4
         calificado = calificarU3(Matricula,Calificacion)
         if calificado:
-            return "Cy"
+            return "Poner una carga aqui"
         else:
-            return "Ño"
+            return "Poner una carga negativa aqui"
     
 
 
@@ -971,6 +971,7 @@ def registrar_empresarial():
 @app.route('/registro_asesor',methods=['POST'])
 def registro_asesor():
     opcion = cargarsesorEmp()
+    asignarContraseñaAcademico()
     return render_template('/registro_asesor.html',cargar98975 = opcion)
 
 @app.route('/registrarAsesor', methods=['POST'])
@@ -1003,3 +1004,10 @@ def obtenerMatricula(Proyecto):
         ok = ok.fetchall()
         opciones = ''.join([f'<option value="{row[0]}">{row[1]} {row[2]} {row[3]} {row[4]}</option>' for row in ok])      
         return opciones
+
+@app.route('/asignarContraseñas',methods=['POST'])
+def asignarContraseñaAcademico():
+    query = text("UPDATE asesoracademico SET password = Correo WHERE password = ' '")
+    with engine.connect() as conn:
+        conn.execute(query)
+        conn.commit()

@@ -5,105 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registrar Asesor</title>
 
-    <style>
-    body {
-        font-family: 'Arial', sans-serif;
-        background-color: #f4f7fc;
-        margin: 0;
-        padding: 20px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100vh;
-    }
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/registrar_asesor.css')}}">
 
-    .container {
-        background: #ffffff;
-        max-width: 750px;
-        width: 100%;
-        padding: 35px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-        text-align: center;
-    }
-
-    .header {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-        margin-bottom: 25px;
-    }
-
-    .header button {
-        padding: 12px 25px;
-        border: none;
-        border-radius: 6px;
-        background-color: #3498db;
-        color: white;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background 0.3s ease;
-    }
-
-    .header button.active,
-    .header button:hover {
-        background-color: #217dbb;
-    }
-
-    .form-container {
-        display: none;
-    }
-
-    .form-container.active {
-        display: block;
-    }
-
-    .form-group {
-        margin-bottom: 20px;
-        text-align: left;
-    }
-
-    label {
-        display: block;
-        margin-bottom: 6px;
-        color: #34495e;
-        font-weight: 600;
-    }
-
-    input, select {
-        width: 100%;
-        padding: 10px;
-        border: 1px solid #bdc3c7;
-        border-radius: 5px;
-        font-size: 16px;
-        background-color: #f9f9f9;
-        transition: border 0.3s ease;
-    }
-
-    input:focus, select:focus {
-        border-color: #2980b9;
-        outline: none;
-    }
-
-    button.submit {
-        background-color: #27ae60;
-        padding: 12px 25px;
-        border: none;
-        border-radius: 6px;
-        color: white;
-        cursor: pointer;
-        font-weight: bold;
-        transition: background 0.3s ease;
-    }
-    #asignar{
-        background: #c234db;
-    }
-
-    button.submit:hover {
-        background-color: #219150;
-    }
-
-    </style>
     <script>
         function showForm(formId, button) {
             document.querySelectorAll('.form-container').forEach(form => form.classList.remove('active'));
@@ -119,6 +22,13 @@
     </script>
 </head>
 <body>
+
+    <header class="container-fluid d-flex justify-content-center bg-white p-2">
+        <a href="/" class="logo-upt">
+            <img src="../static/img/logo_upt.png" alt="Logo UPT" height="80">
+        </a>
+    </header>
+
     <div class="container">
         <div class="header">
             <button onclick="showForm('form-asesor-academico', this)" class="active">Asesor Académico</button>
@@ -152,7 +62,7 @@
                     <label for="correo">Correo:</label>
                     <input type="email" id="correo" name="correo" required>
                 </div>
-                <button type="submit" class="submit">Guardar</button>
+                <button type="submit" class="submit">Registrar Asesor Académico</button>
             </form>
         </div>
         
@@ -160,31 +70,31 @@
         <div id="form-asesor-empresarial" class="form-container">
             <h1>Registrar Asesor Empresarial</h1>
             <form action="/registrar_empresarial" method="POST">
-                <div>
+                <div class="form-group">
                     <label for="nombre1">Primer Nombre:</label>
                     <input type="text" id="nombre1" name="nombre1" required>
                 </div>
-                <div>
+                <div class="form-group">
                     <label for="nombre2">Segundo Nombre:</label>
                     <input type="text" id="nombre2" name="nombre2">
                 </div>
-                <div>
+                <div class="form-group">
                     <label for="apellidoP">Apellido Paterno:</label>
                     <input type="text" id="apellidoP" name="apellidoP" required>
                 </div>
-                <div>
+                <div class="form-group">
                     <label for="apellidoM">Apellido Materno:</label>
                     <input type="text" id="apellidoM" name="apellidoM">
                 </div>
-                <div>
+                <div class="form-group">
                     <label for="telefono">Teléfono:</label>
                     <input type="text" id="telefono" name="telefono">
                 </div>
-                <div>
+                <div class="form-group">
                     <label for="correo">Correo:</label>
                     <input type="email" id="correo" name="correo" required>
                 </div>
-                <div id="asesor-empresarial" class="section">
+                <div id="asesor-empresarial" class="form-group">
                     <label for="asesor-emp-campo1">Empresa:*</label>
                     <p id="txtmin">Seleccionar</p>
                     <select name="empresa" id="AsesorEpm" required>
@@ -192,7 +102,7 @@
                     </select>
                 </div>
             
-                <button type="submit">Registrar Asesor</button>
+                <button type="submit" class="submit">Registrar Asesor Empresarial</button>
             </form>
             
         </div>

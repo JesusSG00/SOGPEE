@@ -4,125 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario de Proyecto</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f7fc;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+    
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/agregar_proyecto.css')}}">
 
-        .container {
-            background: #ffffff;
-            max-width: 800px;
-            width: 100%;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-        }
-
-        h1 {
-            text-align: center;
-            color: #34495e;
-            margin-bottom: 20px;
-            font-size: 28px;
-        }
-
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
-        }
-
-        nav button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            background-color: #3498db;
-            color: white;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
-            transition: background 0.3s ease;
-        }
-
-        nav button.active,
-        nav button:hover {
-            background-color: #217dbb;
-        }
-
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #34495e;
-        }
-
-        input, select {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 20px;
-            border: 1px solid #bdc3c7;
-            border-radius: 6px;
-            font-size: 16px;
-            background-color: #f9f9f9;
-            transition: border-color 0.3s ease;
-        }
-
-        input:focus, select:focus {
-            border-color: #2980b9;
-            outline: none;
-        }
-
-        button.submit {
-            display: block;
-            width: 100%;
-            padding: 12px;
-            border: none;
-            border-radius: 6px;
-            background-color: #27ae60;
-            color: white;
-            font-size: 16px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        button.submit:hover {
-            background-color: #219150;
-        }
-
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-title {
-            margin-bottom: 20px;
-        }
-
-        .estudiante-form {
-            margin-bottom: 15px;
-            border: 1px solid #bdc3c7;
-            border-radius: 6px;
-            padding: 15px;
-            background-color: #f9f9f9;
-        }
-    </style>
 </head>
 <body>
+    <header class="container-fluid d-flex justify-content-center bg-white p-2">
+        <a href="/" class="logo-upt">
+            <img src="../static/img/logo_upt.png" alt="Logo UPT" height="80">
+        </a>
+    </header>
     <div class="container">
         <h1>Formulario de Proyecto</h1>
         <nav>
@@ -133,43 +24,63 @@
         </nav>
 
         <form id="cuestionarioForm" action="/guardartodo" method="post">
+            <!-- Sección de título -->
             <div id="titulo" class="section active">
-                <label for="titulo-cuestionario">Título del proyecto:*</label>
-                <input type="text" id="titulo-cuestionario" name="titulocuestionario" required placeholder="Ejemplo: Gestion de archivos">
-                
-                <label for="num-integrantes">Número de Integrantes:*</label>
-                <input type="number" id="num-integrantes" name="numintegrantes" min="1" max="5" value="1" required>
-                
-                <label for="campo3-titulo">Función del proyecto:*</label>
-                <input type="text" id="campo3-titulo" name="FuncionProyecto" required placeholder="Ejemplo: Automatización de procesos">
+                <div class="form-group">
+                    <label for="titulo-cuestionario">Título del proyecto:*</label>
+                    <input type="text" id="titulo-cuestionario" name="titulocuestionario" required placeholder="Ejemplo: Gestión de archivos">
+                </div>
+                <div class="form-group">
+                    <label for="num-integrantes">Número de Integrantes:*</label>
+                    <input type="number" id="num-integrantes" name="numintegrantes" min="1" max="5" value="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="campo3-titulo">Función del proyecto:*</label>
+                    <input type="text" id="campo3-titulo" name="FuncionProyecto" required placeholder="Ejemplo: Automatización de procesos">
+                </div>
             </div>
-
+        
+            <!-- Sección de asesor empresarial -->
             <div id="asesor-empresarial" class="section">
-                <label for="asesor-emp-campo1">Empresa y Asesor:*</label>
-                <p id="txtmin">Seleccionar</p>
-                <select name="AsesorEmpresarial" id="AsesorEpm">
-                    {{cargar | safe}}
-                </select>
+                <div class="form-group">
+                    <label for="asesor-emp-campo1">Empresa y Asesor:*</label>
+                    <p id="txtmin">Seleccionar</p>
+                    <select name="AsesorEmpresarial" id="AsesorEpm" required>
+                        {{ cargar | safe }}
+                    </select>
+                </div>
             </div>
-
+        
+            <!-- Sección de asesor académico -->
             <div id="asesor-academico" class="section">
-                <label for="asesor-aca-campo1">Nombre:*</label>
-                <p id="txtmin">Seleccionar</p>
-                <select name="AsesorAcademico" id="AsesorAcademico">
-                    {{asesorAcademic | safe}}
-                </select>
+                <div class="form-group">
+                    <label for="asesor-aca-campo1">Nombre:*</label>
+                    <p id="txtmin">Seleccionar</p>
+                    <select name="AsesorAcademico" id="AsesorAcademico" required>
+                        {{ asesorAcademic | safe }}
+                    </select>
+                </div>
             </div>
-
+        
+            <!-- Sección de empresa -->
             <div id="empresa" class="section">
-                <label for="empresa-autocomplete">Empresa:</label>
+                <div class="form-group">
+                    <label for="empresa-autocomplete">Empresa:</label>
+                    <input type="text" id="empresa-autocomplete" name="empresa" placeholder="Ejemplo: Tech Solutions Inc.">
+                </div>
             </div>
-
+        
+            <!-- Sección de estudiante -->
             <div id="estudiante" class="section">
-                <div id="estudiantes-container"></div>
-                <button type="submit" class="submit">Asignar</button>
+                <div class="form-group">
+                    <div id="estudiantes-container"></div>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="submit">Asignar</button>
+                </div>
             </div>
         </form>
-    </div>
+        
 
     <script>
         function showSection(sectionId) {

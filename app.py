@@ -1,7 +1,7 @@
 from flask import Flask,render_template,request, url_for,send_file
 from werkzeug.utils import secure_filename
 from sqlalchemy import text
-from conexion import engine,Session
+from conexion import engine
 import os,fitz
 from PIL import Image
 from pathlib import Path
@@ -1019,9 +1019,9 @@ def asignarContraseñaAcademico():
         conn.execute(query)
         conn.commit()
 
-
-# def limpiar_temp():
-#     carpeta_temp = Path('static/temp')
-#     for archivo in carpeta_temp.iterdir():
-#         if archivo.is_file():
-#             archivo.unlink()
+def limpiar_temp():
+    carpeta_temp = 'static/temp'
+    for archivo in os.listdir(carpeta_temp):
+        ruta_archivo = os.path.join(carpeta_temp, archivo)
+        if os.path.isfile(ruta_archivo):
+            os.remove(ruta_archivo)

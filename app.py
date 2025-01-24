@@ -10,7 +10,7 @@ app = Flask(__name__)
 #Pagina principal
 @app.route('/')
 def index():
-    # limpiar_temp()
+    limpiar_temp()
     return render_template('index.html')
 #Formulario de login del estudiante
 @app.route('/loginEstudiante2')

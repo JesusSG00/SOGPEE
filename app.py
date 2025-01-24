@@ -10,7 +10,7 @@ app = Flask(__name__)
 #Pagina principal
 @app.route('/')
 def index():
-    limpiar_temp()
+    # limpiar_temp()
     return render_template('index.html')
 #Formulario de login del estudiante
 @app.route('/loginEstudiante2')
@@ -1020,8 +1020,8 @@ def asignarContraseñaAcademico():
         conn.commit()
 
 
-def limpiar_temp():
-    carpeta_temp = Path('static/temp')
-    for archivo in carpeta_temp.iterdir():
-        if archivo.is_file():
-            archivo.unlink()
+# def limpiar_temp():
+#     carpeta_temp = Path('static/temp')
+#     for archivo in carpeta_temp.iterdir():
+#         if archivo.is_file():
+#             archivo.unlink()

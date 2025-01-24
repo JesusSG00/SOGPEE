@@ -4,11 +4,13 @@ from sqlalchemy import text
 from conexion import engine,Session
 import os,fitz
 from PIL import Image
+from pathlib import Path
 
 app = Flask(__name__)
 #Pagina principal
 @app.route('/')
 def index():
+    limpiar_temp()
     return render_template('index.html')
 #Formulario de login del estudiante
 @app.route('/loginEstudiante2')
@@ -1011,3 +1013,10 @@ def asignarContraseñaAcademico():
     with engine.connect() as conn:
         conn.execute(query)
         conn.commit()
+
+
+def limpiar_temp():
+    carpeta_temp = Path('static/temp')
+    for archivo in carpeta_temp.iterdir():
+        if archivo.is_file():
+            archivo.unlink()

@@ -34,6 +34,11 @@ def loginEstudiante():
     resultado = inicioSesionEstudiante(matricula,correo) #Llamada a la funcion de inicio de sesion que nos reedirige a la pagina de principal del estudiante
     return resultado
 
+#Evaluacion empresa
+@app.route('/evaluacionEmpresa')
+def evaluacionEmpresa():
+    return render_template('evaluacion_empresa.html')
+
 
 #Editar el perfil del estudiante juasjuas
 @app.route('/editarEstudiante', methods=['GET', 'POST'])

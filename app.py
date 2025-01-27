@@ -36,6 +36,29 @@ def loginEstudiante():
     resultado = inicioSesionEstudiante(matricula,correo) #Llamada a la funcion de inicio de sesion que nos reedirige a la pagina de principal del estudiante
     return resultado
 
+#Dirigir pagina para buscar expediente Asesor Empresarial
+@app.route('/asesorEmpresarial')
+def asesorEmpresarial():
+    return render_template('login/asesorEmpresarial3.html')
+
+#Función para buscar expediente Asesor Empresarial
+@app.route('/buscarExpedienteAsesorEmpresarial', methods=['POST'])
+def buscarExpedienteAsesorEmpresarial():
+    ProyectoID= request.form['ProyectoID']
+    try:
+        query = text("SELECT * FROM proyecto WHERE ProyectoID = :ProyectoID")
+        with engine.connect() as conn:
+            proyecto = conn.execute(query, {'ProyectoID': ProyectoID}).fetchone()
+            if proyecto:
+                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto)
+            else:
+                return 'Proyecto no encontrado', 404
+    except Exception as e:
+        return render_template('Error/Error.html', error=e), 500
+
+    # resultado = buscarExpedienteAsesorEmpresarial(ProyectoID) #Llamada a la función que busca el expediente del asesor empresarial
+    # return resultado
+
 #Evaluacion empresa
 @app.route('/evaluacionEmpresa')
 def evaluacionEmpresa():

@@ -81,10 +81,10 @@
                             </div>
                         </div>
                         <div>
-                            <form action="/inicioSesionEstudiante" method="post">
+                            <!-- Botón de regresar para dirigir a  -->
+                            <form action="{{ url_for('loginEstudiante') }}" method="GET">
                                 <button type="submit" class="btn btn-primary">Regresar</button>
                             </form>
-                            
                         </div>
                     </form>
                 </div>

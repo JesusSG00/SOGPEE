@@ -18,14 +18,11 @@
         </div>
 
         <form id="evaluationForm">
-            <div class="form-group">
-                <label for="evaluationDate">Fecha de Valoración</label>
-                <input type="date" id="evaluationDate" name="evaluationDate" required>
-            </div>
+            
 
             <div class="form-group">
                 <label for="projectTitle">Título del Proyecto del Estudiante</label>
-                <input type="text" id="projectTitle" name="projectTitle" required>
+                <input type="text" id="projectTitle" name="projectTitle" disabled value="{{Nombreproyecto}}">
             </div>
 
             <div class="form-group">
@@ -52,7 +49,7 @@
 
             <div class="form-group">
                 <label for="companyName">Nombre de la Empresa</label>
-                <input type="text" id="companyName" name="companyName" required>
+                <input type="text" id="companyName" name="companyName" disabled value="{{empresa}}">
             </div>
 
             <div class="form-group">
@@ -70,7 +67,7 @@
 
             <div class="form-group">
                 <label for="advisorName">Nombre y Apellidos del Asesor Empresarial</label>
-                <input type="text" id="advisorName" name="advisorName" required>
+                {{nombre | safe}}
             </div>
         </form>
     </div>

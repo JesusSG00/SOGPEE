@@ -20,7 +20,7 @@
             <div class="login-card">
                 <h2 class="text-center mb-4">BUSCAR EXPEDIENTE</h2><br>
         
-                <form action="{{ url_for('buscarExpedienteAsesorEmpresarial') }}" method="POST">
+                <form action="/buscarExpedienteAsesorEmpresarial" method="POST">
                     <div class="form-group mb-3">
                         <label for="ProyectoID">Número de expediente</label>
                         <input type="number" class="form-control" id="ProyectoID" name="ProyectoID" placeholder="Ingrese número de expediente" min="1" required>

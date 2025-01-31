@@ -41,23 +41,28 @@ def loginEstudiante():
 def asesorEmpresarial():
     return render_template('login/asesorEmpresarial3.html')
 
+@app.route('/asesorEmpresarial2',methods=['POST'])
+def asesorEmpresarial2():
+    return render_template('login/asesorEmpresarial3.html')
+
 #Función para buscar expediente Asesor Empresarial
 @app.route('/buscarExpedienteAsesorEmpresarial', methods=['POST'])
 def buscarExpedienteAsesorEmpresarial():
     ProyectoID= request.form['ProyectoID']
+    Nombreproyecto = proyectoAsesorEmpr(ProyectoID)
+    empresa=cargarEmpresaEquipo(ProyectoID)
+    nombre=NombreAsesor(ProyectoID)
     try:
         query = text("SELECT * FROM proyecto WHERE ProyectoID = :ProyectoID")
         with engine.connect() as conn:
             proyecto = conn.execute(query, {'ProyectoID': ProyectoID}).fetchone()
             if proyecto:
-                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto)
+                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre)
             else:
-                return 'Proyecto no encontrado', 404
+                return render_template('Cargas/ProyectoNEncontrado.html')
     except Exception as e:
-        return render_template('Error/Error.html', error=e), 500
-
-    # resultado = buscarExpedienteAsesorEmpresarial(ProyectoID) #Llamada a la función que busca el expediente del asesor empresarial
-    # return resultado
+        return render_template('Cargas/ProyectoNEncontrado.html')
+    
 
 #Evaluacion empresa
 @app.route('/evaluacionEmpresa')
@@ -644,9 +649,8 @@ def calificarProyectoU1():
         Calificacion = (Antecedentes+Planteamiento+Justificacion+Objetivo+ObjetivoEspecifico)/5
         calificado = calificar(Matricula,Calificacion)
         if calificado:
-            return "Poner una carga aqui"
-        else:
-            return "Poner una carga negativa aqui"
+            return render_template('Cargas/calificacionAsignada.html')
+            
         
 @app.route('/calificarProyectoU2',methods=['POST'])
 def calificarProyectoU2():
@@ -663,9 +667,9 @@ def calificarProyectoU2():
         Calificacion = (Marco+Metodologia+Cronograma+DesarrolloProyecto)/4
         calificado = calificarU2(Matricula,Calificacion)
         if calificado:
-            return "Poner una carga aqui"
-        else:
-            return "Poner una carga negativa aqui"
+            return render_template('Cargas/calificacionAsignada.html')
+            
+        
         
 
         
@@ -684,9 +688,7 @@ def calificarProyectoU3():
         Calificacion = (Resultados+Conclusiones+Referencias+Anexos)/4
         calificado = calificarU3(Matricula,Calificacion)
         if calificado:
-            return "Poner una carga aqui"
-        else:
-            return "Poner una carga negativa aqui"
+            return render_template('Cargas/calificacionAsignada.html')
     
 
 
@@ -1044,7 +1046,50 @@ def asignarContraseñaAcademico():
 
 def limpiar_temp():
     carpeta_temp = 'static/temp'
+    if not os.path.exists(carpeta_temp):
+        os.makedirs(carpeta_temp)
     for archivo in os.listdir(carpeta_temp):
         ruta_archivo = os.path.join(carpeta_temp, archivo)
         if os.path.isfile(ruta_archivo):
             os.remove(ruta_archivo)
+
+def proyectoAsesorEmpr(equipo):
+    query = text("""SELECT pro.Nombre
+FROM asesorempresarial ase
+JOIN proyectoasesores p ON p.Id_asesorE = ase.AsesorID
+JOIN proyecto pro ON pro.ProyectoID = p.Id_proyecto
+WHERE pro.ProyectoID = :equipo;""")
+    with engine.connect() as conn:
+        ok= conn.execute(query,{'equipo':equipo})
+        ok = ok.fetchone()
+        return ok[0]
+    
+def cargarEmpresaEquipo(equipo):
+    query = text("""SELECT ase.Empresa
+FROM asesorempresarial ase
+JOIN proyectoasesores p ON p.Id_asesorE = ase.AsesorID
+JOIN proyecto pro ON pro.ProyectoID = p.Id_proyecto
+WHERE pro.ProyectoID = :equipo;""")
+    with engine.connect() as conn:
+        ok= conn.execute(query,{'equipo':equipo})
+        ok = ok.fetchone()
+        return ok[0]
+    
+def NombreAsesor(equipo):
+    query = text("""SELECT ase.Nombre1, Nombre2, ApellidoP, ApellidoM
+FROM asesorempresarial ase
+JOIN proyectoasesores p ON p.Id_asesorE = ase.AsesorID
+JOIN proyecto pro ON pro.ProyectoID = p.Id_proyecto
+WHERE pro.ProyectoID = :equipo;""")
+    
+    with engine.connect() as conn:
+        ok = conn.execute(query, {'equipo': equipo}).fetchone()        
+        if not ok:
+            return '<p>No se encontró información del asesor</p>'
+        
+        nombre, nombre2, apellidoP, apellidoM = ok
+        opciones = f'<input type="text" value="{nombre} {nombre2} {apellidoP} {apellidoM}" disabled />'
+        
+        return opciones
+
+        

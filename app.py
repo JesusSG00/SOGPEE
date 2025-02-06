@@ -1062,7 +1062,10 @@ WHERE pro.ProyectoID = :equipo;""")
     with engine.connect() as conn:
         ok= conn.execute(query,{'equipo':equipo})
         ok = ok.fetchone()
-        return ok[0]
+        if ok:
+            return ok[0]
+        else:
+            return 'No asignado'
     
 def cargarEmpresaEquipo(equipo):
     query = text("""SELECT ase.Empresa
@@ -1073,7 +1076,10 @@ WHERE pro.ProyectoID = :equipo;""")
     with engine.connect() as conn:
         ok= conn.execute(query,{'equipo':equipo})
         ok = ok.fetchone()
-        return ok[0]
+        if ok:
+            return ok[0]
+        else:
+            return 'No asignado'
     
 def NombreAsesor(equipo):
     query = text("""SELECT ase.Nombre1, Nombre2, ApellidoP, ApellidoM

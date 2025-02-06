@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-01-2025 a las 19:39:02
+-- Tiempo de generación: 06-02-2025 a las 17:57:54
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `sogpee`
 --
+CREATE DATABASE IF NOT EXISTS `sogpee` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `sogpee`;
 
 -- --------------------------------------------------------
 
@@ -73,7 +75,8 @@ INSERT INTO `asesoracademico` (`Id`, `Nombre1`, `Nombre2`, `ApellidoP`, `Apellid
 (28, 'José', 'Luis', 'Cabrera', 'Martínez', '9899001122', 'jose.cabrera@gmail.com', 'jose.cabrera@gmail.com'),
 (29, 'Mercedes', 'Elisabeth', 'Morales', 'Torres', '1100112233', 'mercedes.morales@gmail.com', 'mercedes.morales@gmail.com'),
 (30, 'Santiago', 'Carlos', 'Hernández', 'Álvarez', '2200223344', 'santiago.hernandez@gmail.com', 'santiago.hernandez@gmail.com'),
-(31, 'Ed', 'Mundo', 'Viveros', 'German', '5547462155', 'mundo.mundo@gmail.com', '');
+(31, 'Ed', 'Mundo', 'Viveros', 'German', '5547462155', 'mundo.mundo@gmail.com', 'mundo.mundo@gmail.com'),
+(32, 'Ed', 'Mundo', 'Pererez', 'Perereira', '5547062122', 'cristo.cristo@gmail.com', 'cristo.cristo@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -147,6 +150,30 @@ INSERT INTO `asesorempresarial` (`AsesorID`, `Nombre1`, `Nombre2`, `ApellidoP`, 
 (48, 'Pedro', 'Tomás', 'Alvarado', 'Cárdenas', 2147483647, 'ptalvarado@innovdev.com', 'InnovDev'),
 (49, 'Fernanda', 'Dulce', 'Cruz', 'Jiménez', 2147483647, 'fdcruz@softnext.com', 'SoftNext'),
 (50, 'Ed', 'Mundo', 'Viveros', 'German', 2147483647, 'mundo.mundo@gmail.com', 'AlphaCode');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `calificacionproyecto`
+--
+
+CREATE TABLE `calificacionproyecto` (
+  `Id` int(11) NOT NULL,
+  `Alumno` int(11) NOT NULL,
+  `Calificacion` int(11) NOT NULL,
+  `Parcial` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `calificacionproyecto`
+--
+
+INSERT INTO `calificacionproyecto` (`Id`, `Alumno`, `Calificacion`, `Parcial`) VALUES
+(3, 1322134084, 5, 'Parcial 1'),
+(4, 1322134085, 5, 'Parcial 1'),
+(6, 1322134084, 8, 'Parcial 2'),
+(8, 1322134084, 8, 'Parcial 3'),
+(10, 1322134083, 9, 'Parcial 1');
 
 -- --------------------------------------------------------
 
@@ -314,59 +341,60 @@ CREATE TABLE `estudiante` (
   `ApellidoP` varchar(20) NOT NULL,
   `ApellidoM` varchar(20) NOT NULL,
   `Telefono` varchar(10) NOT NULL,
-  `Correo` text NOT NULL
+  `Correo` text NOT NULL,
+  `Carrera` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `estudiante`
 --
 
-INSERT INTO `estudiante` (`Matricula`, `Nombre1`, `Nombre2`, `ApellidoP`, `ApellidoM`, `Telefono`, `Correo`) VALUES
-(1322134083, 'Jesus', 'Margarito', 'Santos', 'Garcia', '5547062133', 'jesus_1322134083@uptecamac.edu.mx'),
-(1322134084, 'Luis', 'Antonio', 'Hernández', 'Pérez', '5547062144', 'luis_1322134084@uptecamac.edu.mx'),
-(1322134085, 'Ana', 'María', 'López', 'Gómez', '5547062155', 'ana_1322134085@uptecamac.edu.mx'),
-(1322134086, 'Carlos', 'Eduardo', 'Martínez', 'Santos', '5547062166', 'carlos_1322134086@uptecamac.edu.mx'),
-(1322134087, 'María', 'Fernanda', 'Rodríguez', 'Hernández', '5547062177', 'maria_1322134087@uptecamac.edu.mx'),
-(1322134088, 'Jorge', 'Iván', 'García', 'Luna', '5547062188', 'jorge_1322134088@uptecamac.edu.mx'),
-(1322134089, 'Laura', 'Beatriz', 'Sánchez', 'Cruz', '5547062199', 'laura_1322134089@uptecamac.edu.mx'),
-(1322134090, 'Fernando', 'Andrés', 'Ramírez', 'Mendoza', '5547062200', 'fernando_1322134090@uptecamac.edu.mx'),
-(1322134091, 'Diana', 'Carolina', 'Morales', 'Torres', '5547062211', 'diana_1322134091@uptecamac.edu.mx'),
-(1322134092, 'Sofía', 'Isabel', 'Vargas', 'Flores', '5547062222', 'sofia_1322134092@uptecamac.edu.mx'),
-(1322134093, 'Ricardo', 'Alonso', 'Navarro', 'Valencia', '5547062233', 'ricardo_1322134093@uptecamac.edu.mx'),
-(1322134094, 'Gabriela', 'Esther', 'Castillo', 'Jiménez', '5547062244', 'gabriela_1322134094@uptecamac.edu.mx'),
-(1322134095, 'Juan', 'Pablo', 'Reyes', 'Salazar', '5547062255', 'juan_1322134095@uptecamac.edu.mx'),
-(1322134096, 'Liliana', 'Guadalupe', 'Mendoza', 'Cortés', '5547062266', 'liliana_1322134096@uptecamac.edu.mx'),
-(1322134097, 'Francisco', 'Javier', 'Ortega', 'Meza', '5547062277', 'francisco_1322134097@uptecamac.edu.mx'),
-(1322134098, 'Cecilia', 'Elena', 'Gómez', 'González', '5547062288', 'cecilia_1322134098@uptecamac.edu.mx'),
-(1322134099, 'Oscar', 'Eduardo', 'Luna', 'Moreno', '5547062299', 'oscar_1322134099@uptecamac.edu.mx'),
-(1322134100, 'Mónica', 'Rocío', 'Pérez', 'Rojas', '5547062300', 'monica_1322134100@uptecamac.edu.mx'),
-(1322134101, 'Ramón', 'Humberto', 'Campos', 'Vega', '5547062311', 'ramon_1322134101@uptecamac.edu.mx'),
-(1322134102, 'Claudia', 'Ximena', 'Aguilar', 'Zavala', '5547062322', 'claudia_1322134102@uptecamac.edu.mx'),
-(1322134103, 'Guillermo', 'Fabián', 'Zavala', 'Rosales', '5547062333', 'guillermo_1322134103@uptecamac.edu.mx'),
-(1322134104, 'Alejandra', 'Lucía', 'Valencia', 'Rojas', '5547062344', 'alejandra_1322134104@uptecamac.edu.mx'),
-(1322134105, 'Javier', 'Eduardo', 'Padilla', 'Sandoval', '5547062355', 'javier_1322134105@uptecamac.edu.mx'),
-(1322134106, 'Regina', 'Adriana', 'Salinas', 'Fernández', '5547062366', 'regina_1322134106@uptecamac.edu.mx'),
-(1322134107, 'Armando', 'Israel', 'González', 'Navarrete', '5547062377', 'armando_1322134107@uptecamac.edu.mx'),
-(1322134108, 'Beatriz', 'Inés', 'Cabrera', 'Lara', '5547062388', 'beatriz_1322134108@uptecamac.edu.mx'),
-(1322134109, 'José', 'Luis', 'Esquivel', 'Reyes', '5547062399', 'jose_1322134109@uptecamac.edu.mx'),
-(1322134110, 'Rocío', 'Margarita', 'Torres', 'Estrada', '5547062400', 'rocio_1322134110@uptecamac.edu.mx'),
-(1322134111, 'Felipe', 'Miguel', 'Castañeda', 'Trujillo', '5547062411', 'felipe_1322134111@uptecamac.edu.mx'),
-(1322134112, 'Karla', 'Fernanda', 'Pérez', 'Chavarría', '5547062422', 'karla_1322134112@uptecamac.edu.mx'),
-(1322134113, 'Eduardo', 'Iván', 'Moreno', 'Villalobos', '5547062433', 'eduardo_1322134113@uptecamac.edu.mx'),
-(1322134114, 'Jessica', 'Lorena', 'Fuentes', 'Quintana', '5547062444', 'jessica_1322134114@uptecamac.edu.mx'),
-(1322134115, 'Alberto', 'Francisco', 'Hernández', 'Ruiz', '5547062455', 'alberto_1322134115@uptecamac.edu.mx'),
-(1322134116, 'Clara', 'Luz', 'Martínez', 'Gómez', '5547062466', 'clara_1322134116@uptecamac.edu.mx'),
-(1322134117, 'Emanuel', 'Joaquín', 'Reyes', 'Domínguez', '5547062477', 'emanuel_1322134117@uptecamac.edu.mx'),
-(1322134118, 'Victoria', 'Angélica', 'Núñez', 'Campos', '5547062488', 'victoria_1322134118@uptecamac.edu.mx'),
-(1322134119, 'Diego', 'Ricardo', 'Mendoza', 'Peña', '5547062499', 'diego_1322134119@uptecamac.edu.mx'),
-(1322134120, 'Montserrat', 'Alicia', 'Romero', 'Salas', '5547062500', 'montserrat_1322134120@uptecamac.edu.mx'),
-(1322134121, 'Ignacio', 'Julián', 'Pineda', 'Meza', '5547062511', 'ignacio_1322134121@uptecamac.edu.mx'),
-(1322134122, 'Sergio', 'Adolfo', 'Quintero', 'Valle', '5547062522', 'sergio_1322134122@uptecamac.edu.mx'),
-(1322134123, 'Ximena', 'Carolina', 'Ortega', 'Barrios', '5547062533', 'ximena_1322134123@uptecamac.edu.mx'),
-(1322134124, 'Adriana', 'Elizabeth', 'Palacios', 'Campos', '5547062544', 'adriana_1322134124@uptecamac.edu.mx'),
-(1322134125, 'Marcelo', 'Rubén', 'Chávez', 'Naranjo', '5547062555', 'marcelo_1322134125@uptecamac.edu.mx'),
-(1322134126, 'Rafael', 'Cristian', 'Solís', 'Ocampo', '5547062566', 'rafael_1322134126@uptecamac.edu.mx'),
-(1322134127, 'María', 'Alejandra', 'Figueroa', 'Hidalgo', '5547062577', 'maria_1322134127@uptecamac.edu.mx');
+INSERT INTO `estudiante` (`Matricula`, `Nombre1`, `Nombre2`, `ApellidoP`, `ApellidoM`, `Telefono`, `Correo`, `Carrera`) VALUES
+(1322134083, 'Jesus', 'Margarito', 'Santos', 'Garcia', '5547062133', 'jesus_1322134083@uptecamac.edu.mx', 'IS'),
+(1322134084, 'Luis', 'Antonio', 'Hernández', 'Pérez', '5547062144', 'luis_1322134084@uptecamac.edu.mx', 'IS'),
+(1322134085, 'Ana', 'María', 'López', 'Gómez', '5547062155', 'ana_1322134085@uptecamac.edu.mx', 'IS'),
+(1322134086, 'Carlos', 'Eduardo', 'Martínez', 'Santos', '5547062166', 'carlos_1322134086@uptecamac.edu.mx', 'IS'),
+(1322134087, 'María', 'Fernanda', 'Rodríguez', 'Hernández', '5547062177', 'maria_1322134087@uptecamac.edu.mx', 'IS'),
+(1322134088, 'Jorge', 'Iván', 'García', 'Luna', '5547062188', 'jorge_1322134088@uptecamac.edu.mx', 'IS'),
+(1322134089, 'Laura', 'Beatriz', 'Sánchez', 'Cruz', '5547062199', 'laura_1322134089@uptecamac.edu.mx', 'IS'),
+(1322134090, 'Fernando', 'Andrés', 'Ramírez', 'Mendoza', '5547062200', 'fernando_1322134090@uptecamac.edu.mx', 'IS'),
+(1322134091, 'Diana', 'Carolina', 'Morales', 'Torres', '5547062211', 'diana_1322134091@uptecamac.edu.mx', 'IS'),
+(1322134092, 'Sofía', 'Isabel', 'Vargas', 'Flores', '5547062222', 'sofia_1322134092@uptecamac.edu.mx', 'IS'),
+(1322134093, 'Ricardo', 'Alonso', 'Navarro', 'Valencia', '5547062233', 'ricardo_1322134093@uptecamac.edu.mx', 'IS'),
+(1322134094, 'Gabriela', 'Esther', 'Castillo', 'Jiménez', '5547062244', 'gabriela_1322134094@uptecamac.edu.mx', 'IS'),
+(1322134095, 'Juan', 'Pablo', 'Reyes', 'Salazar', '5547062255', 'juan_1322134095@uptecamac.edu.mx', 'IS'),
+(1322134096, 'Liliana', 'Guadalupe', 'Mendoza', 'Cortés', '5547062266', 'liliana_1322134096@uptecamac.edu.mx', 'IS'),
+(1322134097, 'Francisco', 'Javier', 'Ortega', 'Meza', '5547062277', 'francisco_1322134097@uptecamac.edu.mx', 'IS'),
+(1322134098, 'Cecilia', 'Elena', 'Gómez', 'González', '5547062288', 'cecilia_1322134098@uptecamac.edu.mx', 'IS'),
+(1322134099, 'Oscar', 'Eduardo', 'Luna', 'Moreno', '5547062299', 'oscar_1322134099@uptecamac.edu.mx', 'IS'),
+(1322134100, 'Mónica', 'Rocío', 'Pérez', 'Rojas', '5547062300', 'monica_1322134100@uptecamac.edu.mx', 'IS'),
+(1322134101, 'Ramón', 'Humberto', 'Campos', 'Vega', '5547062311', 'ramon_1322134101@uptecamac.edu.mx', 'IS'),
+(1322134102, 'Claudia', 'Ximena', 'Aguilar', 'Zavala', '5547062322', 'claudia_1322134102@uptecamac.edu.mx', 'IS'),
+(1322134103, 'Guillermo', 'Fabián', 'Zavala', 'Rosales', '5547062333', 'guillermo_1322134103@uptecamac.edu.mx', 'IS'),
+(1322134104, 'Alejandra', 'Lucía', 'Valencia', 'Rojas', '5547062344', 'alejandra_1322134104@uptecamac.edu.mx', 'IS'),
+(1322134105, 'Javier', 'Eduardo', 'Padilla', 'Sandoval', '5547062355', 'javier_1322134105@uptecamac.edu.mx', 'IS'),
+(1322134106, 'Regina', 'Adriana', 'Salinas', 'Fernández', '5547062366', 'regina_1322134106@uptecamac.edu.mx', 'IS'),
+(1322134107, 'Armando', 'Israel', 'González', 'Navarrete', '5547062377', 'armando_1322134107@uptecamac.edu.mx', 'IS'),
+(1322134108, 'Beatriz', 'Inés', 'Cabrera', 'Lara', '5547062388', 'beatriz_1322134108@uptecamac.edu.mx', 'IS'),
+(1322134109, 'José', 'Luis', 'Esquivel', 'Reyes', '5547062399', 'jose_1322134109@uptecamac.edu.mx', 'IS'),
+(1322134110, 'Rocío', 'Margarita', 'Torres', 'Estrada', '5547062400', 'rocio_1322134110@uptecamac.edu.mx', 'IS'),
+(1322134111, 'Felipe', 'Miguel', 'Castañeda', 'Trujillo', '5547062411', 'felipe_1322134111@uptecamac.edu.mx', 'IS'),
+(1322134112, 'Karla', 'Fernanda', 'Pérez', 'Chavarría', '5547062422', 'karla_1322134112@uptecamac.edu.mx', 'IS'),
+(1322134113, 'Eduardo', 'Iván', 'Moreno', 'Villalobos', '5547062433', 'eduardo_1322134113@uptecamac.edu.mx', 'IS'),
+(1322134114, 'Jessica', 'Lorena', 'Fuentes', 'Quintana', '5547062444', 'jessica_1322134114@uptecamac.edu.mx', 'IS'),
+(1322134115, 'Alberto', 'Francisco', 'Hernández', 'Ruiz', '5547062455', 'alberto_1322134115@uptecamac.edu.mx', 'IS'),
+(1322134116, 'Clara', 'Luz', 'Martínez', 'Gómez', '5547062466', 'clara_1322134116@uptecamac.edu.mx', 'IS'),
+(1322134117, 'Emanuel', 'Joaquín', 'Reyes', 'Domínguez', '5547062477', 'emanuel_1322134117@uptecamac.edu.mx', 'IS'),
+(1322134118, 'Victoria', 'Angélica', 'Núñez', 'Campos', '5547062488', 'victoria_1322134118@uptecamac.edu.mx', 'IS'),
+(1322134119, 'Diego', 'Ricardo', 'Mendoza', 'Peña', '5547062499', 'diego_1322134119@uptecamac.edu.mx', 'IS'),
+(1322134120, 'Montserrat', 'Alicia', 'Romero', 'Salas', '5547062500', 'montserrat_1322134120@uptecamac.edu.mx', 'IS'),
+(1322134121, 'Ignacio', 'Julián', 'Pineda', 'Meza', '5547062511', 'ignacio_1322134121@uptecamac.edu.mx', 'IS'),
+(1322134122, 'Sergio', 'Adolfo', 'Quintero', 'Valle', '5547062522', 'sergio_1322134122@uptecamac.edu.mx', 'IS'),
+(1322134123, 'Ximena', 'Carolina', 'Ortega', 'Barrios', '5547062533', 'ximena_1322134123@uptecamac.edu.mx', 'IS'),
+(1322134124, 'Adriana', 'Elizabeth', 'Palacios', 'Campos', '5547062544', 'adriana_1322134124@uptecamac.edu.mx', 'IS'),
+(1322134125, 'Marcelo', 'Rubén', 'Chávez', 'Naranjo', '5547062555', 'marcelo_1322134125@uptecamac.edu.mx', 'IS'),
+(1322134126, 'Rafael', 'Cristian', 'Solís', 'Ocampo', '5547062566', 'rafael_1322134126@uptecamac.edu.mx', 'IS'),
+(1322134127, 'María', 'Alejandra', 'Figueroa', 'Hidalgo', '5547062577', 'maria_1322134127@uptecamac.edu.mx', 'IS');
 
 -- --------------------------------------------------------
 
@@ -451,6 +479,13 @@ ALTER TABLE `asesorempresarial`
   ADD KEY `EmpresaID` (`Empresa`);
 
 --
+-- Indices de la tabla `calificacionproyecto`
+--
+ALTER TABLE `calificacionproyecto`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `Alumno` (`Alumno`);
+
+--
 -- Indices de la tabla `cartas`
 --
 ALTER TABLE `cartas`
@@ -529,13 +564,19 @@ ALTER TABLE `proyectoasesores`
 -- AUTO_INCREMENT de la tabla `asesoracademico`
 --
 ALTER TABLE `asesoracademico`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `asesorempresarial`
 --
 ALTER TABLE `asesorempresarial`
   MODIFY `AsesorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+
+--
+-- AUTO_INCREMENT de la tabla `calificacionproyecto`
+--
+ALTER TABLE `calificacionproyecto`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `cartas`
@@ -559,7 +600,7 @@ ALTER TABLE `documentos`
 -- AUTO_INCREMENT de la tabla `encuesta08`
 --
 ALTER TABLE `encuesta08`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `equipos`
@@ -594,6 +635,12 @@ ALTER TABLE `proyectoasesores`
 --
 ALTER TABLE `asesorempresarial`
   ADD CONSTRAINT `asesorempresarial_ibfk_1` FOREIGN KEY (`Empresa`) REFERENCES `empresa` (`Nombre`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `calificacionproyecto`
+--
+ALTER TABLE `calificacionproyecto`
+  ADD CONSTRAINT `calificacionproyecto_ibfk_1` FOREIGN KEY (`Alumno`) REFERENCES `estudiante` (`Matricula`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `cartas`

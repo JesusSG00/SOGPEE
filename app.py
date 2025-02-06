@@ -372,7 +372,17 @@ def inicioSesionEstudiante(matricula,correo):
                 return 'no encontado'
     except Exception as e:
             return f'error {e}'
-    
+
+@app.route('/EvEmpresasiguiente',methods=['POST'])  
+def EvEmpresasiguiente():
+    nombreProyecto = request.form['projectTitl']
+    si = obtenerMatriculas(nombreProyecto)
+    for matricula,carrera in si:
+        if carrera == "IS":
+            return render_template('Cuestionarios/evaluacion_empresa.html')
+        elif carrera == "IMA":
+            return render_template('Cuestionarios/cuestionario_salida_IMA.html')
+
 def inicioSesionCoordinacion(correo,password):
     try:
         query = text("SELECT Nombre,Nombre2,ApellidoP,ApellidoM,Correo,password FROM coordinacion WHERE correo = :correo AND password =:password")
@@ -1098,4 +1108,17 @@ WHERE pro.ProyectoID = :equipo;""")
         
         return opciones
 
+
+def obtenerMatriculas(nombreP):
+    query = text("""SELECT 
+    e.Matricula,
+    e.Carrera AS CarreraAlumno
+FROM estudiante e
+INNER JOIN equipos eq ON e.Matricula = eq.Matricula
+INNER JOIN proyecto p ON eq.Id_Proyecto = p.ProyectoID
+WHERE p.Nombre = :nombreP;""")
+    with engine.connect() as conn:
+        ok= conn.execute(query,{'nombreP':nombreP})
+        rows = ok.fetchall()  
+        return rows if rows else []
         

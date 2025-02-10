@@ -62,7 +62,8 @@ label {
 }
 input, select {
     width: 100%;
-    padding: 12px;
+    padding-top: 12px;
+    padding-bottom: 12px;
     margin-bottom: 20px;
     border: 1px solid #bdc3c7;
     border-radius: 6px;

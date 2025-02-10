@@ -12,6 +12,14 @@ app = Flask(__name__)
 def index():
     limpiar_temp()
     return render_template('index.html')
+
+@app.route('/evaluacionEstudiante', methods=['GET'])
+def evaluacionEstudiante():
+    return render_template('/perfiles/evaluacionEstudiante.html')
+
+
+
+
 #Formulario de login del estudiante
 @app.route('/loginEstudiante2')
 def loginEstudiante2():

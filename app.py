@@ -44,6 +44,34 @@ def loginEstudiante():
     resultado = inicioSesionEstudiante(matricula,correo) #Llamada a la funcion de inicio de sesion que nos reedirige a la pagina de principal del estudiante
     return resultado
 
+#Dirigir pagina para buscar expediente Asesor Empresarial
+@app.route('/asesorEmpresarial')
+def asesorEmpresarial():
+    return render_template('login/asesorEmpresarial3.html')
+
+@app.route('/asesorEmpresarial2',methods=['POST'])
+def asesorEmpresarial2():
+    return render_template('login/asesorEmpresarial3.html')
+
+#Función para buscar expediente Asesor Empresarial
+@app.route('/buscarExpedienteAsesorEmpresarial', methods=['POST'])
+def buscarExpedienteAsesorEmpresarial():
+    ProyectoID= request.form['ProyectoID']
+    Nombreproyecto = proyectoAsesorEmpr(ProyectoID)
+    empresa=cargarEmpresaEquipo(ProyectoID)
+    nombre=NombreAsesor(ProyectoID)
+    try:
+        query = text("SELECT * FROM proyecto WHERE ProyectoID = :ProyectoID")
+        with engine.connect() as conn:
+            proyecto = conn.execute(query, {'ProyectoID': ProyectoID}).fetchone()
+            if proyecto:
+                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre)
+            else:
+                return render_template('Cargas/ProyectoNEncontrado.html')
+    except Exception as e:
+        return render_template('Cargas/ProyectoNEncontrado.html')
+    
+
 #Evaluacion empresa
 @app.route('/evaluacionEmpresa')
 def evaluacionEmpresa():
@@ -128,6 +156,7 @@ def logincoordinacion2():
     password = request.form['password']
     resultado = inicioSesionCoordinacion2(correo,password)#Llamada a la funcion de inicio de sesion que nos reedirige a la pagina de principal del coordinador
     return resultado
+
 #Funcion para guardar los datos del formulario de registro de proyecto, equipos etc
 @app.route('/guardartodo',methods=['POST'])
 def guardartodo():
@@ -146,7 +175,7 @@ def guardartodo():
         if ok != True: #Si hay un error se redirige a la pagina de error
             return render_template('Error/Error.html',ID=ok) #Se redirige a la pagina de error con el ID del proyecto para identifcar el proyecto y se borre
         return render_template('Cargas/cargaEquipo.html') #Pagina de carga de error
-    if numero == '2': #Se ejecuta si el equipo tiene 2 integrantes
+    elif numero == '2': #Se ejecuta si el equipo tiene 2 integrantes
             matricula = request.form['estudiante-0-campo1']
             matricula2 = request.form['estudiante-1-campo1']
             agregarproyectos(titulo,funcion)
@@ -197,6 +226,7 @@ def guardartodo():
         if ok != True:
             return render_template('Error/Error.html',ID=ok)
         return render_template('Cargas/cargaEquipo.html')
+    
 #Funcion para subir los documentos del estudiante
 @app.route('/enviarDocumentos', methods=['POST'])
 def enviarDocumentos():
@@ -352,7 +382,23 @@ def inicioSesionEstudiante(matricula,correo):
                 return 'no encontado'
     except Exception as e:
             return f'error {e}'
-    
+
+@app.route('/EvEmpresasiguiente',methods=['POST'])  
+def EvEmpresasiguiente():
+    nombreProyecto = request.form['projectTitl']
+    si = obtenerMatriculas(nombreProyecto)
+    for matricula,carrera in si:
+        if carrera == "IS":
+            return render_template('Cuestionarios/evaluacion_empresa.html')
+        elif carrera == "IMA":
+            return render_template('Cuestionarios/cuestionario_salida_IMA.html')
+        elif carrera == "IF":
+            return render_template('Cuestionarios/cuestionario_salida_IF.html')
+        elif carrera == "ITM":
+            return render_template('Cuestionarios/cuestionario_salida_ITM.html')
+        elif carrera == "LNI":
+            return render_template('Cuestionarios/cuestionario_salida_LNI.html')
+
 def inicioSesionCoordinacion(correo,password):
     try:
         query = text("SELECT Nombre,Nombre2,ApellidoP,ApellidoM,Correo,password FROM coordinacion WHERE correo = :correo AND password =:password")
@@ -629,9 +675,8 @@ def calificarProyectoU1():
         Calificacion = (Antecedentes+Planteamiento+Justificacion+Objetivo+ObjetivoEspecifico)/5
         calificado = calificar(Matricula,Calificacion)
         if calificado:
-            return "Poner una carga aqui"
-        else:
-            return "Poner una carga negativa aqui"
+            return render_template('Cargas/calificacionAsignada.html')
+            
         
 @app.route('/calificarProyectoU2',methods=['POST'])
 def calificarProyectoU2():
@@ -648,9 +693,9 @@ def calificarProyectoU2():
         Calificacion = (Marco+Metodologia+Cronograma+DesarrolloProyecto)/4
         calificado = calificarU2(Matricula,Calificacion)
         if calificado:
-            return "Poner una carga aqui"
-        else:
-            return "Poner una carga negativa aqui"
+            return render_template('Cargas/calificacionAsignada.html')
+            
+        
         
 
         
@@ -669,9 +714,7 @@ def calificarProyectoU3():
         Calificacion = (Resultados+Conclusiones+Referencias+Anexos)/4
         calificado = calificarU3(Matricula,Calificacion)
         if calificado:
-            return "Poner una carga aqui"
-        else:
-            return "Poner una carga negativa aqui"
+            return render_template('Cargas/calificacionAsignada.html')
     
 
 
@@ -1029,7 +1072,69 @@ def asignarContraseñaAcademico():
 
 def limpiar_temp():
     carpeta_temp = 'static/temp'
+    if not os.path.exists(carpeta_temp):
+        os.makedirs(carpeta_temp)
     for archivo in os.listdir(carpeta_temp):
         ruta_archivo = os.path.join(carpeta_temp, archivo)
         if os.path.isfile(ruta_archivo):
             os.remove(ruta_archivo)
+
+def proyectoAsesorEmpr(equipo):
+    query = text("""SELECT pro.Nombre
+FROM asesorempresarial ase
+JOIN proyectoasesores p ON p.Id_asesorE = ase.AsesorID
+JOIN proyecto pro ON pro.ProyectoID = p.Id_proyecto
+WHERE pro.ProyectoID = :equipo;""")
+    with engine.connect() as conn:
+        ok= conn.execute(query,{'equipo':equipo})
+        ok = ok.fetchone()
+        if ok:
+            return ok[0]
+        else:
+            return 'No asignado'
+    
+def cargarEmpresaEquipo(equipo):
+    query = text("""SELECT ase.Empresa
+FROM asesorempresarial ase
+JOIN proyectoasesores p ON p.Id_asesorE = ase.AsesorID
+JOIN proyecto pro ON pro.ProyectoID = p.Id_proyecto
+WHERE pro.ProyectoID = :equipo;""")
+    with engine.connect() as conn:
+        ok= conn.execute(query,{'equipo':equipo})
+        ok = ok.fetchone()
+        if ok:
+            return ok[0]
+        else:
+            return 'No asignado'
+    
+def NombreAsesor(equipo):
+    query = text("""SELECT ase.Nombre1, Nombre2, ApellidoP, ApellidoM
+FROM asesorempresarial ase
+JOIN proyectoasesores p ON p.Id_asesorE = ase.AsesorID
+JOIN proyecto pro ON pro.ProyectoID = p.Id_proyecto
+WHERE pro.ProyectoID = :equipo;""")
+    
+    with engine.connect() as conn:
+        ok = conn.execute(query, {'equipo': equipo}).fetchone()        
+        if not ok:
+            return '<p>No se encontró información del asesor</p>'
+        
+        nombre, nombre2, apellidoP, apellidoM = ok
+        opciones = f'<input type="text" value="{nombre} {nombre2} {apellidoP} {apellidoM}" disabled />'
+        
+        return opciones
+
+
+def obtenerMatriculas(nombreP):
+    query = text("""SELECT 
+    e.Matricula,
+    e.Carrera AS CarreraAlumno
+FROM estudiante e
+INNER JOIN equipos eq ON e.Matricula = eq.Matricula
+INNER JOIN proyecto p ON eq.Id_Proyecto = p.ProyectoID
+WHERE p.Nombre = :nombreP;""")
+    with engine.connect() as conn:
+        ok= conn.execute(query,{'nombreP':nombreP})
+        rows = ok.fetchall()  
+        return rows if rows else []
+        

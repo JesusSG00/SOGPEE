@@ -12,14 +12,6 @@ app = Flask(__name__)
 def index():
     limpiar_temp()
     return render_template('index.html')
-
-@app.route('/evaluacionEstudiante', methods=['GET'])
-def evaluacionEstudiante():
-    return render_template('/perfiles/evaluacionEstudiante.html')
-
-
-
-
 #Formulario de login del estudiante
 @app.route('/loginEstudiante2')
 def loginEstudiante2():
@@ -97,7 +89,6 @@ def logincoordinacion2():
     password = request.form['password']
     resultado = inicioSesionCoordinacion2(correo,password)#Llamada a la funcion de inicio de sesion que nos reedirige a la pagina de principal del coordinador
     return resultado
-
 #Funcion para guardar los datos del formulario de registro de proyecto, equipos etc
 @app.route('/guardartodo',methods=['POST'])
 def guardartodo():
@@ -116,7 +107,7 @@ def guardartodo():
         if ok != True: #Si hay un error se redirige a la pagina de error
             return render_template('Error/Error.html',ID=ok) #Se redirige a la pagina de error con el ID del proyecto para identifcar el proyecto y se borre
         return render_template('Cargas/cargaEquipo.html') #Pagina de carga de error
-    elif numero == '2': #Se ejecuta si el equipo tiene 2 integrantes
+    if numero == '2': #Se ejecuta si el equipo tiene 2 integrantes
             matricula = request.form['estudiante-0-campo1']
             matricula2 = request.form['estudiante-1-campo1']
             agregarproyectos(titulo,funcion)
@@ -167,7 +158,6 @@ def guardartodo():
         if ok != True:
             return render_template('Error/Error.html',ID=ok)
         return render_template('Cargas/cargaEquipo.html')
-    
 #Funcion para subir los documentos del estudiante
 @app.route('/enviarDocumentos', methods=['POST'])
 def enviarDocumentos():
@@ -205,12 +195,6 @@ def agregar():
     opcion = cargarAsesorEmp()
     asesorAcademico = cargarAsesorAcademico()
     return render_template('/Agregar.html',cargar = opcion, asesorAcademic = asesorAcademico)
-
-@app.route('/agregar2')
-def agregar2():
-    
-    return render_template('/Agregar0.5.html')
-
 
 @app.route('/asignarEquipo',methods=['POST'])
 def asignarEquipo():
@@ -270,12 +254,17 @@ def AbrirExpediente():
 
 @app.route('/verArchivo',methods=['POST'])
 def abrirExpediente():
-    parcial = request.form['parcialB']
+    proyecto = request.form['proyecto']   
+    return render_template('perfiles/AsesorAcademico/abrirExpediente.html',proyecto = proyecto)
+
+@app.route('/abrirExpediente-parcial',methods=['POST'])
+def abrirExpediente_parcial():
     proyecto = request.form['proyecto']
+    parcial = request.form['parcial']
     ruta = obtenerRutaPDF(proyecto,parcial)    
     imagen = visualizarPDF(ruta)
    
-    return render_template('perfiles/AsesorAcademico/abrirExpediente.html',parcial = parcial,proyecto = proyecto,imagen = imagen)
+    return render_template('perfiles/AsesorAcademico/abrirExpediente-parcial.html',proyecto = proyecto,imagen = imagen)
 
 @app.route('/calificarExpediente',methods=['POST'])
 def calificarExpediente():
@@ -340,12 +329,6 @@ def EvEmpresasiguiente():
             return render_template('Cuestionarios/evaluacion_empresa.html')
         elif carrera == "IMA":
             return render_template('Cuestionarios/cuestionario_salida_IMA.html')
-        elif carrera == "IF":
-            return render_template('Cuestionarios/cuestionario_salida_IF.html')
-        elif carrera == "ITM":
-            return render_template('Cuestionarios/cuestionario_salida_ITM.html')
-        elif carrera == "LNI":
-            return render_template('Cuestionarios/cuestionario_salida_LNI.html')
 
 def inicioSesionCoordinacion(correo,password):
     try:

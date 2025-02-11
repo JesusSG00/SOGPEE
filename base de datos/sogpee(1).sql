@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-02-2025 a las 17:57:54
+-- Tiempo de generación: 10-02-2025 a las 18:45:23
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,8 +20,6 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `sogpee`
 --
-CREATE DATABASE IF NOT EXISTS `sogpee` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
-USE `sogpee`;
 
 -- --------------------------------------------------------
 
@@ -326,7 +324,11 @@ INSERT INTO `equipos` (`Id`, `Matricula`, `NoEquipo`, `Id_Proyecto`) VALUES
 (198, 1322134086, 2, 4),
 (199, 1322134087, 2, 4),
 (200, 1322134099, 3, 5),
-(202, 1322134101, 4, 7);
+(202, 1322134101, 4, 7),
+(203, 1322130001, 5, 8),
+(204, 1322130002, 5, 8),
+(205, 1322130003, 5, 8),
+(206, 1322130004, 5, 8);
 
 -- --------------------------------------------------------
 
@@ -350,6 +352,46 @@ CREATE TABLE `estudiante` (
 --
 
 INSERT INTO `estudiante` (`Matricula`, `Nombre1`, `Nombre2`, `ApellidoP`, `ApellidoM`, `Telefono`, `Correo`, `Carrera`) VALUES
+(1322130001, 'Juan', 'Carlos', 'Gómez', 'Pérez', '5512345678', 'juan_1322130001@uptecamac.edu.mx', 'IMA'),
+(1322130002, 'Ana', NULL, 'Martínez', 'López', '5523456789', 'ana_1322130002@uptecamac.edu.mx', 'IMA'),
+(1322130003, 'Luis', 'Fernando', 'Hernández', 'Ruiz', '5534567890', 'luis_1322130003@uptecamac.edu.mx', 'IMA'),
+(1322130004, 'María', 'José', 'Torres', 'Sánchez', '5545678901', 'maria_1322130004@uptecamac.edu.mx', 'IMA'),
+(1322130005, 'Carlos', NULL, 'Ramírez', 'Díaz', '5556789012', 'carlos_1322130005@uptecamac.edu.mx', 'IMA'),
+(1322130006, 'Fernanda', 'Sofía', 'Vargas', 'Méndez', '5567890123', 'fernanda_1322130006@uptecamac.edu.mx', 'IMA'),
+(1322130007, 'Pablo', 'Andrés', 'Luna', 'García', '5578901234', 'pablo_1322130007@uptecamac.edu.mx', 'IMA'),
+(1322130008, 'Samantha', NULL, 'Ortega', 'Flores', '5589012345', 'samantha_1322130008@uptecamac.edu.mx', 'IMA'),
+(1322130009, 'Héctor', 'Iván', 'Castro', 'Morales', '5590123456', 'hector_1322130009@uptecamac.edu.mx', 'IMA'),
+(1322130010, 'Valeria', 'Ximena', 'Navarro', 'Rodríguez', '5501234567', 'valeria_1322130010@uptecamac.edu.mx', 'IMA'),
+(1322130011, 'Diego', 'Emiliano', 'Fernández', 'Lara', '5511223344', 'diego_1322130011@uptecamac.edu.mx', 'IF'),
+(1322130012, 'Andrea', 'Isabel', 'Mendoza', 'Ríos', '5522334455', 'andrea_1322130012@uptecamac.edu.mx', 'IF'),
+(1322130013, 'Oscar', NULL, 'Gutiérrez', 'Campos', '5533445566', 'oscar_1322130013@uptecamac.edu.mx', 'IF'),
+(1322130014, 'Paola', 'Michelle', 'Hidalgo', 'Vega', '5544556677', 'paola_1322130014@uptecamac.edu.mx', 'IF'),
+(1322130015, 'Jorge', 'Arturo', 'Salinas', 'Bravo', '5555667788', 'jorge_1322130015@uptecamac.edu.mx', 'IF'),
+(1322130016, 'Elena', NULL, 'Zamora', 'Suárez', '5566778899', 'elena_1322130016@uptecamac.edu.mx', 'IF'),
+(1322130017, 'Adrián', 'José', 'Escobar', 'Ochoa', '5577889900', 'adrian_1322130017@uptecamac.edu.mx', 'IF'),
+(1322130018, 'Gabriela', 'Fernanda', 'León', 'Pacheco', '5588990011', 'gabriela_1322130018@uptecamac.edu.mx', 'IF'),
+(1322130019, 'Ricardo', 'Manuel', 'Aguilar', 'Cortés', '5599001122', 'ricardo_1322130019@uptecamac.edu.mx', 'IF'),
+(1322130020, 'Sofía', 'Beatriz', 'Estrada', 'Delgado', '5500112233', 'sofia_1322130020@uptecamac.edu.mx', 'IF'),
+(1322130021, 'Martín', NULL, 'Pérez', 'González', '5512341122', 'martin_1322130021@uptecamac.edu.mx', 'ITM'),
+(1322130022, 'Camila', 'Renata', 'Silva', 'Molina', '5523452233', 'camila_1322130022@uptecamac.edu.mx', 'ITM'),
+(1322130023, 'Alberto', 'Joaquín', 'Rojas', 'Hernández', '5534563344', 'alberto_1322130023@uptecamac.edu.mx', 'ITM'),
+(1322130024, 'Daniela', NULL, 'Santos', 'López', '5545674455', 'daniela_1322130024@uptecamac.edu.mx', 'ITM'),
+(1322130025, 'Hugo', 'Esteban', 'Ortega', 'Ramírez', '5556785566', 'hugo_1322130025@uptecamac.edu.mx', 'ITM'),
+(1322130026, 'Natalia', 'Paulina', 'Castillo', 'Jiménez', '5567896677', 'natalia_1322130026@uptecamac.edu.mx', 'ITM'),
+(1322130027, 'Rodrigo', NULL, 'Delgado', 'Vázquez', '5578907788', 'rodrigo_1322130027@uptecamac.edu.mx', 'ITM'),
+(1322130028, 'Isabela', 'Andrea', 'Núñez', 'Medina', '5589018899', 'isabela_1322130028@uptecamac.edu.mx', 'ITM'),
+(1322130029, 'Javier', 'Raúl', 'Peña', 'Flores', '5590129900', 'javier_1322130029@uptecamac.edu.mx', 'ITM'),
+(1322130030, 'Lucía', NULL, 'Suárez', 'Gómez', '5501230001', 'lucia_1322130030@uptecamac.edu.mx', 'ITM'),
+(1322130031, 'Fabián', 'Alejandro', 'Méndez', 'Soto', '5512349988', 'fabian_1322130031@uptecamac.edu.mx', 'LNI'),
+(1322130032, 'Regina', NULL, 'Cruz', 'García', '5523458877', 'regina_1322130032@uptecamac.edu.mx', 'LNI'),
+(1322130033, 'Samuel', 'Omar', 'Lara', 'Ruiz', '5534567766', 'samuel_1322130033@uptecamac.edu.mx', 'LNI'),
+(1322130034, 'Montserrat', 'Diana', 'Ramos', 'Paredes', '5545676655', 'montserrat_1322130034@uptecamac.edu.mx', 'LNI'),
+(1322130035, 'Iván', NULL, 'Escamilla', 'Rosales', '5556785544', 'ivan_1322130035@uptecamac.edu.mx', 'LNI'),
+(1322130036, 'Ximena', 'Mariana', 'Gómez', 'Aguilar', '5567894433', 'ximena_1322130036@uptecamac.edu.mx', 'LNI'),
+(1322130037, 'Fernando', 'Diego', 'Carranza', 'López', '5578903322', 'fernando_1322130037@uptecamac.edu.mx', 'LNI'),
+(1322130038, 'Valentina', NULL, 'Chávez', 'Delgado', '5589012211', 'valentina_1322130038@uptecamac.edu.mx', 'LNI'),
+(1322130039, 'Cristian', 'Antonio', 'Ochoa', 'Maldonado', '5590121100', 'cristian_1322130039@uptecamac.edu.mx', 'LNI'),
+(1322130040, 'Paula', 'Estrella', 'Miranda', 'Navarro', '5501230099', 'paula_1322130040@uptecamac.edu.mx', 'LNI'),
 (1322134083, 'Jesus', 'Margarito', 'Santos', 'Garcia', '5547062133', 'jesus_1322134083@uptecamac.edu.mx', 'IS'),
 (1322134084, 'Luis', 'Antonio', 'Hernández', 'Pérez', '5547062144', 'luis_1322134084@uptecamac.edu.mx', 'IS'),
 (1322134085, 'Ana', 'María', 'López', 'Gómez', '5547062155', 'ana_1322134085@uptecamac.edu.mx', 'IS'),
@@ -436,7 +478,9 @@ INSERT INTO `proyecto` (`ProyectoID`, `Nombre`, `Funcion`) VALUES
 (3, 'SOGPEE', 'Estancias y estadias'),
 (4, 'Iris', 'Clones de su creador'),
 (5, 'Mar', 'Marrrrr'),
-(7, 'Gestion', 'Automatizar');
+(7, 'Gestion', 'Automatizar'),
+(8, 'Sistema Integrado de Gestión de Operaciones (SIGO)', 'optimizar y estandarizar procesos operativos a nivel globaL'),
+(16, 'Desarrollo de un Sistema de Control y Seguimiento ', 'Crear una plataforma web que permita a las empresas monitorear el avance de sus proyectos en tiempo real, facilitando la gestión de tareas, asignación de recursos y generación de reportes de progreso.');
 
 -- --------------------------------------------------------
 
@@ -459,7 +503,24 @@ INSERT INTO `proyectoasesores` (`Id`, `Id_asesorE`, `Id_asesorA`, `Id_proyecto`)
 (9, 21, 17, 3),
 (10, 47, 2, 4),
 (11, 38, 10, 5),
-(13, 38, 10, 7);
+(13, 38, 10, 7),
+(14, 17, 31, 8);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `valoracionesempresario`
+--
+
+CREATE TABLE `valoracionesempresario` (
+  `Id` int(11) NOT NULL,
+  `FechaValoracion` date DEFAULT NULL,
+  `Proyecto` varchar(100) DEFAULT NULL,
+  `Miembro` int(10) DEFAULT NULL,
+  `Empresa` int(11) DEFAULT NULL,
+  `GradoEstudios` varchar(50) DEFAULT NULL,
+  `AsesorEmpresarial` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Índices para tablas volcadas
@@ -557,6 +618,15 @@ ALTER TABLE `proyectoasesores`
   ADD KEY `Id_proyecto` (`Id_proyecto`);
 
 --
+-- Indices de la tabla `valoracionesempresario`
+--
+ALTER TABLE `valoracionesempresario`
+  ADD PRIMARY KEY (`Id`),
+  ADD KEY `AsesorEmpresarial` (`AsesorEmpresarial`),
+  ADD KEY `Empresa` (`Empresa`),
+  ADD KEY `Miembro` (`Miembro`);
+
+--
 -- AUTO_INCREMENT de las tablas volcadas
 --
 
@@ -606,7 +676,7 @@ ALTER TABLE `encuesta08`
 -- AUTO_INCREMENT de la tabla `equipos`
 --
 ALTER TABLE `equipos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=203;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
 
 --
 -- AUTO_INCREMENT de la tabla `formato03`
@@ -618,13 +688,19 @@ ALTER TABLE `formato03`
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `ProyectoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `ProyectoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `proyectoasesores`
 --
 ALTER TABLE `proyectoasesores`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+
+--
+-- AUTO_INCREMENT de la tabla `valoracionesempresario`
+--
+ALTER TABLE `valoracionesempresario`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- Restricciones para tablas volcadas
@@ -680,6 +756,14 @@ ALTER TABLE `proyectoasesores`
   ADD CONSTRAINT `proyectoasesores_ibfk_1` FOREIGN KEY (`Id_asesorA`) REFERENCES `asesoracademico` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `proyectoasesores_ibfk_2` FOREIGN KEY (`Id_asesorE`) REFERENCES `asesorempresarial` (`AsesorID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `proyectoasesores_ibfk_3` FOREIGN KEY (`Id_proyecto`) REFERENCES `proyecto` (`ProyectoID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `valoracionesempresario`
+--
+ALTER TABLE `valoracionesempresario`
+  ADD CONSTRAINT `valoracionesempresario_ibfk_1` FOREIGN KEY (`AsesorEmpresarial`) REFERENCES `asesorempresarial` (`AsesorID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `valoracionesempresario_ibfk_2` FOREIGN KEY (`Empresa`) REFERENCES `empresa` (`EmpresaID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `valoracionesempresario_ibfk_3` FOREIGN KEY (`Miembro`) REFERENCES `estudiante` (`Matricula`) ON DELETE CASCADE ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

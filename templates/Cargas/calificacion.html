@@ -13,14 +13,21 @@
         <div class="card">
             <h1>Alumno ya calificado</h1>
             <div class="icon"><img src="../static/img/hourglass.gif" alt="gifcorrect" id="gifc"></div>
-            <p>Realizar alguna corrección a la calificación?</p>
+                <p>¿Asignar la nueva calificación seleccionada? ({{Calificacion}})</p>
             <div class="dobleForm">
                 <form method="post" action="/correccionSi" id="formulario">
                     <input type="hidden" name="matricula" value="{{matricula}}">
+                    <input type="hidden" name="Calificacion" value="{{Calificacion}}">
+                    <input type="hidden" name="profesor" value="{{profesor}}">
+                    <input type="hidden" name="telefono" value="{{telefono}}">
+                    <input type="hidden" name="correo" value="{{correo}}">
+                    <input type="hidden" name="parcial" value="{{parcial}}">
                     <button>Si</button>
                 </form>
                 <form action="/correccionNo" method="post">
-                    
+                    <input type="hidden" name="profesor" value="{{profesor}}">
+                    <input type="hidden" name="telefono" value="{{telefono}}">
+                    <input type="hidden" name="correo" value="{{correo}}">
                     <button id="No">No</button>
                 </form>
             </div>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expediente Viewer</title>
+    
+    <link rel="stylesheet" type="text/css" href="{{url_for('static', filename='css/abrirExpediente.css')}}">
+
+</head>
+<body>
+    <!-- Header -->
+    <header class="container-fluid d-flex justify-content-center bg-white p-2">
+        <a href="/" class="logo-upt">
+            <img src="../static/img/logo_upt.png" alt="Logo UPT" height="80">
+        </a> 
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Document Preview -->
+        <div class="document-preview">
+            <img src="{{imagen}}" alt="No hay archivo">
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="action-buttons">
+            <form action="/descargarPdf" method="post">
+                <input type="hidden" name="proyecto" value="{{proyecto}}">
+                <input type="hidden" name="parcial" value="{{parcial}}">
+                <button class="button button-print">Descargar</button>
+
+            </form>
+            <form action="/calificarExpediente" method="post">
+                <button class="button button-grade">Calificar</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

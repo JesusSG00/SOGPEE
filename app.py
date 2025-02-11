@@ -12,14 +12,6 @@ app = Flask(__name__)
 def index():
     limpiar_temp()
     return render_template('index.html')
-
-@app.route('/evaluacionEstudiante', methods=['GET'])
-def evaluacionEstudiante():
-    return render_template('/perfiles/evaluacionEstudiante.html')
-
-
-
-
 #Formulario de login del estudiante
 @app.route('/loginEstudiante2')
 def loginEstudiante2():
@@ -78,68 +70,9 @@ def evaluacionEmpresa():
     return render_template('evaluacion_empresa.html')
 
 
-#Editar el perfil del estudiante juasjuas
-@app.route('/editarEstudiante', methods=['GET', 'POST'])
-def editarEstudiante():
-    return render_template('perfiles/EditarEstudiante/editarEstudiante.html')
-    # try:
-    #     query = text("SELECT Matricula, Nombre1, Nombre2, ApellidoP, ApellidoM, Telefono, Correo FROM estudiante WHERE Matricula = :matricula")
-    #     with engine.connect() as conn:
-    #         estudiante = conn.execute(query, {'matricula': matricula}).fetchone()
-    #         if estudiante:
-    #             return render_template(
-    #                 'perfiles/EditarEstudiante/editarEstudiante.html',
-    #                 Matricula=estudiante[0],
-    #                 Nombre1=estudiante[1],
-    #                 Nombre2=estudiante[2],
-    #                 ApellidoP=estudiante[3],
-    #                 ApellidoM=estudiante[4],
-    #                 Telefono=estudiante[5],
-    #                 Correo=estudiante[6]
-    #             )
-    #         else:
-    #             # Mensaje de error al usuario
-    #             return 'Estudiante no encontrado', 404
-    # except Exception as e:
-    #     # Mensaje de error al usuario
-    #     return f'Error: {e}', 500
 
 
-#Actualizar el perfil del estudiante
-@app.route('/ActualizarEstudiante', methods=['POST'])
-def actualizar_estudiante():
-    try:
-        data = {
-            'matricula': request.form['matricula'],
-            'nombre': request.form['nombre'],
-            'apellidos': request.form['apellidos'],
-            'telefono': request.form['telefono'],
-            'correo': request.form['correo']
-        }
-        nombres = data['nombre'].split()
-        apellidos = data['apellidos'].split()
-        
-        query = text("""
-            UPDATE estudiante 
-            SET Nombre1 = :nombre1, Nombre2 = :nombre2, ApellidoP = :apellidoP, ApellidoM = :apellidoM, 
-                Telefono = :telefono, Correo = :correo 
-            WHERE Matricula = :matricula
-        """)
-        with engine.connect() as conn:
-            conn.execute(query, {
-                'nombre1': nombres[0],
-                'nombre2': nombres[1] if len(nombres) > 1 else '',
-                'apellidoP': apellidos[0],
-                'apellidoM': apellidos[1] if len(apellidos) > 1 else '',
-                'telefono': data['telefono'],
-                'correo': data['correo'],
-                'matricula': data['matricula']
-            })
-            Flask('Datos actualizados exitosamente.', 'success')
-            return (url_for('editar_estudiante', matricula=data['matricula']))
-    except Exception as e:
-        Flask(f'Error al actualizar los datos: {e}', 'danger')
-        return ('/')
+
 
 
 #Validacion del login de coordinacion
@@ -156,7 +89,6 @@ def logincoordinacion2():
     password = request.form['password']
     resultado = inicioSesionCoordinacion2(correo,password)#Llamada a la funcion de inicio de sesion que nos reedirige a la pagina de principal del coordinador
     return resultado
-
 #Funcion para guardar los datos del formulario de registro de proyecto, equipos etc
 @app.route('/guardartodo',methods=['POST'])
 def guardartodo():
@@ -175,7 +107,7 @@ def guardartodo():
         if ok != True: #Si hay un error se redirige a la pagina de error
             return render_template('Error/Error.html',ID=ok) #Se redirige a la pagina de error con el ID del proyecto para identifcar el proyecto y se borre
         return render_template('Cargas/cargaEquipo.html') #Pagina de carga de error
-    elif numero == '2': #Se ejecuta si el equipo tiene 2 integrantes
+    if numero == '2': #Se ejecuta si el equipo tiene 2 integrantes
             matricula = request.form['estudiante-0-campo1']
             matricula2 = request.form['estudiante-1-campo1']
             agregarproyectos(titulo,funcion)
@@ -226,7 +158,6 @@ def guardartodo():
         if ok != True:
             return render_template('Error/Error.html',ID=ok)
         return render_template('Cargas/cargaEquipo.html')
-    
 #Funcion para subir los documentos del estudiante
 @app.route('/enviarDocumentos', methods=['POST'])
 def enviarDocumentos():
@@ -319,16 +250,21 @@ def AbrirExpediente():
     partes = nombre_completo.split()
     nombre1,nombre2,apellidop,apellidom = partes
     resultado = cargarProyectosAsesor(ID)
-    return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',Nombre1 = nombre1,Nombre2 = nombre2,ApellidoP = apellidop,ApellidoM = apellidom,Telefono = telefono,Correo = correo,resultado = resultado)
+    return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',Nombre1 = nombre1,Nombre2 = nombre2,ApellidoP = apellidop,ApellidoM = apellidom,Telefono = telefono,Correo = correo,resultado = resultado,ID = ID)
 
 @app.route('/verArchivo',methods=['POST'])
 def abrirExpediente():
-    parcial = request.form['parcialB']
+    proyecto = request.form['proyecto']   
+    return render_template('perfiles/AsesorAcademico/abrirExpediente.html',proyecto = proyecto)
+
+@app.route('/abrirExpediente-parcial',methods=['POST'])
+def abrirExpediente_parcial():
     proyecto = request.form['proyecto']
+    parcial = request.form['parcial']
     ruta = obtenerRutaPDF(proyecto,parcial)    
     imagen = visualizarPDF(ruta)
    
-    return render_template('perfiles/AsesorAcademico/abrirExpediente.html',parcial = parcial,proyecto = proyecto,imagen = imagen)
+    return render_template('perfiles/AsesorAcademico/abrirExpediente-parcial.html',proyecto = proyecto,imagen = imagen)
 
 @app.route('/calificarExpediente',methods=['POST'])
 def calificarExpediente():
@@ -338,6 +274,7 @@ def calificarExpediente():
     proyecto = request.form['proyectoC']
     ID = IDproyecto(proyecto)
     estudiantes = obtenerMatricula(ID)
+    
     return render_template('perfiles/AsesorAcademico/calificar_expediente.html',nombre = nombre,telefono = telefono,correo = correo,proyecto= proyecto,estudiantes=estudiantes)
 
 
@@ -392,12 +329,6 @@ def EvEmpresasiguiente():
             return render_template('Cuestionarios/evaluacion_empresa.html')
         elif carrera == "IMA":
             return render_template('Cuestionarios/cuestionario_salida_IMA.html')
-        elif carrera == "IF":
-            return render_template('Cuestionarios/cuestionario_salida_IF.html')
-        elif carrera == "ITM":
-            return render_template('Cuestionarios/cuestionario_salida_ITM.html')
-        elif carrera == "LNI":
-            return render_template('Cuestionarios/cuestionario_salida_LNI.html')
 
 def inicioSesionCoordinacion(correo,password):
     try:
@@ -663,16 +594,20 @@ def promedio(question11,question12,question13,question14,question15,question16,q
 @app.route('/calificarProyectoU1',methods=['POST'])
 def calificarProyectoU1():
     Matricula = request.form['matricula']
+    Profesor = request.form['profesor']
+    telefono = request.form['telefono']
+    correo = request.form['correo']
     validado = validarCalificado(Matricula)
+    Antecedentes = int(request.form['Antecedentes'])
+    Planteamiento = int(request.form['Planteamiento'])
+    Justificacion = int(request.form['Justificacion'])
+    Objetivo = int(request.form['Objetivo'])
+    ObjetivoEspecifico = int(request.form['ObjetivoEspecifico'])
+    parcial = "Parcial 1"
+    Calificacion = (Antecedentes+Planteamiento+Justificacion+Objetivo+ObjetivoEspecifico)/5
     if validado:
-        return render_template('cargas/calificacion.html',matricula = Matricula)
+        return render_template('cargas/calificacion.html',matricula = Matricula,Calificacion = Calificacion,profesor = Profesor,parcial = parcial,telefono = telefono,correo = correo)
     else:
-        Antecedentes = int(request.form['Antecedentes'])
-        Planteamiento = int(request.form['Planteamiento'])
-        Justificacion = int(request.form['Justificacion'])
-        Objetivo = int(request.form['Objetivo'])
-        ObjetivoEspecifico = int(request.form['ObjetivoEspecifico'])
-        Calificacion = (Antecedentes+Planteamiento+Justificacion+Objetivo+ObjetivoEspecifico)/5
         calificado = calificar(Matricula,Calificacion)
         if calificado:
             return render_template('Cargas/calificacionAsignada.html')
@@ -1138,3 +1073,36 @@ WHERE p.Nombre = :nombreP;""")
         rows = ok.fetchall()  
         return rows if rows else []
         
+
+
+@app.route('/correccionSi',methods=['POST'])
+def correccion():
+    calificacionN = request.form['Calificacion']
+    alumno = request.form['matricula']
+    parcial = request.form['parcial']
+    profesor = request.form['profesor']
+    telefono = request.form['telefono']
+    correo = request.form['correo']
+    correccion = correccionSi(calificacionN,alumno,parcial)
+    if correccion:
+        return render_template('Cargas/corregido.html',Calificacion = calificacionN,profesor = profesor,telefono = telefono, correo = correo)
+    else:
+        return f'no se pudo corregir {calificacionN}'
+
+
+def correccionSi(calificacionN,alumno,parcial):
+    query = text("UPDATE calificacionproyecto SET Calificacion = :calificacionN WHERE Alumno = :alumno AND Parcial=:parcial")
+    try:
+        with engine.connect() as conn:
+            with conn.begin():
+                conn.execute(query,{"calificacionN":calificacionN,"alumno":alumno,"parcial":parcial})    
+            return True
+    except Exception as e:
+        return False
+
+@app.route('/reedireccionmenu',methods=['POST'])
+def redireccion():
+    parcial = request.form['parcial']
+    profesor = request.form['profesor']
+    telefono = request.form['telefono']
+    return render_template()

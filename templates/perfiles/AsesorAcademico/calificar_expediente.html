@@ -57,6 +57,9 @@
         
         <!-- Tabla de evaluación Parcial 1 -->
         <form action="/calificarProyectoU1" method="post">
+            <input type="hidden" id="profesor" name="profesor" value="{{nombre}}">
+            <input type="hidden" id="telefono" name="telefono" value="{{telefono}}">
+            <input type="hidden" id="correo" name="correo" value="{{correo}}">
             <input type="hidden" id="matricula" name="matricula" value="">
             <div id="evaluation-container-1" class="evaluation-container">
                 <table class="evaluation-table">
@@ -143,6 +146,9 @@
             </div>
         </form>
         <form action="/calificarProyectoU2" method="post">
+            <input type="hidden" id="profesorr" name="profesorr" value="{{nombre}}">
+            <input type="hidden" id="telefono2" name="telefono2" value="{{telefono}}">
+            <input type="hidden" id="correo2" name="correo2" value="{{correo}}">
         <input type="hidden" id="matriculau2" name="matriculau2" value="">
 
             <!-- Tabla de evaluación Parcial 2 -->
@@ -218,6 +224,9 @@
 
         </form>
         <form action="/calificarProyectoU3" method="post">
+        <input type="hidden" id="profesorrr" name="profesorrr" value="{{nombre}}">
+        <input type="hidden" id="telefono3" name="telefono3" value="{{telefono}}">
+        <input type="hidden" id="correo3" name="correo3" value="{{correo}}">
         <input type="hidden" id="matriculau3" name="matriculau3" value="">
 
             <!-- Tabla de evaluación Parcial 3 -->

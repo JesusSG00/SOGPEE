@@ -3,7 +3,8 @@ body{
 }
 
 .carousel-inner{
-    max-height: 25rem;
+    max-height: 20rem;
+    max-width: 100%;
 }
 
 h1,h3{

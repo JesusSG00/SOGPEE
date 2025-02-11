@@ -25,15 +25,19 @@
 
         <!-- Action Buttons -->
         <div class="action-buttons">
-            <form action="/descargarPdf" method="post">
+            <form action="/abrirExpediente-parcial" method="post">
+                <label for="parcial">
+                    <select name="parcial" id="parcial">
+                        <option value="Parcial">Parcial 1</option>
+                        <option value="Parcial2">Parcial 2</option>
+                        <option value="Parcial3">Parcial 3</option>
+                    </select><br>
+                </label>
                 <input type="hidden" name="proyecto" value="{{proyecto}}">
-                <input type="hidden" name="parcial" value="{{parcial}}">
-                <button class="button button-print">Descargar</button>
+                <button class="button button-print">Abrir</button>
 
             </form>
-            <form action="/calificarExpediente" method="post">
-                <button class="button button-grade">Calificar</button>
-            </form>
+           
         </div>
     </main>
 </body>

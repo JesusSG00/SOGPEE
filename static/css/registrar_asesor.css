@@ -84,6 +84,7 @@ input:focus, select:focus {
 button.submit {
     background-color: #27ae60;
     padding: 12px 25px;
+    width: 100%;
     border: none;
     border-radius: 6px;
     color: white;
@@ -97,4 +98,5 @@ button.submit {
 
 button.submit:hover {
     background-color: #219150;
+    height: 100%;
 }

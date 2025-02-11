@@ -4,82 +4,257 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulario UPT</title>
-     <!-- Bootstrap CSS v5.2.1 -->
-     <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-        crossorigin="anonymous"
-    />
 
-    <!-- Style CSS -->
-    <link rel="stylesheet" href="{{
-        url_for('static',
-        filename='css/style.css')
-    }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/perfil_coordinacion.css') }}">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+
+    <style>
+        /* Estilos del menú lateral */
+        .user-info-container {
+            position: fixed;
+            top: 0;
+            left: -260px;
+            width: 260px;
+            height: 100%;
+            background: #343a40;
+            color: white;
+            padding: 20px;
+            box-shadow: 3px 0 10px rgba(0, 0, 0, 0.2);
+            transition: left 0.3s ease-in-out;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .user-info-container p {
+            margin: 0;
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .user-info-container .name {
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        /* Área invisible en el borde izquierdo para activar el menú */
+        .user-info-hover-area {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 100%;
+            z-index: 999;
+        }
+
+        /* Botón flotante para abrir/cerrar el menú */
+        .toggle-btn {
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            z-index: 1000;
+            font-size: 18px;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .toggle-btn:hover {
+            background: #0056b3;
+        }
+
+        /* Header con logo centrado */
+        .header-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 15px;
+            background: white;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-container img {
+            height: 150px;
+        }
+
+        /* Nuevo contenedor para el nombre, debajo del header */
+        .name-container {
+            position: absolute;
+            top: 80px; /* Ajusta según el tamaño de tu header */
+            left: 20px;
+            font-size: 18px;
+            color: #343a40;
+            font-weight: bold;
+        }
+
+        /* Contenedor principal */
+        .container {
+            margin-top: 40px;
+            max-width: 100%;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Iconos de acción */
+        .icon-btn {
+            font-size: 30px;
+            color: #007bff;
+            margin: 10px;
+            cursor: pointer;
+            transition: 0.2s ease-in-out;
+        }
+
+        .icon-btn:hover {
+            color: #0056b3;
+        }
+
+        .featured-block {
+            text-align: center;
+            transition: all 0.5s ease;
+            min-height: 256px;
+            padding: 15px;
+        }
+
+        .featured-block:hover {
+            background: var(--white-color);
+            border-radius: var(--border-radius-medium);
+            box-shadow: 0 1rem 3rem rgba(0, 0, 0, .175);
+        }
+
+        .featured-block:hover .featured-block-image {
+            transform: scale(0.75);
+        }
+
+        .featured-block-image {
+            display: block;
+            margin: auto;
+            transition: all 0.5s;
+        }
+
+        .featured-block:hover .featured-block-text {
+            margin-top: 0;
+        }
+
+        .featured-block-text {
+            color: var(--primary-color);
+            font-size: var(--h5-font-size);
+            margin-top: 20px;
+            transition: all 0.5s;
+        }
+    </style>
 </head>
 <body>
 
-    <header class="container-fluid d-flex justify-content-center bg-white p-2">
-        <a href="/" class="logo-upt">
-            <img src="../static/img/logo_upt.png" alt="Logo UPT" height="80">
-        </a> 
+
+    <!-- Menú de usuario -->
+    <div class="user-info-container" id="userInfo">
+        <p class="name">{{nombre}} {{nombre2}} {{apellidoP}} {{apellidoM}}</p>
+        <p class="mb-0 text-light">{{correo}}</p>
+    </div>
+
+    <!-- Header con logo centrado -->
+    <header class="header-container">
+        <img src="../static/img/logo_upt.png" alt="Logo UPT">
     </header>
 
-    <div class="container">
-        <div class="form-container">
-            <!-- Columna izquierda -->
-            <div class="left-column">
-                <div class="form-group">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" value="{{nombre}} {{nombre2}} {{apellidoP}} {{apellidoM}}" disabled>
-                </div>
-                <div class="form-group">
-                    <label for="correo">Correo:</label>
-                    <input type="email" id="correo" name="correo" value="{{correo}}" disabled>
+    <!-- Nombre debajo del encabezado -->
+    <div class="name-container">
+        <p>{{nombre}} {{nombre2}} {{apellidoP}} {{apellidoM}}</p>
+        <p> {{correo}}</p>
+    </div>
+
+    <section class="section-padding m-5">
+
+        <div class="container">
+            <div class="row justify-content-center text-center">
+                <div class="col-12 mb-5">
+                    <h1>ELIGE UN MÓDULO</h1>
                 </div>
             </div>
-
-            <!-- Divisor vertical -->
-            <div class="divider"></div>
-
-            <!-- Columna derecha -->
-            <div class="right-column">
-                <div class="form-group">
-                    <label for="parcial">Alta de académico:</label>
-                    <!-- Botón para redirigir -->
-                     <form action="/registrarAsesor" method="post">
-                        <button class="btn btn-registrar" onclick="window.location.href='registrarAsesor'">Registrar</button>
-                     </form>
-                    
+    
+            <div class="row justify-content-center">
+                <div class="col-lg-3 col-md-6 col-12 mb-4">
+                    <div class="featured-block d-flex flex-column justify-content-center align-items-center text-center p-3 ">
+                        <form action="/registrarAsesor" method="post">
+                            <button type="submit" class="d-block">
+                                <img src="../static/img/graduado(1).png" class="featured-block-image img-fluid mb-3" alt="ESTUDIANTE">
+                                <p class="featured-block-text">AGREGAR ASESOR</p>
+                            </button>
+                        </form>
+                        <!-- <a href="" class="d-block">
+                            <img src="../static/img/graduado(1).png" class="featured-block-image img-fluid mb-3" alt="ESTUDIANTE">
+                            <p class="featured-block-text">AGREGAR ASESOR</p>
+                        </a> -->
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="titulo">Modificar periodo</label>
-                    <form action="" method="post">
-                        <button class="btn btn-modificar">Modificar</button>
-                    </form>
+                <div class="col-lg-3 col-md-6 col-12 mb-4">
+                    <div class="featured-block d-flex flex-column justify-content-center align-items-center text-center p-3 ">
+                        <a href="" class="d-block">
+                            <img src="../static/img/empleado.png" class="featured-block-image img-fluid mb-3" alt="COORDINACIÓN">
+                            <p class="featured-block-text">AGREGAR PROYECTO</p>
+                        </a>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="titulo">Agregar proyecto</label>
-                    <form action="/agregar" method="post">
-                        <button class="btn btn-agregar">Agregar</button>
-                    </form>
+                <div class="col-lg-3 col-md-6 col-12 mb-4">
+                    <div class="featured-block d-flex flex-column justify-content-center align-items-center text-center p-3 ">
+                        <form action="/agregar" method="post">
+                            <button type="submit" class="d-block">
+                                <img src="../static/img/graduado(1).png" class="featured-block-image img-fluid mb-3" alt="MODIFICAR PERIODO">
+                                <p class="featured-block-text">MODIFICAR PERIODO</p>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <script
-        src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-        crossorigin="anonymous"
-    ></script>
-
-    <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
-        crossorigin="anonymous"
-    ></script>
     
+    </section>
+
+    <!-- Scripts de Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQ+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous"></script>
+
+    <!-- Script para manejar la visibilidad del panel -->
+    <script>
+        let isManualToggle = false;
+
+        function showUserInfo() {
+            if (!isManualToggle) {
+                document.getElementById('userInfo').style.left = '0px';
+            }
+        }
+
+        function hideUserInfo() {
+            if (!isManualToggle) {
+                document.getElementById('userInfo').style.left = '-260px';
+            }
+        }
+
+        function toggleUserInfo() {
+            const userInfo = document.getElementById('userInfo');
+            if (userInfo.style.left === '0px') {
+                userInfo.style.left = '-260px';
+                isManualToggle = false;
+            } else {
+                userInfo.style.left = '0px';
+                isManualToggle = true;
+            }
+        }
+    </script>
+
 </body>
 </html>

@@ -265,6 +265,12 @@ def agregar():
     asesorAcademico = cargarAsesorAcademico()
     return render_template('/Agregar.html',cargar = opcion, asesorAcademic = asesorAcademico)
 
+@app.route('/agregar2')
+def agregar2():
+    
+    return render_template('/Agregar0.5.html')
+
+
 @app.route('/asignarEquipo',methods=['POST'])
 def asignarEquipo():
     opcion = cargarAsesorEmp()

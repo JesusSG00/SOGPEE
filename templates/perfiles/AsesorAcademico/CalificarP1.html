@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisar</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/calificar_expediente.css') }}">
+</head>
+<body>
+    <header class="container-fluid d-flex justify-content-center bg-white p-2">
+        <a href="/" class="logo-upt">
+            <img src="../static/img/logo_upt.png" alt="Logo UPT" height="80">
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="form-container">
+           
+
+         
+
+            <!-- Columna derecha -->
+            <div class="right-column">
+                <div class="form-group">
+                    <h1>Calificar Expediente del proyecto {{proyecto}}</h1>
+                    <label for="parcial">{{numero}}</label>
+                    <input type="hidden" id="parcial" name="parcial" value="{{numero}}">
+
+                    <label for="estudiante">Nombre del estudiante:</label>
+                    <select id="estudiante" name="estudiante">
+                        <option value="">Seleccionar Alumno</option>
+                        {{estudiantes | safe}}
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+      
+        <form action="/calificarProyectoU1" method="post">
+            <input type="hidden" id="profesor" name="profesor" value="{{nombre}}">
+            <input type="hidden" id="telefono" name="telefono" value="{{telefono}}">
+            <input type="hidden" id="correo" name="correo" value="{{correo}}">
+            <input type="hidden" id="matricula" name="matricula" value="">
+            <div id="evaluation-container-1" class="evaluation-container">
+                <table class="evaluation-table">
+                    <thead>
+                        <tr>
+                            <th>Apartado</th>
+                            <th>Calificación (5-10)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Antecedentes</td>
+                            <td>
+                                <select name="Antecedentes" id="Antecedentes" required>
+                                    <option value="">Seleccionar</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Planteamiento del Problema</td>
+                            <td>
+                                <select name="Planteamiento" id="Planteamiento" required>
+                                    <option value="">Seleccionar</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Justificación</td>
+                            <td>
+                                <select name="Justificacion" id="Justificacion" required>
+                                    <option value="">Seleccionar</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Objetivo General</td>
+                            <td>
+                                <select name="Objetivo" id="Objetivo" required>
+                                    <option value="">Seleccionar</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Objetivos Específicos</td>
+                            <td>
+                                <select name="ObjetivoEspecifico" id="ObjetivoEspecifico" required>
+                                    <option value="">Seleccionar</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table><br>
+                <button>Calificar</button>
+            </div>
+        </form>
+        
+        
+
+
+    <script>
+
+
+    const selectElement = document.getElementById('estudiante');
+    const resultadoSpan = document.getElementById('matricula');
+    const resultadoSpanu2 = document.getElementById('matriculau2');
+    const resultadoSpanu3 = document.getElementById('matriculau3');
+    
+
+    selectElement.addEventListener('change', function() {
+    const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpan.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
+    const textoSeleccionadou2 = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanu2.value = textoSeleccionadou2 !== "--Selecciona una opción--" ? textoSeleccionadou2 : "Ninguno";
+    const textoSeleccionadou3 = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanu3.value = textoSeleccionadou3 !== "--Selecciona una opción--" ? textoSeleccionadou3 : "Ninguno";
+        });
+    </script>
+</body>
+</html>

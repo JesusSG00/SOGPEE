@@ -71,7 +71,7 @@ body {
 
         /* Estilos para las tablas de evaluación */
         .evaluation-container {
-            display: none;
+           
             margin-top: 20px;
         }
 
@@ -109,4 +109,5 @@ body {
             cursor: pointer;
             border-radius: 4px;
             transition: background-color 0.3s;
+            width: 100%;
         }

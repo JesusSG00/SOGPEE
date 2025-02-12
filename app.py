@@ -16,14 +16,26 @@ def index():
 @app.route('/loginEstudiante2')
 def loginEstudiante2():
     return render_template('/login/loginEstudiante2.html')
+
+@app.route('/loginEstudiante3',methods=['POST'])
+def loginEstudiante3():
+    return render_template('/login/loginEstudiante2.html')
 #Formulario de login del asesor academico
 @app.route('/loginAsesorAcademico2')
 def loginAsesorAcademico2():
+    return render_template('/login/loginAsesorAcademico2.html')
+@app.route('/loginAsesorAcademico3',methods=['POST'])
+def loginAsesorAcademico3():
     return render_template('/login/loginAsesorAcademico2.html')
 #Formulario de login del coordinador
 @app.route('/loginCoordinacion2')
 def loginCoordinacion2():
     return render_template('login/loginCoordinacion2.html')
+
+@app.route('/loginCoordinacion3',methods=['POST'])
+def loginCoordinacion3():
+    return render_template('login/loginCoordinacion2.html')
+
 #Formulario de login del coordinador alternativo para uso de otra pagina
 @app.route('/loginCoordinacionv2')
 def loginCoordinacionv2():
@@ -316,7 +328,7 @@ def inicioSesionEstudiante(matricula,correo):
                 validar = verificarAsignacionProyecto(matricula)
                 return render_template('/perfiles/evaluacionEstudiante.html',Matricula=Matricula,Nombre1=Nombre1,Nombre2=Nombre2,ApellidoM=ApellidoM,ApellidoP=ApellidoP,Telefono=Telefono,Correo=Correo,proyecto = proyecto,asesor=asesor,validar= validar)
             else:
-                return 'no encontado'
+                return render_template('Error/EstudianteNoEncontrado.html')
     except Exception as e:
             return f'error {e}'
 
@@ -342,11 +354,11 @@ def inicioSesionCoordinacion(correo,password):
                 apellidoM=ok[3]
                 return render_template('/perfil_coordinacion.html',nombre = nombre,nombre2 = nombre2,apellidoP=apellidoP,apellidoM=apellidoM,correo=correo)
             else:
-                return 'no encontado'
+                return render_template('Error/CoordinacionNoEncontrado.html')
     except Exception as e:
             return f'{e}'
     
-#hola
+
 def inicioSesionCoordinacion2(correo,password):
     opcion = cargarAsesorEmp()
     asesorAcademico = cargarAsesorAcademico()
@@ -357,7 +369,7 @@ def inicioSesionCoordinacion2(correo,password):
             if ok:
                 return render_template('/Agregar.html',cargar = opcion, asesorAcademic = asesorAcademico)
             else:
-                return 'no encontado'
+                return render_template('Error/CoordinacionNoEncontrado.html')
     except Exception as e:
             return f'{e}'
 
@@ -762,7 +774,7 @@ def inicioSesionAsesorA(correo,password):
                 ID = ok[6]
                 return render_template('/perfiles/AsesorAcademico/asesor.html',Nombre1=Nombre1,Nombre2=Nombre2,ApellidoM=ApellidoM,ApellidoP=ApellidoP,Telefono=Telefono,Correo=Correo,ID = ID)
             else:
-                return 'no encontado'
+                return render_template('Error/AsesorNoEncontrado.html')
     except Exception as e:
             return f'error {e}'
 

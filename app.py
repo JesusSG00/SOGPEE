@@ -24,6 +24,9 @@ def loginEstudiante3():
 @app.route('/loginAsesorAcademico2')
 def loginAsesorAcademico2():
     return render_template('/login/loginAsesorAcademico2.html')
+@app.route('/loginAsesorAcademico3',methods=['POST'])
+def loginAsesorAcademico3():
+    return render_template('/login/loginAsesorAcademico2.html')
 #Formulario de login del coordinador
 @app.route('/loginCoordinacion2')
 def loginCoordinacion2():
@@ -771,7 +774,7 @@ def inicioSesionAsesorA(correo,password):
                 ID = ok[6]
                 return render_template('/perfiles/AsesorAcademico/asesor.html',Nombre1=Nombre1,Nombre2=Nombre2,ApellidoM=ApellidoM,ApellidoP=ApellidoP,Telefono=Telefono,Correo=Correo,ID = ID)
             else:
-                return 'no encontado'
+                return render_template('Error/AsesorNoEncontrado.html')
     except Exception as e:
             return f'error {e}'
 

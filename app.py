@@ -2,7 +2,7 @@ from flask import Flask,render_template,request, url_for,send_file
 from werkzeug.utils import secure_filename
 from sqlalchemy import text
 from conexion import engine
-import os,fitz
+import os,fitz,re
 from PIL import Image
 from pathlib import Path
 
@@ -266,8 +266,9 @@ def AbrirExpediente():
 
 @app.route('/verArchivo',methods=['POST'])
 def abrirExpediente():
-    proyecto = request.form['proyecto']   
-    return render_template('perfiles/AsesorAcademico/abrirExpediente.html',proyecto = proyecto)
+    proyecto = request.form['proyecto']
+    nombre = request.form['nombre']   
+    return render_template('perfiles/AsesorAcademico/abrirExpediente.html',proyecto = proyecto,nombre = nombre)
 
 @app.route('/abrirExpediente-parcial',methods=['POST'])
 def abrirExpediente_parcial():
@@ -275,8 +276,26 @@ def abrirExpediente_parcial():
     parcial = request.form['parcial']
     ruta = obtenerRutaPDF(proyecto,parcial)    
     imagen = visualizarPDF(ruta)
-   
-    return render_template('perfiles/AsesorAcademico/abrirExpediente-parcial.html',proyecto = proyecto,imagen = imagen)
+    nombre = request.form['nombre']
+    return render_template('perfiles/AsesorAcademico/abrirExpediente-parcial.html',proyecto = proyecto,imagen = imagen,nombre = nombre,parcial= parcial)
+
+@app.route('/calificarExpedienteParcial',methods=['POST'])
+def abrirExpediente_parcials():
+    proyecto = request.form['proyecto']
+    parcial = request.form['parcial']
+    ID = IDproyecto(proyecto)
+    estudiantes = obtenerMatricula(ID)
+
+    texto = parcial
+    nuevo_texto = re.sub(r'(\D)(\d)', r'\1 \2', texto)
+    if nuevo_texto == "Parcial 1":
+        return render_template('perfiles/AsesorAcademico/CalificarP1.html',proyecto = proyecto,numero= nuevo_texto,estudiantes = estudiantes)
+    elif nuevo_texto == "Parcial 2":
+        return render_template('perfiles/AsesorAcademico/CalificarP2.html',proyecto = proyecto,numero= nuevo_texto,estudiantes = estudiantes)
+    else:
+        return render_template('perfiles/AsesorAcademico/CalificarP3.html',proyecto = proyecto,numero= nuevo_texto,estudiantes = estudiantes)
+
+        
 
 @app.route('/calificarExpediente',methods=['POST'])
 def calificarExpediente():

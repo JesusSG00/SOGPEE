@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Carga</title>
+    <link rel="stylesheet" href="{{
+        url_for('static',
+        filename='css/carga.css')}}">
+        <script>
+            window.onload = function() {
+                setTimeout(function() {
+                    document.getElementById('formulario').submit();
+                }, 5000); 
+            };
+        </script>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Error</h1>
+            <div class="icon"><img src="../static/img/hourglass.gif" alt="gifcorrect" id="gifc"></div>
+            <p>No hay un archivo cargado del proyecto</p>
+            <p>Redireccionando...</p>
+            <form method="post" action="/AbrirExpediente" id="formulario">
+                <input type="hidden" name="ID" id="ID" value="{{ID}}">
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+

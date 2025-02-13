@@ -32,24 +32,7 @@
 
     <div class="container">
         <div class="form-container">
-            <!-- Columna izquierda -->
-            <div class="left-column">
-                <div class="form-group">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" value="{{Nombre1}} {{Nombre2}} {{ApellidoP}} {{ApellidoM}}" disabled>
-                </div>
-                <div class="form-group">
-                    <label for="telefono">Teléfono:</label>
-                    <input type="tel" id="telefono" name="telefono" value="{{Telefono}}" disabled>
-                </div>
-                <div class="form-group">
-                    <label for="correo">Correo:</label>
-                    <input type="email" id="correo" name="correo" value="{{Correo}}" disabled>
-                </div>
-            </div>
-
-            <!-- Divisor vertical -->
-            <div class="divider"></div>
+          
 
             <!-- Columna derecha -->
             <div class="right-column">
@@ -57,22 +40,44 @@
                 <h1>Revisar expediente</h1>
                     <label for="titulo">Nombre del proyecto:</label>
                     <select id="titulo" name="titulo" required>
-                        <option value="0">Seleccionar Proyecto</option>
+                        <option value="0">Seleccionar un proyecto</option>
                         {{resultado | safe}}
                     </select>
                     <div class="contenedorBotones">
-                        <form action="/verArchivo" method="post">
+                        
+                    
+                    <body>
+                        <div class="dropdown">
                             <button class="btn btn-evaluar">Ver archivo</button>
-                            <input type="hidden" id="nombre" name="nombre" value="{{Nombre1}} {{Nombre2}} {{ApellidoP}} {{ApellidoM}}">
-                            <input type="hidden" name="proyecto" id="proyecto" value="">
-                            <input type="hidden" name="parcialB" id="parcialB" value="">
-                        </form>
+                            <div class="dropdown-content">
+                                <form action="/verArchivo" method="POST">
+                                    <input type="hidden" name="parcial" value="Parcial 1">
+                                    <input type="hidden" name="proyecto" id="proyecto" value="">
+                                    <input type="hidden" name="ID" id="ID" value="{{ID}}">
+                                    <button type="submit" id="botonParciales">Parcial 1</button>
+                                </form>
+                                <form action="/verArchivo" method="POST">
+                                    <input type="hidden" name="parcial" value="Parcial 2">
+                                    <input type="hidden" name="proyecto" id="proyectoP2" value="">
+                                    <input type="hidden" name="ID" id="ID" value="{{ID}}">
+                                    <button type="submit" id="botonParciales">Parcial 2</button>
+                                </form>
+                                <form action="/verArchivo" method="POST">
+                                    <input type="hidden" name="parcial" value="Parcial 3">
+                                    <input type="hidden" name="proyecto" id="proyectoP3" value="">
+                                    <input type="hidden" name="ID" id="ID" value="{{ID}}">
+                                    <button type="submit" id="botonParciales">Parcial 3</button>
+                                </form>
+                            </div>
+                        </div>
                         <form action="/calificarExpediente" method="post">
                             <button class="btn btn-calificar">Calificar expediente</button>
                             <input type="hidden" name="proyectoC" id="proyectoC" value="">
                             <input type="hidden" id="nombre" name="nombre" value="{{Nombre1}} {{Nombre2}} {{ApellidoP}} {{ApellidoM}}">
                             <input type="hidden" id="telefono" name="telefono" value="{{Telefono}}">
                             <input type="hidden" id="correo" name="correo" value="{{Correo}}">
+                            <input type="hidden" name="ID" id="ID" value="{{ID}}">
+
 
 
                         </form>
@@ -92,13 +97,24 @@
     const selectElement = document.getElementById('titulo');
     const resultadoSpan = document.getElementById('proyecto');
     const resultadoSpanC = document.getElementById('proyectoC');
+    const resultadoSpanP2 = document.getElementById('proyectoP2');
+    const resultadoSpanP3 = document.getElementById('proyectoP3');
     const selectElement2 = document.getElementById('parcial');
-    const resultadoSpan2 = document.getElementById('parcialB');
     
 
     selectElement.addEventListener('change', function() {
     const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
     resultadoSpan.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
+        });
+
+    selectElement.addEventListener('change', function() {
+    const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanP2.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
+        });
+
+    selectElement.addEventListener('change', function() {
+    const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanP3.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
         });
 
 

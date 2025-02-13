@@ -287,29 +287,30 @@ def loginAsesorAcademico():
 #Funcion para cargar la pagina de revisar expediente
 @app.route('/AbrirExpediente',methods=['POST'])
 def AbrirExpediente():
-    nombre_completo = request.form['nombre']
-    telefono = request.form['telefono']
-    correo = request.form['correo']
     ID = request.form['ID']
-    partes = nombre_completo.split()
-    nombre1,nombre2,apellidop,apellidom = partes
     resultado = cargarProyectosAsesor(ID)
-    return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',Nombre1 = nombre1,Nombre2 = nombre2,ApellidoP = apellidop,ApellidoM = apellidom,Telefono = telefono,Correo = correo,resultado = resultado,ID = ID)
+    return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID)
+
+
+@app.route('/reseleccionar',methods=['POST'])
+def reseleccion():
+    ID = request.form['ID']
+    resultado = cargarProyectosAsesor(ID)
+    return render_template('perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID)
 
 @app.route('/verArchivo',methods=['POST'])
 def abrirExpediente():
     proyecto = request.form['proyecto']
-    nombre = request.form['nombre']   
-    return render_template('perfiles/AsesorAcademico/abrirExpediente.html',proyecto = proyecto,nombre = nombre)
-
-@app.route('/abrirExpediente-parcial',methods=['POST'])
-def abrirExpediente_parcial():
-    proyecto = request.form['proyecto']
     parcial = request.form['parcial']
-    ruta = obtenerRutaPDF(proyecto,parcial)    
+    ID = request.form['ID']   
+    if proyecto =="" or proyecto =="0":
+        return render_template('Error/SeleccionInvalida2.html',ID = ID)
+    ruta = obtenerRutaPDF(proyecto,parcial)  
     imagen = visualizarPDF(ruta)
-    nombre = request.form['nombre']
-    return render_template('perfiles/AsesorAcademico/abrirExpediente-parcial.html',proyecto = proyecto,imagen = imagen,nombre = nombre,parcial= parcial)
+    if imagen ==False:
+        return render_template('Error/ArchivoNoEncontrado.html',ID = ID)
+    else:
+        return render_template('perfiles/AsesorAcademico/abrirExpediente-parcial.html',proyecto = proyecto,imagen = imagen,parcial= parcial,ID = ID)
 
 @app.route('/calificarExpedienteParcial',methods=['POST'])
 def abrirExpediente_parcials():
@@ -335,11 +336,15 @@ def calificarExpediente():
     telefono = request.form['telefono']
     correo = request.form['correo']
     proyecto = request.form['proyectoC']
-    ID = IDproyecto(proyecto)
-    estudiantes = obtenerMatricula(ID)
     
-    return render_template('perfiles/AsesorAcademico/calificar_expediente.html',nombre = nombre,telefono = telefono,correo = correo,proyecto= proyecto,estudiantes=estudiantes)
-
+    if proyecto =="" or proyecto =="0":
+        ID = request.form['ID']
+        return render_template('Error/SeleccionInvalida.html',ID = ID)
+    else:
+        ID = IDproyecto(proyecto)
+        estudiantes = obtenerMatricula(ID)
+        return render_template('perfiles/AsesorAcademico/calificar_expediente.html',nombre = nombre,telefono = telefono,correo = correo,proyecto= proyecto,estudiantes=estudiantes)
+   
 
 @app.route('/calificarSer',methods=['POST'])
 def calificarSer():
@@ -982,11 +987,9 @@ def visualizarPDF(ruta):
         # Cerrar el documento PDF
         pdf_document.close()
         
-        # Retornar la URL relativa de la imagen y ningún error
         return url_for('static', filename=f"temp/{image_filename}")
     except Exception as e:
-        # Retornar None como URL y el mensaje de error
-        return None, str(e)
+        return False
 
 
 

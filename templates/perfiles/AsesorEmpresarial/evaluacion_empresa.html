@@ -11,9 +11,15 @@
     <form action="/EvEmpresasiguiente" method="post">
         <div class="container">
             <div class="header">
-                <h1>Formulario de Evaluación de Proyecto</h1>
+                <h1>FO-EST- 07 CUESTIONARIO DE SALIDA ESTANCIAS / ESTADÍA</h1>
             </div>
-    
+            
+            <div class="codigo">
+                <p>Código: FO-EST-07</p>
+                <p>Edición: 6</p>
+                <p>Fecha: 31/08/2022 </p>
+            </div>
+
             <div class="instructions">
                 <p>Instrucciones: Solicitamos de su tiempo para contestar las siguientes preguntas.</p>
             </div>
@@ -26,7 +32,31 @@
                     <input type="text" id="projectTitle" name="projectTitle" disabled value="{{Nombreproyecto}}">
                     <input type="hidden" id="projectTitl" name="projectTitl" value="{{Nombreproyecto}}">
                 </div>
+
+                <!-- <div class="form-group">
+                    <label for="StudentName">Nombre del Estudiante</label>
+                    <input type="text" id="StudentName" name="StudentName" disabled value="{{nombre}}">
+                </div> -->
+                
+                <div class="form-group">
+                    <label>Tipo de Participación</label>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="participationType" value="individual" checked>
+                            Individual
+                        </label>
+                        <label>
+                            <input type="radio" name="participationType" value="team">
+                            Equipo
+                        </label>
+                    </div>
+                </div>
     
+                <div class="form-group">
+                    <label>Matrícula del / de los estudiante(s)</label>
+                    <input type="text" id="Matricula" name="Matricula" disabled value="{{Matricula}}" required>
+                </div>
+                
                 <div class="form-group">
                     <label for="companyName">Nombre de la Empresa</label>
                     <input type="text" id="companyName" name="companyName" disabled value="{{empresa}}">

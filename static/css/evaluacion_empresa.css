@@ -100,3 +100,8 @@ body {
         .remove-btn:hover {
             background-color: #c0392b;
         }
+
+        .codigo{
+            font-size: 10px;
+            color: #616161;
+        }

@@ -61,6 +61,8 @@ def asesorEmpresarial2():
 @app.route('/buscarExpedienteAsesorEmpresarial', methods=['POST'])
 def buscarExpedienteAsesorEmpresarial():
     ProyectoID= request.form['ProyectoID']
+    # MatriculaID = request.form['Matricula']
+    # estudiantes = obtenerMatricula(MatriculaID)
     Nombreproyecto = proyectoAsesorEmpr(ProyectoID)
     empresa=cargarEmpresaEquipo(ProyectoID)
     nombre=NombreAsesor(ProyectoID)
@@ -338,9 +340,15 @@ def EvEmpresasiguiente():
     si = obtenerMatriculas(nombreProyecto)
     for matricula,carrera in si:
         if carrera == "IS":
-            return render_template('Cuestionarios/evaluacion_empresa.html')
+            return render_template('Cuestionarios/cuestionario_salida_IS.html')
         elif carrera == "IMA":
             return render_template('Cuestionarios/cuestionario_salida_IMA.html')
+        elif carrera == "IF":
+            return render_template('Cuestionarios/cuestionario_salida_IF.html')
+        elif carrera == "ITM":
+            return render_template('Cuestionarios/cuestionario_salida_ITM.html')
+        elif carrera == "LNI":
+            return render_template('Cuestionarios/cuestionario_salida_LNI.html')
 
 def inicioSesionCoordinacion(correo,password):
     try:

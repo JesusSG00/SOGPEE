@@ -2,7 +2,7 @@ from flask import Flask,render_template,request, url_for,send_file
 from werkzeug.utils import secure_filename
 from sqlalchemy import text
 from conexion import engine
-import os,fitz
+import os,fitz,re
 from PIL import Image
 from pathlib import Path
 
@@ -172,6 +172,7 @@ def guardartodo():
         if ok != True:
             return render_template('Error/Error.html',ID=ok)
         return render_template('Cargas/cargaEquipo.html')
+    
 #Funcion para subir los documentos del estudiante
 @app.route('/enviarDocumentos', methods=['POST'])
 def enviarDocumentos():
@@ -223,16 +224,41 @@ def borrarID():
     opcion = cargarAsesorEmp()
     asesorAcademico = cargarAsesorAcademico()
     return render_template('/Agregar.html',cargar = opcion, asesorAcademic = asesorAcademico) 
+
 #Funcion para cargar la pagina de cuestionario de satisfaccion
-@app.route('/encuestaSatisfaccion',methods=['POST'])
+@app.route('/encuestaSatisfaccion', methods=['POST'])
 def encuestaSatisfaccion():
     Matricula = request.form['Matricula']
     Correo = request.form['correo']
-    return render_template('Cuestionarios/evaluacion_cuestionario.html',Matricula = Matricula,correo = Correo)
+    
+    # Verificar si ya existe una encuesta
+    try:
+        query = text("SELECT COUNT(*) FROM encuesta08 WHERE Matricula = :Matricula")
+        with engine.connect() as conn:
+            result = conn.execute(query, {'Matricula': Matricula}).scalar()
+            
+            if result > 0:
+                # Si ya existe, mostrar mensaje
+                return render_template('Cargas/mensaje_encuesta_existente.html', 
+                                    mensaje="Ya has completado la encuesta anteriormente.")
+            else:
+                # Si no existe, mostrar el formulario de la encuesta
+                return render_template('Cuestionarios/evaluacion_cuestionario.html',
+                                    Matricula=Matricula, correo=Correo)
+                                    
+    except Exception as e:
+        # Manejar cualquier error de base de datos
+        return f'Error al verificar la encuesta: {str(e)}'
 #Funcion para obtener los datos del cuestionario de satisfaccion
-@app.route('/EvalulacionEstudiante',methods=['POST'])
+@app.route('/EvalulacionEstudiante', methods=['POST'])
 def enviarEvaluacionEstudiante():
     matricula = request.form['Matricula']
+    
+    # Verificar nuevamente antes de guardar
+    if verificar_encuesta_existente(matricula):
+        return render_template('Cargas/mensaje_encuesta_existente.html', 
+                             mensaje="Ya has completado la encuesta anteriormente.")
+    
     correo = request.form['correo']
     question11 = int(request.form['question11'])
     question12 = int(request.form['question12'])
@@ -244,9 +270,11 @@ def enviarEvaluacionEstudiante():
     question18 = int(request.form['question18'])
     question19 = int(request.form['question19'])
     veracidad = request.form['veracidad']  
-    prom = promedio(question11,question12,question13,question14,question15,question16,question17,question18,question19)
+    prom = promedio(question11,question12,question13,question14,question15,
+                   question16,question17,question18,question19)
     guardarForm08(prom,veracidad,matricula)
-    return render_template('Cargas/EnvioEvaluacionEstudiante.html',matricula = matricula,correo = correo)
+    return render_template('Cargas/EnvioEvaluacionEstudiante.html',
+                         matricula=matricula, correo=correo)
 
 @app.route('/loginAsesorAcademico',methods=['POST'])
 def loginAsesorAcademico():
@@ -268,8 +296,9 @@ def AbrirExpediente():
 
 @app.route('/verArchivo',methods=['POST'])
 def abrirExpediente():
-    proyecto = request.form['proyecto']   
-    return render_template('perfiles/AsesorAcademico/abrirExpediente.html',proyecto = proyecto)
+    proyecto = request.form['proyecto']
+    nombre = request.form['nombre']   
+    return render_template('perfiles/AsesorAcademico/abrirExpediente.html',proyecto = proyecto,nombre = nombre)
 
 @app.route('/abrirExpediente-parcial',methods=['POST'])
 def abrirExpediente_parcial():
@@ -277,8 +306,26 @@ def abrirExpediente_parcial():
     parcial = request.form['parcial']
     ruta = obtenerRutaPDF(proyecto,parcial)    
     imagen = visualizarPDF(ruta)
-   
-    return render_template('perfiles/AsesorAcademico/abrirExpediente-parcial.html',proyecto = proyecto,imagen = imagen)
+    nombre = request.form['nombre']
+    return render_template('perfiles/AsesorAcademico/abrirExpediente-parcial.html',proyecto = proyecto,imagen = imagen,nombre = nombre,parcial= parcial)
+
+@app.route('/calificarExpedienteParcial',methods=['POST'])
+def abrirExpediente_parcials():
+    proyecto = request.form['proyecto']
+    parcial = request.form['parcial']
+    ID = IDproyecto(proyecto)
+    estudiantes = obtenerMatricula(ID)
+
+    texto = parcial
+    nuevo_texto = re.sub(r'(\D)(\d)', r'\1 \2', texto)
+    if nuevo_texto == "Parcial 1":
+        return render_template('perfiles/AsesorAcademico/CalificarP1.html',proyecto = proyecto,numero= nuevo_texto,estudiantes = estudiantes)
+    elif nuevo_texto == "Parcial 2":
+        return render_template('perfiles/AsesorAcademico/CalificarP2.html',proyecto = proyecto,numero= nuevo_texto,estudiantes = estudiantes)
+    else:
+        return render_template('perfiles/AsesorAcademico/CalificarP3.html',proyecto = proyecto,numero= nuevo_texto,estudiantes = estudiantes)
+
+        
 
 @app.route('/calificarExpediente',methods=['POST'])
 def calificarExpediente():
@@ -746,6 +793,26 @@ def validarCalificadoU3(matricula):
     except Exception as e:
         return f'error---------------->{e}'   
  
+def verificar_encuesta_existente(matricula):
+    try:
+        query = text("SELECT COUNT(*) FROM encuesta08 WHERE Matricula = :Matricula")
+        with engine.connect() as conn:
+            result = conn.execute(query, {'Matricula': matricula}).scalar()
+            return result > 0
+    except Exception as e:
+        return f'error---------------->{e}'
+    
+def encuestaSatisfaccion():
+    Matricula = request.form['Matricula']
+    Correo = request.form['correo']
+    
+    # Verificar si ya existe una encuesta
+    if verificar_encuesta_existente(Matricula):
+        return render_template('Cargas/mensaje_encuesta_existente.html', 
+                             mensaje="Ya has completado la encuesta anteriormente.")
+    
+    return render_template('Cuestionarios/evaluacion_cuestionario.html',
+                         Matricula=Matricula, correo=Correo)
 
 def guardarForm08(promedio,veracidad,matricula):
     try:

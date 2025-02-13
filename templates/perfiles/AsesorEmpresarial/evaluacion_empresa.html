@@ -12,14 +12,15 @@
         <div class="container">
             <div class="header">
                 <h1>FO-EST- 07 CUESTIONARIO DE SALIDA ESTANCIAS / ESTADÍA</h1>
+                <div class="codigo">
+                    <p>Código: FO-EST-07</p>
+                    <p>Edición: 6</p>
+                    <p>Fecha: 31/08/2022 </p>
+                </div>
+    
             </div>
             
-            <div class="codigo">
-                <p>Código: FO-EST-07</p>
-                <p>Edición: 6</p>
-                <p>Fecha: 31/08/2022 </p>
-            </div>
-
+            
             <div class="instructions">
                 <p>Instrucciones: Solicitamos de su tiempo para contestar las siguientes preguntas.</p>
             </div>
@@ -37,24 +38,10 @@
                     <label for="StudentName">Nombre del Estudiante</label>
                     <input type="text" id="StudentName" name="StudentName" disabled value="{{nombre}}">
                 </div> -->
-                
-                <div class="form-group">
-                    <label>Tipo de Participación</label>
-                    <div class="radio-group">
-                        <label>
-                            <input type="radio" name="participationType" value="individual" checked>
-                            Individual
-                        </label>
-                        <label>
-                            <input type="radio" name="participationType" value="team">
-                            Equipo
-                        </label>
-                    </div>
-                </div>
     
                 <div class="form-group">
-                    <label>Matrícula del / de los estudiante(s)</label>
-                    <input type="text" id="Matricula" name="Matricula" disabled value="{{Matricula}}" required>
+                    <label>Nombre del / de los estudiante(s)</label>
+                    <input type="text" id="nombre" name="nombre" disabled value="" required>
                 </div>
                 
                 <div class="form-group">
@@ -79,8 +66,10 @@
                     <label for="advisorName">Nombre y Apellidos del Asesor Empresarial</label>
                     {{nombre | safe}}
                 </div>
+                
+                <button class="buttonSiguiente">Siguiente</button>
             </form>
-            <button>Siguiente</button>
+            
         </div>
     </form>
 

@@ -249,6 +249,7 @@ def encuestaSatisfaccion():
     except Exception as e:
         # Manejar cualquier error de base de datos
         return f'Error al verificar la encuesta: {str(e)}'
+    
 #Funcion para obtener los datos del cuestionario de satisfaccion
 @app.route('/EvalulacionEstudiante', methods=['POST'])
 def enviarEvaluacionEstudiante():
@@ -282,6 +283,7 @@ def loginAsesorAcademico():
     password = request.form['password']
     resultado = inicioSesionAsesorA(correo,password)
     return resultado
+
 #Funcion para cargar la pagina de revisar expediente
 @app.route('/AbrirExpediente',methods=['POST'])
 def AbrirExpediente():

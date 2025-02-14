@@ -25,23 +25,21 @@
                 <p>Instrucciones: Solicitamos de su tiempo para contestar las siguientes preguntas.</p>
             </div>
     
-            <form id="evaluationForm">
-                
-    
                 <div class="form-group">
                     <label for="projectTitle">Título del Proyecto del Estudiante</label>
                     <input type="text" id="projectTitle" name="projectTitle" disabled value="{{Nombreproyecto}}">
                     <input type="hidden" id="projectTitl" name="projectTitl" value="{{Nombreproyecto}}">
                 </div>
 
-                <!-- <div class="form-group">
-                    <label for="StudentName">Nombre del Estudiante</label>
-                    <input type="text" id="StudentName" name="StudentName" disabled value="{{nombre}}">
-                </div> -->
+                
     
                 <div class="form-group">
-                    <label>Nombre del / de los estudiante(s)</label>
-                    <input type="text" id="nombre" name="nombre" disabled value="" required>
+                    <label>Integrantes del Equipo:</label>
+                    <ul>
+                        {% for integrante in integrantes %}
+                            <li>{{ integrante.Nombre1 }} {{ integrante.Nombre2 }} {{ integrante.ApellidoP }} {{ integrante.ApellidoM }}</li>
+                        {% endfor %}
+                    </ul>
                 </div>
                 
                 <div class="form-group">
@@ -68,46 +66,45 @@
                 </div>
                 
                 <button class="buttonSiguiente">Siguiente</button>
-            </form>
             
         </div>
     </form>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const participationTypeRadios = document.querySelectorAll('input[name="participationType"]');
-            const teamMembersContainer = document.getElementById('team-members-container');
-            const teamMembersList = document.getElementById('teamMembersList');
-            const addTeamMemberBtn = document.getElementById('addTeamMember');
-            let teamMemberCount = 0;
+    //     document.addEventListener('DOMContentLoaded', function() {
+    //         const participationTypeRadios = document.querySelectorAll('input[name="participationType"]');
+    //         const teamMembersContainer = document.getElementById('team-members-container');
+    //         const teamMembersList = document.getElementById('teamMembersList');
+    //         const addTeamMemberBtn = document.getElementById('addTeamMember');
+    //         let teamMemberCount = 0;
 
-            participationTypeRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    teamMembersContainer.style.display = this.value === 'team' ? 'block' : 'none';
-                });
-            });
+    //         participationTypeRadios.forEach(radio => {
+    //             radio.addEventListener('change', function() {
+    //                 teamMembersContainer.style.display = this.value === 'team' ? 'block' : 'none';
+    //             });
+    //         });
 
-            addTeamMemberBtn.addEventListener('click', function() {
-                if (teamMemberCount < 5) {
-                    teamMemberCount++;
-                    const memberDiv = document.createElement('div');
-                    memberDiv.classList.add('team-member');
-                    memberDiv.innerHTML = `
-                        <input type="text" placeholder="Nombre del miembro ${teamMemberCount}" required>
-                        <button type="button" class="btn remove-btn">Eliminar</button>
-                    `;
+    //         addTeamMemberBtn.addEventListener('click', function() {
+    //             if (teamMemberCount < 5) {
+    //                 teamMemberCount++;
+    //                 const memberDiv = document.createElement('div');
+    //                 memberDiv.classList.add('team-member');
+    //                 memberDiv.innerHTML = `
+    //                     <input type="text" placeholder="Nombre del miembro ${teamMemberCount}" required>
+    //                     <button type="button" class="btn remove-btn">Eliminar</button>
+    //                 `;
 
-                    memberDiv.querySelector('.remove-btn').addEventListener('click', function() {
-                        teamMembersList.removeChild(memberDiv);
-                        teamMemberCount--;
-                    });
+    //                 memberDiv.querySelector('.remove-btn').addEventListener('click', function() {
+    //                     teamMembersList.removeChild(memberDiv);
+    //                     teamMemberCount--;
+    //                 });
 
-                    teamMembersList.appendChild(memberDiv);
-                } else {
-                    alert('Máximo 5 miembros permitidos');
-                }
-            });
-        });
-    </script>
+    //                 teamMembersList.appendChild(memberDiv);
+    //             } else {
+    //                 alert('Máximo 5 miembros permitidos');
+    //             }
+    //         });
+    //     });
+    // </script>
 </body>
 </html>

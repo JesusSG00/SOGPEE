@@ -392,17 +392,51 @@ def inicioSesionEstudiante(matricula,correo):
 def EvEmpresasiguiente():
     nombreProyecto = request.form['projectTitl']
     si = obtenerMatriculas(nombreProyecto)
+
+    integrantes = obtenerIntegrantes(nombreProyecto)
+
+    # if si:
+    #     matricula, carrera = si[0]
+
     for matricula,carrera in si:
         if carrera == "IS":
-            return render_template('Cuestionarios/cuestionario_salida_IS.html')
+            return render_template('Cuestionarios/cuestionario_salida_IS.html', integrantes=integrantes, nombreProyecto=nombreProyecto)
         elif carrera == "IMA":
-            return render_template('Cuestionarios/cuestionario_salida_IMA.html')
+            return render_template('Cuestionarios/cuestionario_salida_IMA.html',integrantes=integrantes, nombreProyecto=nombreProyecto)
         elif carrera == "IF":
-            return render_template('Cuestionarios/cuestionario_salida_IF.html')
+            return render_template('Cuestionarios/cuestionario_salida_IF.html',integrantes=integrantes, nombreProyecto=nombreProyecto)
         elif carrera == "ITM":
-            return render_template('Cuestionarios/cuestionario_salida_ITM.html')
+            return render_template('Cuestionarios/cuestionario_salida_ITM.html',integrantes=integrantes, nombreProyecto=nombreProyecto)
         elif carrera == "LNI":
-            return render_template('Cuestionarios/cuestionario_salida_LNI.html')
+            return render_template('Cuestionarios/cuestionario_salida_LNI.html',integrantes=integrantes, nombreProyecto=nombreProyecto)
+    return render_template('Error/Error.html')
+
+def obtenerIntegrantes(nombreProyecto):
+    query = text("""
+        SELECT 
+            e.Nombre1, e.Nombre2, e.ApellidoP, e.ApellidoM
+        FROM 
+            equipos eq
+        JOIN 
+            estudiante e ON eq.Matricula = e.Matricula
+        JOIN 
+            proyecto p ON eq.Id_Proyecto = p.ProyectoID
+        WHERE 
+            p.Nombre = :nombreProyecto;
+    """)
+
+    with engine.connect() as conn:
+        result = conn.execute(query, {"nombreProyecto": nombreProyecto})
+        integrantes = [
+            {
+                'Nombre1': row[0],
+                'Nombre2': row[1],
+                'ApellidoP': row[2],
+                'ApellidoM': row[3]
+            }
+            for row in result
+        ]
+    return integrantes
 
 def inicioSesionCoordinacion(correo,password):
     try:

@@ -182,25 +182,24 @@ def enviarDocumentos():
     proyectoN = request.form['proyectoR']
     cartas = request.files.get('cartas')
     proyecto = request.files.get('proyecto')
-    evaluacion = request.files.get('evaluacion3')
+    
     matricula = request.form['matricula']
     correo = request.form['correo']
     if parcial != "":
-        if cartas is None and proyecto is None: #Se valida si la carta y el proyecto estan vacios
+        if proyecto is None: #Se valida si el proyecto y la evaluacion estan vacios
             validar = request.form['validar']
             if validar == "False":
                 return render_template('error/errorValidar.html', matricula=matricula,correo=correo)
-            ruta_03 = guardar03(evaluacion,parcial,nombre,matricula) #Se obtiene la ruta del archivo 03
-            guardarRuta03(matricula,ruta_03,parcial) #Se guarda la ruta del archivo 03 en la base de datos
-        if proyecto is None and evaluacion is None: #Se valida si el proyecto y la evaluacion estan vacios
-            ruta_carta = guardarCartas(cartas,parcial,nombre,matricula) #Se obtiene la ruta de la carta
-            guardarCartass(matricula,ruta_carta,parcial)#Se guarda la ruta de la carta en la base de datos
-        if cartas is None and evaluacion is None:#Se valida si la carta y la evaluacion estan vacios
+            else:
+                ruta_carta = guardarCartas(cartas,parcial,nombre,matricula) #Se obtiene la ruta de la carta
+                guardarCartass(matricula,ruta_carta,parcial)#Se guarda la ruta de la carta en la base de datos
+        if cartas is None:#Se valida si la carta y la evaluacion estan vacios
             validar = request.form['validar']
             if validar == "False":
                 return render_template('error/errorValidar.html', matricula=matricula,correo=correo)
-            ruta_proyecto = guardarProyectos(proyecto,parcial,nombre,matricula)#Se obtiene la ruta del proyecto
-            guardarRutaDocumentos(matricula,ruta_proyecto,parcial,proyectoN)#Se guarda la ruta del proyecto en la base de datos
+            else:
+                ruta_proyecto = guardarProyectos(proyecto,parcial,nombre,matricula)#Se obtiene la ruta del proyecto
+                guardarRutaDocumentos(matricula,ruta_proyecto,parcial,proyectoN)#Se guarda la ruta del proyecto en la base de datos
     else:
         return render_template('error/errorParcial.html', matricula=matricula,correo=correo) #Se redirige a la pagina de carga que luego nos redirige
 
@@ -408,6 +407,7 @@ def inicioSesionEstudiante(matricula,correo):
                 Telefono = ok[5]
                 Correo = ok[6]
                 validar = verificarAsignacionProyecto(matricula)
+                
                 return render_template('/perfiles/evaluacionEstudiante.html',Matricula=Matricula,Nombre1=Nombre1,Nombre2=Nombre2,ApellidoM=ApellidoM,ApellidoP=ApellidoP,Telefono=Telefono,Correo=Correo,proyecto = proyecto,asesor=asesor,validar= validar)
             else:
                 return render_template('Error/EstudianteNoEncontrado.html')
@@ -1011,12 +1011,14 @@ def obtenerRutaPDF(proyecto,parcial):
 
 def verificarAsignacionProyecto(Matricula):
     try:
-        query = text("SELECT matricula FROM Proyecto Matricula = :Matricula")
+        query = text("SELECT matricula FROM Equipos WHERE Matricula = :Matricula")
         with engine.connect() as conn:
             ok= conn.execute(query,{'Matricula':Matricula})
             succ = ok.fetchone()
             if succ:
-                return True 
+                return True
+            else:
+                return False
     except Exception as e:
         return False
 

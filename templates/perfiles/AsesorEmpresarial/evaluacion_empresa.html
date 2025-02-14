@@ -35,11 +35,9 @@
     
                 <div class="form-group">
                     <label>Integrantes del Equipo:</label>
-                    <ul>
-                        {% for integrante in integrantes %}
-                            <li>{{ integrante.Nombre1 }} {{ integrante.Nombre2 }} {{ integrante.ApellidoP }} {{ integrante.ApellidoM }}</li>
-                        {% endfor %}
-                    </ul>
+                   
+                        {{integrantes | safe}}
+                
                 </div>
                 
                 <div class="form-group">

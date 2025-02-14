@@ -61,8 +61,9 @@ def asesorEmpresarial2():
 @app.route('/buscarExpedienteAsesorEmpresarial', methods=['POST'])
 def buscarExpedienteAsesorEmpresarial():
     ProyectoID= request.form['ProyectoID']
-    # MatriculaID = request.form['Matricula']
-    # estudiantes = obtenerMatricula(MatriculaID)
+    integrantes = listaEstudiantes(ProyectoID)
+
+   
     Nombreproyecto = proyectoAsesorEmpr(ProyectoID)
     empresa=cargarEmpresaEquipo(ProyectoID)
     nombre=NombreAsesor(ProyectoID)
@@ -71,7 +72,7 @@ def buscarExpedienteAsesorEmpresarial():
         with engine.connect() as conn:
             proyecto = conn.execute(query, {'ProyectoID': ProyectoID}).fetchone()
             if proyecto:
-                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre)
+                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes)
             else:
                 return render_template('Cargas/ProyectoNEncontrado.html')
     except Exception as e:
@@ -341,25 +342,31 @@ def calificarExpediente():
         ID = IDproyecto(proyecto)
         estudiantes = obtenerMatricula(ID)
         return render_template('perfiles/AsesorAcademico/calificar_expediente.html',proyecto= proyecto,estudiantes=estudiantes,IDA= IDA)
-#####   
+
 @app.route('/guardarCalificacionSer',methods=['POST'])
 def guardarCalificacionSer():
-    parcial = request.form['parcial']
-    ID = IDproyecto(proyecto)
+    puntualidad = request.form['puntualidad']
+    responsabilidad = request.form['responsabilidad']
+    atencion = request.form['atencion']
+    etica = request.form['etica']
+    capacidad  = request.form['capacidad']
+    liderazgo = request.form['liderazgo']
     matricula = request.form['matricula']
-    calificacion = request.form['calificacion']
-    guardarCalificacion(matricula,calificacion,parcial)
-    return render_template('Cargas/guardado.html',ID = ID)
-
-def guardarCalificacion():
+    parcial = request.form['parcial']
+    guardado = guardarCalificacion(puntualidad,responsabilidad,atencion,etica,capacidad,liderazgo,matricula,parcial)
+    if guardado == True:
+        return render_template('Cargas/EnvioCalificacion.html')
+    else:
+        return render_template('Error/Error.html')
+def guardarCalificacion(puntualidad,responsabilidad,atencion,etica,capacidad,liderazgo,matricula,parcial):
     try:
-        query = text("INSERT INTO calificacion (Matricula,Calificacion,Parcial) VALUES (:Matricula,:Calificacion,:Parcial)")
+        query = text("INSERT INTO Ser (Puntualidad,Responsabilidad,Atencion,Etica,Capacidad,Liderazgo,Calificacion,Matricula,Parcial) VALUES (:puntualidad,:responsabilidad,:atencion,:etica,:capacidad,:liderazgo,:calificacion,:Matricula,:Parcial)")
         with engine.connect() as conn:
-            conn.execute(query,{'Matricula':matricula,'Calificacion':calificacion,'Parcial':parcial})
+            conn.execute(query,{'puntualidad':puntualidad,'responsabilidad':responsabilidad,'atencion':atencion,'etica':etica,'capacidad':capacidad,'liderazgo':liderazgo,'Matricula':matricula,'Parcial':parcial})
             conn.commit()
             return True
     except Exception as e:
-        return False
+        return e
 
 @app.route('/calificarSer',methods=['POST'])
 def calificarSer():
@@ -411,23 +418,19 @@ def inicioSesionEstudiante(matricula,correo):
 def EvEmpresasiguiente():
     nombreProyecto = request.form['projectTitl']
     si = obtenerMatriculas(nombreProyecto)
-
-    integrantes = obtenerIntegrantes(nombreProyecto)
-
-    # if si:
-    #     matricula, carrera = si[0]
-
-    for matricula,carrera in si:
+   
+   
+    for carrera in si:
         if carrera == "IS":
-            return render_template('Cuestionarios/cuestionario_salida_IS.html', integrantes=integrantes, nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_IS.html', nombreProyecto=nombreProyecto)
         elif carrera == "IMA":
-            return render_template('Cuestionarios/cuestionario_salida_IMA.html',integrantes=integrantes, nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_IMA.html', nombreProyecto=nombreProyecto)
         elif carrera == "IF":
-            return render_template('Cuestionarios/cuestionario_salida_IF.html',integrantes=integrantes, nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_IF.html', nombreProyecto=nombreProyecto)
         elif carrera == "ITM":
-            return render_template('Cuestionarios/cuestionario_salida_ITM.html',integrantes=integrantes, nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_ITM.html', nombreProyecto=nombreProyecto)
         elif carrera == "LNI":
-            return render_template('Cuestionarios/cuestionario_salida_LNI.html',integrantes=integrantes, nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_LNI.html', nombreProyecto=nombreProyecto)
     return render_template('Error/Error.html')
 
 def obtenerIntegrantes(nombreProyecto):
@@ -1141,6 +1144,18 @@ def obtenerMatricula(Proyecto):
         ok = ok.fetchall()
         opciones = ''.join([f'<option value="{row[0]}">{row[1]} {row[2]} {row[3]} {row[4]}</option>' for row in ok])      
         return opciones
+    
+def listaEstudiantes(Proyecto):
+    query = text("""SELECT estudiante.Nombre1, estudiante.Nombre2, estudiante.ApellidoP, estudiante.ApellidoM
+                FROM estudiante
+                JOIN equipos ON equipos.Matricula = estudiante.Matricula
+                WHERE equipos.Id_Proyecto = :Proyecto;""")
+    with engine.connect() as conn:
+        ok= conn.execute(query,{'Proyecto':Proyecto})
+        ok = ok.fetchall()
+        
+        opciones = ''.join([f'<li>{row[0]}{row[1]} {row[2]} {row[3]}</li>' for row in ok])      
+        return opciones
 
 @app.route('/asignarContraseñas',methods=['POST'])
 def asignarContraseñaAcademico():
@@ -1206,7 +1221,6 @@ WHERE pro.ProyectoID = :equipo;""")
 
 def obtenerMatriculas(nombreP):
     query = text("""SELECT 
-    e.Matricula,
     e.Carrera AS CarreraAlumno
 FROM estudiante e
 INNER JOIN equipos eq ON e.Matricula = eq.Matricula

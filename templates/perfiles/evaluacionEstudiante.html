@@ -17,9 +17,9 @@
 </header><br>
 
 <div class="container">
-    <div class="form-container">
+    <!-- <div class="form-container"> -->
         <!-- Columna izquierda -->
-        <div class="left-column">
+        <!-- <div class="left-column">
             <div class="form-group">
                 <label for="nombre">Nombre:</label>
                 <input type="text" id="nombre" name="nombre" value="{{Nombre1}} {{Nombre2}}" disabled>
@@ -36,9 +36,7 @@
                 <label for="correo">Correo:</label>
                 <input type="email" id="correo" name="correo" value="{{Correo}}" disabled>
             </div>
-            
-           
-        </div>
+        </div> -->
         
             
         
@@ -78,9 +76,9 @@
                     
     
                     <h3 class="section-title">Enviar expediente</h3>
-                    <div class="buttons-container">
+                    <div>
                         <form id="form-cartas" action="/enviarDocumentos" method="POST" enctype="multipart/form-data">
-                            <label for="file-cartas" class="btn btn-cartas">Cartas
+                            <label for="file-cartas" class="btn btn-cartas">Enviar Cartas
                                 <div class="loading-bar" id="loading-bar"></div>
                             </label>
                             <input type="file" name="cartas" id="file-cartas" class="file-input" accept=".pdf" onchange="submitForm('form-cartas')">
@@ -93,7 +91,28 @@
 
 
                         </form>
-                        
+                        </div>
+                        <div>
+                            <form id="form-proyecto" action="/enviarDocumentos" method="POST" enctype="multipart/form-data">
+                                <label for="file-proyecto" class="btn btn-proyecto">Enviar Proyecto
+                                    <div class="loading-barProyecto" id="loading-barProyecto"></div>
+                                </label>
+                                <input type="file" name="proyecto" id="file-proyecto" class="file-input" accept=".pdf" onchange="submitForm('form-proyecto')">
+                                <input type="hidden" name="parcialR" id="resultado3" value="">
+                                <input type="hidden" id="nombre" name="nombre" value="{{Nombre1}}{{Nombre2}}">
+                                <input type="hidden" id="matricula" name="matricula" value="{{Matricula}}">
+                                <input type="hidden" id="correo" name="correo" value="{{Correo}}">
+                                <input type="hidden" value="{{proyecto}}" name="proyectoR">
+                                <input type="hidden" value="{{validar}}" name="validar">
+    
+                            </form>
+                            
+                            
+                            
+                            
+                        </div>
+                        <div>
+                            <h3 class="section-title">Enviar expediente</h3>
                         <form id="form-evaluacion" action="/enviarDocumentos" method="POST" enctype="multipart/form-data">
                             <label for="file-evaluacion" class="btn btn-evaluacion">Evaluación 03
                                 <div class="loading-bar03" id="loading-bar03"></div>
@@ -107,37 +126,21 @@
                             <input type="hidden" value="{{validar}}" name="validar">
 
                         </form>
-                        
-                        <form id="form-proyecto" action="/enviarDocumentos" method="POST" enctype="multipart/form-data">
-                            <label for="file-proyecto" class="btn btn-proyecto">Proyecto
-                                <div class="loading-barProyecto" id="loading-barProyecto"></div>
-                            </label>
-                            <input type="file" name="proyecto" id="file-proyecto" class="file-input" accept=".pdf" onchange="submitForm('form-proyecto')">
-                            <input type="hidden" name="parcialR" id="resultado3" value="">
-                            <input type="hidden" id="nombre" name="nombre" value="{{Nombre1}}{{Nombre2}}">
-                            <input type="hidden" id="matricula" name="matricula" value="{{Matricula}}">
+                    </div>
+                    <div>
+                        <form id="form-evaluacion"  action="/encuestaSatisfaccion" method="post">
+                            <h3 class="section-title">Encuesta de satisfacción</h3>
+                            <input type="hidden" name="Matricula" value="{{Matricula}}">
                             <input type="hidden" id="correo" name="correo" value="{{Correo}}">
-                            <input type="hidden" value="{{proyecto}}" name="proyectoR">
-                            <input type="hidden" value="{{validar}}" name="validar">
-
+                            <button class="btn-evaluar" name="accion" value="evaluar">Evaluar</button>
+                            
                         </form>
-                        
-                        
-                        
-                        
                     </div>
     
                 </div>
             
-            <div class="encuesta-container">
-                <form action="/encuestaSatisfaccion" method="post">
-                    <h3 class="section-title">Encuesta de satisfacción</h3>
-                    <input type="hidden" name="Matricula" value="{{Matricula}}">
-                    <input type="hidden" id="correo" name="correo" value="{{Correo}}">
-                    <button class="btn btn-evaluar" name="accion" value="evaluar">Evaluar</button>
-                </form>
-            </div>
-
+            
+            
         </div>
     </div>
 </div>

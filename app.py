@@ -418,7 +418,7 @@ def inicioSesionEstudiante(matricula,correo):
 def EvEmpresasiguiente():
     nombreProyecto = request.form['projectTitl']
     si = obtenerMatriculas(nombreProyecto)
-   
+    
    
     for carrera in si:
         if carrera == "IS":
@@ -431,7 +431,7 @@ def EvEmpresasiguiente():
             return render_template('Cuestionarios/cuestionario_salida_ITM.html', nombreProyecto=nombreProyecto)
         elif carrera == "LNI":
             return render_template('Cuestionarios/cuestionario_salida_LNI.html', nombreProyecto=nombreProyecto)
-    return render_template('Error/Error.html')
+    return 'no'
 
 def obtenerIntegrantes(nombreProyecto):
     query = text("""
@@ -1227,9 +1227,10 @@ INNER JOIN equipos eq ON e.Matricula = eq.Matricula
 INNER JOIN proyecto p ON eq.Id_Proyecto = p.ProyectoID
 WHERE p.Nombre = :nombreP;""")
     with engine.connect() as conn:
-        ok= conn.execute(query,{'nombreP':nombreP})
-        rows = ok.fetchall()  
-        return rows if rows else []
+        ok = conn.execute(query, {'nombreP': nombreP})
+        rows = ok.fetchall()
+        carreras = [row[0] for row in rows]  # Extraer solo el valor de la columna CarreraAlumno
+        return carreras if carreras else []
         
 
 

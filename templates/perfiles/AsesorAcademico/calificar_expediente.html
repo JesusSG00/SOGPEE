@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Revisar</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/calificar_expediente.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/calificarExpediente.css') }}">
 </head>
 <body>
     <header class="container-fluid d-flex justify-content-center bg-white p-2">
@@ -15,30 +15,13 @@
 
     <div class="container">
         <div class="form-container">
-            <!-- Columna izquierda -->
-            <div class="left-column">
-                <div class="form-group">
-                    <label for="nombre">Nombre:</label>
-                    <input type="text" id="nombre" name="nombre" value="{{nombre}}" disabled>
-                </div>
-                <div class="form-group">
-                    <label for="telefono">Teléfono:</label>
-                    <input type="tel" id="telefono" name="telefono" value="{{telefono}}" disabled>
-                </div>
-                <div class="form-group">
-                    <label for="correo">Correo:</label>
-                    <input type="email" id="correo" name="correo" value="{{correo}}" disabled>
-                </div>
-            </div>
-
-            <!-- Divisor vertical -->
-            <div class="divider"></div>
+           
 
             <!-- Columna derecha -->
             <div class="right-column">
                 <div class="form-group">
                     <h1>Calificar Expediente del proyecto {{proyecto}}</h1>
-                    <label for="parcial">Parcial</label>
+                    <label for="parcial">Seleccione un parcial</label>
                     <select id="parcial" name="parcial">
                         <option value="">Seleccionar Parcial</option>
                         <option value="1">1</option>
@@ -57,9 +40,8 @@
         
         <!-- Tabla de evaluación Parcial 1 -->
         <form action="/calificarProyectoU1" method="post">
-            <input type="hidden" id="profesor" name="profesor" value="{{nombre}}">
-            <input type="hidden" id="telefono" name="telefono" value="{{telefono}}">
-            <input type="hidden" id="correo" name="correo" value="{{correo}}">
+            <input type="hidden" id="ID" name="ID" value="{{IDA}}">
+            <input type="hidden" id="proyecto" name="proyecto" value="{{proyecto}}">
             <input type="hidden" id="matricula" name="matricula" value="">
             <div id="evaluation-container-1" class="evaluation-container">
                 <table class="evaluation-table">
@@ -146,10 +128,9 @@
             </div>
         </form>
         <form action="/calificarProyectoU2" method="post">
-            <input type="hidden" id="profesorr" name="profesorr" value="{{nombre}}">
-            <input type="hidden" id="telefono2" name="telefono2" value="{{telefono}}">
-            <input type="hidden" id="correo2" name="correo2" value="{{correo}}">
-        <input type="hidden" id="matriculau2" name="matriculau2" value="">
+            <input type="hidden" id="ID" name="ID" value="{{IDA}}">
+            <input type="hidden" id="proyecto" name="proyecto" value="{{proyecto}}">
+            <input type="hidden" id="matriculau2" name="matriculau2" value="">
 
             <!-- Tabla de evaluación Parcial 2 -->
             <div id="evaluation-container-2" class="evaluation-container">
@@ -224,9 +205,8 @@
 
         </form>
         <form action="/calificarProyectoU3" method="post">
-        <input type="hidden" id="profesorrr" name="profesorrr" value="{{nombre}}">
-        <input type="hidden" id="telefono3" name="telefono3" value="{{telefono}}">
-        <input type="hidden" id="correo3" name="correo3" value="{{correo}}">
+        <input type="hidden" id="ID" name="ID" value="{{IDA}}">
+        <input type="hidden" id="proyecto" name="proyecto" value="{{proyecto}}">
         <input type="hidden" id="matriculau3" name="matriculau3" value="">
 
             <!-- Tabla de evaluación Parcial 3 -->

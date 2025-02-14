@@ -81,12 +81,32 @@
 
 
                         </form>
-                        <form action="/calificarSer" method="post">
+                        <div class="dropdown">
                             <button class="btn btn-Ser">Calificar Ser</button>
-                            <input type="hidden" id="nombre" name="nombre" value="{{Nombre1}} {{Nombre2}} {{ApellidoP}} {{ApellidoM}}">
-                            <input type="hidden" id="telefono" name="telefono" value="{{Telefono}}">
-                            <input type="hidden" id="correo" name="correo" value="{{Correo}}">
-                        </form>
+                            <div class="dropdown-content">
+                                <form action="/calificarSer" method="POST">
+                                    <input type="hidden" name="parcial" value="Parcial 1">
+                                    <input type="hidden" name="proyecto" id="proyectoSer1" value="">
+                                    <input type="hidden" name="ID" id="ID" value="{{ID}}">
+                                    <button type="submit" id="botonParciales">Parcial 1</button>
+                                </form>
+                                <form action="/calificarSer" method="POST">
+                                    <input type="hidden" name="parcial" value="Parcial 2">
+                                    <input type="hidden" name="proyecto" id="proyectoSer2" value="">
+                                    <input type="hidden" name="ID" id="ID" value="{{ID}}">
+                                    <button type="submit" id="botonParciales">Parcial 2</button>
+                                </form>
+                                <form action="/calificarSer" method="POST">
+                                    <input type="hidden" name="parcial" value="Parcial 3">
+                                    <input type="hidden" name="proyecto" id="proyectoSer3" value="">
+                                    <input type="hidden" name="ID" id="ID" value="{{ID}}">
+                                    <button type="submit" id="botonParciales">Parcial 3</button>
+                                </form>
+                            </div>
+                        </div>
+
+
+                       
                     </div>
                 </div>
 
@@ -99,12 +119,30 @@
     const resultadoSpanC = document.getElementById('proyectoC');
     const resultadoSpanP2 = document.getElementById('proyectoP2');
     const resultadoSpanP3 = document.getElementById('proyectoP3');
+    const resultadoSpanS1 = document.getElementById('proyectoSer1');
+    const resultadoSpanS2 = document.getElementById('proyectoSer2');
+    const resultadoSpanS3 = document.getElementById('proyectoSer3');
     const selectElement2 = document.getElementById('parcial');
     
 
     selectElement.addEventListener('change', function() {
     const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
     resultadoSpan.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
+        });
+
+    selectElement.addEventListener('change', function() {
+    const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanS1.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
+        });
+
+        selectElement.addEventListener('change', function() {
+    const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanS2.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
+        });
+
+        selectElement.addEventListener('change', function() {
+    const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanS3.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
         });
 
     selectElement.addEventListener('change', function() {

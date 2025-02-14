@@ -55,7 +55,7 @@
         }
 
         .evaluation-container {
-            display: none;
+            
             margin-top: 20px;
         }
 
@@ -88,4 +88,5 @@
         }
         .btn-calificar {
             background-color: #7bbf46;
+            width: 100%;
         }

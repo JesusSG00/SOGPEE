@@ -330,26 +330,46 @@ def abrirExpediente_parcials():
 
 @app.route('/calificarExpediente',methods=['POST'])
 def calificarExpediente():
-    nombre = request.form['nombre']
-    telefono = request.form['telefono']
-    correo = request.form['correo']
+   
     proyecto = request.form['proyectoC']
-    
+    IDA = request.form['ID']
     if proyecto =="" or proyecto =="0":
-        ID = request.form['ID']
-        return render_template('Error/SeleccionInvalida.html',ID = ID)
+        return render_template('Error/SeleccionInvalida.html',IDA = IDA)
     else:
         ID = IDproyecto(proyecto)
         estudiantes = obtenerMatricula(ID)
-        return render_template('perfiles/AsesorAcademico/calificar_expediente.html',nombre = nombre,telefono = telefono,correo = correo,proyecto= proyecto,estudiantes=estudiantes)
-   
+        return render_template('perfiles/AsesorAcademico/calificar_expediente.html',proyecto= proyecto,estudiantes=estudiantes,IDA= IDA)
+#####   
+@app.route('/guardarCalificacionSer',methods=['POST'])
+def guardarCalificacionSer():
+    proyecto = request.form['proyecto']
+    parcial = request.form['parcial']
+    ID = IDproyecto(proyecto)
+    matricula = request.form['matricula']
+    calificacion = request.form['calificacion']
+    guardarCalificacion(matricula,calificacion,parcial)
+    return render_template('Cargas/guardado.html',ID = ID)
+
+def guardarCalificacion():
+    try:
+        query = text("INSERT INTO calificacion (Matricula,Calificacion,Parcial) VALUES (:Matricula,:Calificacion,:Parcial)")
+        with engine.connect() as conn:
+            conn.execute(query,{'Matricula':matricula,'Calificacion':calificacion,'Parcial':parcial})
+            conn.commit()
+            return True
+    except Exception as e:
+        return False
 
 @app.route('/calificarSer',methods=['POST'])
 def calificarSer():
-    nombre = request.form['nombre']
-    telefono = request.form['telefono']
-    correo = request.form['correo']
-    return render_template('perfiles/AsesorAcademico/calificar_ser.html',nombre = nombre,telefono = telefono,correo = correo)
+    proyecto = request.form['proyecto']
+    parcial = request.form['parcial']
+    if proyecto =="" or proyecto =="0":
+        ID = request.form['ID']
+        return render_template('Error/SeleccionInvalida.html',ID = ID)
+    ID = IDproyecto(proyecto)
+    resultado = obtenerMatricula(ID)
+    return render_template('perfiles/AsesorAcademico/calificar_ser.html',resultado = resultado,parcial = parcial)
 
 @app.route('/descargarPdf',methods=['POST'])
 def descargaPdf():
@@ -666,9 +686,7 @@ def promedio(question11,question12,question13,question14,question15,question16,q
 @app.route('/calificarProyectoU1',methods=['POST'])
 def calificarProyectoU1():
     Matricula = request.form['matricula']
-    Profesor = request.form['profesor']
-    telefono = request.form['telefono']
-    correo = request.form['correo']
+    proyecto = request.form['proyecto']
     validado = validarCalificado(Matricula)
     Antecedentes = int(request.form['Antecedentes'])
     Planteamiento = int(request.form['Planteamiento'])
@@ -678,29 +696,29 @@ def calificarProyectoU1():
     parcial = "Parcial 1"
     Calificacion = (Antecedentes+Planteamiento+Justificacion+Objetivo+ObjetivoEspecifico)/5
     if validado:
-        return render_template('cargas/calificacion.html',matricula = Matricula,Calificacion = Calificacion,profesor = Profesor,parcial = parcial,telefono = telefono,correo = correo)
+        return render_template('cargas/calificacion.html',matricula = Matricula,Calificacion = Calificacion,parcial = parcial,proyecto=proyecto)
     else:
         calificado = calificar(Matricula,Calificacion)
         if calificado:
-            return render_template('Cargas/calificacionAsignada.html')
+            return render_template('Cargas/calificacionAsignada.html',Calificacion = Calificacion,proyecto = proyecto)
             
         
 @app.route('/calificarProyectoU2',methods=['POST'])
 def calificarProyectoU2():
     Matricula = request.form['matriculau2']
+    proyecto = request.form['proyecto']
     validado = validarCalificadoU2(Matricula)
     if validado:
-        return render_template('cargas/calificacion.html',matricula = Matricula)
+        return render_template('cargas/calificacion.html',matricula = Matricula,proyecto = proyecto)
     else:
         Marco = int(request.form['Marco'])
         Metodologia = int(request.form['Metodologia'])
         Cronograma = int(request.form['Cronograma'])
         DesarrolloProyecto = int(request.form['DesarrolloProyecto'])
-
         Calificacion = (Marco+Metodologia+Cronograma+DesarrolloProyecto)/4
         calificado = calificarU2(Matricula,Calificacion)
         if calificado:
-            return render_template('Cargas/calificacionAsignada.html')
+            return render_template('Cargas/calificacionAsignada.html',Calificacion = Calificacion,proyecto = proyecto)
             
         
         
@@ -710,9 +728,10 @@ def calificarProyectoU2():
 @app.route('/calificarProyectoU3',methods=['POST'])
 def calificarProyectoU3():
     Matricula = request.form['matriculau3']
+    proyecto = request.form['proyecto']
     validado = validarCalificadoU3(Matricula)
     if validado:
-        return render_template('cargas/calificacion.html',matricula = Matricula)
+        return render_template('cargas/calificacion.html',matricula = Matricula,proyecto = proyecto)
     else:
         Resultados = int(request.form['Resultados'])
         Conclusiones = int(request.form['Conclusiones'])
@@ -721,7 +740,7 @@ def calificarProyectoU3():
         Calificacion = (Resultados+Conclusiones+Referencias+Anexos)/4
         calificado = calificarU3(Matricula,Calificacion)
         if calificado:
-            return render_template('Cargas/calificacionAsignada.html')
+            return render_template('Cargas/calificacionAsignada.html',Calificacion=Calificacion,proyecto = proyecto)
     
 
 

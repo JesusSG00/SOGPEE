@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisar</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/calificar_expediente.css') }}">
+</head>
+<body>
+    <header class="container-fluid d-flex justify-content-center bg-white p-2">
+        <a href="/" class="logo-upt">
+            <img src="../static/img/logo_upt.png" alt="Logo UPT" height="80">
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="form-container">
+           
+
+            <!-- Columna derecha -->
+            <div class="right-column">
+                <div class="form-group">
+                    <h1>Calificar Expediente del proyecto {{proyecto}}</h1>
+                    <label for="parcial">{{numero}}</label>
+                    <input type="hidden" id="parcial" name="parcial" value="{{numero}}">
+
+                    <label for="estudiante">Nombre del estudiante:</label>
+                    <select id="estudiante" name="estudiante">
+                        <option value="">Seleccionar Alumno</option>
+                        {{estudiantes | safe}}
+                    </select>
+                </div>
+            </div>
+        </div>
+        <form action="/calificarProyectoU3" method="post">
+        <input type="hidden" id="profesorrr" name="profesorrr" value="{{nombre}}">
+        <input type="hidden" id="telefono3" name="telefono3" value="{{telefono}}">
+        <input type="hidden" id="correo3" name="correo3" value="{{correo}}">
+        <input type="hidden" id="matriculau3" name="matriculau3" value="">
+
+            <!-- Tabla de evaluación Parcial 3 -->
+            <div id="evaluation-container-3" class="evaluation-container">
+                <table class="evaluation-table">
+                    <thead>
+                        <tr>
+                            <th>Apartado</th>
+                            <th>Calificación (5-10)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Resultados</td>
+                            <td>
+                                <select name="Resultados" id="Resultados" required>
+                                    <option value="">Seleccionar</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Conclusiones y Recomendaciones</td>
+                            <td>
+                                <select name="Conclusiones" id="Conclusiones" required>
+                                    <option value="">Seleccionar</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Referencias Bibliográficas</td>
+                            <td>
+                                <select name="Referencias" id="Referencias" required>
+                                    <option value="">Seleccionar</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Anexos</td>
+                            <td>
+                                <select name="Anexos" id="Anexos" required>
+                                    <option value="">Seleccionar</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                </select>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table><br>
+                <button>Calificar</button>
+            </div>
+        </form>
+        </div>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const parcialSelect = document.getElementById('parcial');
+            const evaluationContainers = {
+                '1': document.getElementById('evaluation-container-1'),
+                '2': document.getElementById('evaluation-container-2'),
+                '3': document.getElementById('evaluation-container-3')
+            };
+
+         
+
+          
+
+            // Show/hide evaluation tables based on selected partial
+            parcialSelect.addEventListener('change', function() {
+                // Hide all evaluation containers
+                Object.values(evaluationContainers).forEach(container => {
+                    container.style.display = 'none';
+                });
+
+                // Show selected partial's evaluation container
+                const selectedPartial = this.value;
+                if (selectedPartial && evaluationContainers[selectedPartial]) {
+                    evaluationContainers[selectedPartial].style.display = 'block';
+                }
+            });
+        });
+
+    const selectElement = document.getElementById('estudiante');
+    const resultadoSpan = document.getElementById('matricula');
+    const resultadoSpanu2 = document.getElementById('matriculau2');
+    const resultadoSpanu3 = document.getElementById('matriculau3');
+    
+
+    selectElement.addEventListener('change', function() {
+    const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpan.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
+    const textoSeleccionadou2 = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanu2.value = textoSeleccionadou2 !== "--Selecciona una opción--" ? textoSeleccionadou2 : "Ninguno";
+    const textoSeleccionadou3 = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanu3.value = textoSeleccionadou3 !== "--Selecciona una opción--" ? textoSeleccionadou3 : "Ninguno";
+        });
+    </script>
+</body>
+</html>

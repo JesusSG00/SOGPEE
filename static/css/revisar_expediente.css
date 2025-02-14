@@ -2,7 +2,7 @@ body {
     font-family: Arial, sans-serif;
     background-color: #e9ecef;
     margin: 0;
-  
+
 }
 
 header {
@@ -13,14 +13,19 @@ header {
     margin-bottom: 2vw;
 
 }
-
+#botonParciales{
+    border: none;
+    background: transparent;
+    width: 100%;
+    padding: 0;
+}
 .container {
     background-color: white;
     max-width: 1200px;
     margin: 0 auto;
     padding: 40px;
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .form-container {
@@ -45,7 +50,8 @@ label {
     font-weight: 500;
 }
 
-input, select {
+input,
+select {
     width: 100%;
     padding: 8px;
     border: 1px solid #ced4da;
@@ -75,14 +81,56 @@ input, select {
 
 .btn-evaluar {
     background-color: #fa5604;
+    
+}
+.btn-evaluar:hover {
+    background-color: #d14702;
+    color: white;
+}
+.btn-calificar:hover {
+    background-color: #649b3a;
+    color: white;
 }
 
-.btn-Ser{
+.btn-Ser {
     background-color: #5271ff;
 }
+.btn-Ser:hover {
+    background-color: #4059ca;
+    color: white;
+}
 
-.contenedorBotones{
+.contenedorBotones {
     display: flex;
     flex-direction: row;
     gap: 12px;
+}
+
+
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 100px;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    padding: 5px;
+    z-index: 1;
+}
+
+.dropdown-content form {
+    margin: 5px 0;
+    width: 100%;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+#botonParciales:hover{
+    background: #d4d4d4;
 }

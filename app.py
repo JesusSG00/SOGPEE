@@ -2,7 +2,7 @@ from flask import Flask,render_template,request, url_for,send_file
 from werkzeug.utils import secure_filename
 from sqlalchemy import text
 from conexion import engine
-import os,fitz
+import os,fitz,re
 from PIL import Image
 from pathlib import Path
 
@@ -61,6 +61,9 @@ def asesorEmpresarial2():
 @app.route('/buscarExpedienteAsesorEmpresarial', methods=['POST'])
 def buscarExpedienteAsesorEmpresarial():
     ProyectoID= request.form['ProyectoID']
+    integrantes = listaEstudiantes(ProyectoID)
+
+   
     Nombreproyecto = proyectoAsesorEmpr(ProyectoID)
     empresa=cargarEmpresaEquipo(ProyectoID)
     nombre=NombreAsesor(ProyectoID)
@@ -69,7 +72,7 @@ def buscarExpedienteAsesorEmpresarial():
         with engine.connect() as conn:
             proyecto = conn.execute(query, {'ProyectoID': ProyectoID}).fetchone()
             if proyecto:
-                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre)
+                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes)
             else:
                 return render_template('Cargas/ProyectoNEncontrado.html')
     except Exception as e:
@@ -170,6 +173,7 @@ def guardartodo():
         if ok != True:
             return render_template('Error/Error.html',ID=ok)
         return render_template('Cargas/cargaEquipo.html')
+    
 #Funcion para subir los documentos del estudiante
 @app.route('/enviarDocumentos', methods=['POST'])
 def enviarDocumentos():
@@ -221,16 +225,42 @@ def borrarID():
     opcion = cargarAsesorEmp()
     asesorAcademico = cargarAsesorAcademico()
     return render_template('/Agregar.html',cargar = opcion, asesorAcademic = asesorAcademico) 
+
 #Funcion para cargar la pagina de cuestionario de satisfaccion
-@app.route('/encuestaSatisfaccion',methods=['POST'])
+@app.route('/encuestaSatisfaccion', methods=['POST'])
 def encuestaSatisfaccion():
     Matricula = request.form['Matricula']
     Correo = request.form['correo']
-    return render_template('Cuestionarios/evaluacion_cuestionario.html',Matricula = Matricula,correo = Correo)
+    
+    # Verificar si ya existe una encuesta
+    try:
+        query = text("SELECT COUNT(*) FROM encuesta08 WHERE Matricula = :Matricula")
+        with engine.connect() as conn:
+            result = conn.execute(query, {'Matricula': Matricula}).scalar()
+            
+            if result > 0:
+                # Si ya existe, mostrar mensaje
+                return render_template('Cargas/mensaje_encuesta_existente.html', 
+                                    mensaje="Ya has completado la encuesta anteriormente.")
+            else:
+                # Si no existe, mostrar el formulario de la encuesta
+                return render_template('Cuestionarios/evaluacion_cuestionario.html',
+                                    Matricula=Matricula, correo=Correo)
+                                    
+    except Exception as e:
+        # Manejar cualquier error de base de datos
+        return f'Error al verificar la encuesta: {str(e)}'
+    
 #Funcion para obtener los datos del cuestionario de satisfaccion
-@app.route('/EvalulacionEstudiante',methods=['POST'])
+@app.route('/EvalulacionEstudiante', methods=['POST'])
 def enviarEvaluacionEstudiante():
     matricula = request.form['Matricula']
+    
+    # Verificar nuevamente antes de guardar
+    if verificar_encuesta_existente(matricula):
+        return render_template('Cargas/mensaje_encuesta_existente.html', 
+                             mensaje="Ya has completado la encuesta anteriormente.")
+    
     correo = request.form['correo']
     question11 = int(request.form['question11'])
     question12 = int(request.form['question12'])
@@ -242,9 +272,11 @@ def enviarEvaluacionEstudiante():
     question18 = int(request.form['question18'])
     question19 = int(request.form['question19'])
     veracidad = request.form['veracidad']  
-    prom = promedio(question11,question12,question13,question14,question15,question16,question17,question18,question19)
+    prom = promedio(question11,question12,question13,question14,question15,
+                   question16,question17,question18,question19)
     guardarForm08(prom,veracidad,matricula)
-    return render_template('Cargas/EnvioEvaluacionEstudiante.html',matricula = matricula,correo = correo)
+    return render_template('Cargas/EnvioEvaluacionEstudiante.html',
+                         matricula=matricula, correo=correo)
 
 @app.route('/loginAsesorAcademico',methods=['POST'])
 def loginAsesorAcademico():
@@ -252,50 +284,100 @@ def loginAsesorAcademico():
     password = request.form['password']
     resultado = inicioSesionAsesorA(correo,password)
     return resultado
+
 #Funcion para cargar la pagina de revisar expediente
 @app.route('/AbrirExpediente',methods=['POST'])
 def AbrirExpediente():
-    nombre_completo = request.form['nombre']
-    telefono = request.form['telefono']
-    correo = request.form['correo']
     ID = request.form['ID']
-    partes = nombre_completo.split()
-    nombre1,nombre2,apellidop,apellidom = partes
     resultado = cargarProyectosAsesor(ID)
-    return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',Nombre1 = nombre1,Nombre2 = nombre2,ApellidoP = apellidop,ApellidoM = apellidom,Telefono = telefono,Correo = correo,resultado = resultado,ID = ID)
+    return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID)
+
+
+@app.route('/reseleccionar',methods=['POST'])
+def reseleccion():
+    ID = request.form['ID']
+    resultado = cargarProyectosAsesor(ID)
+    return render_template('perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID)
 
 @app.route('/verArchivo',methods=['POST'])
 def abrirExpediente():
-    proyecto = request.form['proyecto']   
-    return render_template('perfiles/AsesorAcademico/abrirExpediente.html',proyecto = proyecto)
-
-@app.route('/abrirExpediente-parcial',methods=['POST'])
-def abrirExpediente_parcial():
     proyecto = request.form['proyecto']
     parcial = request.form['parcial']
-    ruta = obtenerRutaPDF(proyecto,parcial)    
+    ID = request.form['ID']   
+    if proyecto =="" or proyecto =="0":
+        return render_template('Error/SeleccionInvalida2.html',ID = ID)
+    ruta = obtenerRutaPDF(proyecto,parcial)  
     imagen = visualizarPDF(ruta)
-   
-    return render_template('perfiles/AsesorAcademico/abrirExpediente-parcial.html',proyecto = proyecto,imagen = imagen)
+    if imagen ==False:
+        return render_template('Error/ArchivoNoEncontrado.html',ID = ID)
+    else:
+        return render_template('perfiles/AsesorAcademico/abrirExpediente-parcial.html',proyecto = proyecto,imagen = imagen,parcial= parcial,ID = ID)
+
+@app.route('/calificarExpedienteParcial',methods=['POST'])
+def abrirExpediente_parcials():
+    proyecto = request.form['proyecto']
+    parcial = request.form['parcial']
+    ID = IDproyecto(proyecto)
+    estudiantes = obtenerMatricula(ID)
+
+    texto = parcial
+    nuevo_texto = re.sub(r'(\D)(\d)', r'\1 \2', texto)
+    if nuevo_texto == "Parcial 1":
+        return render_template('perfiles/AsesorAcademico/CalificarP1.html',proyecto = proyecto,numero= nuevo_texto,estudiantes = estudiantes)
+    elif nuevo_texto == "Parcial 2":
+        return render_template('perfiles/AsesorAcademico/CalificarP2.html',proyecto = proyecto,numero= nuevo_texto,estudiantes = estudiantes)
+    else:
+        return render_template('perfiles/AsesorAcademico/CalificarP3.html',proyecto = proyecto,numero= nuevo_texto,estudiantes = estudiantes)
+
+        
 
 @app.route('/calificarExpediente',methods=['POST'])
 def calificarExpediente():
-    nombre = request.form['nombre']
-    telefono = request.form['telefono']
-    correo = request.form['correo']
+   
     proyecto = request.form['proyectoC']
-    ID = IDproyecto(proyecto)
-    estudiantes = obtenerMatricula(ID)
-    
-    return render_template('perfiles/AsesorAcademico/calificar_expediente.html',nombre = nombre,telefono = telefono,correo = correo,proyecto= proyecto,estudiantes=estudiantes)
+    IDA = request.form['ID']
+    if proyecto =="" or proyecto =="0":
+        return render_template('Error/SeleccionInvalida.html',IDA = IDA)
+    else:
+        ID = IDproyecto(proyecto)
+        estudiantes = obtenerMatricula(ID)
+        return render_template('perfiles/AsesorAcademico/calificar_expediente.html',proyecto= proyecto,estudiantes=estudiantes,IDA= IDA)
 
+@app.route('/guardarCalificacionSer',methods=['POST'])
+def guardarCalificacionSer():
+    puntualidad = request.form['puntualidad']
+    responsabilidad = request.form['responsabilidad']
+    atencion = request.form['atencion']
+    etica = request.form['etica']
+    capacidad  = request.form['capacidad']
+    liderazgo = request.form['liderazgo']
+    matricula = request.form['matricula']
+    parcial = request.form['parcial']
+    guardado = guardarCalificacion(puntualidad,responsabilidad,atencion,etica,capacidad,liderazgo,matricula,parcial)
+    if guardado == True:
+        return render_template('Cargas/EnvioCalificacion.html')
+    else:
+        return render_template('Error/Error.html')
+def guardarCalificacion(puntualidad,responsabilidad,atencion,etica,capacidad,liderazgo,matricula,parcial):
+    try:
+        query = text("INSERT INTO Ser (Puntualidad,Responsabilidad,Atencion,Etica,Capacidad,Liderazgo,Calificacion,Matricula,Parcial) VALUES (:puntualidad,:responsabilidad,:atencion,:etica,:capacidad,:liderazgo,:calificacion,:Matricula,:Parcial)")
+        with engine.connect() as conn:
+            conn.execute(query,{'puntualidad':puntualidad,'responsabilidad':responsabilidad,'atencion':atencion,'etica':etica,'capacidad':capacidad,'liderazgo':liderazgo,'Matricula':matricula,'Parcial':parcial})
+            conn.commit()
+            return True
+    except Exception as e:
+        return e
 
 @app.route('/calificarSer',methods=['POST'])
 def calificarSer():
-    nombre = request.form['nombre']
-    telefono = request.form['telefono']
-    correo = request.form['correo']
-    return render_template('perfiles/AsesorAcademico/calificar_ser.html',nombre = nombre,telefono = telefono,correo = correo)
+    proyecto = request.form['proyecto']
+    parcial = request.form['parcial']
+    if proyecto =="" or proyecto =="0":
+        ID = request.form['ID']
+        return render_template('Error/SeleccionInvalida.html',ID = ID)
+    ID = IDproyecto(proyecto)
+    resultado = obtenerMatricula(ID)
+    return render_template('perfiles/AsesorAcademico/calificar_ser.html',resultado = resultado,parcial = parcial)
 
 @app.route('/descargarPdf',methods=['POST'])
 def descargaPdf():
@@ -336,11 +418,47 @@ def inicioSesionEstudiante(matricula,correo):
 def EvEmpresasiguiente():
     nombreProyecto = request.form['projectTitl']
     si = obtenerMatriculas(nombreProyecto)
-    for matricula,carrera in si:
+    
+   
+    for carrera in si:
         if carrera == "IS":
-            return render_template('Cuestionarios/evaluacion_empresa.html')
+            return render_template('Cuestionarios/cuestionario_salida_IS.html', nombreProyecto=nombreProyecto)
         elif carrera == "IMA":
-            return render_template('Cuestionarios/cuestionario_salida_IMA.html')
+            return render_template('Cuestionarios/cuestionario_salida_IMA.html', nombreProyecto=nombreProyecto)
+        elif carrera == "IF":
+            return render_template('Cuestionarios/cuestionario_salida_IF.html', nombreProyecto=nombreProyecto)
+        elif carrera == "ITM":
+            return render_template('Cuestionarios/cuestionario_salida_ITM.html', nombreProyecto=nombreProyecto)
+        elif carrera == "LNI":
+            return render_template('Cuestionarios/cuestionario_salida_LNI.html', nombreProyecto=nombreProyecto)
+    return 'no'
+
+def obtenerIntegrantes(nombreProyecto):
+    query = text("""
+        SELECT 
+            e.Nombre1, e.Nombre2, e.ApellidoP, e.ApellidoM
+        FROM 
+            equipos eq
+        JOIN 
+            estudiante e ON eq.Matricula = e.Matricula
+        JOIN 
+            proyecto p ON eq.Id_Proyecto = p.ProyectoID
+        WHERE 
+            p.Nombre = :nombreProyecto;
+    """)
+
+    with engine.connect() as conn:
+        result = conn.execute(query, {"nombreProyecto": nombreProyecto})
+        integrantes = [
+            {
+                'Nombre1': row[0],
+                'Nombre2': row[1],
+                'ApellidoP': row[2],
+                'ApellidoM': row[3]
+            }
+            for row in result
+        ]
+    return integrantes
 
 def inicioSesionCoordinacion(correo,password):
     try:
@@ -606,9 +724,7 @@ def promedio(question11,question12,question13,question14,question15,question16,q
 @app.route('/calificarProyectoU1',methods=['POST'])
 def calificarProyectoU1():
     Matricula = request.form['matricula']
-    Profesor = request.form['profesor']
-    telefono = request.form['telefono']
-    correo = request.form['correo']
+    proyecto = request.form['proyecto']
     validado = validarCalificado(Matricula)
     Antecedentes = int(request.form['Antecedentes'])
     Planteamiento = int(request.form['Planteamiento'])
@@ -618,29 +734,29 @@ def calificarProyectoU1():
     parcial = "Parcial 1"
     Calificacion = (Antecedentes+Planteamiento+Justificacion+Objetivo+ObjetivoEspecifico)/5
     if validado:
-        return render_template('cargas/calificacion.html',matricula = Matricula,Calificacion = Calificacion,profesor = Profesor,parcial = parcial,telefono = telefono,correo = correo)
+        return render_template('cargas/calificacion.html',matricula = Matricula,Calificacion = Calificacion,parcial = parcial,proyecto=proyecto)
     else:
         calificado = calificar(Matricula,Calificacion)
         if calificado:
-            return render_template('Cargas/calificacionAsignada.html')
+            return render_template('Cargas/calificacionAsignada.html',Calificacion = Calificacion,proyecto = proyecto)
             
         
 @app.route('/calificarProyectoU2',methods=['POST'])
 def calificarProyectoU2():
     Matricula = request.form['matriculau2']
+    proyecto = request.form['proyecto']
     validado = validarCalificadoU2(Matricula)
     if validado:
-        return render_template('cargas/calificacion.html',matricula = Matricula)
+        return render_template('cargas/calificacion.html',matricula = Matricula,proyecto = proyecto)
     else:
         Marco = int(request.form['Marco'])
         Metodologia = int(request.form['Metodologia'])
         Cronograma = int(request.form['Cronograma'])
         DesarrolloProyecto = int(request.form['DesarrolloProyecto'])
-
         Calificacion = (Marco+Metodologia+Cronograma+DesarrolloProyecto)/4
         calificado = calificarU2(Matricula,Calificacion)
         if calificado:
-            return render_template('Cargas/calificacionAsignada.html')
+            return render_template('Cargas/calificacionAsignada.html',Calificacion = Calificacion,proyecto = proyecto)
             
         
         
@@ -650,9 +766,10 @@ def calificarProyectoU2():
 @app.route('/calificarProyectoU3',methods=['POST'])
 def calificarProyectoU3():
     Matricula = request.form['matriculau3']
+    proyecto = request.form['proyecto']
     validado = validarCalificadoU3(Matricula)
     if validado:
-        return render_template('cargas/calificacion.html',matricula = Matricula)
+        return render_template('cargas/calificacion.html',matricula = Matricula,proyecto = proyecto)
     else:
         Resultados = int(request.form['Resultados'])
         Conclusiones = int(request.form['Conclusiones'])
@@ -661,7 +778,7 @@ def calificarProyectoU3():
         Calificacion = (Resultados+Conclusiones+Referencias+Anexos)/4
         calificado = calificarU3(Matricula,Calificacion)
         if calificado:
-            return render_template('Cargas/calificacionAsignada.html')
+            return render_template('Cargas/calificacionAsignada.html',Calificacion=Calificacion,proyecto = proyecto)
     
 
 
@@ -738,6 +855,26 @@ def validarCalificadoU3(matricula):
     except Exception as e:
         return f'error---------------->{e}'   
  
+def verificar_encuesta_existente(matricula):
+    try:
+        query = text("SELECT COUNT(*) FROM encuesta08 WHERE Matricula = :Matricula")
+        with engine.connect() as conn:
+            result = conn.execute(query, {'Matricula': matricula}).scalar()
+            return result > 0
+    except Exception as e:
+        return f'error---------------->{e}'
+    
+def encuestaSatisfaccion():
+    Matricula = request.form['Matricula']
+    Correo = request.form['correo']
+    
+    # Verificar si ya existe una encuesta
+    if verificar_encuesta_existente(Matricula):
+        return render_template('Cargas/mensaje_encuesta_existente.html', 
+                             mensaje="Ya has completado la encuesta anteriormente.")
+    
+    return render_template('Cuestionarios/evaluacion_cuestionario.html',
+                         Matricula=Matricula, correo=Correo)
 
 def guardarForm08(promedio,veracidad,matricula):
     try:
@@ -905,11 +1042,9 @@ def visualizarPDF(ruta):
         # Cerrar el documento PDF
         pdf_document.close()
         
-        # Retornar la URL relativa de la imagen y ningún error
         return url_for('static', filename=f"temp/{image_filename}")
     except Exception as e:
-        # Retornar None como URL y el mensaje de error
-        return None, str(e)
+        return False
 
 
 
@@ -1009,6 +1144,18 @@ def obtenerMatricula(Proyecto):
         ok = ok.fetchall()
         opciones = ''.join([f'<option value="{row[0]}">{row[1]} {row[2]} {row[3]} {row[4]}</option>' for row in ok])      
         return opciones
+    
+def listaEstudiantes(Proyecto):
+    query = text("""SELECT estudiante.Nombre1, estudiante.Nombre2, estudiante.ApellidoP, estudiante.ApellidoM
+                FROM estudiante
+                JOIN equipos ON equipos.Matricula = estudiante.Matricula
+                WHERE equipos.Id_Proyecto = :Proyecto;""")
+    with engine.connect() as conn:
+        ok= conn.execute(query,{'Proyecto':Proyecto})
+        ok = ok.fetchall()
+        
+        opciones = ''.join([f'<li>{row[0]}{row[1]} {row[2]} {row[3]}</li>' for row in ok])      
+        return opciones
 
 @app.route('/asignarContraseñas',methods=['POST'])
 def asignarContraseñaAcademico():
@@ -1074,16 +1221,16 @@ WHERE pro.ProyectoID = :equipo;""")
 
 def obtenerMatriculas(nombreP):
     query = text("""SELECT 
-    e.Matricula,
     e.Carrera AS CarreraAlumno
 FROM estudiante e
 INNER JOIN equipos eq ON e.Matricula = eq.Matricula
 INNER JOIN proyecto p ON eq.Id_Proyecto = p.ProyectoID
 WHERE p.Nombre = :nombreP;""")
     with engine.connect() as conn:
-        ok= conn.execute(query,{'nombreP':nombreP})
-        rows = ok.fetchall()  
-        return rows if rows else []
+        ok = conn.execute(query, {'nombreP': nombreP})
+        rows = ok.fetchall()
+        carreras = [row[0] for row in rows]  # Extraer solo el valor de la columna CarreraAlumno
+        return carreras if carreras else []
         
 
 

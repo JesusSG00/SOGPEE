@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-02-2025 a las 18:45:23
+-- Tiempo de generación: 13-02-2025 a las 21:44:11
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -158,7 +158,7 @@ INSERT INTO `asesorempresarial` (`AsesorID`, `Nombre1`, `Nombre2`, `ApellidoP`, 
 CREATE TABLE `calificacionproyecto` (
   `Id` int(11) NOT NULL,
   `Alumno` int(11) NOT NULL,
-  `Calificacion` int(11) NOT NULL,
+  `Calificacion` float NOT NULL,
   `Parcial` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -172,6 +172,28 @@ INSERT INTO `calificacionproyecto` (`Id`, `Alumno`, `Calificacion`, `Parcial`) V
 (6, 1322134084, 8, 'Parcial 2'),
 (8, 1322134084, 8, 'Parcial 3'),
 (10, 1322134083, 9, 'Parcial 1');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `carreras`
+--
+
+CREATE TABLE `carreras` (
+  `IdCarrera` varchar(5) NOT NULL,
+  `NombreCarrera` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `carreras`
+--
+
+INSERT INTO `carreras` (`IdCarrera`, `NombreCarrera`) VALUES
+('IF', 'Ingeniería Financiera'),
+('IMA', 'Ingeniería Mecánica Automotriz'),
+('IS', 'Ingeniería en Software'),
+('ITM', 'Ingeniería en Tecnologías de Manufactura'),
+('LNI', 'Licenciatura en Negocios Internacionales');
 
 -- --------------------------------------------------------
 
@@ -310,25 +332,30 @@ CREATE TABLE `equipos` (
   `Id` int(11) NOT NULL,
   `Matricula` int(10) NOT NULL,
   `NoEquipo` int(11) NOT NULL,
-  `Id_Proyecto` int(11) NOT NULL
+  `Id_Proyecto` int(11) NOT NULL,
+  `Procedimiento` varchar(6) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `equipos`
 --
 
-INSERT INTO `equipos` (`Id`, `Matricula`, `NoEquipo`, `Id_Proyecto`) VALUES
-(195, 1322134083, 1, 3),
-(196, 1322134084, 1, 3),
-(197, 1322134085, 2, 4),
-(198, 1322134086, 2, 4),
-(199, 1322134087, 2, 4),
-(200, 1322134099, 3, 5),
-(202, 1322134101, 4, 7),
-(203, 1322130001, 5, 8),
-(204, 1322130002, 5, 8),
-(205, 1322130003, 5, 8),
-(206, 1322130004, 5, 8);
+INSERT INTO `equipos` (`Id`, `Matricula`, `NoEquipo`, `Id_Proyecto`, `Procedimiento`) VALUES
+(195, 1322134083, 1, 3, 'ESTNC1'),
+(196, 1322134084, 1, 3, 'ESTNC1'),
+(197, 1322134085, 2, 4, 'ESTNC1'),
+(198, 1322134086, 2, 4, 'ESTNC1'),
+(199, 1322134087, 2, 4, 'ESTNC1'),
+(200, 1322134099, 3, 5, 'ESTNC2'),
+(202, 1322134101, 4, 7, 'ESTNC2'),
+(203, 1322130001, 5, 8, 'ESTNC2'),
+(204, 1322130002, 5, 8, 'ESTNC2'),
+(205, 1322130003, 5, 8, 'ESTNC2'),
+(206, 1322130004, 5, 8, 'ESTNC2'),
+(218, 1322130005, 6, 20, 'ESTD'),
+(219, 1322130006, 6, 20, 'ESTD'),
+(220, 1322130019, 7, 21, 'ESTD'),
+(221, 1322130020, 7, 21, 'ESTD');
 
 -- --------------------------------------------------------
 
@@ -344,7 +371,7 @@ CREATE TABLE `estudiante` (
   `ApellidoM` varchar(20) NOT NULL,
   `Telefono` varchar(10) NOT NULL,
   `Correo` text NOT NULL,
-  `Carrera` text NOT NULL
+  `Carrera` varchar(5) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -441,6 +468,32 @@ INSERT INTO `estudiante` (`Matricula`, `Nombre1`, `Nombre2`, `ApellidoP`, `Apell
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `foest07`
+--
+
+CREATE TABLE `foest07` (
+  `Id_FOEST07` int(11) NOT NULL,
+  `FechaValoracion` date DEFAULT NULL,
+  `Periodo` varchar(50) DEFAULT NULL,
+  `TituloProyecto` text DEFAULT NULL,
+  `NoEquipo` int(11) DEFAULT NULL,
+  `NombreEmpresa` varchar(100) DEFAULT NULL,
+  `Modalidad` varchar(50) DEFAULT NULL,
+  `GradoEstudiosAsesorEmp` varchar(100) DEFAULT NULL,
+  `NombreAsesorEmp` varchar(100) DEFAULT NULL,
+  `TipoEmpresa` varchar(20) DEFAULT NULL,
+  `GiroEmpresa` varchar(50) DEFAULT NULL,
+  `Capital` varchar(20) DEFAULT NULL,
+  `AniosOperacion` varchar(20) DEFAULT NULL,
+  `TamanioEmpresa` varchar(50) DEFAULT NULL,
+  `MercadoVenta` varchar(100) DEFAULT NULL,
+  `Carrera` text DEFAULT NULL,
+  `FuncionesPrioritarias` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `formato03`
 --
 
@@ -461,12 +514,32 @@ INSERT INTO `formato03` (`Id`, `Matricula`, `Formato03`, `Parcial`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `procedimientos`
+--
+
+CREATE TABLE `procedimientos` (
+  `idProcedimiento` varchar(6) NOT NULL,
+  `Procedimiento` varchar(15) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `procedimientos`
+--
+
+INSERT INTO `procedimientos` (`idProcedimiento`, `Procedimiento`) VALUES
+('ESTD', 'Estadía'),
+('ESTNC1', 'Estancia 1'),
+('ESTNC2', 'Estancia 2');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `proyecto`
 --
 
 CREATE TABLE `proyecto` (
   `ProyectoID` int(11) NOT NULL,
-  `Nombre` varchar(50) NOT NULL,
+  `Nombre` text NOT NULL,
   `Funcion` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -480,7 +553,9 @@ INSERT INTO `proyecto` (`ProyectoID`, `Nombre`, `Funcion`) VALUES
 (5, 'Mar', 'Marrrrr'),
 (7, 'Gestion', 'Automatizar'),
 (8, 'Sistema Integrado de Gestión de Operaciones (SIGO)', 'optimizar y estandarizar procesos operativos a nivel globaL'),
-(16, 'Desarrollo de un Sistema de Control y Seguimiento ', 'Crear una plataforma web que permita a las empresas monitorear el avance de sus proyectos en tiempo real, facilitando la gestión de tareas, asignación de recursos y generación de reportes de progreso.');
+(16, 'Desarrollo de un Sistema de Control y Seguimiento ', 'Crear una plataforma web que permita a las empresas monitorear el avance de sus proyectos en tiempo real, facilitando la gestión de tareas, asignación de recursos y generación de reportes de progreso.'),
+(20, 'Diseño y Optimización de un Sistema de Refrigeración para Motores de Combustión Interna', 'Desarrollar y mejorar un sistema de enfriamiento eficiente para motores de combustión interna mediante simulaciones térmicas y pruebas experimentales, con el objetivo de optimizar el rendimiento del motor, reducir el consumo de combustible y minimizar el impacto ambiental.'),
+(21, 'Desarrollo de un Modelo de Optimización Financiera para la Gestión de Inversiones en Pequeñas Empresas', 'Crear un modelo financiero basado en análisis de riesgo y rentabilidad que ayude a las pequeñas empresas a tomar decisiones estratégicas de inversión, maximizando ganancias y minimizando riesgos mediante herramientas como simulaciones de Monte Carlo y análisis de sensibilidad.');
 
 -- --------------------------------------------------------
 
@@ -504,7 +579,9 @@ INSERT INTO `proyectoasesores` (`Id`, `Id_asesorE`, `Id_asesorA`, `Id_proyecto`)
 (10, 47, 2, 4),
 (11, 38, 10, 5),
 (13, 38, 10, 7),
-(14, 17, 31, 8);
+(14, 17, 31, 8),
+(26, 41, 17, 20),
+(27, 15, 19, 21);
 
 -- --------------------------------------------------------
 
@@ -547,6 +624,12 @@ ALTER TABLE `calificacionproyecto`
   ADD KEY `Alumno` (`Alumno`);
 
 --
+-- Indices de la tabla `carreras`
+--
+ALTER TABLE `carreras`
+  ADD PRIMARY KEY (`IdCarrera`);
+
+--
 -- Indices de la tabla `cartas`
 --
 ALTER TABLE `cartas`
@@ -586,13 +669,21 @@ ALTER TABLE `encuesta08`
 ALTER TABLE `equipos`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `Matricula` (`Matricula`),
-  ADD KEY `Id_Proyecto` (`Id_Proyecto`);
+  ADD KEY `Id_Proyecto` (`Id_Proyecto`),
+  ADD KEY `Procedimiento` (`Procedimiento`);
 
 --
 -- Indices de la tabla `estudiante`
 --
 ALTER TABLE `estudiante`
-  ADD PRIMARY KEY (`Matricula`);
+  ADD PRIMARY KEY (`Matricula`),
+  ADD KEY `Carrera` (`Carrera`);
+
+--
+-- Indices de la tabla `foest07`
+--
+ALTER TABLE `foest07`
+  ADD PRIMARY KEY (`Id_FOEST07`);
 
 --
 -- Indices de la tabla `formato03`
@@ -602,11 +693,17 @@ ALTER TABLE `formato03`
   ADD KEY `Matricula` (`Matricula`);
 
 --
+-- Indices de la tabla `procedimientos`
+--
+ALTER TABLE `procedimientos`
+  ADD PRIMARY KEY (`idProcedimiento`);
+
+--
 -- Indices de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
   ADD PRIMARY KEY (`ProyectoID`),
-  ADD UNIQUE KEY `Nombre` (`Nombre`);
+  ADD UNIQUE KEY `Nombre` (`Nombre`) USING HASH;
 
 --
 -- Indices de la tabla `proyectoasesores`
@@ -676,7 +773,13 @@ ALTER TABLE `encuesta08`
 -- AUTO_INCREMENT de la tabla `equipos`
 --
 ALTER TABLE `equipos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=216;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
+
+--
+-- AUTO_INCREMENT de la tabla `foest07`
+--
+ALTER TABLE `foest07`
+  MODIFY `Id_FOEST07` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `formato03`
@@ -688,13 +791,13 @@ ALTER TABLE `formato03`
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `ProyectoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `ProyectoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT de la tabla `proyectoasesores`
 --
 ALTER TABLE `proyectoasesores`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT de la tabla `valoracionesempresario`
@@ -741,7 +844,14 @@ ALTER TABLE `encuesta08`
 --
 ALTER TABLE `equipos`
   ADD CONSTRAINT `equipos_ibfk_2` FOREIGN KEY (`Matricula`) REFERENCES `estudiante` (`Matricula`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `equipos_ibfk_3` FOREIGN KEY (`Id_Proyecto`) REFERENCES `proyecto` (`ProyectoID`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `equipos_ibfk_3` FOREIGN KEY (`Id_Proyecto`) REFERENCES `proyecto` (`ProyectoID`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `equipos_ibfk_4` FOREIGN KEY (`Procedimiento`) REFERENCES `procedimientos` (`idProcedimiento`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `estudiante`
+--
+ALTER TABLE `estudiante`
+  ADD CONSTRAINT `estudiante_ibfk_1` FOREIGN KEY (`Carrera`) REFERENCES `carreras` (`IdCarrera`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `formato03`

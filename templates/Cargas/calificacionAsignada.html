@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Carga</title>
+    <link rel="stylesheet" href="{{
+        url_for('static',
+        filename='css/carga.css')}}">
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Alumno calificado</h1>
+            <div class="icon"><img src="../static/img/hourglass.gif" alt="gifcorrect" id="gifc"></div>
+                <p>La calificación asignada es: {{Calificacion}}</p>
+            <div class="dobleForm">
+                <form method="post" action="/" id="formulario">
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -31,8 +31,14 @@
                 <button class="button button-print">Descargar</button>
 
             </form>
-            <form action="/calificarExpediente" method="post">
+            <form action="/calificarExpedienteParcial" method="post">
                 <button class="button button-grade">Calificar</button>
+                <input type="hidden" name="proyecto" value="{{proyecto}}">
+                <input type="hidden" name="parcial" value="{{parcial}}">
+                <input type="hidden" id="nombre" name="nombre" value="{{nombre}}">
+                <input type="hidden" id="telefono" name="telefono" value="{{telefono}}">
+                <input type="hidden" id="ID" name="ID" value="{{ID}}">
+                
             </form>
         </div>
     </main>

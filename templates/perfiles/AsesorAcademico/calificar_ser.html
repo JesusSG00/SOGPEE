@@ -1,14 +1,18 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calificar Ser</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/calificar_ser.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/calificar_ser.css') }}">
 </head>
+
 <body>
     <div class="container">
+        <form action="/guardarCalificacionSer" method="post">
         <div class="form-container">
+<<<<<<< HEAD
             <!-- Columna izquierda -->
             <!-- <div class="left-column">
                 <div class="form-group">
@@ -29,26 +33,22 @@
             <div class="divider"></div>
 
             <!-- Columna derecha -->
+=======
+>>>>>>> 920cb478d8ec30b3d10c0c0754e85ed0b3556b02
             <div class="right-column">
                 <div class="form-group">
-                    <h1>Calificar Ser</h1>
-                    <label for="parcial">Parcial</label>
-                    <select id="parcial" name="parcial">
-                        <option value="">Seleccionar Parcial</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
-
-                    <label for="estudiante">Nombre del estudiante:</label>
-                    <select id="estudiante" name="estudiante">
-                        <option value="">...Seleccionar...</option>
-                    </select>
+                        <h1>Calificar Ser</h1>
+                        <h3>{{parcial}}</h3>
+                        <label for="estudiante">Nombre del estudiante:</label>
+                        <select id="estudiante" name="estudiante">
+                            <option value="0">Seleccionar</option>
+                            <option value="{{resultado|safe}}"></option>
+                        </select>
+                        <input type="hidden" name="parcial" value="{{parcial}}">
                 </div>
             </div>
         </div>
 
-        <!-- Tabla de evaluación única para todos los parciales -->
         <div id="evaluation-container" class="evaluation-container">
             <table class="evaluation-table">
                 <thead>
@@ -61,7 +61,7 @@
                     <tr>
                         <td>Puntualidad y asistencia</td>
                         <td>
-                            <select>
+                            <select name="puntualidad" id="puntualidad">
                                 <option value="">Seleccionar</option>
                                 <option value="5">5</option>
                                 <option value="6">6</option>
@@ -75,7 +75,7 @@
                     <tr>
                         <td>Responsabilidad en la veracidad y confiabilidad de la información</td>
                         <td>
-                            <select>
+                            <select name="responsabilidad" id="responsabilidad">
                                 <option value="">Seleccionar</option>
                                 <option value="5">5</option>
                                 <option value="6">6</option>
@@ -89,7 +89,7 @@
                     <tr>
                         <td>Atención y congruencia en las instrucciones del asesor académico</td>
                         <td>
-                            <select>
+                            <select name="atencion" id="atencion">
                                 <option value="">Seleccionar</option>
                                 <option value="5">5</option>
                                 <option value="6">6</option>
@@ -101,9 +101,10 @@
                         </td>
                     </tr>
                     <tr>
-                        <td>Ética en la confidencialidad y Objetividad en el desarrollo de la información empresarial</td>
+                        <td>Ética en la confidencialidad y Objetividad en el desarrollo de la información empresarial
+                        </td>
                         <td>
-                            <select>
+                            <select name="etica" id="etica">
                                 <option value="">Seleccionar</option>
                                 <option value="5">5</option>
                                 <option value="6">6</option>
@@ -117,7 +118,7 @@
                     <tr>
                         <td>Capacidad, innovación e iniciativa para resolver problemas</td>
                         <td>
-                            <select>
+                            <select name="capacidad" id="capacidad">
                                 <option value="">Seleccionar</option>
                                 <option value="5">5</option>
                                 <option value="6">6</option>
@@ -131,7 +132,7 @@
                     <tr>
                         <td>Evidencia liderazgo y analiza sus áreas de oportunidad</td>
                         <td>
-                            <select>
+                            <select name="liderazgo" id="liderazgo">
                                 <option value="">Seleccionar</option>
                                 <option value="5">5</option>
                                 <option value="6">6</option>
@@ -145,29 +146,11 @@
                 </tbody>
             </table>
             <br><br>
-             <button class="btn btn-calificar">Calificar</button>
+            <button class="btn btn-calificar">Calificar</button>
         </div>
-
-    </div>
-
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const parcialSelect = document.getElementById('parcial');
-            const estudianteSelect = document.getElementById('estudiante');
-            const evaluationContainer = document.getElementById('evaluation-container');
-
         
-
-            // Show/hide evaluation table based on partial selection
-            parcialSelect.addEventListener('change', function() {
-                if (this.value) {
-                    evaluationContainer.style.display = 'block';
-                } else {
-                    evaluationContainer.style.display = 'none';
-                }
-            });
-        });
-    </script>
+    </div>
+</form>
 </body>
+
 </html>

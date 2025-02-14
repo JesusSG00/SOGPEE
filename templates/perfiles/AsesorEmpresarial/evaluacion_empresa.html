@@ -11,22 +11,35 @@
     <form action="/EvEmpresasiguiente" method="post">
         <div class="container">
             <div class="header">
-                <h1>Formulario de Evaluación de Proyecto</h1>
-            </div>
+                <h1>FO-EST- 07 CUESTIONARIO DE SALIDA ESTANCIAS / ESTADÍA</h1>
+                <div class="codigo">
+                    <p>Código: FO-EST-07</p>
+                    <p>Edición: 6</p>
+                    <p>Fecha: 31/08/2022 </p>
+                </div>
     
+            </div>
+            
+            
             <div class="instructions">
                 <p>Instrucciones: Solicitamos de su tiempo para contestar las siguientes preguntas.</p>
             </div>
-    
-            <form id="evaluationForm">
-                
     
                 <div class="form-group">
                     <label for="projectTitle">Título del Proyecto del Estudiante</label>
                     <input type="text" id="projectTitle" name="projectTitle" disabled value="{{Nombreproyecto}}">
                     <input type="hidden" id="projectTitl" name="projectTitl" value="{{Nombreproyecto}}">
                 </div>
+
+                
     
+                <div class="form-group">
+                    <label>Integrantes del Equipo:</label>
+                   
+                        {{integrantes | safe}}
+                
+                </div>
+                
                 <div class="form-group">
                     <label for="companyName">Nombre de la Empresa</label>
                     <input type="text" id="companyName" name="companyName" disabled value="{{empresa}}">
@@ -49,46 +62,47 @@
                     <label for="advisorName">Nombre y Apellidos del Asesor Empresarial</label>
                     {{nombre | safe}}
                 </div>
-            </form>
-            <button>Siguiente</button>
+                
+                <button class="buttonSiguiente">Siguiente</button>
+            
         </div>
     </form>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const participationTypeRadios = document.querySelectorAll('input[name="participationType"]');
-            const teamMembersContainer = document.getElementById('team-members-container');
-            const teamMembersList = document.getElementById('teamMembersList');
-            const addTeamMemberBtn = document.getElementById('addTeamMember');
-            let teamMemberCount = 0;
+    //     document.addEventListener('DOMContentLoaded', function() {
+    //         const participationTypeRadios = document.querySelectorAll('input[name="participationType"]');
+    //         const teamMembersContainer = document.getElementById('team-members-container');
+    //         const teamMembersList = document.getElementById('teamMembersList');
+    //         const addTeamMemberBtn = document.getElementById('addTeamMember');
+    //         let teamMemberCount = 0;
 
-            participationTypeRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    teamMembersContainer.style.display = this.value === 'team' ? 'block' : 'none';
-                });
-            });
+    //         participationTypeRadios.forEach(radio => {
+    //             radio.addEventListener('change', function() {
+    //                 teamMembersContainer.style.display = this.value === 'team' ? 'block' : 'none';
+    //             });
+    //         });
 
-            addTeamMemberBtn.addEventListener('click', function() {
-                if (teamMemberCount < 5) {
-                    teamMemberCount++;
-                    const memberDiv = document.createElement('div');
-                    memberDiv.classList.add('team-member');
-                    memberDiv.innerHTML = `
-                        <input type="text" placeholder="Nombre del miembro ${teamMemberCount}" required>
-                        <button type="button" class="btn remove-btn">Eliminar</button>
-                    `;
+    //         addTeamMemberBtn.addEventListener('click', function() {
+    //             if (teamMemberCount < 5) {
+    //                 teamMemberCount++;
+    //                 const memberDiv = document.createElement('div');
+    //                 memberDiv.classList.add('team-member');
+    //                 memberDiv.innerHTML = `
+    //                     <input type="text" placeholder="Nombre del miembro ${teamMemberCount}" required>
+    //                     <button type="button" class="btn remove-btn">Eliminar</button>
+    //                 `;
 
-                    memberDiv.querySelector('.remove-btn').addEventListener('click', function() {
-                        teamMembersList.removeChild(memberDiv);
-                        teamMemberCount--;
-                    });
+    //                 memberDiv.querySelector('.remove-btn').addEventListener('click', function() {
+    //                     teamMembersList.removeChild(memberDiv);
+    //                     teamMemberCount--;
+    //                 });
 
-                    teamMembersList.appendChild(memberDiv);
-                } else {
-                    alert('Máximo 5 miembros permitidos');
-                }
-            });
-        });
-    </script>
+    //                 teamMembersList.appendChild(memberDiv);
+    //             } else {
+    //                 alert('Máximo 5 miembros permitidos');
+    //             }
+    //         });
+    //     });
+    // </script>
 </body>
 </html>

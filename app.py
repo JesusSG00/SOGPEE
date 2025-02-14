@@ -342,7 +342,6 @@ def calificarExpediente():
 #####   
 @app.route('/guardarCalificacionSer',methods=['POST'])
 def guardarCalificacionSer():
-    proyecto = request.form['proyecto']
     parcial = request.form['parcial']
     ID = IDproyecto(proyecto)
     matricula = request.form['matricula']

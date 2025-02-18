@@ -9,10 +9,23 @@ body {
 }
 
 header {
-    background-color: white;
-    padding: 15px 0;
-    color: #000000;
-    box-shadow: 0 2px 5px #fa5604;
+    background-color: #8a2036;
+    padding: 2.5vw;
+    text-align: left;
+    border-radius: 5px;
+    margin-bottom: 2vw;
+}
+    
+.tituloCarrera{
+    color: white;
+    font-size: 2.5vw;
+    font-weight: bold;
+}
+
+.tituloFormulario{
+    color: white;
+    font-size: 2vw;
+    font-weight: bold;
 }
 
 .nav {
@@ -36,7 +49,7 @@ header {
 
 
 h1 {
-    color: #005f73;
+    color: white;
     text-align: center;
     margin-bottom: 20px;
 }
@@ -200,4 +213,21 @@ input:focus, textarea:focus {
     section h1 {
         font-size: 20px;
     }
+}
+
+.buttonSiguiente{
+    background-color: #8a2036;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    margin-top: 1vw;
+}
+
+.buttonSiguiente:hover {
+    
+    background-color: #5c0f1f;
 }

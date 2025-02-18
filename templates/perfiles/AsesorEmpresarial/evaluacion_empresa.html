@@ -31,11 +31,15 @@
                     <input type="hidden" id="projectTitl" name="projectTitl" value="{{Nombreproyecto}}">
                 </div>
 
+                <div class="form-group">
+                    <label for="periodo">Periodo:</label>
+                    <input type="text" id="periodo" name="periodo" disabled value="{{periodo}}">
+                </div>
                 
     
                 <div class="form-group">
-                    <label>Integrantes del Equipo:</label>
-                   
+                    <label>Nombre(s) del/de los estudiante(s):</label>
+                        
                         {{integrantes | safe}}
                 
                 </div>

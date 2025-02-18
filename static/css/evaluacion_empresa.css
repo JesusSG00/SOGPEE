@@ -103,3 +103,8 @@ input, select {
     background-color: #5c0f1f;
     
 }
+
+li {
+    list-style-type: none;
+    margin-top: 1vh;
+}

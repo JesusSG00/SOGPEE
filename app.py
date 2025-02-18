@@ -62,19 +62,21 @@ def asesorEmpresarial2():
 def buscarExpedienteAsesorEmpresarial():
     ProyectoID= request.form['ProyectoID']
     integrantes = listaEstudiantes(ProyectoID)
-
+    periodo = periodoCuatrimestral()
    
     Nombreproyecto = proyectoAsesorEmpr(ProyectoID)
     empresa=cargarEmpresaEquipo(ProyectoID)
     nombre=NombreAsesor(ProyectoID)
+
     try:
         query = text("SELECT * FROM proyecto WHERE ProyectoID = :ProyectoID")
         with engine.connect() as conn:
             proyecto = conn.execute(query, {'ProyectoID': ProyectoID}).fetchone()
             if proyecto:
-                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes)
+                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes,periodo=periodo)
             else:
                 return render_template('Cargas/ProyectoNEncontrado.html')
+            
     except Exception as e:
         return render_template('Cargas/ProyectoNEncontrado.html')
     
@@ -104,6 +106,7 @@ def logincoordinacion2():
     password = request.form['password']
     resultado = inicioSesionCoordinacion2(correo,password)#Llamada a la funcion de inicio de sesion que nos reedirige a la pagina de principal del coordinador
     return resultado
+
 #Funcion para guardar los datos del formulario de registro de proyecto, equipos etc
 @app.route('/guardartodo',methods=['POST'])
 def guardartodo():
@@ -174,6 +177,7 @@ def guardartodo():
             return render_template('Error/Error.html',ID=ok)
         return render_template('Cargas/cargaEquipo.html')
     
+
 #Funcion para subir los documentos del estudiante
 @app.route('/enviarDocumentos', methods=['POST'])
 def enviarDocumentos():
@@ -478,21 +482,38 @@ def cargarCalificaciones(matricula):
 @app.route('/EvEmpresasiguiente',methods=['POST'])  
 def EvEmpresasiguiente():
     nombreProyecto = request.form['projectTitl']
-    si = obtenerMatriculas(nombreProyecto)
-    
+    # si = obtenerMatriculas(nombreProyecto)
+    procedimiento,carrera = obtenerProcedimientoYCarrera(nombreProyecto)
    
-    for carrera in si:
+    # for carrera in si:
+    if procedimiento and carrera:
         if carrera == "IS":
-            return render_template('Cuestionarios/cuestionario_salida_IS.html', nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_IS.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto)
         elif carrera == "IMA":
-            return render_template('Cuestionarios/cuestionario_salida_IMA.html', nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_IMA.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto)
         elif carrera == "IF":
-            return render_template('Cuestionarios/cuestionario_salida_IF.html', nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_IF.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto)
         elif carrera == "ITM":
-            return render_template('Cuestionarios/cuestionario_salida_ITM.html', nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_ITM.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto)
         elif carrera == "LNI":
-            return render_template('Cuestionarios/cuestionario_salida_LNI.html', nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_LNI.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto)
     return 'no'
+
+#Función para insertar los datos del cuestionario de salida
+def obtenerProcedimientoYCarrera(nombreProyecto):
+    query = text("""
+    SELECT DISTINCT eq.Procedimiento, e.Carrera
+    FROM equipos eq
+    INNER JOIN estudiante e ON eq.Matricula = e.Matricula
+    INNER JOIN proyecto p ON eq.Id_Proyecto = p.ProyectoID
+    WHERE p.Nombre = :nombreProyecto;
+    """)
+    with engine.connect() as conn:
+        resultado = conn.execute(query, {'nombreProyecto': nombreProyecto}).fetchone()
+        if resultado:
+            return resultado[0], resultado[1]  # Devuelve (procedimiento, carrera)
+        else:
+            return None, None  # Si no se encuentra el proyecto
 
 def obtenerIntegrantes(nombreProyecto):
     query = text("""
@@ -1221,8 +1242,18 @@ def listaEstudiantes(Proyecto):
         ok= conn.execute(query,{'Proyecto':Proyecto})
         ok = ok.fetchall()
         
-        opciones = ''.join([f'<li>{row[0]}{row[1]} {row[2]} {row[3]}</li>' for row in ok])      
+        opciones = ''.join([f'<li>{row[0]} {row[1]} {row[2]} {row[3]}</li>' for row in ok])      
         return opciones
+
+def periodoCuatrimestral():
+    query= text("SELECT * FROM periodos WHERE Estado = 'activo'")
+    with engine.connect() as conn:
+        ok= conn.execute(query)
+        ok = ok.fetchone()
+        if ok:
+            return ok[1]
+        else:
+            return 'No hay periodo activo'
 
 @app.route('/asignarContraseñas',methods=['POST'])
 def asignarContraseñaAcademico():
@@ -1287,12 +1318,13 @@ WHERE pro.ProyectoID = :equipo;""")
 
 
 def obtenerMatriculas(nombreP):
-    query = text("""SELECT 
+    query = text("""
+    SELECT 
     e.Carrera AS CarreraAlumno
-FROM estudiante e
-INNER JOIN equipos eq ON e.Matricula = eq.Matricula
-INNER JOIN proyecto p ON eq.Id_Proyecto = p.ProyectoID
-WHERE p.Nombre = :nombreP;""")
+    FROM estudiante e
+    INNER JOIN equipos eq ON e.Matricula = eq.Matricula
+    INNER JOIN proyecto p ON eq.Id_Proyecto = p.ProyectoID
+    WHERE p.Nombre = :nombreP;""")
     with engine.connect() as conn:
         ok = conn.execute(query, {'nombreP': nombreP})
         rows = ok.fetchall()

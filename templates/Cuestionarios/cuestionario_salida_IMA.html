@@ -264,6 +264,9 @@
             </div>
         </div>
     </section>
+    {% endif %}
+
+
     <section>
         <div>
             <label for="">¿EL PROYECTO RESOLVIÓ SU NECESIDAD ?</label><br>
@@ -314,21 +317,41 @@
 </main>
 
 <script>
-    function showForm(formId, clickedItem) {
-        // Ocultar todos los formularios
-        document.querySelectorAll('.form-section').forEach(form => {
-            form.classList.remove('active');
-        });
+    document.addEventListener("DOMContentLoaded", function () {
+        const checkboxes = document.querySelectorAll('input[name="funcion-estancia1"]');
 
-        // Mostrar el formulario seleccionado
-        document.getElementById(formId).classList.add('active');
+        checkboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", function () {
+                const selectedOptions = Array.from(checkboxes)
+                    .filter(cb => cb.checked)
+                    .map(cb => cb.value);
 
-        // Actualizar la clase activa en el menú
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.classList.remove('active');
+                // Si hay más de 3 seleccionados, desmarcamos el último cambio
+                if (selectedOptions.length > 3) {
+                    this.checked = false; // Desmarca el checkbox recién marcado
+                    return;
+                }
+
+                console.clear(); // Limpia la consola para evitar duplicados
+                console.log("Funciones seleccionadas:", selectedOptions);
+            });
         });
-        clickedItem.classList.add('active');
-    }
+    });
+    // function showForm(formId, clickedItem) {
+    //     // Ocultar todos los formularios
+    //     document.querySelectorAll('.form-section').forEach(form => {
+    //         form.classList.remove('active');
+    //     });
+
+    //     // Mostrar el formulario seleccionado
+    //     document.getElementById(formId).classList.add('active');
+
+    //     // Actualizar la clase activa en el menú
+    //     document.querySelectorAll('.nav-item').forEach(item => {
+    //         item.classList.remove('active');
+    //     });
+    //     clickedItem.classList.add('active');
+    // }
 
 </script>
 </body>

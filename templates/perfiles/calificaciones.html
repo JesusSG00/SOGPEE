@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisar</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/calificar_expediente.css') }}">
+</head>
+<body>
+    <header class="container-fluid d-flex justify-content-center bg-white p-2">
+        <a href="/" class="logo-upt">
+<img src="../static/img/logo_upt.png" alt="Logo UPT" height="125">
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="form-container">
+             <div class="right-column">
+                <div class="form-group">
+                    <h1>Calificaciones</h1>
+                    <label for="estudiante">Estudiante: {{Nombre1}} {{Nombre2}} {{ApellidoP}} {{ApellidoM}}</label>
+                   
+                    <label for="parcial">Seleccione un parcial</label>
+                    <select id="parcial" name="parcial">
+                        <option value="">Seleccionar Parcial</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                    </select>
+
+                    
+                </div>
+            </div>
+        </div>
+        
+          
+            <div id="evaluation-container-1" class="evaluation-container">
+                <table class="evaluation-table">
+                    <thead>
+                        <tr>
+                            <th>Apartado</th>
+                            <th>Calificación</th>
+
+                        </tr>
+                        
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Antecedentes</td>
+                            <td>
+                                <label for="Antecedentes"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Planteamiento del Problema</td>
+                            <td>
+                                <label for="Planteamiento"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Justificación</td>
+                            <td>
+                                <label for="Justificacion"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Objetivo General</td>
+                            <td>
+                                <label for="Objetivo"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Objetivos Específicos</td>
+                            <td>
+                                <label for="ObjetivoEspecifico"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Marco Teórico</td>
+                            <td>
+                                <label for="Marco"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Metodología</td>
+                            <td>
+                                <label for="Metodologia"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Cronograma</td>
+                            <td>
+                               <label for="Cronograma"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Desarrollo del Proyecto</td>
+                            <td>
+                               <label for="DesarrolloProyecto"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Resultados</td>
+                            <td>
+                               <label for="Resultados"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Conclusiones y Recomendaciones</td>
+                            <td>
+                                <label for="Conclusiones"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Referencias Bibliográficas</td>
+                            <td>
+                                <label for="Referencias"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Anexos</td>
+                            <td>
+                               <label for="Anexos"></label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Calificación Total</td>
+                            <td>
+                                <label for="Calificacion"></label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table><br>
+            </div>
+       
+         
+
+            <div id="evaluation-container-2" class="evaluation-container">
+                <table class="evaluation-table">
+                   
+                    <tbody>
+                        
+                    </tbody>
+                </table><br>
+               
+            </div>
+
+     
+
+            <div id="evaluation-container-3" class="evaluation-container">
+                <table class="evaluation-table">
+                   
+                    <tbody>
+                   
+                    </tbody>
+                </table><br>
+            </div>
+        
+        </div>
+
+
+    <script>
+
+
+    const selectElement = document.getElementById('estudiante');
+    const resultadoSpan = document.getElementById('matricula');
+    const resultadoSpanu2 = document.getElementById('matriculau2');
+    const resultadoSpanu3 = document.getElementById('matriculau3');
+    
+
+    selectElement.addEventListener('change', function() {
+    const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpan.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
+    const textoSeleccionadou2 = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanu2.value = textoSeleccionadou2 !== "--Selecciona una opción--" ? textoSeleccionadou2 : "Ninguno";
+    const textoSeleccionadou3 = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanu3.value = textoSeleccionadou3 !== "--Selecciona una opción--" ? textoSeleccionadou3 : "Ninguno";
+        });
+    </script>
+</body>
+</html>

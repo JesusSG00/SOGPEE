@@ -17,30 +17,7 @@
 </header><br>
 
 <div class="container">
-    <!-- <div class="form-container"> -->
-        <!-- Columna izquierda -->
-        <!-- <div class="left-column">
-            <div class="form-group">
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" value="{{Nombre1}} {{Nombre2}}" disabled>
-            </div>
-            <div class="form-group">
-                <label for="matricula">Matrícula:</label>
-                <input type="text" id="matricula" name="matricula" value="{{Matricula}}" disabled>
-            </div>
-            <div class="form-group">
-                <label for="telefono">Teléfono:</label>
-                <input type="tel" id="telefono" name="telefono" value="{{Telefono}}" disabled>
-            </div>
-            <div class="form-group">
-                <label for="correo">Correo:</label>
-                <input type="email" id="correo" name="correo" value="{{Correo}}" disabled>
-            </div>
-        </div> -->
-        
-            
-        
-        <!-- Divisor vertical -->
+
         <div class="divider"></div>
 
         <div>
@@ -51,12 +28,10 @@
                     <div class="form-group">
                         <label for="titulo" id="subtitulo">Título del proyecto</label>
                         <label for="titulo2">{{proyecto}}</label>
-                        <!-- <input type="text" value="{{proyecto}}" disabled> -->
                     </div>
                     <div class="form-group">
                         <label for="asesor" id="subtitulo">Asesor empresarial</label>
                         <label for="asesor2">{{asesor}}</label>
-                        <!-- <input type="text" value="{{asesor}}" disabled> -->
                         
                     </div>
                     <div class="form-group">
@@ -98,7 +73,7 @@
                                     <div class="loading-barProyecto" id="loading-barProyecto"></div>
                                 </label>
                                 <input type="file" name="proyecto" id="file-proyecto" class="file-input" accept=".pdf" onchange="submitForm('form-proyecto')">
-                                <input type="hidden" name="parcialR" id="resultado3" value="">
+                                <input type="hidden" name="parcialR" id="parcialproyecto" value="">
                                 <input type="hidden" id="nombre" name="nombre" value="{{Nombre1}}{{Nombre2}}">
                                 <input type="hidden" id="matricula" name="matricula" value="{{Matricula}}">
                                 <input type="hidden" id="correo" name="correo" value="{{Correo}}">
@@ -112,18 +87,13 @@
                             
                         </div>
                         <div>
-                            <h3 class="section-title">Enviar expediente</h3>
-                        <form id="form-evaluacion" action="/enviarDocumentos" method="POST" enctype="multipart/form-data">
-                            <label for="file-evaluacion" class="btn btn-evaluacion">Evaluación 03
-                                <div class="loading-bar03" id="loading-bar03"></div>
-                            </label>
-                            <input type="file" name="evaluacion3" id="file-evaluacion" class="file-input" accept=".pdf" onchange="submitForm('form-evaluacion')">
-                            <input type="hidden" name="parcialR" id="resultado2" value="">
-                            <input type="hidden" id="nombre" name="nombre" value="{{Nombre1}}{{Nombre2}}">
+                            <form id="form-evaluacion" action="/abrirCalificaciones" method="POST">
+                            <h3 class="section-title">Revisar calificaciones</h3>
                             <input type="hidden" id="matricula" name="matricula" value="{{Matricula}}">
                             <input type="hidden" id="correo" name="correo" value="{{Correo}}">
                             <input type="hidden" value="{{proyecto}}" name="proyectoR">
                             <input type="hidden" value="{{validar}}" name="validar">
+                            <button class="btn-calificaciones" name="accion" value="Abrir">Abrir</button>
 
                         </form>
                     </div>
@@ -157,69 +127,20 @@
     const buttonProyecto = document.querySelector(".btn-proyecto");
 
 
-    fileInput.addEventListener("change", function () {
-        if (fileInput.files.length > 0) {
-            button.classList.add("loading");
-            loadingBar.style.animation = "load 6s linear infinite";
-                setTimeout(() => {
-                loadingBar.style.animation = "none";
-                loadingBar.style.left = "-100%"; 
-                button.classList.remove("loading");
-                alert("Archivo enviado: " + fileInput.files[0].name);
-            }, 3000);
-        }
-    });
-
-    fileInput03.addEventListener("change", function () {
-        if (fileInput03.files.length > 0) {
-            button03.classList.add("loading03");
-            loadingBar03.style.animation = "load 6s linear infinite";
-                setTimeout(() => {
-                loadingBar03.style.animation = "none";
-                loadingBar03.style.left = "-100%"; 
-                button03.classList.remove("loading03");
-                alert("Archivo enviado: " + fileInput.files[0].name);
-            }, 3000);
-        }
-    });
 
 
-    fileInputProyecto.addEventListener("change", function () {
-        if (fileInputProyecto.files.length > 0) {
-            buttonProyecto.classList.add("loadingProyecto");
-            loadingBarProyecto.style.animation = "load 6s linear infinite";
-                setTimeout(() => {
-                loadingBarProyecto.style.animation = "none";
-                loadingBarProyecto.style.left = "-100%"; 
-                buttonProyecto.classList.remove("loadingProyecto");
-                alert("Archivo enviado: " + fileInput.files[0].name);
-            }, 3000);
-        }
-    });
-
-
-
-            // Referenciar el select y el span
     const selectElement = document.getElementById('parcial');
-    const selectElement2 = document.getElementById('parcial');
-    const selectElement3 = document.getElementById('parcial');
     const resultadoSpan = document.getElementById('resultado');
-    const resultadoSpan2 = document.getElementById('resultado2');
-    const resultadoSpan3 = document.getElementById('resultado3');
+    const resultadoSpan3 = document.getElementById('parcialproyecto');
 
     selectElement.addEventListener('change', function() {
     const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
     resultadoSpan.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
         });
 
-    selectElement2.addEventListener('change', function() {
-    const textoSeleccionado2 = selectElement2.options[selectElement2.selectedIndex].value;
-    resultadoSpan2.value = textoSeleccionado2 !== "--Selecciona una opción--" ? textoSeleccionado2 : "Ninguno";
-        });
 
-
-    selectElement3.addEventListener('change', function() {
-    const textoSeleccionado3 = selectElement3.options[selectElement3.selectedIndex].value;
+    selectElement.addEventListener('change', function() {
+    const textoSeleccionado3 = selectElement.options[selectElement.selectedIndex].value;
     resultadoSpan3.value = textoSeleccionado3 !== "--Selecciona una opción--" ? textoSeleccionado3 : "Ninguno";
         });
 </script>

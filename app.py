@@ -316,19 +316,23 @@ def abrirExpediente():
 def abrirExpediente_parcials():
     proyecto = request.form['proyecto']
     parcial = request.form['parcial']
+    IDAsesor = request.form['ID']
     ID = IDproyecto(proyecto)
     estudiantes = obtenerMatricula(ID)
-
-    texto = parcial
-    nuevo_texto = re.sub(r'(\D)(\d)', r'\1 \2', texto)
-    if nuevo_texto == "Parcial 1":
-        return render_template('perfiles/AsesorAcademico/CalificarP1.html',proyecto = proyecto,numero= nuevo_texto,estudiantes = estudiantes)
-    elif nuevo_texto == "Parcial 2":
-        return render_template('perfiles/AsesorAcademico/CalificarP2.html',proyecto = proyecto,numero= nuevo_texto,estudiantes = estudiantes)
+    
+    if parcial == "Parcial 1":
+        return render_template('perfiles/AsesorAcademico/CalificarP1.html',proyecto = proyecto,numero= parcial,estudiantes = estudiantes,IDAsesor = IDAsesor)
+    elif parcial == "Parcial 2":
+        return render_template('perfiles/AsesorAcademico/CalificarP2.html',proyecto = proyecto,numero= parcial,estudiantes = estudiantes,IDAsesor = IDAsesor)
     else:
-        return render_template('perfiles/AsesorAcademico/CalificarP3.html',proyecto = proyecto,numero= nuevo_texto,estudiantes = estudiantes)
+        return render_template('perfiles/AsesorAcademico/CalificarP3.html',proyecto = proyecto,numero= parcial,estudiantes = estudiantes,IDAsesor = IDAsesor)
 
-        
+@app.route('/abrirCalificaciones',methods=['POST'])
+def verCalificaciones():
+    matricula = request.form['matricula']
+    Calificaciones = Estudiante(matricula)
+    return Calificaciones
+
 
 @app.route('/calificarExpediente',methods=['POST'])
 def calificarExpediente():
@@ -357,9 +361,9 @@ def guardarCalificacionSer():
         return render_template('Cargas/EnvioCalificacion.html')
     else:
         return render_template('Error/Error.html')
-def guardarCalificacion(puntualidad,responsabilidad,atencion,etica,capacidad,liderazgo,matricula,parcial):
+def guardarCalificacion(matricula,parcial):
     try:
-        query = text("INSERT INTO Ser (Puntualidad,Responsabilidad,Atencion,Etica,Capacidad,Liderazgo,Calificacion,Matricula,Parcial) VALUES (:puntualidad,:responsabilidad,:atencion,:etica,:capacidad,:liderazgo,:calificacion,:Matricula,:Parcial)")
+        query = text("INSERT INTO c (Puntualidad,Responsabilidad,Atencion,Etica,Capacidad,Liderazgo,Calificacion,Matricula,Parcial) VALUES (:puntualidad,:responsabilidad,:atencion,:etica,:capacidad,:liderazgo,:calificacion,:Matricula,:Parcial)")
         with engine.connect() as conn:
             conn.execute(query,{'puntualidad':puntualidad,'responsabilidad':responsabilidad,'atencion':atencion,'etica':etica,'capacidad':capacidad,'liderazgo':liderazgo,'Matricula':matricula,'Parcial':parcial})
             conn.commit()
@@ -409,6 +413,63 @@ def inicioSesionEstudiante(matricula,correo):
                 validar = verificarAsignacionProyecto(matricula)
                 
                 return render_template('/perfiles/evaluacionEstudiante.html',Matricula=Matricula,Nombre1=Nombre1,Nombre2=Nombre2,ApellidoM=ApellidoM,ApellidoP=ApellidoP,Telefono=Telefono,Correo=Correo,proyecto = proyecto,asesor=asesor,validar= validar)
+            else:
+                return render_template('Error/EstudianteNoEncontrado.html')
+    except Exception as e:
+            return f'error {e}'
+    
+def Estudiante(matricula):
+    try:
+        query = text("SELECT Antecedentes,Planteamiento,Justificacion,Objetivos,ObjetivosEspecificos,MarcoTeorico,Cronograma,Desarrollo,Resultados,Conclusiones,Referencias,Anexos,Calificacion FROM calificacionproyecto WHERE Alumno = :matricula")
+        with engine.connect() as conn:
+            calificacion= conn.execute(query, {'matricula': matricula}).fetchone()
+            if calificacion:
+                Antecedentes = calificacion[0]
+                Planteamiento = calificacion[1]
+                Justificacion = calificacion[2]
+                Objetivos = calificacion[3]
+                ObjetivosEspecificos = calificacion[4]
+                MarcoTeorico = calificacion[5]
+                Cronograma = calificacion[6]
+                Desarrollo = calificacion[7]
+                Resultados = calificacion[8]
+                Conclusiones = calificacion[9]
+                Referencias = calificacion[10]
+                Anexos = calificacion[11]
+                Calificacion = calificacion[12]
+                try:
+                    query = text("SELECT Nombre1,Nombre2,ApellidoP,ApellidoM FROM estudiante WHERE matricula = :matricula")
+                    with engine.connect() as conn:
+                        ok= conn.execute(query, {'matricula': matricula}).fetchone()
+                        if ok:
+                            Nombre1 = ok[0]
+                            Nombre2 = ok[1]
+                            ApellidoP = ok[2]
+                            ApellidoM = ok[3]
+                            return render_template('/perfiles/calificaciones.html',Nombre1=Nombre1,Nombre2=Nombre2,ApellidoM=ApellidoM,ApellidoP=ApellidoP,Antecedentes=Antecedentes,Planteamiento=Planteamiento,Justificacion=Justificacion,Objetivos=Objetivos,ObjetivosEspecificos=ObjetivosEspecificos,MarcoTeorico=MarcoTeorico,Cronograma=Cronograma,Desarrollo=Desarrollo,Resultados=Resultados,Conclusiones=Conclusiones,Referencias=Referencias,Anexos=Anexos,Calificacion=Calificacion)
+                        else:
+                            return render_template('Error/EstudianteNoEncontrado.html')
+                except Exception as e:
+                    return f'error {e}'
+            else:
+                return render_template('Error/EstudianteNoEncontrado.html')
+    except Exception as e:
+        return f'error {e}'
+            
+
+def cargarCalificaciones(matricula):
+    try:
+        query = text("SELECT Puntualidad,Responsabilidad,Atencion,Etica,Capacidad,Liderazgo FROM ser WHERE Matricula = :matricula")
+        with engine.connect() as conn:
+            ok= conn.execute(query, {'matricula': matricula}).fetchone()
+            if ok:
+                Puntualidad = ok[0]
+                Responsabilidad = ok[1]
+                Atencion = ok[2]
+                Etica = ok[3]
+                Capacidad = ok[4]
+                Liderazgo = ok[5]
+                return render_template('/perfiles/calificaciones.html',Puntualidad=Puntualidad,Responsabilidad=Responsabilidad,Atencion=Atencion,Etica=Etica,Capacidad=Capacidad,Liderazgo=Liderazgo)
             else:
                 return render_template('Error/EstudianteNoEncontrado.html')
     except Exception as e:
@@ -724,7 +785,10 @@ def promedio(question11,question12,question13,question14,question15,question16,q
 @app.route('/calificarProyectoU1',methods=['POST'])
 def calificarProyectoU1():
     Matricula = request.form['matricula']
+    IDAsesor = request.form['IDAsesor']
     proyecto = request.form['proyecto']
+    if Matricula =="":
+        return 'Selecciona un alumno'
     validado = validarCalificado(Matricula)
     Antecedentes = int(request.form['Antecedentes'])
     Planteamiento = int(request.form['Planteamiento'])
@@ -732,13 +796,14 @@ def calificarProyectoU1():
     Objetivo = int(request.form['Objetivo'])
     ObjetivoEspecifico = int(request.form['ObjetivoEspecifico'])
     parcial = "Parcial 1"
+
     Calificacion = (Antecedentes+Planteamiento+Justificacion+Objetivo+ObjetivoEspecifico)/5
     if validado:
-        return render_template('cargas/calificacion.html',matricula = Matricula,Calificacion = Calificacion,parcial = parcial,proyecto=proyecto)
+        return render_template('cargas/calificacion.html',matricula = Matricula,Calificacion = Calificacion,parcial = parcial,proyecto=proyecto,Antecedentes = Antecedentes,Planteamiento = Planteamiento,Justificacion = Justificacion,Objetivo = Objetivo,ObjetivoEspecifico = ObjetivoEspecifico,IDAsesor = IDAsesor)
     else:
-        calificado = calificar(Matricula,Calificacion)
+        calificado = calificar(Matricula,Antecedentes,Planteamiento,Justificacion,Objetivo,ObjetivoEspecifico,Calificacion)
         if calificado:
-            return render_template('Cargas/calificacionAsignada.html',Calificacion = Calificacion,proyecto = proyecto)
+            return render_template('Cargas/calificacionAsignada.html',Calificacion = Calificacion,proyecto = proyecto,IDAsesor = IDAsesor)
             
         
 @app.route('/calificarProyectoU2',methods=['POST'])
@@ -782,11 +847,11 @@ def calificarProyectoU3():
     
 
 
-def calificar(matricula,calificacion):
+def calificar(matricula,antecedentes,planteamiento,justificacion,objetivos,especificos,calificacion):
     try:
-        query = text("INSERT INTO calificacionproyecto (Alumno, Calificacion,Parcial) VALUES (:Alumno,:Calificacion,'Parcial 1')")
+        query = text("INSERT INTO calificacionproyectop1 (Alumno,antecedentes,planteamiento,justificacion,objetivos,objetivosEspecificos,Calificacion,parcial) VALUES (:Alumno,:antecedentes,:planteamiento,:justificacion,:objetivos,:objetivosEspecificos,:Calificacion)")
         with engine.connect() as conn:
-            conn.execute(query,{'Alumno':matricula,'Calificacion':calificacion})
+            conn.execute(query,{"Alumno":matricula,"antecedentes":antecedentes,"planteamiento":planteamiento,"justificacion":justificacion,"objetivos":objetivos,"objetivosEspecificos":especificos,"Calificacion":calificacion})
             conn.commit()
             return True
     except Exception as e:
@@ -1238,32 +1303,33 @@ WHERE p.Nombre = :nombreP;""")
 
 @app.route('/correccionSi',methods=['POST'])
 def correccion():
+    IDAsesor = request.form['IDAsesor']
     calificacionN = request.form['Calificacion']
-    alumno = request.form['matricula']
-    parcial = request.form['parcial']
-    profesor = request.form['profesor']
-    telefono = request.form['telefono']
-    correo = request.form['correo']
-    correccion = correccionSi(calificacionN,alumno,parcial)
+    antecedentes = request.form['Antecedentes']
+    planteamiento = request.form['Planteamiento']
+    justificacion = request.form['Justificacion']
+    objetivos = request.form['Objetivo']
+    objetivosEspecificos = request.form['ObjetivoEspecifico']
+    matricula = request.form['matricula']
+    correccion = correccionSiP1(antecedentes,planteamiento,justificacion,objetivos,objetivosEspecificos,calificacionN,matricula)
     if correccion:
-        return render_template('Cargas/corregido.html',Calificacion = calificacionN,profesor = profesor,telefono = telefono, correo = correo)
+        return render_template('Cargas/corregido.html',Calificacion = calificacionN,IDAsesor = IDAsesor)
     else:
         return f'no se pudo corregir {calificacionN}'
 
 
-def correccionSi(calificacionN,alumno,parcial):
-    query = text("UPDATE calificacionproyecto SET Calificacion = :calificacionN WHERE Alumno = :alumno AND Parcial=:parcial")
+def correccionSiP1(antecedentes,planteamiento,justificacion,objetivos,objetivosEspecificos,calificacion,alumno):
+    query = text("UPDATE calificacionproyectop1 SET Antecedentes = :antecedentes,Planteamiento = :planteamiento,Justificacion = :justificacion,Objetivos = :objetivos,ObjetivosEspecificos = :objetivosEspecificos,Calificacion = :calificacion WHERE Alumno = :alumno")
     try:
         with engine.connect() as conn:
             with conn.begin():
-                conn.execute(query,{"calificacionN":calificacionN,"alumno":alumno,"parcial":parcial})    
+                conn.execute(query,{"antecedentes":antecedentes,"planteamiento":planteamiento,"justificacion":justificacion,"objetivos":objetivos,"objetivosEspecificos":objetivosEspecificos,"calificacion":calificacion,"alumno":alumno})    
             return True
     except Exception as e:
         return False
 
-@app.route('/reedireccionmenu',methods=['POST'])
+@app.route('/redireccionMenu',methods=['POST'])
 def redireccion():
-    parcial = request.form['parcial']
-    profesor = request.form['profesor']
-    telefono = request.form['telefono']
-    return render_template()
+    ID = request.form['IDAsesor']
+    resultado = cargarProyectosAsesor(ID)
+    return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID)

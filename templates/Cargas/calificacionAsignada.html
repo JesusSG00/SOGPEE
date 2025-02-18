@@ -7,7 +7,14 @@
     <link rel="stylesheet" href="{{
         url_for('static',
         filename='css/carga.css')}}">
-</head>
+        <script>
+            window.onload = function() {
+                setTimeout(function() {
+                    document.getElementById('formulario').submit();
+                }, 3000); 
+            };
+        </script>
+    </head>
 <body>
     <div class="container">
         <div class="card">
@@ -15,7 +22,12 @@
             <div class="icon"><img src="../static/img/hourglass.gif" alt="gifcorrect" id="gifc"></div>
                 <p>La calificación asignada es: {{Calificacion}}</p>
             <div class="dobleForm">
-                <form method="post" action="/" id="formulario">
+                <form method="post" action="/AbrirExpediente" id="formulario">
+                    <input type="hidden" name="proyecto" value="{{proyecto}}">
+                    <input type="hidden" id="ID" name="ID" value="{{IDAsesor}}">
+                  
+
+                    
                 </form>
             </div>
         </div>

@@ -257,11 +257,30 @@ input, select {
 .btn-proyecto {
     background-color: #00c853;
 }
+.btn-calificaciones {
+    background-color: #00964d;
+}
 
 .btn-evaluar {
     flex: 1; 
     padding: 10px;
     background-color: #0052cc; 
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    font-size: 16px;
+    transition: color 0.3s ease;
+    min-width: 100%; 
+    text-align: center; 
+}
+
+.btn-calificaciones {
+    flex: 1; 
+    padding: 10px;
+    background-color: #00964d; 
     color: white;
     border: none;
     border-radius: 4px;

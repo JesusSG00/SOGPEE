@@ -7,64 +7,85 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/cuestionario_salida2.css') }}">
 </head>
 <body>
-<header class="header">
+<!-- <header class="header">
     <nav class="nav container">
         <a href="#estancia1" class="nav-item active" onclick="showForm('estancia1', this)">ESTANCIA I</a>
         <a href="#estancia2" class="nav-item" onclick="showForm('estancia2', this)">ESTANCIA II</a>
         <a href="#estadia" class="nav-item" onclick="showForm('estadia', this)">ESTADÍA</a>
     </nav>
-</header>
+</header> -->
 
 <main class="container">
+    {% if procedimiento == "ESTNC1" %}
     <section id="estancia1" class="form-section active">
-        <h1>INGENIERÍA EN MECÁNICA AUTOMOTRIZ</h1>
-        <h1>Formulario de Estancia I</h1>
+        <header>
+            <h1 class="tituloCarrera">Ingeniería en Mecánica Automotriz</h1>
+            <h1 class="tituloFormulario" >Formulario de Estancia I</h1> 
+        </header>
+        
         <div class="question-container">
             <div class="question">
-                <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE
-                    DURANTE SU ESTANCIA I?</h2>
+                <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE DURANTE SU ESTANCIA I?</h2>
                 <div class="options-grid">
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="analizar-recursos">
-                            Estructurar sistemas de producción
+                            <input type="checkbox" name="funcion-estancia1" value="Dimensionar de componentes Mecánicos">
+                            Dimensionar de componentes Mecánicos
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="planificar-recursos">
-                            Control estadístico de calidad
+                            <input type="checkbox" name="funcion-estancia1.1" value="Establecimiento de procedimientos de manufactura">
+                            Establecimiento de procedimientos de manufactura
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Aplicar software de diseño
+                            <input type="checkbox" name="funcion-estancia1.2" value="Aplicar herramientas de medición mediante las TIC´s">
+                            Aplicar herramientas de medición mediante las TIC´s
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Implementación de normatividad para optimizar recursos
+                            <input type="checkbox" name="funcion-estancia1.3" value="Identificar características dimensionales y geométricas">
+                            Identificar características dimensionales y geométricas
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Análisis de rentabilidad de productos
+                            <input type="checkbox" name="funcion-estancia1.4" value="Aplicar herramientas mediante las TIC´s para generar planos de taller">
+                            Aplicar herramientas mediante las TIC´s para generar planos de taller
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Implementación de normatividad para optimizar recursos
+                            <input type="checkbox" name="funcion-estancia1.5" value="Implementar manual de mantenimiento">
+                            Implementar manual de mantenimiento
+                        </div>
+                    </label>
+                    <label class="option-item">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" name="funcion-estancia1.6" value="Reestructuración de procesos">
+                            Reestructuración de procesos
+                        </div>
+                    </label>
+                    <label class="option-item">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" name="funcion-estancia1.7" value="Estrategias de desarrollo">
+                            Estrategias de desarrollo
+                        </div>
+                    </label>
+                    <label class="option-item">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" name="funcion-estancia1.8" value="Mantenimiento mecánico">
+                            Mantenimiento mecánico
                         </div>
                     </label>
                     </label>
                     <!-- Añade más opciones aquí siguiendo el mismo patrón -->
                     <label class="option-item other-option">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="otras">
+                            <input type="checkbox" name="funcion-estancia1.9" value="otras">
                         </div>
                         <input type="text" placeholder="Otras funciones...">
                     </label>
@@ -73,6 +94,7 @@
         </div>
     </section>
 
+    {% elif procedimiento == "ESTNC2" %}
     <section id="estancia2" class="form-section">
         <h1>INGENIERÍA EN MECÁNICA AUTOMOTRIZ</h1>
         <h1>Formulario de Estancia II</h1>
@@ -84,65 +106,59 @@
                     <div class="options-grid">
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                                Gestión procesos de manufactura
+                                <input type="checkbox" name="funcion-estancia2.1" value="Proponer procesos de manufactura de componentes mecánicos">
+                                Proponer procesos de manufactura de componentes mecánicos
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                                Gestionar estándares de calidad
+                                <input type="checkbox" name="funcion-estancia2.2" value="Establecer procedimientos de fabricación">
+                                Establecer procedimientos de fabricación
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                                Estructurar mejoras en los procesos productivos
+                                <input type="checkbox" name="funcion-estancia2.3" value="Establecer normas de calidad y seguridad">
+                                Establecer normas de calidad y seguridad
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                                Planear diagnostico de procesos de producción
+                                <input type="checkbox" name="funcion-estancia2.4" value="Implementar procesos de manufactura convencional-CNC">
+                                Implementar procesos de manufactura convencional-CNC
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                                Controlar procesos de producción
+                                <input type="checkbox" name="funcion-estancia2.5" value="Implementar normas de la industria">
+                                Implementar normas de la industria
                             </div>
                         </label><label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Eficientar el manejo de recursos (Humanos, materiales, financieros)
+                            <input type="checkbox" name="funcion-estancia2.6" value="Definir componentes mecánicos">
+                            Definir componentes mecánicos
                         </div>
                     </label><label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Desarrollar sistemas de calidad
+                            <input type="checkbox" name="funcion-estancia2.7" value="Integrar sistemas mecánicos">
+                            Integrar sistemas mecánicos
                         </div>
                     </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                                Coordinar planes de mantenimiento de TPM, jidoka
+                                <input type="checkbox" name="funcion-estancia2.8" value="Simular modelos de componentes mecánicos mediante las TIC´s">
+                                Simular modelos de componentes mecánicos mediante las TIC´s
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                                Manejar software especializado
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                                Manejo de Equipo y maquinaria auxiliar en la organización
+                                <input type="checkbox" name="funcion-estancia2.9" value="Mantenimiento mecánico">
+                                Mantenimiento mecánico
                             </div>
                         </label>
                         <label class="option-item other-option">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="otras">
+                                <input type="checkbox" name="funcion-estancia2.10" value="otras">
                             </div>
                             <input type="text" placeholder="Otras funciones...">
                         </label>
@@ -151,77 +167,95 @@
             </div>
     </section>
 
+    {% elif procedimiento == "ESTD" %}
     <section id="estadia" class="form-section">
         <h1>INGENIERÍA EN MECÁNICA AUTOMOTRIZ</h1>
         <h1>Formulario de Estadía</h1>
         <div class="question-container">
             <div class="question">
-                <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE
-                    DURANTE SU ESTADÍA?</h2>
+                <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE DURANTE SU ESTADÍA?</h2>
                 <div class="options-grid">
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Evaluar proyectos productivos estratégicos e innovadores
+                            <input type="checkbox" name="funcion-estadia1.1" value="Establecer procedimientos de fabricación que cumplan con normas de calidad y seguridad">
+                            Establecer procedimientos de fabricación que cumplan con normas de calidad y seguridad
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Aplicar software de simulación
+                            <input type="checkbox" name="funcion-estadia1.2" value="Implementar procesos de Manufactura convencional y/o CNC mediante estándares">
+                            Implementar procesos de Manufactura convencional y/o CNC mediante estándares
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Aplicar herramientas de manufactura avanzada
+                            <input type="checkbox" name="funcion-estadia1.3" value="Integración de sistemas mecánicos">
+                            Integración de sistemas mecánicos
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Gestionar propuestas tecnológicas innovadoras
+                            <input type="checkbox" name="funcion-estadia1.4" value="Simulación de Componentes por medio de herramientas computacionales para validar comportamiento dinámico">
+                            Simulación de Componentes por medio de herramientas computacionales para validar comportamiento dinámico
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Diseñar productos utilizando paquetes CAD-CAM-CAE
+                            <input type="checkbox" name="funcion-estadia1.5" value="Integración de sistemas mecánicos">
+                            Integración de sistemas mecánicos
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Validar proyectos productivos
+                            <input type="checkbox" name="funcion-estadia1.6" value="Procedimientos de fabricación">
+                            Procedimientos de fabricación
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Toma de decisiones para mejora de competitividad
+                            <input type="checkbox" name="funcion-estadia1.7" value="Determinar la implementación de normas de calidad nacional e internacional ">
+                            Determinar la implementación de normas de calidad nacional e internacional 
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Generar planos y especificaciones de producto
+                            <input type="checkbox" name="funcion-estadia1.8" value="Implementación de normas ambientales nacional e internacional">
+                            Implementación de normas ambientales nacional e internacional
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Analizar procesos y productos
+                            <input type="checkbox" name="funcion-estadia1.9" value="Operación de industria 4.0">
+                            Operación de industria 4.0
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="diagnosticar-estado">
-                            Generar estrategias de productividad y competitividad
+                            <input type="checkbox" name="funcion-estadia1.10" value="Dirección de Recursos Humanos">
+                            Dirección de Recursos Humanos
+                        </div>
+                    </label>
+                    <label class="option-item">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" name="funcion-estadia1.11" value="Establecer mantenimiento mecánico">
+                            Establecer mantenimiento mecánico                        
+                        </div>
+                    </label>
+                    <label class="option-item">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" name="funcion-estadia1.12" value="Implementación de procesos de manufactura por medio de tecnología">
+                            Implementación de procesos de manufactura por medio de tecnología
+                        </div>
+                    </label>
+                    <label class="option-item">
+                        <div class="checkbox-wrapper">
+                            <input type="checkbox" name="funcion-estadia1.13" value="Estrategias para el desarrollo de vehículos para el cuidado y protección del medio ambiente">
+                            Estrategias para el desarrollo de vehículos para el cuidado y protección del medio ambiente
                         </div>
                     </label>
                     <label class="option-item other-option">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="otras">
+                            <input type="checkbox" name="funcion-estadia1.14" value="otras">
                         </div>
                         <input type="text" placeholder="Otras funciones...">
                     </label>
@@ -233,40 +267,41 @@
     <section>
         <div>
             <label for="">¿EL PROYECTO RESOLVIÓ SU NECESIDAD ?</label><br>
-            <input type="radio"> Si
-            <br>
-            <input type="radio"> No
+                <input type="radio" value="Si"> Si
+                <br>
+                <input type="radio" value="No"> No
         </div>
         <div>
             <label for="">LE INTERESARÍA PARTICIPAR EN PROYECTOS DE INVESTIGACIÓN Y DESARROLLO TECNOLÓGICO, ASESORADOS
                 POR LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label>
-            <input type="radio"> Si
-            <br>
-            <input type="radio"> No
+                <input type="radio" value="Si"> Si
+                <br>
+                <input type="radio" value="No"> No
         </div>
         <div>
             <label for="">¿REALIZA INVESTIGACIÓN Y DESARROLLO EN SU EMPRESA?</label>
-            <input type="radio"> Si
-            <br>
-            <input type="radio"> No
+                <input type="radio" value="Si"> Si
+                <br>
+                <input type="radio" value="No"> No
         </div>
         <div>
             <label for="">¿ESTARÍA USTED DISPUESTO A CONTRATAR A EGRESADOS DE LA UNIVERSIDAD POLITÉCNICA DE
                 TECÁMAC?</label>
-            <input type="radio"> Si
-            <br>
-            <input type="radio"> No
+                <input type="radio" value="Si"> Si
+                <br>
+                <input type="radio" value="No"> No
             <br>
 
             <label for="">¿POR QUÉ?</label><br>
             <input type="text">
+
         </div>
         <div>
             <label for="">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL
                 PROYECTO?</label>
-            <input type="radio"> Si
-            <br>
-            <input type="radio"> No
+                <input type="radio" value="Si"> Si
+                <br>
+                <input type="radio" value="No"> No
         </div>
         <div>
             <label for="">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR

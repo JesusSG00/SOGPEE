@@ -18,13 +18,13 @@ header {
     
 .tituloCarrera{
     color: white;
-    font-size: 2.5vw;
+    font-size: 5vh;
     font-weight: bold;
 }
 
 .tituloFormulario{
     color: white;
-    font-size: 2vw;
+    font-size: 3vh;
     font-weight: bold;
 }
 
@@ -230,4 +230,10 @@ input:focus, textarea:focus {
 .buttonSiguiente:hover {
     
     background-color: #5c0f1f;
+}
+
+.radio-section{
+    padding: 20px;
+    border-radius: 8px;
+    
 }

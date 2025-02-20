@@ -365,6 +365,7 @@ def guardarCalificacionSer():
         return render_template('Cargas/EnvioCalificacion.html')
     else:
         return render_template('Error/Error.html')
+        
 def guardarCalificacion(matricula,parcial):
     try:
         query = text("INSERT INTO c (Puntualidad,Responsabilidad,Atencion,Etica,Capacidad,Liderazgo,Calificacion,Matricula,Parcial) VALUES (:puntualidad,:responsabilidad,:atencion,:etica,:capacidad,:liderazgo,:calificacion,:Matricula,:Parcial)")

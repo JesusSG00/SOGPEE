@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-02-2025 a las 21:44:11
+-- Tiempo de generación: 20-02-2025 a las 03:40:02
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -152,26 +152,73 @@ INSERT INTO `asesorempresarial` (`AsesorID`, `Nombre1`, `Nombre2`, `ApellidoP`, 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `calificacionproyecto`
+-- Estructura de tabla para la tabla `calificacionproyectop1`
 --
 
-CREATE TABLE `calificacionproyecto` (
+CREATE TABLE `calificacionproyectop1` (
   `Id` int(11) NOT NULL,
   `Alumno` int(11) NOT NULL,
-  `Calificacion` float NOT NULL,
-  `Parcial` text NOT NULL
+  `Antecedentes` int(11) DEFAULT NULL,
+  `Planteamiento` int(11) DEFAULT NULL,
+  `Justificacion` int(11) DEFAULT NULL,
+  `Objetivos` int(11) DEFAULT NULL,
+  `ObjetivosEspecificos` int(11) DEFAULT NULL,
+  `Calificacion` float NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `calificacionproyecto`
+-- Volcado de datos para la tabla `calificacionproyectop1`
 --
 
-INSERT INTO `calificacionproyecto` (`Id`, `Alumno`, `Calificacion`, `Parcial`) VALUES
-(3, 1322134084, 5, 'Parcial 1'),
-(4, 1322134085, 5, 'Parcial 1'),
-(6, 1322134084, 8, 'Parcial 2'),
-(8, 1322134084, 8, 'Parcial 3'),
-(10, 1322134083, 9, 'Parcial 1');
+INSERT INTO `calificacionproyectop1` (`Id`, `Alumno`, `Antecedentes`, `Planteamiento`, `Justificacion`, `Objetivos`, `ObjetivosEspecificos`, `Calificacion`) VALUES
+(15, 1322134083, 9, 8, 5, 9, 5, 7.2);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `calificacionproyectop2`
+--
+
+CREATE TABLE `calificacionproyectop2` (
+  `id` int(11) NOT NULL,
+  `Alumno` int(11) NOT NULL,
+  `Marco` int(11) NOT NULL,
+  `Metodologia` int(11) NOT NULL,
+  `Cronograma` int(11) NOT NULL,
+  `Desarrollo` int(11) NOT NULL,
+  `Calificacion` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `calificacionproyectop2`
+--
+
+INSERT INTO `calificacionproyectop2` (`id`, `Alumno`, `Marco`, `Metodologia`, `Cronograma`, `Desarrollo`, `Calificacion`) VALUES
+(1, 1322134083, 10, 9, 10, 10, 9.75),
+(3, 1322134084, 10, 10, 9, 9, 9.5);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `calificacionproyectop3`
+--
+
+CREATE TABLE `calificacionproyectop3` (
+  `id` int(11) NOT NULL,
+  `Alumno` int(11) NOT NULL,
+  `Resultados` int(11) NOT NULL,
+  `Conclusiones` int(11) NOT NULL,
+  `Referencias` int(11) NOT NULL,
+  `Anexos` int(11) NOT NULL,
+  `Calificacion` float NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `calificacionproyectop3`
+--
+
+INSERT INTO `calificacionproyectop3` (`id`, `Alumno`, `Resultados`, `Conclusiones`, `Referencias`, `Anexos`, `Calificacion`) VALUES
+(1, 1322134083, 10, 9, 9, 9, 9.25);
 
 -- --------------------------------------------------------
 
@@ -213,10 +260,10 @@ CREATE TABLE `cartas` (
 --
 
 INSERT INTO `cartas` (`Id`, `Matricula`, `Cartas`, `Parcial`) VALUES
-(1, 1322134083, 'Documentos\\1322134083\\Parcial1\\Cartas\\cartasJesusMargaritoParcial1.pdf', 'Parcial1'),
-(2, 1322134083, 'Documentos\\1322134083\\Parcial3\\Cartas\\cartasJesusMargaritoParcial3.pdf', 'Parcial3'),
-(4, 1322134083, 'Documentos\\1322134083\\Parcial2\\Cartas\\cartasJesusMargaritoParcial2.pdf', 'Parcial2'),
-(5, 1322134100, 'Documentos\\1322134100\\Parcial1\\Cartas\\cartasMonicaRocioParcial1.pdf', 'Parcial1');
+(1, 1322134083, 'Documentos\\1322134083\\Parcial1\\Cartas\\cartasJesusMargaritoParcial1.pdf', 'Parcial 1'),
+(2, 1322134083, 'Documentos\\1322134083\\Parcial3\\Cartas\\cartasJesusMargaritoParcial3.pdf', 'Parcial 3'),
+(4, 1322134083, 'Documentos\\1322134083\\Parcial2\\Cartas\\cartasJesusMargaritoParcial2.pdf', 'Parcial 2'),
+(5, 1322134100, 'Documentos\\1322134100\\Parcial1\\Cartas\\cartasMonicaRocioParcial1.pdf', 'Parcial 1');
 
 -- --------------------------------------------------------
 
@@ -260,11 +307,7 @@ CREATE TABLE `documentos` (
 --
 
 INSERT INTO `documentos` (`Id`, `Matricula`, `Proyecto`, `Parcial`, `NombreProyecto`) VALUES
-(11, 1322134083, 'Documentos\\1322134083\\Parcial2\\Proyecto\\proyetoJesusMargaritoParcial2.pdf', 'Parcial2', 'SOGPEE'),
-(12, 1322134083, 'Documentos\\1322134083\\Parcial3\\Proyecto\\proyetoJesusMargaritoParcial3.pdf', 'Parcial3', 'SOGPEE'),
-(13, 1322134083, 'Documentos\\1322134083\\Parcial1\\Proyecto\\proyetoJesusMargaritoParcial1.pdf', 'Parcial1', 'SOGPEE'),
-(15, 1322134085, 'Documentos\\1322134085\\Parcial2\\Proyecto\\proyetoAnaMariaParcial2.pdf', 'Parcial2', 'Iris'),
-(16, 1322134100, 'Documentos\\1322134100\\Parcial1\\Proyecto\\proyetoMonicaRocioParcial1.pdf', 'Parcial1', 'No asignado');
+(17, 1322134083, 'Documentos\\1322134083\\Parcial 1\\Proyecto\\proyetoJesusMargaritoParcial_1.pdf', 'Parcial 1', 'SOGPEE');
 
 -- --------------------------------------------------------
 
@@ -477,6 +520,7 @@ CREATE TABLE `foest07` (
   `Periodo` varchar(50) DEFAULT NULL,
   `TituloProyecto` text DEFAULT NULL,
   `NoEquipo` int(11) DEFAULT NULL,
+  `Procedimiento` varchar(6) NOT NULL,
   `NombreEmpresa` varchar(100) DEFAULT NULL,
   `Modalidad` varchar(50) DEFAULT NULL,
   `GradoEstudiosAsesorEmp` varchar(100) DEFAULT NULL,
@@ -586,6 +630,33 @@ INSERT INTO `proyectoasesores` (`Id`, `Id_asesorE`, `Id_asesorA`, `Id_proyecto`)
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `ser`
+--
+
+CREATE TABLE `ser` (
+  `ID` int(11) NOT NULL,
+  `Puntualidad` int(11) NOT NULL,
+  `Responsabilidad` int(11) NOT NULL,
+  `Atencion` int(11) NOT NULL,
+  `Etica` int(11) NOT NULL,
+  `Capacidad` int(11) NOT NULL,
+  `Liderazgo` int(11) NOT NULL,
+  `Calificacion` float NOT NULL,
+  `Matricula` int(11) NOT NULL,
+  `Parcial` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `ser`
+--
+
+INSERT INTO `ser` (`ID`, `Puntualidad`, `Responsabilidad`, `Atencion`, `Etica`, `Capacidad`, `Liderazgo`, `Calificacion`, `Matricula`, `Parcial`) VALUES
+(4, 10, 9, 9, 10, 10, 7, 9, 1322134083, 'Parcial 1'),
+(9, 6, 10, 9, 10, 8, 10, 8.83333, 1322134084, 'Parcial 1');
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `valoracionesempresario`
 --
 
@@ -617,10 +688,24 @@ ALTER TABLE `asesorempresarial`
   ADD KEY `EmpresaID` (`Empresa`);
 
 --
--- Indices de la tabla `calificacionproyecto`
+-- Indices de la tabla `calificacionproyectop1`
 --
-ALTER TABLE `calificacionproyecto`
+ALTER TABLE `calificacionproyectop1`
   ADD PRIMARY KEY (`Id`),
+  ADD KEY `Alumno` (`Alumno`);
+
+--
+-- Indices de la tabla `calificacionproyectop2`
+--
+ALTER TABLE `calificacionproyectop2`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Alumno` (`Alumno`);
+
+--
+-- Indices de la tabla `calificacionproyectop3`
+--
+ALTER TABLE `calificacionproyectop3`
+  ADD PRIMARY KEY (`id`),
   ADD KEY `Alumno` (`Alumno`);
 
 --
@@ -715,6 +800,13 @@ ALTER TABLE `proyectoasesores`
   ADD KEY `Id_proyecto` (`Id_proyecto`);
 
 --
+-- Indices de la tabla `ser`
+--
+ALTER TABLE `ser`
+  ADD PRIMARY KEY (`ID`),
+  ADD KEY `Matricula` (`Matricula`);
+
+--
 -- Indices de la tabla `valoracionesempresario`
 --
 ALTER TABLE `valoracionesempresario`
@@ -740,10 +832,22 @@ ALTER TABLE `asesorempresarial`
   MODIFY `AsesorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
 
 --
--- AUTO_INCREMENT de la tabla `calificacionproyecto`
+-- AUTO_INCREMENT de la tabla `calificacionproyectop1`
 --
-ALTER TABLE `calificacionproyecto`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `calificacionproyectop1`
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+
+--
+-- AUTO_INCREMENT de la tabla `calificacionproyectop2`
+--
+ALTER TABLE `calificacionproyectop2`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `calificacionproyectop3`
+--
+ALTER TABLE `calificacionproyectop3`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `cartas`
@@ -761,7 +865,7 @@ ALTER TABLE `coordinacion`
 -- AUTO_INCREMENT de la tabla `documentos`
 --
 ALTER TABLE `documentos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `encuesta08`
@@ -800,6 +904,12 @@ ALTER TABLE `proyectoasesores`
   MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
+-- AUTO_INCREMENT de la tabla `ser`
+--
+ALTER TABLE `ser`
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
 -- AUTO_INCREMENT de la tabla `valoracionesempresario`
 --
 ALTER TABLE `valoracionesempresario`
@@ -816,10 +926,22 @@ ALTER TABLE `asesorempresarial`
   ADD CONSTRAINT `asesorempresarial_ibfk_1` FOREIGN KEY (`Empresa`) REFERENCES `empresa` (`Nombre`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Filtros para la tabla `calificacionproyecto`
+-- Filtros para la tabla `calificacionproyectop1`
 --
-ALTER TABLE `calificacionproyecto`
-  ADD CONSTRAINT `calificacionproyecto_ibfk_1` FOREIGN KEY (`Alumno`) REFERENCES `estudiante` (`Matricula`) ON DELETE CASCADE ON UPDATE CASCADE;
+ALTER TABLE `calificacionproyectop1`
+  ADD CONSTRAINT `calificacionproyectop1_ibfk_1` FOREIGN KEY (`Alumno`) REFERENCES `estudiante` (`Matricula`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `calificacionproyectop2`
+--
+ALTER TABLE `calificacionproyectop2`
+  ADD CONSTRAINT `calificacionproyectop2_ibfk_1` FOREIGN KEY (`Alumno`) REFERENCES `estudiante` (`Matricula`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `calificacionproyectop3`
+--
+ALTER TABLE `calificacionproyectop3`
+  ADD CONSTRAINT `calificacionproyectop3_ibfk_1` FOREIGN KEY (`Alumno`) REFERENCES `estudiante` (`Matricula`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `cartas`
@@ -866,6 +988,12 @@ ALTER TABLE `proyectoasesores`
   ADD CONSTRAINT `proyectoasesores_ibfk_1` FOREIGN KEY (`Id_asesorA`) REFERENCES `asesoracademico` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `proyectoasesores_ibfk_2` FOREIGN KEY (`Id_asesorE`) REFERENCES `asesorempresarial` (`AsesorID`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `proyectoasesores_ibfk_3` FOREIGN KEY (`Id_proyecto`) REFERENCES `proyecto` (`ProyectoID`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ser`
+--
+ALTER TABLE `ser`
+  ADD CONSTRAINT `ser_ibfk_1` FOREIGN KEY (`Matricula`) REFERENCES `estudiante` (`Matricula`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `valoracionesempresario`

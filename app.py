@@ -115,12 +115,15 @@ def guardartodo():
     numero = request.form['numintegrantes']
     asesorA = request.form['AsesorAcademico']
     asesorE = request.form['AsesorEmpresarial']
+    Procedimiento = request.form['Procedimiento']
+    if Procedimiento == "0":
+        return 'selecciona procedimiento'
     if numero == '1': #Se ejecuta si el equipo tiene 1 integrante
         matricula = request.form['estudiante-0-campo1']
         agregarproyectos(titulo,funcion) #Se agrega el proyecto a la base de datos
         ID = cargarIDProyecto(titulo) #Se obtiene el ID del proyecto que se acaba de agregar
         equipo = cargarEquipoMaximo() #Se obtiene el numero del ultimo equipo agregado +1
-        ok = guardarEquipo(matricula,equipo,ID) #Se guarda el equipo en la base de datos si todo es correcto
+        ok = guardarEquipo(matricula,equipo,ID,Procedimiento) #Se guarda el equipo en la base de datos si todo es correcto
         guardarProyectoAsesores(ID,asesorE,asesorA) #Se asignan los asesores al proyecto
         if ok != True: #Si hay un error se redirige a la pagina de error
             return render_template('Error/Error.html',ID=ok) #Se redirige a la pagina de error con el ID del proyecto para identifcar el proyecto y se borre
@@ -131,7 +134,7 @@ def guardartodo():
             agregarproyectos(titulo,funcion)
             ID = cargarIDProyecto(titulo)
             equipo = cargarEquipoMaximo()
-            ok= guardarEquipo2(matricula,matricula2,equipo,ID)
+            ok= guardarEquipo2(matricula,matricula2,equipo,ID,Procedimiento)
             guardarProyectoAsesores(ID,asesorE,asesorA)
             if ok != True:
                 return render_template('Error/Error.html',ID=ok)
@@ -143,7 +146,7 @@ def guardartodo():
         agregarproyectos(titulo,funcion)
         ID = cargarIDProyecto(titulo)
         equipo = cargarEquipoMaximo()
-        ok = guardarEquipo3(matricula,matricula2,matricula3,equipo,ID)
+        ok = guardarEquipo3(matricula,matricula2,matricula3,equipo,ID,Procedimiento)
         guardarProyectoAsesores(ID,asesorE,asesorA)
         if ok != True:
             return render_template('Error/Error.html',ID=ok)
@@ -156,7 +159,7 @@ def guardartodo():
         agregarproyectos(titulo,funcion)
         ID = cargarIDProyecto(titulo)
         equipo = cargarEquipoMaximo()
-        ok= guardarEquipo4(matricula,matricula2,matricula3,matricula4,equipo,ID)
+        ok= guardarEquipo4(matricula,matricula2,matricula3,matricula4,equipo,ID,Procedimiento)
         guardarProyectoAsesores(ID,asesorE,asesorA)
 
         if ok != True:
@@ -171,7 +174,7 @@ def guardartodo():
         agregarproyectos(titulo,funcion)
         ID = cargarIDProyecto(titulo)
         equipo = cargarEquipoMaximo()
-        ok= guardarEquipo5(matricula,matricula2,matricula3,matricula4,matricula5,equipo,ID)
+        ok= guardarEquipo5(matricula,matricula2,matricula3,matricula4,matricula5,equipo,ID,Procedimiento)
         guardarProyectoAsesores(ID,asesorE,asesorA)
         if ok != True:
             return render_template('Error/Error.html',ID=ok)
@@ -363,9 +366,11 @@ def guardarCalificacionSer():
     parcial = request.form['parcial']
     
     calificacion = (puntualidad+responsabilidad+atencion+etica+capacidad+liderazgo)/6
+    redondeo = round(calificacion,1)
+    calificacion = redondeo
     guardado = guardarCalificacion(puntualidad, responsabilidad, atencion, etica, capacidad, liderazgo, calificacion,matricula, parcial)
     if guardado == True:
-        return render_template('Cargas/EnvioCalificacion.html',calificacion = calificacion,proyecto = proyecto)
+        return render_template('Cargas/EnvioCalificacion.html',calificacion = calificacion,proyecto = proyecto,parcial= parcial)
     else:
         return render_template('Error/Error.html')
         
@@ -427,84 +432,64 @@ def inicioSesionEstudiante(matricula,correo):
     except Exception as e:
             return f'error {e}'
     
+
+
 def Estudiante(matricula):
-    
-    
     try:
-        query = text("SELECT Nombre1,Nombre2,ApellidoP,ApellidoM FROM estudiante WHERE matricula = :matricula")
         with engine.connect() as conn:
-            ok = conn.execute(query, {'matricula': matricula}).fetchone()
-            if ok:
-                Nombre1 = ok[0]
-                Nombre2 = ok[1]
-                ApellidoP = ok[2]
-                ApellidoM = ok[3]
-                calificacionF = calificacionfinal(matricula)
-                try:
-                    query = text("SELECT Antecedentes,Planteamiento,Justificacion,Objetivos,ObjetivosEspecificos,Calificacion FROM calificacionproyectop1 WHERE Alumno = :matricula")
-                    with engine.connect() as conn:
-                        calificacion = conn.execute(query, {'matricula': matricula}).fetchone()
-                        if calificacion:
-                            Antecedentes = calificacion[0]
-                            Planteamiento = calificacion[1]
-                            Justificacion = calificacion[2]
-                            Objetivos = calificacion[3]
-                            ObjetivosEspecificos = calificacion[4]
-                            Calificacion = calificacion[5]
-                        else:
-                            Antecedentes=Planteamiento=Justificacion=Objetivos=ObjetivosEspecificos = ""
-                            Calificacion = "No calificado"
-                    
-                    
-                    try:
-                        query = text("SELECT Marco,Metodologia,Cronograma,Desarrollo,Calificacion FROM calificacionproyectop2 WHERE Alumno = :matricula")
-                        with engine.connect() as conn:
-                            calificacion = conn.execute(query, {'matricula': matricula}).fetchone()
-                            if calificacion:
-                                Marco = calificacion[0]
-                                Metodologia = calificacion[1]
-                                Cronograma = calificacion[2]
-                                Desarrollo = calificacion[3]
-                                CalificacionP2 = calificacion[4]
-                            else:
-                                Marco=Metodologia=Cronograma=Desarrollo = ""
-                                CalificacionP2 = "No calificado"
-
-                        try:
-                            query = text("SELECT Resultados,Conclusiones,Referencias,Anexos,Calificacion FROM calificacionproyectop3 WHERE Alumno = :matricula")
-                            with engine.connect() as conn:
-                                calificacion = conn.execute(query, {'matricula': matricula}).fetchone()
-                                if calificacion:
-                                    Resultados = calificacion[0]
-                                    Conclusiones = calificacion[1]
-                                    Referencias = calificacion[2]
-                                    Anexos = calificacion[3]
-                                    CalificacionP3 = calificacion[4]
-                                else:
-                                    Resultados=Conclusiones=Referencias=Anexos = ""
-                                    CalificacionP3 = "No calificado"
-
-                                return render_template('/perfiles/calificaciones.html', Nombre1=Nombre1, Nombre2=Nombre2, ApellidoM=ApellidoM, ApellidoP=ApellidoP, Antecedentes=Antecedentes, 
-                                                        Planteamiento=Planteamiento, Justificacion=Justificacion, Objetivos=Objetivos,
-                                                        ObjetivosEspecificos=ObjetivosEspecificos, 
-                                                        Calificacion=Calificacion, Marco=Marco, Metodologia=Metodologia, Cronograma=Cronograma, Desarrollo=Desarrollo, CalificacionP2=CalificacionP2, 
-                                                        Resultados=Resultados, Conclusiones=Conclusiones, Referencias=Referencias, Anexos=Anexos, CalificacionP3=CalificacionP3, calificacionF=calificacionF)
-                        except Exception as e:
-                            return f'error {e}'
-                        
-                    
-                
-                    except Exception as e:
-                        return f'error {e}'
-                
-                
-                
-                except Exception as e:
-                    return f'error {e}'
-            else:
+            # Obtener datos del estudiante
+            query = text("SELECT Nombre1, Nombre2, ApellidoP, ApellidoM FROM estudiante WHERE matricula = :matricula")
+            estudiante = conn.execute(query, {'matricula': matricula}).fetchone()
+            if not estudiante:
                 return render_template('Error/EstudianteNoEncontrado.html')
+
+            Nombre1, Nombre2, ApellidoP, ApellidoM = estudiante
+
+            # Obtener calificación final
+            calificacionF = calificacionfinal(matricula)
+
+            # Diccionario para almacenar calificaciones con valores por defecto
+            datos = {
+                "Antecedentes": "", "Planteamiento": "", "Justificacion": "", "Objetivos": "", "ObjetivosEspecificos": "", "Calificacion": "No calificado",
+                "Marco": "", "Metodologia": "", "Cronograma": "", "Desarrollo": "", "CalificacionP2": "No calificado",
+                "Resultados": "", "Conclusiones": "", "Referencias": "", "Anexos": "", "CalificacionP3": "No calificado",
+                "Puntualidad": "", "Responsabilidad": "", "Atencion": "", "Etica": "", "Capacidad": "", "Liderazgo": ""
+            }
+
+            # Lista de consultas y sus llaves correspondientes
+            consultas = [
+                ("SELECT Antecedentes, Planteamiento, Justificacion, Objetivos, ObjetivosEspecificos, Calificacion FROM calificacionproyectop1 WHERE Alumno = :matricula",
+                 ["Antecedentes", "Planteamiento", "Justificacion", "Objetivos", "ObjetivosEspecificos", "Calificacion"]),
+                
+                ("SELECT Marco, Metodologia, Cronograma, Desarrollo, Calificacion FROM calificacionproyectop2 WHERE Alumno = :matricula",
+                 ["Marco", "Metodologia", "Cronograma", "Desarrollo", "CalificacionP2"]),
+                
+                ("SELECT Resultados, Conclusiones, Referencias, Anexos, Calificacion FROM calificacionproyectop3 WHERE Alumno = :matricula",
+                 ["Resultados", "Conclusiones", "Referencias", "Anexos", "CalificacionP3"]),
+                
+                ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo,Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 1'",
+                 ["Puntualidad", "Responsabilidad", "Atencion", "Etica", "Capacidad", "Liderazgo","Calificacion1"]),
+
+                 ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo,Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 2'",
+                 ["Puntualidad2", "Responsabilidad2", "Atencion2", "Etica2", "Capacidad2", "Liderazgo2","Calificacion2"]),
+
+                 ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo,Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 3'",
+                 ["Puntualidad3", "Responsabilidad3", "Atencion3", "Etica3", "Capacidad3", "Liderazgo3","Calificacion3"])
+            ]
+
+            for query_text, keys in consultas:
+                query = text(query_text)
+                resultado = conn.execute(query, {'matricula': matricula}).fetchone()
+                if resultado:
+                    for key, value in zip(keys, resultado):
+                        datos[key] = value
+
+        return render_template('/perfiles/calificaciones.html',
+                               Nombre1=Nombre1, Nombre2=Nombre2, ApellidoP=ApellidoP, ApellidoM=ApellidoM,
+                               calificacionF=calificacionF, **datos)
     except Exception as e:
         return f'error {e}'
+
             
 
 def calificacionfinal(matricula):
@@ -710,80 +695,80 @@ def cargarAsesorAcademico():
             opciones = ''.join([f'<option value="{row[0]}">{row[3]} {row[4]} {row[1]} {row[2]} </option>' for row in ok])
             return opciones
 
-def guardarEquipo(matricula, NoEquipo, ID):
+def guardarEquipo(matricula, NoEquipo, ID,Procedimiento):
     try:
-        query = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula,:NoEquipo,:Id_Proyecto)")
+        query = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula,:NoEquipo,:Id_Proyecto,:Procedimiento)")
         with engine.connect() as conn:
-            conn.execute(query,{'Matricula':matricula,'NoEquipo':NoEquipo,'Id_Proyecto':ID})
+            conn.execute(query,{'Matricula':matricula,'NoEquipo':NoEquipo,'Id_Proyecto':ID,'Procedimiento':Procedimiento})
             conn.commit()
             return True
     except Exception as e:
         return ID
 
-def guardarEquipo2(matricula, matricula2, NoEquipo, ID):
+def guardarEquipo2(matricula, matricula2, NoEquipo, ID,Procedimiento):
     try:
-        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto)")
-        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto)")
+        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto,:Procedimiento)")
 
         with engine.connect() as conn:
             with conn.begin():  
-                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
-                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
+                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
                 return True
     except Exception as e:
         return ID
 
-def guardarEquipo3(matricula,matricula2,matricula3, NoEquipo, ID):
+def guardarEquipo3(matricula,matricula2,matricula3, NoEquipo, ID,Procedimiento):
     try:
-        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto)")
-        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto)")
-        query3 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula3, :NoEquipo, :Id_Proyecto)")
+        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query3 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula3, :NoEquipo, :Id_Proyecto,:Procedimiento)")
 
         with engine.connect() as conn:
             with conn.begin():  
-                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
-                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
-                conn.execute(query3, {'Matricula3': matricula3, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
+                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
+                conn.execute(query3, {'Matricula3': matricula3, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
                 return True
     except Exception as e:
         return ID
 
-def guardarEquipo4(matricula,matricula2,matricula3,matricula4, NoEquipo, ID):
+def guardarEquipo4(matricula,matricula2,matricula3,matricula4, NoEquipo, ID,Procedimiento):
     try:
-        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto)")
-        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto)")
-        query3 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula3, :NoEquipo, :Id_Proyecto)")
-        query4 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula4, :NoEquipo, :Id_Proyecto)")
+        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query3 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula3, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query4 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula4, :NoEquipo, :Id_Proyecto,:Procedimiento)")
 
         with engine.connect() as conn:
             with conn.begin():  
-                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
-                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
-                conn.execute(query3, {'Matricula3': matricula3, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
-                conn.execute(query4, {'Matricula4': matricula4, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
+                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
+                conn.execute(query3, {'Matricula3': matricula3, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
+                conn.execute(query4, {'Matricula4': matricula4, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
                 return True
     except Exception as e:
         return ID
 
-def guardarEquipo5(matricula, matricula2, matricula3, matricula4, matricula5, NoEquipo, ID):
+def guardarEquipo5(matricula, matricula2, matricula3, matricula4, matricula5, NoEquipo, ID,Procedimiento):
     try:
-        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto)")
-        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto)")
-        query3 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula3, :NoEquipo, :Id_Proyecto)")
-        query4 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula4, :NoEquipo, :Id_Proyecto)")
-        query5 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula5, :NoEquipo, :Id_Proyecto)")
+        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query3 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula3, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query4 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula4, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query5 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula5, :NoEquipo, :Id_Proyecto,:Procedimiento)")
 
         with engine.connect() as conn:
             with conn.begin():
-                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
 
-                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
 
-                conn.execute(query3, {'Matricula3': matricula3, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query3, {'Matricula3': matricula3, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
 
-                conn.execute(query4, {'Matricula4': matricula4, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query4, {'Matricula4': matricula4, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
 
-                conn.execute(query5, {'Matricula5': matricula5, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query5, {'Matricula5': matricula5, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
                 return True
     except Exception as e:
         return ID 

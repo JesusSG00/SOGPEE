@@ -367,16 +367,9 @@ def guardarCalificacionSer():
     if guardado == True:
         return render_template('Cargas/EnvioCalificacion.html',calificacion = calificacion,proyecto = proyecto)
     else:
-<<<<<<< HEAD
         return render_template('Error/Error.html')
         
 def guardarCalificacion(matricula,parcial):
-=======
-        return 'error'
-    
-
-def guardarCalificacion(puntualidad, responsabilidad, atencion, etica, capacidad, liderazgo, calificacion,matricula, parcial):
->>>>>>> f502c8bd30a70aa5261acb6a7119438da2ce141b
     try:
         query = text("INSERT INTO Ser (Puntualidad,Responsabilidad,Atencion,Etica,Capacidad,Liderazgo,Calificacion,Matricula,Parcial) VALUES (:puntualidad, :responsabilidad, :atencion, :etica, :capacidad, :liderazgo, :calificacion, :matricula, :parcial)")
         with engine.begin() as conn:

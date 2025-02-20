@@ -115,12 +115,15 @@ def guardartodo():
     numero = request.form['numintegrantes']
     asesorA = request.form['AsesorAcademico']
     asesorE = request.form['AsesorEmpresarial']
+    Procedimiento = request.form['Procedimiento']
+    if Procedimiento == "0":
+        return 'selecciona procedimiento'
     if numero == '1': #Se ejecuta si el equipo tiene 1 integrante
         matricula = request.form['estudiante-0-campo1']
         agregarproyectos(titulo,funcion) #Se agrega el proyecto a la base de datos
         ID = cargarIDProyecto(titulo) #Se obtiene el ID del proyecto que se acaba de agregar
         equipo = cargarEquipoMaximo() #Se obtiene el numero del ultimo equipo agregado +1
-        ok = guardarEquipo(matricula,equipo,ID) #Se guarda el equipo en la base de datos si todo es correcto
+        ok = guardarEquipo(matricula,equipo,ID,Procedimiento) #Se guarda el equipo en la base de datos si todo es correcto
         guardarProyectoAsesores(ID,asesorE,asesorA) #Se asignan los asesores al proyecto
         if ok != True: #Si hay un error se redirige a la pagina de error
             return render_template('Error/Error.html',ID=ok) #Se redirige a la pagina de error con el ID del proyecto para identifcar el proyecto y se borre
@@ -131,7 +134,7 @@ def guardartodo():
             agregarproyectos(titulo,funcion)
             ID = cargarIDProyecto(titulo)
             equipo = cargarEquipoMaximo()
-            ok= guardarEquipo2(matricula,matricula2,equipo,ID)
+            ok= guardarEquipo2(matricula,matricula2,equipo,ID,Procedimiento)
             guardarProyectoAsesores(ID,asesorE,asesorA)
             if ok != True:
                 return render_template('Error/Error.html',ID=ok)
@@ -143,7 +146,7 @@ def guardartodo():
         agregarproyectos(titulo,funcion)
         ID = cargarIDProyecto(titulo)
         equipo = cargarEquipoMaximo()
-        ok = guardarEquipo3(matricula,matricula2,matricula3,equipo,ID)
+        ok = guardarEquipo3(matricula,matricula2,matricula3,equipo,ID,Procedimiento)
         guardarProyectoAsesores(ID,asesorE,asesorA)
         if ok != True:
             return render_template('Error/Error.html',ID=ok)
@@ -156,7 +159,7 @@ def guardartodo():
         agregarproyectos(titulo,funcion)
         ID = cargarIDProyecto(titulo)
         equipo = cargarEquipoMaximo()
-        ok= guardarEquipo4(matricula,matricula2,matricula3,matricula4,equipo,ID)
+        ok= guardarEquipo4(matricula,matricula2,matricula3,matricula4,equipo,ID,Procedimiento)
         guardarProyectoAsesores(ID,asesorE,asesorA)
 
         if ok != True:
@@ -171,7 +174,7 @@ def guardartodo():
         agregarproyectos(titulo,funcion)
         ID = cargarIDProyecto(titulo)
         equipo = cargarEquipoMaximo()
-        ok= guardarEquipo5(matricula,matricula2,matricula3,matricula4,matricula5,equipo,ID)
+        ok= guardarEquipo5(matricula,matricula2,matricula3,matricula4,matricula5,equipo,ID,Procedimiento)
         guardarProyectoAsesores(ID,asesorE,asesorA)
         if ok != True:
             return render_template('Error/Error.html',ID=ok)
@@ -482,7 +485,6 @@ def Estudiante(matricula):
                     for key, value in zip(keys, resultado):
                         datos[key] = value
 
-        # Renderizar la plantilla con los datos obtenidos
         return render_template('/perfiles/calificaciones.html',
                                Nombre1=Nombre1, Nombre2=Nombre2, ApellidoP=ApellidoP, ApellidoM=ApellidoM,
                                calificacionF=calificacionF, **datos)
@@ -694,80 +696,80 @@ def cargarAsesorAcademico():
             opciones = ''.join([f'<option value="{row[0]}">{row[3]} {row[4]} {row[1]} {row[2]} </option>' for row in ok])
             return opciones
 
-def guardarEquipo(matricula, NoEquipo, ID):
+def guardarEquipo(matricula, NoEquipo, ID,Procedimiento):
     try:
-        query = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula,:NoEquipo,:Id_Proyecto)")
+        query = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula,:NoEquipo,:Id_Proyecto,:Procedimiento)")
         with engine.connect() as conn:
-            conn.execute(query,{'Matricula':matricula,'NoEquipo':NoEquipo,'Id_Proyecto':ID})
+            conn.execute(query,{'Matricula':matricula,'NoEquipo':NoEquipo,'Id_Proyecto':ID,'Procedimiento':Procedimiento})
             conn.commit()
             return True
     except Exception as e:
         return ID
 
-def guardarEquipo2(matricula, matricula2, NoEquipo, ID):
+def guardarEquipo2(matricula, matricula2, NoEquipo, ID,Procedimiento):
     try:
-        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto)")
-        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto)")
+        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto,:Procedimiento)")
 
         with engine.connect() as conn:
             with conn.begin():  
-                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
-                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
+                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
                 return True
     except Exception as e:
         return ID
 
-def guardarEquipo3(matricula,matricula2,matricula3, NoEquipo, ID):
+def guardarEquipo3(matricula,matricula2,matricula3, NoEquipo, ID,Procedimiento):
     try:
-        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto)")
-        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto)")
-        query3 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula3, :NoEquipo, :Id_Proyecto)")
+        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query3 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula3, :NoEquipo, :Id_Proyecto,:Procedimiento)")
 
         with engine.connect() as conn:
             with conn.begin():  
-                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
-                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
-                conn.execute(query3, {'Matricula3': matricula3, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
+                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
+                conn.execute(query3, {'Matricula3': matricula3, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
                 return True
     except Exception as e:
         return ID
 
-def guardarEquipo4(matricula,matricula2,matricula3,matricula4, NoEquipo, ID):
+def guardarEquipo4(matricula,matricula2,matricula3,matricula4, NoEquipo, ID,Procedimiento):
     try:
-        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto)")
-        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto)")
-        query3 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula3, :NoEquipo, :Id_Proyecto)")
-        query4 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula4, :NoEquipo, :Id_Proyecto)")
+        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query3 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula3, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query4 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula4, :NoEquipo, :Id_Proyecto,:Procedimiento)")
 
         with engine.connect() as conn:
             with conn.begin():  
-                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
-                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
-                conn.execute(query3, {'Matricula3': matricula3, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
-                conn.execute(query4, {'Matricula4': matricula4, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
+                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
+                conn.execute(query3, {'Matricula3': matricula3, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
+                conn.execute(query4, {'Matricula4': matricula4, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
                 return True
     except Exception as e:
         return ID
 
-def guardarEquipo5(matricula, matricula2, matricula3, matricula4, matricula5, NoEquipo, ID):
+def guardarEquipo5(matricula, matricula2, matricula3, matricula4, matricula5, NoEquipo, ID,Procedimiento):
     try:
-        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto)")
-        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto)")
-        query3 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula3, :NoEquipo, :Id_Proyecto)")
-        query4 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula4, :NoEquipo, :Id_Proyecto)")
-        query5 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto) VALUES (:Matricula5, :NoEquipo, :Id_Proyecto)")
+        query1 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula1, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query2 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula2, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query3 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula3, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query4 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula4, :NoEquipo, :Id_Proyecto,:Procedimiento)")
+        query5 = text("INSERT INTO equipos (Matricula, NoEquipo, Id_Proyecto,Procedimiento) VALUES (:Matricula5, :NoEquipo, :Id_Proyecto,:Procedimiento)")
 
         with engine.connect() as conn:
             with conn.begin():
-                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query1, {'Matricula1': matricula, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
 
-                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query2, {'Matricula2': matricula2, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
 
-                conn.execute(query3, {'Matricula3': matricula3, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query3, {'Matricula3': matricula3, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
 
-                conn.execute(query4, {'Matricula4': matricula4, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query4, {'Matricula4': matricula4, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
 
-                conn.execute(query5, {'Matricula5': matricula5, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID})
+                conn.execute(query5, {'Matricula5': matricula5, 'NoEquipo': NoEquipo, 'Id_Proyecto': ID,'Procedimiento':Procedimiento})
                 return True
     except Exception as e:
         return ID 

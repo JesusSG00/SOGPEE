@@ -363,9 +363,11 @@ def guardarCalificacionSer():
     parcial = request.form['parcial']
     
     calificacion = (puntualidad+responsabilidad+atencion+etica+capacidad+liderazgo)/6
+    redondeo = round(calificacion,1)
+    calificacion = redondeo
     guardado = guardarCalificacion(puntualidad, responsabilidad, atencion, etica, capacidad, liderazgo, calificacion,matricula, parcial)
     if guardado == True:
-        return render_template('Cargas/EnvioCalificacion.html',calificacion = calificacion,proyecto = proyecto)
+        return render_template('Cargas/EnvioCalificacion.html',calificacion = calificacion,proyecto = proyecto,parcial= parcial)
     else:
         return 'error'
     
@@ -428,84 +430,65 @@ def inicioSesionEstudiante(matricula,correo):
     except Exception as e:
             return f'error {e}'
     
+
+
 def Estudiante(matricula):
-    
-    
     try:
-        query = text("SELECT Nombre1,Nombre2,ApellidoP,ApellidoM FROM estudiante WHERE matricula = :matricula")
         with engine.connect() as conn:
-            ok = conn.execute(query, {'matricula': matricula}).fetchone()
-            if ok:
-                Nombre1 = ok[0]
-                Nombre2 = ok[1]
-                ApellidoP = ok[2]
-                ApellidoM = ok[3]
-                calificacionF = calificacionfinal(matricula)
-                try:
-                    query = text("SELECT Antecedentes,Planteamiento,Justificacion,Objetivos,ObjetivosEspecificos,Calificacion FROM calificacionproyectop1 WHERE Alumno = :matricula")
-                    with engine.connect() as conn:
-                        calificacion = conn.execute(query, {'matricula': matricula}).fetchone()
-                        if calificacion:
-                            Antecedentes = calificacion[0]
-                            Planteamiento = calificacion[1]
-                            Justificacion = calificacion[2]
-                            Objetivos = calificacion[3]
-                            ObjetivosEspecificos = calificacion[4]
-                            Calificacion = calificacion[5]
-                        else:
-                            Antecedentes=Planteamiento=Justificacion=Objetivos=ObjetivosEspecificos = ""
-                            Calificacion = "No calificado"
-                    
-                    
-                    try:
-                        query = text("SELECT Marco,Metodologia,Cronograma,Desarrollo,Calificacion FROM calificacionproyectop2 WHERE Alumno = :matricula")
-                        with engine.connect() as conn:
-                            calificacion = conn.execute(query, {'matricula': matricula}).fetchone()
-                            if calificacion:
-                                Marco = calificacion[0]
-                                Metodologia = calificacion[1]
-                                Cronograma = calificacion[2]
-                                Desarrollo = calificacion[3]
-                                CalificacionP2 = calificacion[4]
-                            else:
-                                Marco=Metodologia=Cronograma=Desarrollo = ""
-                                CalificacionP2 = "No calificado"
-
-                        try:
-                            query = text("SELECT Resultados,Conclusiones,Referencias,Anexos,Calificacion FROM calificacionproyectop3 WHERE Alumno = :matricula")
-                            with engine.connect() as conn:
-                                calificacion = conn.execute(query, {'matricula': matricula}).fetchone()
-                                if calificacion:
-                                    Resultados = calificacion[0]
-                                    Conclusiones = calificacion[1]
-                                    Referencias = calificacion[2]
-                                    Anexos = calificacion[3]
-                                    CalificacionP3 = calificacion[4]
-                                else:
-                                    Resultados=Conclusiones=Referencias=Anexos = ""
-                                    CalificacionP3 = "No calificado"
-
-                                return render_template('/perfiles/calificaciones.html', Nombre1=Nombre1, Nombre2=Nombre2, ApellidoM=ApellidoM, ApellidoP=ApellidoP, Antecedentes=Antecedentes, 
-                                                        Planteamiento=Planteamiento, Justificacion=Justificacion, Objetivos=Objetivos,
-                                                        ObjetivosEspecificos=ObjetivosEspecificos, 
-                                                        Calificacion=Calificacion, Marco=Marco, Metodologia=Metodologia, Cronograma=Cronograma, Desarrollo=Desarrollo, CalificacionP2=CalificacionP2, 
-                                                        Resultados=Resultados, Conclusiones=Conclusiones, Referencias=Referencias, Anexos=Anexos, CalificacionP3=CalificacionP3, calificacionF=calificacionF)
-                        except Exception as e:
-                            return f'error {e}'
-                        
-                    
-                
-                    except Exception as e:
-                        return f'error {e}'
-                
-                
-                
-                except Exception as e:
-                    return f'error {e}'
-            else:
+            # Obtener datos del estudiante
+            query = text("SELECT Nombre1, Nombre2, ApellidoP, ApellidoM FROM estudiante WHERE matricula = :matricula")
+            estudiante = conn.execute(query, {'matricula': matricula}).fetchone()
+            if not estudiante:
                 return render_template('Error/EstudianteNoEncontrado.html')
+
+            Nombre1, Nombre2, ApellidoP, ApellidoM = estudiante
+
+            # Obtener calificación final
+            calificacionF = calificacionfinal(matricula)
+
+            # Diccionario para almacenar calificaciones con valores por defecto
+            datos = {
+                "Antecedentes": "", "Planteamiento": "", "Justificacion": "", "Objetivos": "", "ObjetivosEspecificos": "", "Calificacion": "No calificado",
+                "Marco": "", "Metodologia": "", "Cronograma": "", "Desarrollo": "", "CalificacionP2": "No calificado",
+                "Resultados": "", "Conclusiones": "", "Referencias": "", "Anexos": "", "CalificacionP3": "No calificado",
+                "Puntualidad": "", "Responsabilidad": "", "Atencion": "", "Etica": "", "Capacidad": "", "Liderazgo": ""
+            }
+
+            # Lista de consultas y sus llaves correspondientes
+            consultas = [
+                ("SELECT Antecedentes, Planteamiento, Justificacion, Objetivos, ObjetivosEspecificos, Calificacion FROM calificacionproyectop1 WHERE Alumno = :matricula",
+                 ["Antecedentes", "Planteamiento", "Justificacion", "Objetivos", "ObjetivosEspecificos", "Calificacion"]),
+                
+                ("SELECT Marco, Metodologia, Cronograma, Desarrollo, Calificacion FROM calificacionproyectop2 WHERE Alumno = :matricula",
+                 ["Marco", "Metodologia", "Cronograma", "Desarrollo", "CalificacionP2"]),
+                
+                ("SELECT Resultados, Conclusiones, Referencias, Anexos, Calificacion FROM calificacionproyectop3 WHERE Alumno = :matricula",
+                 ["Resultados", "Conclusiones", "Referencias", "Anexos", "CalificacionP3"]),
+                
+                ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo,Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 1'",
+                 ["Puntualidad", "Responsabilidad", "Atencion", "Etica", "Capacidad", "Liderazgo","Calificacion1"]),
+
+                 ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo,Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 2'",
+                 ["Puntualidad2", "Responsabilidad2", "Atencion2", "Etica2", "Capacidad2", "Liderazgo2","Calificacion2"]),
+
+                 ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo,Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 3'",
+                 ["Puntualidad3", "Responsabilidad3", "Atencion3", "Etica3", "Capacidad3", "Liderazgo3","Calificacion3"])
+            ]
+
+            for query_text, keys in consultas:
+                query = text(query_text)
+                resultado = conn.execute(query, {'matricula': matricula}).fetchone()
+                if resultado:
+                    for key, value in zip(keys, resultado):
+                        datos[key] = value
+
+        # Renderizar la plantilla con los datos obtenidos
+        return render_template('/perfiles/calificaciones.html',
+                               Nombre1=Nombre1, Nombre2=Nombre2, ApellidoP=ApellidoP, ApellidoM=ApellidoM,
+                               calificacionF=calificacionF, **datos)
     except Exception as e:
         return f'error {e}'
+
             
 
 def calificacionfinal(matricula):

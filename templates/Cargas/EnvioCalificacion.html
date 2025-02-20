@@ -11,22 +11,20 @@
             window.onload = function() {
                 setTimeout(function() {
                     document.getElementById('formulario').submit();
-                }, 3080); 
+                }, 1880); 
             };
         </script>
 </head>
-
 <body>
     <div class="container">
         <div class="card">
-            <h1>Correccion exitosa a {{Calificacion}}</h1>
+            <h1>Se ha calificado correctamente</h1>
             <div class="icon"><img src="../static/img/hourglass.gif" alt="gifcorrect" id="gifc"></div>
-                <p>Redireccionando</p>
+                <p>Calificado con: {{calificacion}}</p>
             <div class="dobleForm">
-                <form method="post" action="/redireccionMenu" id="formulario">
-                    <input type="hidden" name="IDAsesor" value="{{IDAsesor}}">
-                </form>
-               
+                <form method="post" action="/calificarSer" id="formulario">
+                    
+                    
             </div>
         </div>
     </div>

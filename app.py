@@ -1,3 +1,4 @@
+import datetime
 from flask import Flask,render_template,request, url_for,send_file
 from werkzeug.utils import secure_filename
 from sqlalchemy import text
@@ -85,8 +86,6 @@ def buscarExpedienteAsesorEmpresarial():
 @app.route('/evaluacionEmpresa')
 def evaluacionEmpresa():
     return render_template('evaluacion_empresa.html')
-
-
 
 
 
@@ -573,6 +572,39 @@ def obtenerProcedimientoYCarrera(nombreProyecto):
             return resultado[0], resultado[1]  # Devuelve (procedimiento, carrera)
         else:
             return None, None  # Si no se encuentra el proyecto
+
+# #Función para insertar los datos del cuestionario de salida
+# @app.route('/procesar_cuestionario', methods=['POST'])
+# def procesar_cuestionario():
+#     fecha_valoracion = datetime.now().date()
+#     periodo = 
+#     titulo_proyecto = 
+#     no_equipo = 
+#     procedimiento = 
+#     nombre_empresa = 
+#     modalidad = 
+#     grado_estudios = 
+#     nombre_asesor_emp = 
+#     tipo_empresa = 
+#     giro_empresa =
+#     capital =
+#     anios_operacion =
+#     tamanio_empresa =
+#     mercado_venta =
+#     carrera =
+#     funciones_prioritarias =
+
+
+
+    
+#     resolvio_necesidad = request.form.get('resolvio_necesidad')
+#     interes_participar = request.form.get('interes_participar')
+#     investigacion_desarrollo = request.form.get('investigacion_desarrollo')
+#     contratar_egresados = request.form.get('contratar_egresados')
+#     porque_contratar = request.form.get('porque_contratar')
+#     aprobacion_edicion = request.form.get('aprobacion_edicion')
+#     clausula_especial = request.form.get('clausula_especial')
+
 
 def obtenerIntegrantes(nombreProyecto):
     query = text("""

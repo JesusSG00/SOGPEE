@@ -31,6 +31,9 @@ def loginAsesorAcademico3():
 @app.route('/loginCoordinacion2')
 def loginCoordinacion2():
     return render_template('login/loginCoordinacion2.html')
+@app.route('/loginCoordinacionIni')
+def loginCoordinacion():
+    return render_template('/perfil_coordinacion.html')
 
 @app.route('/loginCoordinacion3',methods=['POST'])
 def loginCoordinacion3():

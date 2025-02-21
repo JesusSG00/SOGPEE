@@ -10,11 +10,19 @@
      }}">
 </head>
 <body>
-    <header>
-        <a href="/" class="logo-upt">
-<img src="../static/img/logo_upt.png" alt="Logo UPT" height="125">
-        </a>
+    <header class="container-fluid d-flex align-items-center p-2 position-relative">
+        <form action="/" method="get">
+            <button type="submit" class="custom-btn">← Atrás</button>
+        </form>
+        <div class="logoUPT ms-3">
+            <a href="/" class="logo-upt">
+                <img src="../static/img/logo_upt.png" alt="Logo UPT" height="125">
+            </a>
+        </div>
     </header>
+    <br>
+    
+    
 
     <main>
         <div class="login-container">
@@ -22,7 +30,7 @@
                 <h1>Iniciar Sesión</h1>
                 <form action="/iniciarSesionEstudiante" method="post" autocomplete="off">
                     <div class="form-group">
-                        <label for="userInput">Correo electrónico</label>
+                        <label for="userInput">Correo electrónicoccc</label>
                         <input type="text" name="correo"id="userInput" placeholder="Ingrese su correo o matrícula" required autocomplete="off">
                     </div>
                     <div class="form-group">

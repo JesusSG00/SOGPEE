@@ -8,13 +8,21 @@
 </head>
 <body>
     
-<header class="container-fluid d-flex justify-content-center p-2">
-    <div class="logoUPT">
-        <a href="/" class="logo-upt">
-<img src="../static/img/logo_upt.png" alt="Logo UPT" height="125">
-        </a>
-    </div>
-</header><br>
+    <header class="container-fluid d-flex align-items-center p-2 position-relative">
+        <form action="/loginEstudiante2 " method="get">
+            <button type="submit" class="custom-btn">← Atrás</button>
+        </form>
+        <div class="logoUPT ms-3">
+            <a href="/" class="logo-upt">
+                <img src="../static/img/logo_upt.png" alt="Logo UPT" height="125">
+            </a>
+        </div>
+    </header>
+    <br>
+    
+    
+    
+    
 
 <div class="container">
     <!-- <div class="form-container"> -->
@@ -75,7 +83,7 @@
                     
                     
     
-                    <h3 class="section-title">Enviar expediente</h3>
+                    <h3 class="section-title">Enviar Cartas</h3>
                     <div>
                         <form id="form-cartas" action="/enviarDocumentos" method="POST" enctype="multipart/form-data">
                             <label for="file-cartas" class="btn btn-cartas">Enviar Cartas
@@ -92,6 +100,7 @@
 
                         </form>
                         </div>
+                        <h3 class="section-title">Enviar Proyecto</h3>
                         <div>
                             <form id="form-proyecto" action="/enviarDocumentos" method="POST" enctype="multipart/form-data">
                                 <label for="file-proyecto" class="btn btn-proyecto">Enviar Proyecto
@@ -112,7 +121,7 @@
                             
                         </div>
                         <div>
-                            <h3 class="section-title">Enviar expediente</h3>
+                            <h3 class="section-title">Verificar Calificación</h3>
                         <form id="form-evaluacion" action="/enviarDocumentos" method="POST" enctype="multipart/form-data">
                             <label for="file-evaluacion" class="btn btn-evaluacion">Evaluación 03
                                 <div class="loading-bar03" id="loading-bar03"></div>
@@ -127,6 +136,7 @@
 
                         </form>
                     </div>
+                    <br>
                     <div>
                         <form id="form-evaluacion"  action="/encuestaSatisfaccion" method="post">
                             <h3 class="section-title">Encuesta de satisfacción</h3>

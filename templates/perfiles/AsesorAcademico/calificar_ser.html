@@ -11,8 +11,8 @@
 <body>
     <div class="container">
         <form action="/guardarCalificacionSer" method="post">
+
         <div class="form-container">
-<<<<<<< HEAD
             <!-- Columna izquierda -->
             <!-- <div class="left-column">
                 <div class="form-group">
@@ -29,12 +29,8 @@
                 </div>
             </div> -->
 
-            <!-- Divisor vertical -->
-            <div class="divider"></div>
 
             <!-- Columna derecha -->
-=======
->>>>>>> 920cb478d8ec30b3d10c0c0754e85ed0b3556b02
             <div class="right-column">
                 <div class="form-group">
                         <h1>Calificar Ser</h1>
@@ -42,9 +38,11 @@
                         <label for="estudiante">Nombre del estudiante:</label>
                         <select id="estudiante" name="estudiante">
                             <option value="0">Seleccionar</option>
-                            <option value="{{resultado|safe}}"></option>
+                            {{resultado|safe}}">
                         </select>
                         <input type="hidden" name="parcial" value="{{parcial}}">
+                        <input type="hidden" name ="proyecto" value="{{proyecto}}">
+
                 </div>
             </div>
         </div>

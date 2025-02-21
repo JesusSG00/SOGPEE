@@ -5,12 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Revisar</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/calificar_expediente.css') }}">
+
 </head>
 <body>
     <header class="container-fluid d-flex justify-content-center bg-white p-2">
         <a href="/" class="logo-upt">
             <img src="../static/img/logo_upt.png" alt="Logo UPT" height="80">
         </a>
+    
     </header>
 
     <div class="container">
@@ -24,11 +26,7 @@
                     <label for="parcial">{{numero}}</label>
                     <input type="hidden" id="parcial" name="parcial" value="{{numero}}">
 
-                    <label for="estudiante">Nombre del estudiante:</label>
-                    <select id="estudiante" name="estudiante">
-                        <option value="">Seleccionar Alumno</option>
-                        {{estudiantes | safe}}
-                    </select>
+                  
                 </div>
             </div>
         </div>
@@ -37,6 +35,10 @@
             <input type="hidden" id="profesorr" name="profesorr" value="{{nombre}}">
             <input type="hidden" id="telefono2" name="telefono2" value="{{telefono}}">
             <input type="hidden" id="correo2" name="correo2" value="{{correo}}">
+            <input type="hidden" id="proyecto" name="proyecto" value="{{proyecto}}">
+            <input type="hidden" id="IDAsesor" name="IDAsesor" value="{{IDAsesor}}">
+
+
         <input type="hidden" id="matriculau2" name="matriculau2" value="">
 
             <!-- Tabla de evaluación Parcial 2 -->

@@ -15,7 +15,6 @@
 
     <div class="container">
         <div class="form-container">
-<<<<<<< HEAD
             <!-- Columna izquierda -->
             <!-- <div class="left-column">
                 <div class="form-group">
@@ -33,10 +32,7 @@
             </div> -->
 
             <!-- Divisor vertical -->
-            <div class="divider"></div>
-=======
-           
->>>>>>> 920cb478d8ec30b3d10c0c0754e85ed0b3556b02
+          
 
             <!-- Columna derecha -->
             <div class="right-column">
@@ -50,18 +46,14 @@
                         <option value="3">3</option>
                     </select>
 
-                    <label for="estudiante">Nombre del estudiante:</label>
-                    <select id="estudiante" name="estudiante">
-                        <option value="">Seleccionar Alumno</option>
-                        {{estudiantes | safe}}
-                    </select>
+                    
                 </div>
             </div>
         </div>
         
         <!-- Tabla de evaluación Parcial 1 -->
         <form action="/calificarProyectoU1" method="post">
-            <input type="hidden" id="ID" name="ID" value="{{IDA}}">
+            <input type="hidden" id="ID" name="IDAsesor" value="{{IDA}}">
             <input type="hidden" id="proyecto" name="proyecto" value="{{proyecto}}">
             <input type="hidden" id="matricula" name="matricula" value="">
             <div id="evaluation-container-1" class="evaluation-container">

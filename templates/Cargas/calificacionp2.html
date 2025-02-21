@@ -15,22 +15,19 @@
             <div class="icon"><img src="../static/img/hourglass.gif" alt="gifcorrect" id="gifc"></div>
                 <p>Actualizar a la nueva calificación seleccionada? ({{Calificacion}})</p>
             <div class="dobleForm">
-                <form method="post" action="/correccionSi" id="formulario">
+                <form method="post" action="/correccionSiP2" id="formulario">
                     <input type="hidden" name="proyecto" value="{{proyecto}}">
                     <input type="hidden" name="IDAsesor" value="{{IDAsesor}}">
                     <input type="hidden" name="matricula" value="{{matricula}}">
                     <input type="hidden" name="Calificacion" value="{{Calificacion}}">
-                    <input type="hidden" name="Antecedentes" value="{{Antecedentes}}">
-                    <input type="hidden" name="Planteamiento" value="{{Planteamiento}}">
-                    <input type="hidden" name="Justificacion" value="{{Justificacion}}">
-                    <input type="hidden" name="Objetivo" value="{{Objetivo}}">
-                    <input type="hidden" name="ObjetivoEspecifico" value="{{ObjetivoEspecifico}}">
+                    <input type="hidden" name="Marco" value="{{Marco}}">
+                    <input type="hidden" name="Metodologia" value="{{Metofologia}}">
+                    <input type="hidden" name="Cronograma" value="{{Cronograma}}">
+                    <input type="hidden" name="DesarrolloProyecto" value="{{DesarrolloProyecto}}">
                     <button>Si</button>
                 </form>
                 <form action="/correccionNo" method="post">
-                    <input type="hidden" name="profesor" value="{{profesor}}">
-                    <input type="hidden" name="telefono" value="{{telefono}}">
-                    <input type="hidden" name="correo" value="{{correo}}">
+                    
                     <button id="No">No</button>
                 </form>
             </div>

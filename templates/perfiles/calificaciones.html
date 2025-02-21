@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Revisar</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/calificar_expediente.css') }}">
+</head>
+<body>
+    <header class="container-fluid d-flex justify-content-center bg-white p-2">
+        <a href="/" class="logo-upt">
+<img src="../static/img/logo_upt.png" alt="Logo UPT" height="125">
+        </a>
+    </header>
+
+    <div class="container">
+        <div class="form-container">
+             <div class="right-column">
+                <div class="form-group">
+                    <h1>Calificaciones</h1>
+                    <label for="estudiante">Estudiante: {{Nombre1}} {{Nombre2}} {{ApellidoP}} {{ApellidoM}}</label>        
+                </div>
+            </div>
+        </div>
+        
+          
+            <div id="evaluation-container-1" class="evaluation-container">
+                <table class="evaluation-table">
+                    <thead>
+                        <tr>
+                            <th>Apartado</th>
+                            <th>Calificación</th>
+                            <th>Total parcial</th>
+
+                        </tr>
+                        
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Antecedentes</td>
+                            <td>
+                                <label for="Antecedentes">{{Antecedentes}}</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Planteamiento del Problema</td>
+                            <td>
+                                <label for="Planteamiento">{{Planteamiento}}</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Justificación</td>
+                            <td>
+                                <label for="Justificacion">{{Justificacion}}</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Objetivo General</td>
+                            <td>
+                                <label for="Objetivo">{{Objetivos}}</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Objetivos Específicos</td>
+                            <td>
+                                <label for="ObjetivoEspecifico">{{ObjetivosEspecificos}}</label>
+                            </td>
+                            <td>{{Calificacion}}</td>
+                        </tr>
+                        <tr>
+                            <td>Marco Teórico</td>
+                            <td>
+                                <label for="Marco">{{Marco}}</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Metodología</td>
+                            <td>
+                                <label for="Metodologia">{{Metodologia}}</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Cronograma</td>
+                            <td>
+                               <label for="Cronograma">{{Cronograma}}</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Desarrollo del Proyecto</td>
+                            <td>
+                               <label for="DesarrolloProyecto">{{Desarrollo}}</label>
+                            </td>
+                            <td>{{CalificacionP2}}</td>
+                        </tr>
+                        <tr>
+                            <td>Resultados</td>
+                            <td>
+                               <label for="Resultados">{{Resultados}}</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Conclusiones y Recomendaciones</td>
+                            <td>
+                                <label for="Conclusiones">{{Conclusiones}}</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Referencias Bibliográficas</td>
+                            <td>
+                                <label for="Referencias">{{Referencias}}</label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Anexos</td>
+                            <td>
+                               <label for="Anexos">{{Anexos}}</label>
+                            </td>
+                            <td>{{CalificacionP3}}</td>
+                        </tr>
+                        <tr>
+                            <td>Calificación Total</td>
+                            <td>
+                                <label for="Calificacion">{{calificacionF}}</label>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table><br>
+            </div>
+       
+         
+
+            <div id="evaluation-container-2" class="evaluation-container">
+                <table class="evaluation-table">
+                   
+                    <tbody>
+                        
+                    </tbody>
+                </table><br>
+               
+            </div>
+
+     
+
+            <div id="evaluation-container-3" class="evaluation-container">
+                <table class="evaluation-table">
+                   
+                    <tbody>
+                   
+                    </tbody>
+                </table><br>
+            </div>
+        
+
+            <div id="evaluation-container" class="evaluation-container">
+                Parcial 1
+                <table class="evaluation-table">
+                    <thead>
+                        <tr>
+                            <th>Criterio de Evaluación</th>
+                            <th>Calificación </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Puntualidad y asistencia</td>
+                            <td>
+                               {{Puntualidad}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Responsabilidad en la veracidad y confiabilidad de la información</td>
+                            <td>
+                                {{Responsabilidad}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Atención y congruencia en las instrucciones del asesor académico</td>
+                            <td>
+                               {{Atencion}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ética en la confidencialidad y Objetividad en el desarrollo de la información empresarial
+                            </td>
+                            <td>
+                                {{Etica}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Capacidad, innovación e iniciativa para resolver problemas</td>
+                            <td>
+                               {{Capacidad}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Evidencia liderazgo y analiza sus áreas de oportunidad</td>
+                            <td>
+                               {{Liderazgo}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>{{Calificacion1}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br><br>
+            </div>
+            <div id="evaluation-container" class="evaluation-container">
+                Parcial 2
+                <table class="evaluation-table">
+                    <thead>
+                        <tr>
+                            <th>Criterio de Evaluación</th>
+                            <th>Calificación </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Puntualidad y asistencia</td>
+                            <td>
+                               {{Puntualidad2}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Responsabilidad en la veracidad y confiabilidad de la información</td>
+                            <td>
+                                {{Responsabilidad2}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Atención y congruencia en las instrucciones del asesor académico</td>
+                            <td>
+                               {{Atencion2}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ética en la confidencialidad y Objetividad en el desarrollo de la información empresarial
+                            </td>
+                            <td>
+                                {{Etica2}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Capacidad, innovación e iniciativa para resolver problemas</td>
+                            <td>
+                               {{Capacidad2}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Evidencia liderazgo y analiza sus áreas de oportunidad</td>
+                            <td>
+                               {{Liderazgo2}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>{{Calificacion2}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br><br>
+            </div>
+            <div id="evaluation-container" class="evaluation-container">
+                Parcial 3
+                <table class="evaluation-table">
+                    <thead>
+                        <tr>
+                            <th>Criterio de Evaluación</th>
+                            <th>Calificación </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Puntualidad y asistencia</td>
+                            <td>
+                               {{Puntualidad3}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Responsabilidad en la veracidad y confiabilidad de la información</td>
+                            <td>
+                                {{Responsabilidad3}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Atención y congruencia en las instrucciones del asesor académico</td>
+                            <td>
+                               {{Atencion3}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ética en la confidencialidad y Objetividad en el desarrollo de la información empresarial
+                            </td>
+                            <td>
+                                {{Etica3}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Capacidad, innovación e iniciativa para resolver problemas</td>
+                            <td>
+                               {{Capacidad3}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Evidencia liderazgo y analiza sus áreas de oportunidad</td>
+                            <td>
+                               {{Liderazgo3}}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>{{Calificacion3}}
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br><br>
+            </div>
+            
+        </div>
+        </div>
+        
+        </div>
+        
+        </div>
+
+
+
+
+        
+
+    <script>
+
+
+    const selectElement = document.getElementById('estudiante');
+    const resultadoSpan = document.getElementById('matricula');
+    const resultadoSpanu2 = document.getElementById('matriculau2');
+    const resultadoSpanu3 = document.getElementById('matriculau3');
+    
+
+    selectElement.addEventListener('change', function() {
+    const textoSeleccionado = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpan.value = textoSeleccionado !== "--Selecciona una opción--" ? textoSeleccionado : "Ninguno";
+    const textoSeleccionadou2 = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanu2.value = textoSeleccionadou2 !== "--Selecciona una opción--" ? textoSeleccionadou2 : "Ninguno";
+    const textoSeleccionadou3 = selectElement.options[selectElement.selectedIndex].value;
+    resultadoSpanu3.value = textoSeleccionadou3 !== "--Selecciona una opción--" ? textoSeleccionadou3 : "Ninguno";
+        });
+    </script>
+</body>
+</html>

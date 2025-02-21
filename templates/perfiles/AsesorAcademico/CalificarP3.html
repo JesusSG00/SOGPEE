@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Revisar</title>
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/calificar_expediente.css') }}">
+
 </head>
 <body>
     <header class="container-fluid d-flex justify-content-center bg-white p-2">
@@ -24,11 +25,7 @@
                     <label for="parcial">{{numero}}</label>
                     <input type="hidden" id="parcial" name="parcial" value="{{numero}}">
 
-                    <label for="estudiante">Nombre del estudiante:</label>
-                    <select id="estudiante" name="estudiante">
-                        <option value="">Seleccionar Alumno</option>
-                        {{estudiantes | safe}}
-                    </select>
+                   
                 </div>
             </div>
         </div>
@@ -37,6 +34,10 @@
         <input type="hidden" id="telefono3" name="telefono3" value="{{telefono}}">
         <input type="hidden" id="correo3" name="correo3" value="{{correo}}">
         <input type="hidden" id="matriculau3" name="matriculau3" value="">
+        <input type="hidden" id="proyecto" name="proyecto" value="{{proyecto}}">
+        <input type="hidden" id="IDAsesor" name="IDAsesor" value="{{IDAsesor}}">
+
+
 
             <!-- Tabla de evaluación Parcial 3 -->
             <div id="evaluation-container-3" class="evaluation-container">
@@ -113,32 +114,12 @@
 
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const parcialSelect = document.getElementById('parcial');
-            const evaluationContainers = {
-                '1': document.getElementById('evaluation-container-1'),
-                '2': document.getElementById('evaluation-container-2'),
-                '3': document.getElementById('evaluation-container-3')
-            };
+        
 
          
 
           
 
-            // Show/hide evaluation tables based on selected partial
-            parcialSelect.addEventListener('change', function() {
-                // Hide all evaluation containers
-                Object.values(evaluationContainers).forEach(container => {
-                    container.style.display = 'none';
-                });
-
-                // Show selected partial's evaluation container
-                const selectedPartial = this.value;
-                if (selectedPartial && evaluationContainers[selectedPartial]) {
-                    evaluationContainers[selectedPartial].style.display = 'block';
-                }
-            });
-        });
 
     const selectElement = document.getElementById('estudiante');
     const resultadoSpan = document.getElementById('matricula');

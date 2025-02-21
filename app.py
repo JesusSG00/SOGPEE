@@ -340,7 +340,8 @@ def abrirExpediente_parcials():
 @app.route('/abrirCalificaciones',methods=['POST'])
 def verCalificaciones():
     matricula = request.form['matricula']
-    Calificaciones = Estudiante(matricula)
+    proyecto = request.form['proyectoR']
+    Calificaciones = Estudiante(matricula,proyecto)
     return Calificaciones
 
 
@@ -437,8 +438,7 @@ def inicioSesionEstudiante(matricula,correo):
             return f'error {e}'
     
 
-
-def Estudiante(matricula):
+def Estudiante(matricula, proyecto):
     try:
         with engine.connect() as conn:
             # Obtener datos del estudiante
@@ -450,7 +450,7 @@ def Estudiante(matricula):
             Nombre1, Nombre2, ApellidoP, ApellidoM = estudiante
 
             # Obtener calificación final
-            calificacionF = calificacionfinal(matricula)
+            calificacionF = calificacionfinal(proyecto)
 
             # Diccionario para almacenar calificaciones con valores por defecto
             datos = {
@@ -460,30 +460,37 @@ def Estudiante(matricula):
                 "Puntualidad": "", "Responsabilidad": "", "Atencion": "", "Etica": "", "Capacidad": "", "Liderazgo": ""
             }
 
-            # Lista de consultas y sus llaves correspondientes
+            # Lista de consultas con sus llaves y parámetros
             consultas = [
-                ("SELECT Antecedentes, Planteamiento, Justificacion, Objetivos, ObjetivosEspecificos, Calificacion FROM calificacionproyectop1 WHERE Alumno = :matricula",
-                 ["Antecedentes", "Planteamiento", "Justificacion", "Objetivos", "ObjetivosEspecificos", "Calificacion"]),
+                ("SELECT Antecedentes, Planteamiento, Justificacion, Objetivos, ObjetivosEspecificos, Calificacion FROM calificacionproyectop1 WHERE proyecto = :proyecto",
+                 ["Antecedentes", "Planteamiento", "Justificacion", "Objetivos", "ObjetivosEspecificos", "Calificacion"],
+                 {'proyecto': proyecto}),
                 
-                ("SELECT Marco, Metodologia, Cronograma, Desarrollo, Calificacion FROM calificacionproyectop2 WHERE Alumno = :matricula",
-                 ["Marco", "Metodologia", "Cronograma", "Desarrollo", "CalificacionP2"]),
+                ("SELECT Marco, Metodologia, Cronograma, Desarrollo, Calificacion FROM calificacionproyectop2 WHERE proyecto = :proyecto",
+                 ["Marco", "Metodologia", "Cronograma", "Desarrollo", "CalificacionP2"],
+                 {'proyecto': proyecto}),
                 
-                ("SELECT Resultados, Conclusiones, Referencias, Anexos, Calificacion FROM calificacionproyectop3 WHERE Alumno = :matricula",
-                 ["Resultados", "Conclusiones", "Referencias", "Anexos", "CalificacionP3"]),
+                ("SELECT Resultados, Conclusiones, Referencias, Anexos, Calificacion FROM calificacionproyectop3 WHERE proyecto = :proyecto",
+                 ["Resultados", "Conclusiones", "Referencias", "Anexos", "CalificacionP3"],
+                 {'proyecto': proyecto}),
                 
-                ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo,Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 1'",
-                 ["Puntualidad", "Responsabilidad", "Atencion", "Etica", "Capacidad", "Liderazgo","Calificacion1"]),
+                ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo, Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 1'",
+                 ["Puntualidad", "Responsabilidad", "Atencion", "Etica", "Capacidad", "Liderazgo", "Calificacion1"],
+                 {'matricula': matricula}),
 
-                 ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo,Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 2'",
-                 ["Puntualidad2", "Responsabilidad2", "Atencion2", "Etica2", "Capacidad2", "Liderazgo2","Calificacion2"]),
+                ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo, Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 2'",
+                 ["Puntualidad2", "Responsabilidad2", "Atencion2", "Etica2", "Capacidad2", "Liderazgo2", "Calificacion2"],
+                 {'matricula': matricula}),
 
-                 ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo,Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 3'",
-                 ["Puntualidad3", "Responsabilidad3", "Atencion3", "Etica3", "Capacidad3", "Liderazgo3","Calificacion3"])
+                ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo, Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 3'",
+                 ["Puntualidad3", "Responsabilidad3", "Atencion3", "Etica3", "Capacidad3", "Liderazgo3", "Calificacion3"],
+                 {'matricula': matricula})
             ]
 
-            for query_text, keys in consultas:
+            # Ejecutar consultas
+            for query_text, keys, parametros in consultas:
                 query = text(query_text)
-                resultado = conn.execute(query, {'matricula': matricula}).fetchone()
+                resultado = conn.execute(query, parametros).fetchone()
                 if resultado:
                     for key, value in zip(keys, resultado):
                         datos[key] = value
@@ -496,25 +503,21 @@ def Estudiante(matricula):
 
             
 
-def calificacionfinal(matricula):
+def calificacionfinal(proyecto):
     try:
-        query = text('''
-SELECT  
-    ROUND((
-        COALESCE(p1.calificacion, 0) + 
-        COALESCE(p2.calificacion, 0) + 
-        COALESCE(p3.calificacion, 0)
-    ) / 3, 2) AS promedio
-FROM estudiante a
-LEFT JOIN calificacionproyectop1 p1 ON a.matricula = p1.alumno
-LEFT JOIN calificacionproyectop2 p2 ON a.matricula = p2.alumno
-LEFT JOIN calificacionproyectop3 p3 ON a.matricula = p3.alumno
-WHERE a.matricula = :matricula;
+        query = text('''SELECT AVG(Calificacion) AS Promedio
+FROM (
+    SELECT Calificacion FROM calificacionproyectop1 WHERE Proyecto = :proyecto
+    UNION ALL
+    SELECT Calificacion FROM calificacionproyectop2 WHERE Proyecto = :proyecto
+    UNION ALL
+    SELECT Calificacion FROM calificacionproyectop3 WHERE Proyecto = :proyecto
+) AS Calificaciones;
 ''')
 
         
         with engine.connect() as conn:
-            ok = conn.execute(query, {'matricula': matricula}).fetchone()
+            ok = conn.execute(query, {'proyecto': proyecto}).fetchone()
             if ok:
                 promedio = ok[0]
                 return promedio

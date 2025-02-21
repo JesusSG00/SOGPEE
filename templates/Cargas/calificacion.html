@@ -11,11 +11,12 @@
 <body>
     <div class="container">
         <div class="card">
-            <h1>Alumno ya calificado</h1>
+            <h1>Proyecto ya calificado</h1>
             <div class="icon"><img src="../static/img/hourglass.gif" alt="gifcorrect" id="gifc"></div>
-                <p>¿Asignar la nueva calificación seleccionada? ({{Calificacion}})</p>
+                <p>Actualizar a la nueva calificación seleccionada? ({{Calificacion}})</p>
             <div class="dobleForm">
                 <form method="post" action="/correccionSi" id="formulario">
+                    <input type="hidden" name="proyecto" value="{{proyecto}}">
                     <input type="hidden" name="IDAsesor" value="{{IDAsesor}}">
                     <input type="hidden" name="matricula" value="{{matricula}}">
                     <input type="hidden" name="Calificacion" value="{{Calificacion}}">

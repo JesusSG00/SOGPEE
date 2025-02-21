@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 20-02-2025 a las 03:40:02
+-- Tiempo de generación: 21-02-2025 a las 18:12:24
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -157,7 +157,7 @@ INSERT INTO `asesorempresarial` (`AsesorID`, `Nombre1`, `Nombre2`, `ApellidoP`, 
 
 CREATE TABLE `calificacionproyectop1` (
   `Id` int(11) NOT NULL,
-  `Alumno` int(11) NOT NULL,
+  `Proyecto` text NOT NULL,
   `Antecedentes` int(11) DEFAULT NULL,
   `Planteamiento` int(11) DEFAULT NULL,
   `Justificacion` int(11) DEFAULT NULL,
@@ -170,8 +170,8 @@ CREATE TABLE `calificacionproyectop1` (
 -- Volcado de datos para la tabla `calificacionproyectop1`
 --
 
-INSERT INTO `calificacionproyectop1` (`Id`, `Alumno`, `Antecedentes`, `Planteamiento`, `Justificacion`, `Objetivos`, `ObjetivosEspecificos`, `Calificacion`) VALUES
-(15, 1322134083, 9, 8, 5, 9, 5, 7.2);
+INSERT INTO `calificacionproyectop1` (`Id`, `Proyecto`, `Antecedentes`, `Planteamiento`, `Justificacion`, `Objetivos`, `ObjetivosEspecificos`, `Calificacion`) VALUES
+(16, 'SOGPEE', 10, 5, 8, 8, 9, 8);
 
 -- --------------------------------------------------------
 
@@ -181,7 +181,7 @@ INSERT INTO `calificacionproyectop1` (`Id`, `Alumno`, `Antecedentes`, `Planteami
 
 CREATE TABLE `calificacionproyectop2` (
   `id` int(11) NOT NULL,
-  `Alumno` int(11) NOT NULL,
+  `Proyecto` text NOT NULL,
   `Marco` int(11) NOT NULL,
   `Metodologia` int(11) NOT NULL,
   `Cronograma` int(11) NOT NULL,
@@ -193,9 +193,8 @@ CREATE TABLE `calificacionproyectop2` (
 -- Volcado de datos para la tabla `calificacionproyectop2`
 --
 
-INSERT INTO `calificacionproyectop2` (`id`, `Alumno`, `Marco`, `Metodologia`, `Cronograma`, `Desarrollo`, `Calificacion`) VALUES
-(1, 1322134083, 10, 9, 10, 10, 9.75),
-(3, 1322134084, 10, 10, 9, 9, 9.5);
+INSERT INTO `calificacionproyectop2` (`id`, `Proyecto`, `Marco`, `Metodologia`, `Cronograma`, `Desarrollo`, `Calificacion`) VALUES
+(4, 'SOGPEE', 5, 0, 5, 10, 6.75);
 
 -- --------------------------------------------------------
 
@@ -205,7 +204,7 @@ INSERT INTO `calificacionproyectop2` (`id`, `Alumno`, `Marco`, `Metodologia`, `C
 
 CREATE TABLE `calificacionproyectop3` (
   `id` int(11) NOT NULL,
-  `Alumno` int(11) NOT NULL,
+  `Proyecto` text NOT NULL,
   `Resultados` int(11) NOT NULL,
   `Conclusiones` int(11) NOT NULL,
   `Referencias` int(11) NOT NULL,
@@ -217,8 +216,8 @@ CREATE TABLE `calificacionproyectop3` (
 -- Volcado de datos para la tabla `calificacionproyectop3`
 --
 
-INSERT INTO `calificacionproyectop3` (`id`, `Alumno`, `Resultados`, `Conclusiones`, `Referencias`, `Anexos`, `Calificacion`) VALUES
-(1, 1322134083, 10, 9, 9, 9, 9.25);
+INSERT INTO `calificacionproyectop3` (`id`, `Proyecto`, `Resultados`, `Conclusiones`, `Referencias`, `Anexos`, `Calificacion`) VALUES
+(2, 'SOGPEE', 7, 7, 7, 7, 7);
 
 -- --------------------------------------------------------
 
@@ -398,7 +397,10 @@ INSERT INTO `equipos` (`Id`, `Matricula`, `NoEquipo`, `Id_Proyecto`, `Procedimie
 (218, 1322130005, 6, 20, 'ESTD'),
 (219, 1322130006, 6, 20, 'ESTD'),
 (220, 1322130019, 7, 21, 'ESTD'),
-(221, 1322130020, 7, 21, 'ESTD');
+(221, 1322130020, 7, 21, 'ESTD'),
+(222, 1322134093, 8, 24, 'ESTNC1'),
+(223, 1322134094, 9, 25, 'ESTNC2'),
+(225, 1322134095, 10, 26, 'ESTD');
 
 -- --------------------------------------------------------
 
@@ -409,7 +411,7 @@ INSERT INTO `equipos` (`Id`, `Matricula`, `NoEquipo`, `Id_Proyecto`, `Procedimie
 CREATE TABLE `estudiante` (
   `Matricula` int(10) NOT NULL,
   `Nombre1` varchar(20) NOT NULL,
-  `Nombre2` varchar(20) DEFAULT NULL,
+  `Nombre2` varchar(20) NOT NULL,
   `ApellidoP` varchar(20) NOT NULL,
   `ApellidoM` varchar(20) NOT NULL,
   `Telefono` varchar(10) NOT NULL,
@@ -423,43 +425,43 @@ CREATE TABLE `estudiante` (
 
 INSERT INTO `estudiante` (`Matricula`, `Nombre1`, `Nombre2`, `ApellidoP`, `ApellidoM`, `Telefono`, `Correo`, `Carrera`) VALUES
 (1322130001, 'Juan', 'Carlos', 'Gómez', 'Pérez', '5512345678', 'juan_1322130001@uptecamac.edu.mx', 'IMA'),
-(1322130002, 'Ana', NULL, 'Martínez', 'López', '5523456789', 'ana_1322130002@uptecamac.edu.mx', 'IMA'),
+(1322130002, 'Ana', '', 'Martínez', 'López', '5523456789', 'ana_1322130002@uptecamac.edu.mx', 'IMA'),
 (1322130003, 'Luis', 'Fernando', 'Hernández', 'Ruiz', '5534567890', 'luis_1322130003@uptecamac.edu.mx', 'IMA'),
 (1322130004, 'María', 'José', 'Torres', 'Sánchez', '5545678901', 'maria_1322130004@uptecamac.edu.mx', 'IMA'),
-(1322130005, 'Carlos', NULL, 'Ramírez', 'Díaz', '5556789012', 'carlos_1322130005@uptecamac.edu.mx', 'IMA'),
+(1322130005, 'Carlos', '', 'Ramírez', 'Díaz', '5556789012', 'carlos_1322130005@uptecamac.edu.mx', 'IMA'),
 (1322130006, 'Fernanda', 'Sofía', 'Vargas', 'Méndez', '5567890123', 'fernanda_1322130006@uptecamac.edu.mx', 'IMA'),
 (1322130007, 'Pablo', 'Andrés', 'Luna', 'García', '5578901234', 'pablo_1322130007@uptecamac.edu.mx', 'IMA'),
-(1322130008, 'Samantha', NULL, 'Ortega', 'Flores', '5589012345', 'samantha_1322130008@uptecamac.edu.mx', 'IMA'),
+(1322130008, 'Samantha', '', 'Ortega', 'Flores', '5589012345', 'samantha_1322130008@uptecamac.edu.mx', 'IMA'),
 (1322130009, 'Héctor', 'Iván', 'Castro', 'Morales', '5590123456', 'hector_1322130009@uptecamac.edu.mx', 'IMA'),
 (1322130010, 'Valeria', 'Ximena', 'Navarro', 'Rodríguez', '5501234567', 'valeria_1322130010@uptecamac.edu.mx', 'IMA'),
 (1322130011, 'Diego', 'Emiliano', 'Fernández', 'Lara', '5511223344', 'diego_1322130011@uptecamac.edu.mx', 'IF'),
 (1322130012, 'Andrea', 'Isabel', 'Mendoza', 'Ríos', '5522334455', 'andrea_1322130012@uptecamac.edu.mx', 'IF'),
-(1322130013, 'Oscar', NULL, 'Gutiérrez', 'Campos', '5533445566', 'oscar_1322130013@uptecamac.edu.mx', 'IF'),
+(1322130013, 'Oscar', '', 'Gutiérrez', 'Campos', '5533445566', 'oscar_1322130013@uptecamac.edu.mx', 'IF'),
 (1322130014, 'Paola', 'Michelle', 'Hidalgo', 'Vega', '5544556677', 'paola_1322130014@uptecamac.edu.mx', 'IF'),
 (1322130015, 'Jorge', 'Arturo', 'Salinas', 'Bravo', '5555667788', 'jorge_1322130015@uptecamac.edu.mx', 'IF'),
-(1322130016, 'Elena', NULL, 'Zamora', 'Suárez', '5566778899', 'elena_1322130016@uptecamac.edu.mx', 'IF'),
+(1322130016, 'Elena', '', 'Zamora', 'Suárez', '5566778899', 'elena_1322130016@uptecamac.edu.mx', 'IF'),
 (1322130017, 'Adrián', 'José', 'Escobar', 'Ochoa', '5577889900', 'adrian_1322130017@uptecamac.edu.mx', 'IF'),
 (1322130018, 'Gabriela', 'Fernanda', 'León', 'Pacheco', '5588990011', 'gabriela_1322130018@uptecamac.edu.mx', 'IF'),
 (1322130019, 'Ricardo', 'Manuel', 'Aguilar', 'Cortés', '5599001122', 'ricardo_1322130019@uptecamac.edu.mx', 'IF'),
 (1322130020, 'Sofía', 'Beatriz', 'Estrada', 'Delgado', '5500112233', 'sofia_1322130020@uptecamac.edu.mx', 'IF'),
-(1322130021, 'Martín', NULL, 'Pérez', 'González', '5512341122', 'martin_1322130021@uptecamac.edu.mx', 'ITM'),
+(1322130021, 'Martín', '', 'Pérez', 'González', '5512341122', 'martin_1322130021@uptecamac.edu.mx', 'ITM'),
 (1322130022, 'Camila', 'Renata', 'Silva', 'Molina', '5523452233', 'camila_1322130022@uptecamac.edu.mx', 'ITM'),
 (1322130023, 'Alberto', 'Joaquín', 'Rojas', 'Hernández', '5534563344', 'alberto_1322130023@uptecamac.edu.mx', 'ITM'),
-(1322130024, 'Daniela', NULL, 'Santos', 'López', '5545674455', 'daniela_1322130024@uptecamac.edu.mx', 'ITM'),
+(1322130024, 'Daniela', '', 'Santos', 'López', '5545674455', 'daniela_1322130024@uptecamac.edu.mx', 'ITM'),
 (1322130025, 'Hugo', 'Esteban', 'Ortega', 'Ramírez', '5556785566', 'hugo_1322130025@uptecamac.edu.mx', 'ITM'),
 (1322130026, 'Natalia', 'Paulina', 'Castillo', 'Jiménez', '5567896677', 'natalia_1322130026@uptecamac.edu.mx', 'ITM'),
-(1322130027, 'Rodrigo', NULL, 'Delgado', 'Vázquez', '5578907788', 'rodrigo_1322130027@uptecamac.edu.mx', 'ITM'),
+(1322130027, 'Rodrigo', '', 'Delgado', 'Vázquez', '5578907788', 'rodrigo_1322130027@uptecamac.edu.mx', 'ITM'),
 (1322130028, 'Isabela', 'Andrea', 'Núñez', 'Medina', '5589018899', 'isabela_1322130028@uptecamac.edu.mx', 'ITM'),
 (1322130029, 'Javier', 'Raúl', 'Peña', 'Flores', '5590129900', 'javier_1322130029@uptecamac.edu.mx', 'ITM'),
-(1322130030, 'Lucía', NULL, 'Suárez', 'Gómez', '5501230001', 'lucia_1322130030@uptecamac.edu.mx', 'ITM'),
+(1322130030, 'Lucía', '', 'Suárez', 'Gómez', '5501230001', 'lucia_1322130030@uptecamac.edu.mx', 'ITM'),
 (1322130031, 'Fabián', 'Alejandro', 'Méndez', 'Soto', '5512349988', 'fabian_1322130031@uptecamac.edu.mx', 'LNI'),
-(1322130032, 'Regina', NULL, 'Cruz', 'García', '5523458877', 'regina_1322130032@uptecamac.edu.mx', 'LNI'),
+(1322130032, 'Regina', '', 'Cruz', 'García', '5523458877', 'regina_1322130032@uptecamac.edu.mx', 'LNI'),
 (1322130033, 'Samuel', 'Omar', 'Lara', 'Ruiz', '5534567766', 'samuel_1322130033@uptecamac.edu.mx', 'LNI'),
 (1322130034, 'Montserrat', 'Diana', 'Ramos', 'Paredes', '5545676655', 'montserrat_1322130034@uptecamac.edu.mx', 'LNI'),
-(1322130035, 'Iván', NULL, 'Escamilla', 'Rosales', '5556785544', 'ivan_1322130035@uptecamac.edu.mx', 'LNI'),
+(1322130035, 'Iván', '', 'Escamilla', 'Rosales', '5556785544', 'ivan_1322130035@uptecamac.edu.mx', 'LNI'),
 (1322130036, 'Ximena', 'Mariana', 'Gómez', 'Aguilar', '5567894433', 'ximena_1322130036@uptecamac.edu.mx', 'LNI'),
 (1322130037, 'Fernando', 'Diego', 'Carranza', 'López', '5578903322', 'fernando_1322130037@uptecamac.edu.mx', 'LNI'),
-(1322130038, 'Valentina', NULL, 'Chávez', 'Delgado', '5589012211', 'valentina_1322130038@uptecamac.edu.mx', 'LNI'),
+(1322130038, 'Valentina', '', 'Chávez', 'Delgado', '5589012211', 'valentina_1322130038@uptecamac.edu.mx', 'LNI'),
 (1322130039, 'Cristian', 'Antonio', 'Ochoa', 'Maldonado', '5590121100', 'cristian_1322130039@uptecamac.edu.mx', 'LNI'),
 (1322130040, 'Paula', 'Estrella', 'Miranda', 'Navarro', '5501230099', 'paula_1322130040@uptecamac.edu.mx', 'LNI'),
 (1322134083, 'Jesus', 'Margarito', 'Santos', 'Garcia', '5547062133', 'jesus_1322134083@uptecamac.edu.mx', 'IS'),
@@ -599,7 +601,10 @@ INSERT INTO `proyecto` (`ProyectoID`, `Nombre`, `Funcion`) VALUES
 (8, 'Sistema Integrado de Gestión de Operaciones (SIGO)', 'optimizar y estandarizar procesos operativos a nivel globaL'),
 (16, 'Desarrollo de un Sistema de Control y Seguimiento ', 'Crear una plataforma web que permita a las empresas monitorear el avance de sus proyectos en tiempo real, facilitando la gestión de tareas, asignación de recursos y generación de reportes de progreso.'),
 (20, 'Diseño y Optimización de un Sistema de Refrigeración para Motores de Combustión Interna', 'Desarrollar y mejorar un sistema de enfriamiento eficiente para motores de combustión interna mediante simulaciones térmicas y pruebas experimentales, con el objetivo de optimizar el rendimiento del motor, reducir el consumo de combustible y minimizar el impacto ambiental.'),
-(21, 'Desarrollo de un Modelo de Optimización Financiera para la Gestión de Inversiones en Pequeñas Empresas', 'Crear un modelo financiero basado en análisis de riesgo y rentabilidad que ayude a las pequeñas empresas a tomar decisiones estratégicas de inversión, maximizando ganancias y minimizando riesgos mediante herramientas como simulaciones de Monte Carlo y análisis de sensibilidad.');
+(21, 'Desarrollo de un Modelo de Optimización Financiera para la Gestión de Inversiones en Pequeñas Empresas', 'Crear un modelo financiero basado en análisis de riesgo y rentabilidad que ayude a las pequeñas empresas a tomar decisiones estratégicas de inversión, maximizando ganancias y minimizando riesgos mediante herramientas como simulaciones de Monte Carlo y análisis de sensibilidad.'),
+(24, 'aaa', 'aaaa'),
+(25, 'qqqqqq', 'qqqqq'),
+(26, 'wwwwww', 'wwww');
 
 -- --------------------------------------------------------
 
@@ -625,7 +630,10 @@ INSERT INTO `proyectoasesores` (`Id`, `Id_asesorE`, `Id_asesorA`, `Id_proyecto`)
 (13, 38, 10, 7),
 (14, 17, 31, 8),
 (26, 41, 17, 20),
-(27, 15, 19, 21);
+(27, 15, 19, 21),
+(30, 38, 10, 24),
+(31, 38, 10, 25),
+(32, 38, 10, 26);
 
 -- --------------------------------------------------------
 
@@ -651,8 +659,9 @@ CREATE TABLE `ser` (
 --
 
 INSERT INTO `ser` (`ID`, `Puntualidad`, `Responsabilidad`, `Atencion`, `Etica`, `Capacidad`, `Liderazgo`, `Calificacion`, `Matricula`, `Parcial`) VALUES
-(4, 10, 9, 9, 10, 10, 7, 9, 1322134083, 'Parcial 1'),
-(9, 6, 10, 9, 10, 8, 10, 8.83333, 1322134084, 'Parcial 1');
+(14, 9, 10, 9, 9, 8, 10, 9.2, 1322134084, 'Parcial 1'),
+(15, 9, 7, 7, 9, 9, 10, 8.5, 1322134084, 'Parcial 2'),
+(16, 10, 9, 7, 8, 8, 9, 8.5, 1322134084, 'Parcial 3');
 
 -- --------------------------------------------------------
 
@@ -691,22 +700,19 @@ ALTER TABLE `asesorempresarial`
 -- Indices de la tabla `calificacionproyectop1`
 --
 ALTER TABLE `calificacionproyectop1`
-  ADD PRIMARY KEY (`Id`),
-  ADD KEY `Alumno` (`Alumno`);
+  ADD PRIMARY KEY (`Id`);
 
 --
 -- Indices de la tabla `calificacionproyectop2`
 --
 ALTER TABLE `calificacionproyectop2`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `Alumno` (`Alumno`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `calificacionproyectop3`
 --
 ALTER TABLE `calificacionproyectop3`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `Alumno` (`Alumno`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `carreras`
@@ -835,19 +841,19 @@ ALTER TABLE `asesorempresarial`
 -- AUTO_INCREMENT de la tabla `calificacionproyectop1`
 --
 ALTER TABLE `calificacionproyectop1`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `calificacionproyectop2`
 --
 ALTER TABLE `calificacionproyectop2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `calificacionproyectop3`
 --
 ALTER TABLE `calificacionproyectop3`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `cartas`
@@ -877,7 +883,7 @@ ALTER TABLE `encuesta08`
 -- AUTO_INCREMENT de la tabla `equipos`
 --
 ALTER TABLE `equipos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=222;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
 
 --
 -- AUTO_INCREMENT de la tabla `foest07`
@@ -895,19 +901,19 @@ ALTER TABLE `formato03`
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `ProyectoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `ProyectoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT de la tabla `proyectoasesores`
 --
 ALTER TABLE `proyectoasesores`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de la tabla `ser`
 --
 ALTER TABLE `ser`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `valoracionesempresario`
@@ -924,24 +930,6 @@ ALTER TABLE `valoracionesempresario`
 --
 ALTER TABLE `asesorempresarial`
   ADD CONSTRAINT `asesorempresarial_ibfk_1` FOREIGN KEY (`Empresa`) REFERENCES `empresa` (`Nombre`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `calificacionproyectop1`
---
-ALTER TABLE `calificacionproyectop1`
-  ADD CONSTRAINT `calificacionproyectop1_ibfk_1` FOREIGN KEY (`Alumno`) REFERENCES `estudiante` (`Matricula`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `calificacionproyectop2`
---
-ALTER TABLE `calificacionproyectop2`
-  ADD CONSTRAINT `calificacionproyectop2_ibfk_1` FOREIGN KEY (`Alumno`) REFERENCES `estudiante` (`Matricula`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `calificacionproyectop3`
---
-ALTER TABLE `calificacionproyectop3`
-  ADD CONSTRAINT `calificacionproyectop3_ibfk_1` FOREIGN KEY (`Alumno`) REFERENCES `estudiante` (`Matricula`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `cartas`

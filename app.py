@@ -32,6 +32,9 @@ def loginAsesorAcademico3():
 @app.route('/loginCoordinacion2')
 def loginCoordinacion2():
     return render_template('login/loginCoordinacion2.html')
+@app.route('/loginCoordinacionIni')
+def loginCoordinacion():
+    return render_template('/perfil_coordinacion.html')
 
 @app.route('/loginCoordinacion3',methods=['POST'])
 def loginCoordinacion3():
@@ -336,7 +339,8 @@ def abrirExpediente_parcials():
 @app.route('/abrirCalificaciones',methods=['POST'])
 def verCalificaciones():
     matricula = request.form['matricula']
-    Calificaciones = Estudiante(matricula)
+    proyecto = request.form['proyectoR']
+    Calificaciones = Estudiante(matricula,proyecto)
     return Calificaciones
 
 
@@ -432,8 +436,7 @@ def inicioSesionEstudiante(matricula,correo):
             return f'error {e}'
     
 
-
-def Estudiante(matricula):
+def Estudiante(matricula, proyecto):
     try:
         with engine.connect() as conn:
             # Obtener datos del estudiante
@@ -445,7 +448,7 @@ def Estudiante(matricula):
             Nombre1, Nombre2, ApellidoP, ApellidoM = estudiante
 
             # Obtener calificación final
-            calificacionF = calificacionfinal(matricula)
+            calificacionF = calificacionfinal(proyecto)
 
             # Diccionario para almacenar calificaciones con valores por defecto
             datos = {
@@ -455,30 +458,37 @@ def Estudiante(matricula):
                 "Puntualidad": "", "Responsabilidad": "", "Atencion": "", "Etica": "", "Capacidad": "", "Liderazgo": ""
             }
 
-            # Lista de consultas y sus llaves correspondientes
+            # Lista de consultas con sus llaves y parámetros
             consultas = [
-                ("SELECT Antecedentes, Planteamiento, Justificacion, Objetivos, ObjetivosEspecificos, Calificacion FROM calificacionproyectop1 WHERE Alumno = :matricula",
-                 ["Antecedentes", "Planteamiento", "Justificacion", "Objetivos", "ObjetivosEspecificos", "Calificacion"]),
+                ("SELECT Antecedentes, Planteamiento, Justificacion, Objetivos, ObjetivosEspecificos, Calificacion FROM calificacionproyectop1 WHERE proyecto = :proyecto",
+                 ["Antecedentes", "Planteamiento", "Justificacion", "Objetivos", "ObjetivosEspecificos", "Calificacion"],
+                 {'proyecto': proyecto}),
                 
-                ("SELECT Marco, Metodologia, Cronograma, Desarrollo, Calificacion FROM calificacionproyectop2 WHERE Alumno = :matricula",
-                 ["Marco", "Metodologia", "Cronograma", "Desarrollo", "CalificacionP2"]),
+                ("SELECT Marco, Metodologia, Cronograma, Desarrollo, Calificacion FROM calificacionproyectop2 WHERE proyecto = :proyecto",
+                 ["Marco", "Metodologia", "Cronograma", "Desarrollo", "CalificacionP2"],
+                 {'proyecto': proyecto}),
                 
-                ("SELECT Resultados, Conclusiones, Referencias, Anexos, Calificacion FROM calificacionproyectop3 WHERE Alumno = :matricula",
-                 ["Resultados", "Conclusiones", "Referencias", "Anexos", "CalificacionP3"]),
+                ("SELECT Resultados, Conclusiones, Referencias, Anexos, Calificacion FROM calificacionproyectop3 WHERE proyecto = :proyecto",
+                 ["Resultados", "Conclusiones", "Referencias", "Anexos", "CalificacionP3"],
+                 {'proyecto': proyecto}),
                 
-                ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo,Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 1'",
-                 ["Puntualidad", "Responsabilidad", "Atencion", "Etica", "Capacidad", "Liderazgo","Calificacion1"]),
+                ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo, Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 1'",
+                 ["Puntualidad", "Responsabilidad", "Atencion", "Etica", "Capacidad", "Liderazgo", "Calificacion1"],
+                 {'matricula': matricula}),
 
-                 ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo,Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 2'",
-                 ["Puntualidad2", "Responsabilidad2", "Atencion2", "Etica2", "Capacidad2", "Liderazgo2","Calificacion2"]),
+                ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo, Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 2'",
+                 ["Puntualidad2", "Responsabilidad2", "Atencion2", "Etica2", "Capacidad2", "Liderazgo2", "Calificacion2"],
+                 {'matricula': matricula}),
 
-                 ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo,Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 3'",
-                 ["Puntualidad3", "Responsabilidad3", "Atencion3", "Etica3", "Capacidad3", "Liderazgo3","Calificacion3"])
+                ("SELECT Puntualidad, Responsabilidad, Atencion, Etica, Capacidad, Liderazgo, Calificacion FROM ser WHERE Matricula = :matricula AND Parcial = 'Parcial 3'",
+                 ["Puntualidad3", "Responsabilidad3", "Atencion3", "Etica3", "Capacidad3", "Liderazgo3", "Calificacion3"],
+                 {'matricula': matricula})
             ]
 
-            for query_text, keys in consultas:
+            # Ejecutar consultas
+            for query_text, keys, parametros in consultas:
                 query = text(query_text)
-                resultado = conn.execute(query, {'matricula': matricula}).fetchone()
+                resultado = conn.execute(query, parametros).fetchone()
                 if resultado:
                     for key, value in zip(keys, resultado):
                         datos[key] = value
@@ -491,25 +501,21 @@ def Estudiante(matricula):
 
             
 
-def calificacionfinal(matricula):
+def calificacionfinal(proyecto):
     try:
-        query = text('''
-SELECT  
-    ROUND((
-        COALESCE(p1.calificacion, 0) + 
-        COALESCE(p2.calificacion, 0) + 
-        COALESCE(p3.calificacion, 0)
-    ) / 3, 2) AS promedio
-FROM estudiante a
-LEFT JOIN calificacionproyectop1 p1 ON a.matricula = p1.alumno
-LEFT JOIN calificacionproyectop2 p2 ON a.matricula = p2.alumno
-LEFT JOIN calificacionproyectop3 p3 ON a.matricula = p3.alumno
-WHERE a.matricula = :matricula;
+        query = text('''SELECT AVG(Calificacion) AS Promedio
+FROM (
+    SELECT Calificacion FROM calificacionproyectop1 WHERE Proyecto = :proyecto
+    UNION ALL
+    SELECT Calificacion FROM calificacionproyectop2 WHERE Proyecto = :proyecto
+    UNION ALL
+    SELECT Calificacion FROM calificacionproyectop3 WHERE Proyecto = :proyecto
+) AS Calificaciones;
 ''')
 
         
         with engine.connect() as conn:
-            ok = conn.execute(query, {'matricula': matricula}).fetchone()
+            ok = conn.execute(query, {'proyecto': proyecto}).fetchone()
             if ok:
                 promedio = ok[0]
                 return promedio
@@ -899,9 +905,7 @@ def calificarProyectoU1():
     Matricula = request.form['matricula']
     IDAsesor = request.form['IDAsesor']
     proyecto = request.form['proyecto']
-    if Matricula =="":
-        return 'Selecciona un alumno'
-    validado = validarCalificado(Matricula)
+    validado = validarCalificado(proyecto)
     Antecedentes = int(request.form['Antecedentes'])
     Planteamiento = int(request.form['Planteamiento'])
     Justificacion = int(request.form['Justificacion'])
@@ -912,7 +916,7 @@ def calificarProyectoU1():
     if validado:
         return render_template('cargas/calificacion.html',matricula = Matricula,Calificacion = Calificacion,proyecto=proyecto,Antecedentes = Antecedentes,Planteamiento = Planteamiento,Justificacion = Justificacion,Objetivo = Objetivo,ObjetivoEspecifico = ObjetivoEspecifico,IDAsesor = IDAsesor)
     else:
-        calificado = calificar(Matricula,Antecedentes,Planteamiento,Justificacion,Objetivo,ObjetivoEspecifico,Calificacion)
+        calificado = calificar(proyecto,Antecedentes,Planteamiento,Justificacion,Objetivo,ObjetivoEspecifico,Calificacion)
         if calificado:
             return render_template('Cargas/calificacionAsignada.html',Calificacion = Calificacion,proyecto = proyecto,IDAsesor = IDAsesor)
             
@@ -922,7 +926,7 @@ def calificarProyectoU2():
     Matricula = request.form['matriculau2']
     IDAsesor = request.form['ID']
     proyecto = request.form['proyecto']
-    validado = validarCalificadoU2(Matricula)
+    validado = validarCalificadoU2(proyecto)
     Marco = int(request.form['Marco'])
     Metodologia = int(request.form['Metodologia'])
     Cronograma = int(request.form['Cronograma'])
@@ -931,7 +935,7 @@ def calificarProyectoU2():
     if validado:
         return render_template('cargas/calificacionp2.html',matricula = Matricula,proyecto = proyecto,Calificacion = Calificacion,Marco = Marco,Metodologia = Metodologia,Cronograma = Cronograma,DesarrolloProyecto = DesarrolloProyecto,IDAsesor = IDAsesor)
     else:
-        calificado = calificarp2(Matricula,Marco,Metodologia,Cronograma,DesarrolloProyecto,Calificacion)
+        calificado = calificarp2(proyecto,Marco,Metodologia,Cronograma,DesarrolloProyecto,Calificacion)
         if calificado:
             return render_template('Cargas/calificacionAsignada.html',Calificacion = Calificacion,proyecto = proyecto,IDAsesor = IDAsesor)
             
@@ -945,7 +949,7 @@ def calificarProyectoU3():
     IDAsesor = request.form['ID']
     Matricula = request.form['matriculau3']
     proyecto = request.form['proyecto']
-    validado = validarCalificadoU3(Matricula)
+    validado = validarCalificadoU3(proyecto)
     Resultados = int(request.form['Resultados'])
     Conclusiones = int(request.form['Conclusiones'])
     Referencias = int(request.form['Referencias'])
@@ -954,49 +958,49 @@ def calificarProyectoU3():
     if validado:
         return render_template('cargas/calificacionp3.html',matricula = Matricula,proyecto = proyecto,Calificacion = Calificacion,Resultados = Resultados,Conclusiones = Conclusiones,Referencias = Referencias,Anexos = Anexos,IDAsesor = IDAsesor)
     else:
-        calificado = calificarp3(Matricula,Resultados,Conclusiones,Referencias,Anexos,Calificacion)
+        calificado = calificarp3(proyecto,Resultados,Conclusiones,Referencias,Anexos,Calificacion)
         if calificado:
             return render_template('Cargas/calificacionAsignada.html',Calificacion=Calificacion,proyecto = proyecto,IDAsesor = IDAsesor)
     
 
 
-def calificar(matricula,antecedentes,planteamiento,justificacion,objetivos,especificos,calificacion):
+def calificar(proyecto,antecedentes,planteamiento,justificacion,objetivos,especificos,calificacion):
     try:
-        query = text("INSERT INTO calificacionproyectop1 (Alumno,antecedentes,planteamiento,justificacion,objetivos,objetivosEspecificos,Calificacion) VALUES (:Alumno,:antecedentes,:planteamiento,:justificacion,:objetivos,:objetivosEspecificos,:Calificacion)")
+        query = text("INSERT INTO calificacionproyectop1 (proyecto,antecedentes,planteamiento,justificacion,objetivos,objetivosEspecificos,Calificacion) VALUES (:proyecto,:antecedentes,:planteamiento,:justificacion,:objetivos,:objetivosEspecificos,:Calificacion)")
         with engine.connect() as conn:
-            conn.execute(query,{"Alumno":matricula,"antecedentes":antecedentes,"planteamiento":planteamiento,"justificacion":justificacion,"objetivos":objetivos,"objetivosEspecificos":especificos,"Calificacion":calificacion})
+            conn.execute(query,{"proyecto":proyecto,"antecedentes":antecedentes,"planteamiento":planteamiento,"justificacion":justificacion,"objetivos":objetivos,"objetivosEspecificos":especificos,"Calificacion":calificacion})
             conn.commit()
             return True
     except Exception as e:
         return f'error---------------->{e}'
     
-def calificarp2(matricula,marco,metodologia,cronograma,desarrollo,calificacion):
+def calificarp2(proeycto,marco,metodologia,cronograma,desarrollo,calificacion):
     try:
-        query = text("INSERT INTO calificacionproyectop2 (Alumno,Marco,Metodologia,Cronograma,Desarrollo,Calificacion) VALUES (:Alumno,:Marco,:metodologia,:cronograma,:desarrollo,:Calificacion)")
+        query = text("INSERT INTO calificacionproyectop2 (proyecto,Marco,Metodologia,Cronograma,Desarrollo,Calificacion) VALUES (:proyecto,:Marco,:metodologia,:cronograma,:desarrollo,:Calificacion)")
         with engine.connect() as conn:
-            conn.execute(query,{"Alumno":matricula,"Marco":marco,"metodologia":metodologia,"cronograma":cronograma,"desarrollo":desarrollo,"Calificacion":calificacion})
-            conn.commit()
-            return True
-    except Exception as e:
-        return f'error---------------->{e}'
-    
-
-def calificarp3(matricula,Resultados,Conclusiones,Referencias,Anexos,Calificacion):
-    try:
-        query = text("INSERT INTO calificacionproyectop3 (Alumno,Resultados,Conclusiones,Referencias,Anexos,Calificacion) VALUES (:Alumno,:Resultados,:Conclusiones,:Referencias,:Anexos,:Calificacion)")
-        with engine.connect() as conn:
-            conn.execute(query,{"Alumno":matricula,"Resultados":Resultados,"Conclusiones":Conclusiones,"Referencias":Referencias,"Anexos":Anexos,"Calificacion":Calificacion})
+            conn.execute(query,{"proyecto":proeycto,"Marco":marco,"metodologia":metodologia,"cronograma":cronograma,"desarrollo":desarrollo,"Calificacion":calificacion})
             conn.commit()
             return True
     except Exception as e:
         return f'error---------------->{e}'
     
 
-def validarCalificado(matricula):
+def calificarp3(proyecto,Resultados,Conclusiones,Referencias,Anexos,Calificacion):
     try:
-        query = text("SELECT Alumno FROM calificacionproyectop1 WHERE Alumno =:Matricula")
+        query = text("INSERT INTO calificacionproyectop3 (proyecto,Resultados,Conclusiones,Referencias,Anexos,Calificacion) VALUES (:proyecto,:Resultados,:Conclusiones,:Referencias,:Anexos,:Calificacion)")
         with engine.connect() as conn:
-            ok = conn.execute(query,{'Matricula':matricula})
+            conn.execute(query,{"proyecto":proyecto,"Resultados":Resultados,"Conclusiones":Conclusiones,"Referencias":Referencias,"Anexos":Anexos,"Calificacion":Calificacion})
+            conn.commit()
+            return True
+    except Exception as e:
+        return f'error---------------->{e}'
+    
+
+def validarCalificado(proyecto):
+    try:
+        query = text("SELECT proyecto FROM calificacionproyectop1 WHERE proyecto =:proyecto")
+        with engine.connect() as conn:
+            ok = conn.execute(query,{'proyecto':proyecto})
             ok = ok.fetchone()
             if ok:
                 return True
@@ -1006,11 +1010,11 @@ def validarCalificado(matricula):
         return f'error---------------->{e}'  
 
 
-def validarCalificadoU2(matricula):
+def validarCalificadoU2(proyecto):
     try:
-        query = text("SELECT Alumno FROM calificacionproyectop2 WHERE Alumno =:Matricula")
+        query = text("SELECT proyecto FROM calificacionproyectop2 WHERE proyecto =:proyecto")
         with engine.connect() as conn:
-            ok = conn.execute(query,{'Matricula':matricula})
+            ok = conn.execute(query,{'proyecto':proyecto})
             ok = ok.fetchone()
             if ok:
                 return True
@@ -1025,11 +1029,11 @@ def validarCalificadoU2(matricula):
 
 
 
-def validarCalificadoU3(matricula):
+def validarCalificadoU3(proyecto):
     try:
-        query = text("SELECT Alumno FROM calificacionproyectop3 WHERE Alumno =:Matricula")
+        query = text("SELECT proyecto FROM calificacionproyectop3 WHERE proyecto =:proyecto")
         with engine.connect() as conn:
-            ok = conn.execute(query,{'Matricula':matricula})
+            ok = conn.execute(query,{'proyecto':proyecto})
             ok = ok.fetchone()
             if ok:
                 return True
@@ -1432,6 +1436,7 @@ def obtenerMatriculas(nombreP):
 
 @app.route('/correccionSi',methods=['POST'])
 def correccion():
+    proyecto = request.form['proyecto']
     IDAsesor = request.form['IDAsesor']
     calificacionN = request.form['Calificacion']
     antecedentes = request.form['Antecedentes']
@@ -1439,8 +1444,8 @@ def correccion():
     justificacion = request.form['Justificacion']
     objetivos = request.form['Objetivo']
     objetivosEspecificos = request.form['ObjetivoEspecifico']
-    matricula = request.form['matricula']
-    correccion = correccionSiP1(antecedentes,planteamiento,justificacion,objetivos,objetivosEspecificos,calificacionN,matricula)
+    
+    correccion = correccionSiP1(antecedentes,planteamiento,justificacion,objetivos,objetivosEspecificos,calificacionN,proyecto)
     if correccion:
         return render_template('Cargas/corregido.html',Calificacion = calificacionN,IDAsesor = IDAsesor)
     else:
@@ -1449,6 +1454,7 @@ def correccion():
 
 @app.route('/correccionSiP2',methods=['POST'])
 def correccionP2():
+    proyecto = request.form['proyecto']
     IDAsesor = request.form['IDAsesor']
     calificacionN = request.form['Calificacion']
     Marco = request.form['Marco']
@@ -1456,8 +1462,8 @@ def correccionP2():
     Cronograma = request.form['Cronograma']
     DesarrolloProyecto = request.form['DesarrolloProyecto']
 
-    matricula = request.form['matricula']
-    correccion = correccionSiP2(Marco,Metodologia,Cronograma,DesarrolloProyecto,calificacionN,matricula)
+   
+    correccion = correccionSiP2(Marco,Metodologia,Cronograma,DesarrolloProyecto,calificacionN,proyecto)
     if correccion:
         return render_template('Cargas/corregido.html',Calificacion = calificacionN,IDAsesor = IDAsesor)
     else:
@@ -1466,6 +1472,7 @@ def correccionP2():
 
 @app.route('/correccionSiP3',methods=['POST'])
 def correccionP3():
+    proyecto = request.form['proyecto']
     IDAsesor = request.form['IDAsesor']
     calificacionN = request.form['Calificacion']
     Resultados = request.form['Resultados']
@@ -1474,38 +1481,38 @@ def correccionP3():
     Anexos = request.form['Anexos']
 
     matricula = request.form['matricula']
-    correccion = correccionSiP3(Resultados,Conclusiones,Referencias,Anexos,calificacionN,matricula)
+    correccion = correccionSiP3(Resultados,Conclusiones,Referencias,Anexos,calificacionN,proyecto)
     if correccion:
         return render_template('Cargas/corregido.html',Calificacion = calificacionN,IDAsesor = IDAsesor)
     else:
         return f'no se pudo corregir {calificacionN}'
 
-def correccionSiP1(antecedentes,planteamiento,justificacion,objetivos,objetivosEspecificos,calificacion,alumno):
-    query = text("UPDATE calificacionproyectop1 SET Antecedentes = :antecedentes,Planteamiento = :planteamiento,Justificacion = :justificacion,Objetivos = :objetivos,ObjetivosEspecificos = :objetivosEspecificos,Calificacion = :calificacion WHERE Alumno = :alumno")
+def correccionSiP1(antecedentes,planteamiento,justificacion,objetivos,objetivosEspecificos,calificacion,proyecto):
+    query = text("UPDATE calificacionproyectop1 SET Antecedentes = :antecedentes,Planteamiento = :planteamiento,Justificacion = :justificacion,Objetivos = :objetivos,ObjetivosEspecificos = :objetivosEspecificos,Calificacion = :calificacion WHERE proyecto = :proyecto")
     try:
         with engine.connect() as conn:
             with conn.begin():
-                conn.execute(query,{"antecedentes":antecedentes,"planteamiento":planteamiento,"justificacion":justificacion,"objetivos":objetivos,"objetivosEspecificos":objetivosEspecificos,"calificacion":calificacion,"alumno":alumno})    
+                conn.execute(query,{"antecedentes":antecedentes,"planteamiento":planteamiento,"justificacion":justificacion,"objetivos":objetivos,"objetivosEspecificos":objetivosEspecificos,"calificacion":calificacion,"proyecto":proyecto})    
             return True
     except Exception as e:
         return False
     
-def correccionSiP2(Marco,Metodologia,Cronograma,DesarrolloProyecto,calificacion,alumno):
-    query = text("UPDATE calificacionproyectop2 SET Marco = :Marco,Metodologia = :Metodologia,Cronograma = :Cronograma,Desarrollo = :DesarrolloProyecto,Calificacion = :calificacion WHERE Alumno = :alumno")
+def correccionSiP2(Marco,Metodologia,Cronograma,DesarrolloProyecto,calificacion,proyecto):
+    query = text("UPDATE calificacionproyectop2 SET Marco = :Marco,Metodologia = :Metodologia,Cronograma = :Cronograma,Desarrollo = :DesarrolloProyecto,Calificacion = :calificacion WHERE proyecto = :proyecto")
     try:
         with engine.connect() as conn:
             with conn.begin():
-                conn.execute(query,{"Marco":Marco,"Metodologia":Metodologia,"Cronograma":Cronograma,"DesarrolloProyecto":DesarrolloProyecto,"calificacion":calificacion,"alumno":alumno})    
+                conn.execute(query,{"Marco":Marco,"Metodologia":Metodologia,"Cronograma":Cronograma,"DesarrolloProyecto":DesarrolloProyecto,"calificacion":calificacion,"proyecto":proyecto})    
             return True
     except Exception as e:
         return False
     
-def correccionSiP3(Resultados,Conclusiones,Referencias,Anexos,calificacion,alumno):
-    query = text("UPDATE calificacionproyectop3 SET Resultados = :Resultados,Conclusiones = :Conclusiones,Referencias = :Referencias,Anexos = :Anexos,Calificacion = :calificacion WHERE Alumno = :alumno")
+def correccionSiP3(Resultados,Conclusiones,Referencias,Anexos,calificacion,proyecto):
+    query = text("UPDATE calificacionproyectop3 SET Resultados = :Resultados,Conclusiones = :Conclusiones,Referencias = :Referencias,Anexos = :Anexos,Calificacion = :calificacion WHERE proyecto = :proyecto")
     try:
         with engine.connect() as conn:
             with conn.begin():
-                conn.execute(query,{"Resultados":Resultados,"Conclusiones":Conclusiones,"Referencias":Referencias,"Anexos":Anexos,"calificacion":calificacion,"alumno":alumno})    
+                conn.execute(query,{"Resultados":Resultados,"Conclusiones":Conclusiones,"Referencias":Referencias,"Anexos":Anexos,"calificacion":calificacion,"proyecto":proyecto})    
             return True
     except Exception as e:
         return False

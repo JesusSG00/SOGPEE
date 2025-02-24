@@ -401,6 +401,8 @@ def calificarExpediente():
 @app.route('/guardarCalificacionSer',methods=['POST'])
 def guardarCalificacionSer():
     proyecto = request.form['proyecto']
+    IDA = request.form['ID']
+    ID = IDproyecto(proyecto)
     puntualidad = int(request.form['puntualidad'])
     responsabilidad = int(request.form['responsabilidad'])
     atencion = int(request.form['atencion'])
@@ -409,11 +411,14 @@ def guardarCalificacionSer():
     liderazgo = int(request.form['liderazgo'])
     matricula = request.form['estudiante']
     parcial = request.form['parcial']
-    
+    validado = validarSer(matricula)
     calificacion = (puntualidad+responsabilidad+atencion+etica+capacidad+liderazgo)/6
     redondeo = round(calificacion,1)
     calificacion = redondeo
-    guardado = guardarCalificacion(puntualidad, responsabilidad, atencion, etica, capacidad, liderazgo, calificacion,matricula, parcial)
+    if validado == False:
+        guardado = guardarCalificacion(puntualidad, responsabilidad, atencion, etica, capacidad, liderazgo, calificacion,matricula, parcial)
+    else:
+        return render_template('Cargas/SerCalificado.html',IDA = IDA,parcial = parcial,proyecto=proyecto,ID = ID)
     if guardado == True:
         return render_template('Cargas/EnvioCalificacion.html',calificacion = calificacion,proyecto = proyecto,parcial= parcial)
     else:
@@ -439,7 +444,19 @@ def calificarSer():
         return render_template('Error/SeleccionInvalida.html',ID = ID)
     ID = IDproyecto(proyecto)
     resultado = obtenerMatricula(ID)
-    return render_template('perfiles/AsesorAcademico/calificar_ser.html',resultado = resultado,parcial = parcial,proyecto=proyecto)
+    return render_template('perfiles/AsesorAcademico/calificar_ser.html',resultado = resultado,parcial = parcial,proyecto=proyecto,ID = ID)
+
+def validarSer(matricula):
+    try:
+        query = text("SELECT COUNT(*) FROM ser WHERE Matricula = :matricula")
+        with engine.connect() as conn:
+            result = conn.execute(query, {'matricula': matricula}).scalar()
+            if result > 0:
+                return True
+            else:
+                return False
+    except Exception as e:
+        return f'error {e}'
 
 @app.route('/descargarPdf',methods=['POST'])
 def descargaPdf():
@@ -744,19 +761,7 @@ def guardarProyectos(archivo,parcial,nombre,matricula):
     archivo.save(ruta_guardado)
     return ruta_guardado
     
-def guardar03(archivo,parcial,nombre,matricula):
-    base_folder = os.path.join('Documentos',matricula,parcial)
-    UPLOAD_FOLDER = os.path.join(base_folder,'FO03')
-    if not os.path.exists(UPLOAD_FOLDER):
-        os.makedirs(UPLOAD_FOLDER)
-    nuevo_nombre = f'proyeto{nombre}{parcial}.pdf'
-    if archivo.filename == '':
-        return 'No se selecciono ningun archivo'
-    if not archivo.filename.endswith('.pdf'):
-        return 'debe ser un archivo pdf'
-    ruta_guardado = os.path.join(UPLOAD_FOLDER,secure_filename(nuevo_nombre))
-    archivo.save(ruta_guardado)
-    return ruta_guardado
+
 
 def cargarAsesorEmp():
     query = text("SELECT AsesorID,Nombre1,Nombre2,ApellidoP,ApellidoM,Empresa from asesorempresarial ORDER BY Empresa")
@@ -907,19 +912,7 @@ def guardarRutaDocumentos(matricula,ruta_proyecto,parcial,NombreProyecto):
     else:
         return False
 
-def guardarRuta03(matricula,ruta_03,parcial):
-    formatoExiste = formato03Existe(matricula,parcial)
-    if formatoExiste != True:
-        try:
-            query = text("INSERT INTO Formato03 (Matricula,Formato03,Parcial) VALUES (:Matricula,:ruta_03,:parcial)")
-            with engine.connect() as conn:
-                conn.execute(query,{'Matricula':matricula,'ruta_03':ruta_03,'parcial':parcial})
-                conn.commit()
-                return True
-        except Exception as e:
-            return f'-------------Error {e}'
-    else:
-        return False
+
 
 def guardarCartass(matricula,ruta_cartas,parcial):
     cartaExiste = cartasExiste(matricula,parcial)
@@ -1197,14 +1190,7 @@ def documentoExiste(matricula,parcial):
             return False
         
 
-def formato03Existe(matricula,parcial):
-    query = text("SELECT Formato03 FROM Formato03 WHERE Matricula = :Matricula AND Parcial = :Parcial")
-    with engine.connect() as conn:
-        resultado = conn.execute(query,{'Matricula':matricula,'Parcial':parcial}).fetchone()
-        if resultado:
-            return True
-        else:
-            return False
+
 
 def cartasExiste(matricula,parcial):
     query = text("SELECT Cartas FROM Cartas WHERE Matricula = :Matricula AND Parcial = :Parcial")

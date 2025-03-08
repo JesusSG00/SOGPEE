@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Title</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+
+        <link rel="stylesheet" href="{{
+            url_for('static',
+            filename='css/carga.css')}}">
+        
+        <script>
+            window.onload = function() {
+                setTimeout(function() {
+                    document.getElementById('formulario').submit();
+                }, 3000); 
+            };
+        </script>
+    </head>
+
+    <body>
+        <div class="card">
+            <h1>PERIODO MODIFICADO EXITOSAMENTE</h1>
+            <div class="icon"><img src="../static/img/verificado.gif" alt="gifcorrect" id="gifc"></div>
+                <p>Redireccionando</p>
+            <div class="dobleForm">
+                <form action="/loginCoordinacionIni" id="formulario">
+                </form>
+               
+            </div>
+        </div>
+        
+    </body>
+</html>

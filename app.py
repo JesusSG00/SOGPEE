@@ -28,13 +28,55 @@ def loginAsesorAcademico2():
 @app.route('/loginAsesorAcademico3',methods=['POST'])
 def loginAsesorAcademico3():
     return render_template('/login/loginAsesorAcademico2.html')
+
 #Formulario de login del coordinador
 @app.route('/loginCoordinacion2')
 def loginCoordinacion2():
     return render_template('login/loginCoordinacion2.html')
+
 @app.route('/loginCoordinacionIni')
 def loginCoordinacion():
-    return render_template('/perfil_coordinacion.html')
+    return render_template('perfiles/Coordinacion/perfil_coordinacion.html')
+
+@app.route('/modificarPeriodo',methods=['POST'])
+def modificarPeriodo():
+    return render_template('perfiles/Coordinacion/modificar_periodo.html')
+
+@app.route('/modificarPeriodoFun',methods=['POST'])
+def modificarPeriodoFun():
+    periodo = request.form['periodo']
+    updateModificarPeriodo(periodo)
+    return render_template('Cargas/periodo_modificado.html')
+
+def updateModificarPeriodo(periodo):
+    with engine.connect() as conn:
+        try:
+       # Desactivar todos los periodos primero
+            query_desactivar = text("UPDATE periodos SET Estado = 'inactivo'")
+            conn.execute(query_desactivar)
+
+            # Activar el periodo seleccionado
+            query_activar = text("""
+                UPDATE periodos 
+                SET Estado = 'activo' 
+                WHERE PeriodoCuatrimestral = :periodo
+            """)
+            conn.execute(query_activar, {'periodo': periodo})
+
+            # Confirmar la transacción
+            conn.commit()
+
+            
+
+        except Exception as e:
+            # En caso de error, hacer rollback y mostrar un mensaje de error
+            conn.rollback()
+            return f'ERROR AL MODIFICAR EL PERIODO: {str(e)}'
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
 
 @app.route('/loginCoordinacion3',methods=['POST'])
 def loginCoordinacion3():
@@ -605,18 +647,28 @@ def obtenerProcedimientoYCarrera(nombreProyecto):
         else:
             return None, None  # Si no se encuentra el proyecto
 
-#Función para insertar los datos del cuestionario de salida
-@app.route('/procesar_cuestionario', methods=['POST'])
-def procesar_cuestionario():
-    procedimiento = request.form["procedimiento"]
-    nombreProyecto = request.form["nombreProyecto"]
-    periodo = request.form["periodo"]
-    nombre_empresa = request.form["nombre_empresa"]
-    grado_estudios = request.form["grado_estudios"]
-    capital = request.form["capital"]
-    anios_operacion = request.form["anios_operacion"]
-    tamanio_empresa = request.form["tamanio_empresa"]
-    mercado_venta = request.form["mercado_venta"]
+# #Función para insertar los datos del cuestionario de salida
+# @app.route('/procesar_cuestionario', methods=['POST'])
+# def procesar_cuestionario():
+#     periodo = 
+#     titulo_proyecto = 
+#     no_equipo = 
+#     procedimiento = 
+#     nombre_empresa = 
+#     modalidad = 
+#     grado_estudios = 
+#     nombre_asesor_emp = 
+#     tipo_empresa = 
+#     giro_empresa =
+#     capital =
+#     anios_operacion =
+#     tamanio_empresa =
+#     mercado_venta =
+#     carrera =
+#     funciones_prioritarias =
+
+
+
     
 
 
@@ -658,7 +710,7 @@ def inicioSesionCoordinacion(correo,password):
                 nombre2=ok[1]
                 apellidoP=ok[2]
                 apellidoM=ok[3]
-                return render_template('/perfil_coordinacion.html',nombre = nombre,nombre2 = nombre2,apellidoP=apellidoP,apellidoM=apellidoM,correo=correo)
+                return render_template('/perfiles/Coordinacion/perfil_coordinacion.html',nombre = nombre,nombre2 = nombre2,apellidoP=apellidoP,apellidoM=apellidoM,correo=correo)
             else:
                 return render_template('Error/CoordinacionNoEncontrado.html')
     except Exception as e:

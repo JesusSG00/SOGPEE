@@ -16,7 +16,20 @@
     </nav>
 </header> -->
 
-<form action="" method="post">
+<form action="estancia1" method="post">
+    <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
+
+    <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+    <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+    <input type="hidden" name="periodo" value="{{ periodo }}">
+    <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+    <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+    <input type="hidden" name="capital" value="{{ capital }}">
+    <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+    <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+    <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+    <input type="hidden" name="equipo" value="{{ equipo }}">
+
     <main class="container">
         {% if procedimiento == 'ESTNC1' %}
         <section id="estancia1" class="form-section active">

@@ -17,102 +17,190 @@
 
 
 
-<form action="" method="post">
+
     <main class="container">
         {% if procedimiento == 'ESTNC1' %}
-        <section id="estancia1" class="form-section active">
+        <form action="/estancia1" method="post">
+            <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
+            <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+            <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+            <input type="hidden" name="periodo" value="{{ periodo }}">
+            <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+            <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+            <input type="hidden" name="capital" value="{{ capital }}">
+            <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+            <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+            <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+            <input type="hidden" name="equipo" value="{{ equipo }}">
+                    <section id="estancia1" class="form-section active">
     
-            <header>
-                <h1 class="tituloCarrera">Ingeniería en Software</h1>
-                <h1 class="tituloFormulario" >Formulario de Estancia I</h1> 
-            </header>
-    
-    
-            <div class="question-container">
-                <div class="question">
-                    <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE
-                        DURANTE SU ESTANCIA I?</h2>
-                    <div class="options-grid">
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Diagnosticar requerimientos del software">
-                                Diagnosticar requerimientos del software
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Aplicación de herramientas CASE">
-                                Aplicación de herramientas CASE
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Determinar normatividad en base a requerimientos">
-                                Determinar normatividad en base a requerimientos
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Gestionar estrategias para optimizar recursos">
-                                Gestionar estrategias para optimizar recursos
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Aplicación adecuada de técnicas de desarrollo software">
-                                Aplicación adecuada de técnicas de desarrollo software
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Aplicar normatividad y estándares">
-                                Aplicar normatividad y estándares
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Uso de plataformas de trabajo colaborativo">
-                                Uso de plataformas de trabajo colaborativo
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Aplicación de técnicas de prueba">
-                                Aplicación de técnicas de prueba
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Identificación de oportunidades de mejora en el área o procesos">
-                                Identificación de oportunidades de mejora en el área o procesos
-                            </div>
-                        </label>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Aplicación de buenas prácticas con la finalidad de cumplir con los requerimientos">
-                                Aplicación de buenas prácticas con la finalidad de cumplir con los requerimientos
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Determinar estándares de desarrollo">
-                                Determinar estándares de desarrollo
-                            </div>
-                        </label>
-                        
-                        <label class="option-item other-option">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="otras">
-                            </div>
-                            <input type="text" placeholder="Otras funciones...">
-                        </label>
+                <header>
+                    <h1 class="tituloCarrera">Ingeniería en Software</h1>
+                    <h1 class="tituloFormulario" >Formulario de Estancia I</h1> 
+                </header>
+        
+        
+                <div class="question-container">
+                    <div class="question">
+                        <h2 class="question-title">
+                            ¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE DURANTE SU ESTANCIA I?
+                        </h2>
+                        <div class="options-grid">
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia1[]" value="Diagnosticar requerimientos del software">
+                                    Diagnosticar requerimientos del software
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia1[]" value="Aplicación de herramientas CASE">
+                                    Aplicación de herramientas CASE
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia1[]" value="Determinar normatividad en base a requerimientos">
+                                    Determinar normatividad en base a requerimientos
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia1[]" value="Gestionar estrategias para optimizar recursos">
+                                    Gestionar estrategias para optimizar recursos
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia1[]" value="Aplicación adecuada de técnicas de desarrollo software">
+                                    Aplicación adecuada de técnicas de desarrollo software
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia1[]" value="Aplicar normatividad y estándares">
+                                    Aplicar normatividad y estándares
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia1[]" value="Uso de plataformas de trabajo colaborativo">
+                                    Uso de plataformas de trabajo colaborativo
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia1[]" value="Aplicación de técnicas de prueba">
+                                    Aplicación de técnicas de prueba
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia1[]" value="Identificación de oportunidades de mejora en el área o procesos">
+                                    Identificación de oportunidades de mejora en el área o procesos
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia1[]" value="Aplicación de buenas prácticas con la finalidad de cumplir con los requerimientos">
+                                    Aplicación de buenas prácticas con la finalidad de cumplir con los requerimientos
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia1[]" value="Determinar estándares de desarrollo">
+                                    Determinar estándares de desarrollo
+                                </div>
+                            </label>
+                
+                            <!-- Opción "Otras funciones" con manejo del campo de texto -->
+                            <label class="option-item other-option">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" id="otrasCheckbox" name="funcion-estancia1[]" value="otras">
+                                    <span>Otras:</span>
+                                </div>
+                                <input type="text" id="otrasInput" name="funcion-estancia1_otros" placeholder="Otras funciones..." disabled>
+                            </label>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </section>
+                
+                <script>
+                document.getElementById('otrasCheckbox').addEventListener('change', function() {
+                    document.getElementById('otrasInput').disabled = !this.checked;
+                });
+                </script>
+                
+            </section>
+            <section class="radio-section">
+                <!-- Pregunta 1 -->
+                <div>
+                    <label for="resolvio_necesidad">¿EL PROYECTO RESOLVIÓ SU NECESIDAD?</label><br>
+                    <input type="radio" name="resolvio_necesidad" value="Si"> Si
+                    <br>
+                    <input type="radio" name="resolvio_necesidad" value="No"> No
+                </div>
+        
+                <!-- Pregunta 2 -->
+                <div>
+                    <label for="interes_participar">LE INTERESARÍA PARTICIPAR EN PROYECTOS DE INVESTIGACIÓN Y DESARROLLO TECNOLÓGICO, ASESORADOS POR LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+                    <input type="radio" name="interes_participar" value="Si"> Si
+                    <br>
+                    <input type="radio" name="interes_participar" value="No"> No
+                </div>
+        
+                <!-- Pregunta 3 -->
+                <div>
+                    <label for="investigacion_desarrollo">¿REALIZA INVESTIGACIÓN Y DESARROLLO EN SU EMPRESA?</label><br>
+                    <input type="radio" name="investigacion_desarrollo" value="Si"> Si
+                    <br>
+                    <input type="radio" name="investigacion_desarrollo" value="No"> No
+                </div>
+        
+                <!-- Pregunta 4 -->
+                <div>
+                    <label for="contratar_egresados">¿ESTARÍA USTED DISPUESTO A CONTRATAR A EGRESADOS DE LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+                    <input type="radio" name="contratar_egresados" value="Si"> Si
+                    <br>
+                    <input type="radio" name="contratar_egresados" value="No"> No
+                    <br>
+        
+                    <label for="porque_contratar">¿POR QUÉ?</label><br>
+                    <input type="text" id="porque_contratar" name="porque_contratar">
+                </div>
+        
+                <!-- Pregunta 5 -->
+                <div>
+                    <label for="aprobacion_edicion">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?</label><br>
+                    <input type="radio" name="aprobacion_edicion" value="Si"> Si
+                    <br>
+                    <input type="radio" name="aprobacion_edicion" value="No"> No
+                </div>
+        
+                <!-- Pregunta 6 -->
+                <div>
+                    <label for="clausula_especial">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
+                    <textarea id="clausula_especial" name="clausula_especial" cols="30" rows="10"></textarea>
+                </div>
+    
+                <!-- Botón de envío -->
+                <button type="submit" class="buttonSiguiente">Enviar</button>
+            </section>
+        </form>
     
         {% elif procedimiento == 'ESTNC2' %}
+        <form action="/estancia2" method="post">
+            <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+            <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+            <input type="hidden" name="periodo" value="{{ periodo }}">
+            <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+            <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+            <input type="hidden" name="capital" value="{{ capital }}">
+            <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+            <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+            <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+            <input type="hidden" name="equipo" value="{{ equipo }}">
+
         <section id="estancia2" class="form-section active">
     
             <header>
@@ -124,176 +212,78 @@
                 <div class="question">
                     <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE
                         DURANTE SU ESTANCIA II?</h2>
-                    <div class>
-                        <div class="options-grid">
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Diseñar software">
-                                    Diseñar software
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Diagnóstico de requerimientos">
-                                    Diagnóstico de requerimientos
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Implementar metodologías de modelado">
-                                    Implementar metodologías de modelado
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Optimizar operaciones comerciales internacionales">
-                                    Optimizar operaciones comerciales internacionales
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Estructurar datos">
-                                    Estructurar datos
-                                </div>
-                            </label><label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2" value="Desarrollar interfaces para su validación">
-                                Desarrollar interfaces para su validación
-                            </div>
-                        </label><label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2" value="Aplicar normatividad y estándares">
-                                Aplicar normatividad y estándares
-                            </div>
-                        </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Representación técnica del software">
-                                    Representación técnica del software
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Estructurar diseños de software con base en requerimientos">
-                                    Estructurar diseños de software con base en requerimientos
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Aplicación de metodologías de diagnostico">
-                                    Aplicación de metodologías de diagnostico
-                                </div>
-                            </label>
-                            <label class="option-item other-option">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="otras">
-                                </div>
-                                <input type="text" placeholder="Otras funciones...">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-        </section>
-    
-        {% elif procedimiento == 'ESTD' %}
-        <section id="estadia" class="form-section active">
-            
-            <header>
-                <h1 class="tituloCarrera">Ingeniería en Software</h1>
-                <h1 class="tituloFormulario" >Formulario de Estadía</h1> 
-            </header>
-    
-            <div class="question-container">
-                <div class="question">
-                    <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE
-                        DURANTE SU ESTADÍA?</h2>
                     <div class="options-grid">
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Dirigir proyectos de software">
-                                Dirigir proyectos de software
+                                <input type="checkbox" name="funcion-estancia2[]" value="Diseñar software">
+                                Diseñar software
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Gestionar proyectos de software">
-                                Gestionar proyectos de software
+                                <input type="checkbox" name="funcion-estancia2[]" value="Diagnóstico de requerimientos">
+                                Diagnóstico de requerimientos
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Aplicación de la metodología de gestión de proyectos">
-                                Aplicación de la metodología de gestión de proyectos
+                                <input type="checkbox" name="funcion-estancia2[]" value="Implementar metodologías de modelado">
+                                Implementar metodologías de modelado
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Determinar herramientas administrativas y financieras">
-                                Determinar herramientas administrativas y financieras
+                                <input type="checkbox" name="funcion-estancia2[]" value="Optimizar operaciones comerciales internacionales">
+                                Optimizar operaciones comerciales internacionales
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Coordinar el plan de pruebas de software">
-                                Coordinar el plan de pruebas de software
+                                <input type="checkbox" name="funcion-estancia2[]" value="Estructurar datos">
+                                Estructurar datos
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Ejecución de pruebas de software">
-                                Ejecución de pruebas de software
+                                <input type="checkbox" name="funcion-estancia2[]" value="Desarrollar interfaces para su validación">
+                                Desarrollar interfaces para su validación
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Planes de mercadotecnia internacional">
-                                Planes de mercadotecnia internacional
+                                <input type="checkbox" name="funcion-estancia2[]" value="Aplicar normatividad y estándares">
+                                Aplicar normatividad y estándares
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Aplicación de estandares para aseguramiento de calidad de software">
-                                Aplicación de estandares para aseguramiento de calidad de software
+                                <input type="checkbox" name="funcion-estancia2[]" value="Representación técnica del software">
+                                Representación técnica del software
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Planear y coordinar mantenimiento de software">
-                                Planear y coordinar mantenimiento de software
+                                <input type="checkbox" name="funcion-estancia2[]" value="Estructurar diseños de software con base en requerimientos">
+                                Estructurar diseños de software con base en requerimientos
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Uso de metodologías de mantenimiento de software">
-                                Uso de metodologías de mantenimiento de software
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Implementar ingeniería inversa y reingeniería">
-                                Implementar ingeniería inversa y reingeniería
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Aplicación de estándares y normatividad aplicación y mejora del software">
-                                Aplicación de estándares y normatividad aplicación y mejora del software
+                                <input type="checkbox" name="funcion-estancia2[]" value="Aplicación de metodologías de diagnostico">
+                                Aplicación de metodologías de diagnóstico
                             </div>
                         </label>
                         <label class="option-item other-option">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="otras">
+                                <input type="checkbox" name="funcion-estancia2[]" value="otras">
                             </div>
-                            <input type="text" placeholder="Otras funciones...">
+                            <input type="text" name="funcion-estancia2_otros" placeholder="Otras funciones...">
                         </label>
-    
                     </div>
                 </div>
             </div>
-    
+            
         </section>
-        {% endif %}
-    
         <section class="radio-section">
             <!-- Pregunta 1 -->
             <div>
@@ -348,30 +338,147 @@
             <!-- Botón de envío -->
             <button type="submit" class="buttonSiguiente">Enviar</button>
         </section>
+        </form>
+        {% elif procedimiento == 'ESTD' %}
+        <form action="/estadia" method="post"></form>
+        <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+        <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+        <input type="hidden" name="periodo" value="{{ periodo }}">
+        <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+        <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+        <input type="hidden" name="capital" value="{{ capital }}">
+        <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+        <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+        <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+        <input type="hidden" name="equipo" value="{{ equipo }}">
+
+        <section id="estadia" class="form-section active">
+            
+            <header>
+                <h1 class="tituloCarrera">Ingeniería en Software</h1>
+                <h1 class="tituloFormulario" >Formulario de Estadía</h1> 
+            </header>
+    
+            <div class="question-container">
+                <div class="question">
+                    <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE
+                        DURANTE SU ESTADÍA?</h2>
+                    <div class="options-grid">
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Dirigir proyectos de software">
+                                Dirigir proyectos de software
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Gestionar proyectos de software">
+                                Gestionar proyectos de software
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Aplicación de la metodología de gestión de proyectos">
+                                Aplicación de la metodología de gestión de proyectos
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Determinar herramientas administrativas y financieras">
+                                Determinar herramientas administrativas y financieras
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Coordinar el plan de pruebas de software">
+                                Coordinar el plan de pruebas de software
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Ejecución de pruebas de software">
+                                Ejecución de pruebas de software
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Planes de mercadotecnia internacional">
+                                Planes de mercadotecnia internacional
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Aplicación de estandares para aseguramiento de calidad de software">
+                                Aplicación de estandares para aseguramiento de calidad de software
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Planear y coordinar mantenimiento de software">
+                                Planear y coordinar mantenimiento de software
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Uso de metodologías de mantenimiento de software">
+                                Uso de metodologías de mantenimiento de software
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Implementar ingeniería inversa y reingeniería">
+                                Implementar ingeniería inversa y reingeniería
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Aplicación de estándares y normatividad aplicación y mejora del software">
+                                Aplicación de estándares y normatividad aplicación y mejora del software
+                            </div>
+                        </label>
+                        <label class="option-item other-option">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="otras">
+                            </div>
+                            <input type="text" name="funcion-estadia_otros" placeholder="Otras funciones...">
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+    
+        </section>
+    </form>
+        {% endif %}
+    
+       
     </main>
     
-</form>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const checkboxes = document.querySelectorAll('input[name="funcion-estancia1"], input[name="funcion-estancia2"], input[name="funcion-estadia"]');
+   document.addEventListener("DOMContentLoaded", function () {
+    // Seleccionar los checkboxes por los nuevos nombres con corchetes [] para los arrays
+    const checkboxes = document.querySelectorAll('input[name="funcion-estancia1[]"], input[name="funcion-estancia2[]"], input[name="funcion-estadia[]"]');
 
-        checkboxes.forEach(checkbox => {
-            checkbox.addEventListener("change", function () {
-                const selectedOptions = Array.from(checkboxes)
-                    .filter(cb => cb.checked)
-                    .map(cb => cb.value);
+    checkboxes.forEach(checkbox => {
+        checkbox.addEventListener("change", function () {
+            // Filtrar las opciones seleccionadas para obtener solo las que están marcadas
+            const selectedOptions = Array.from(checkboxes)
+                .filter(cb => cb.checked)
+                .map(cb => cb.value);
 
-                if (selectedOptions.length > 3) {
-                    this.checked = false;
-                    alert("Solo puedes seleccionar hasta 3 funciones.");
-                    return;
-                }
+            // Validar que no se seleccionen más de 3 funciones
+            if (selectedOptions.length > 3) {
+                this.checked = false; // Desmarcar el checkbox actual
+                alert("Solo puedes seleccionar hasta 3 funciones.");
+                return;
+            }
 
-                console.log("Funciones seleccionadas:", selectedOptions);
-            });
+            console.log("Funciones seleccionadas:", selectedOptions);
         });
     });
+});
+
 
     // function showForm(formId, clickedItem) {
     //     // Ocultar todos los formularios

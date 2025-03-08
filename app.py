@@ -65,6 +65,7 @@ def asesorEmpresarial2():
 @app.route('/buscarExpedienteAsesorEmpresarial', methods=['POST'])
 def buscarExpedienteAsesorEmpresarial():
     ProyectoID= request.form['ProyectoID']
+    equipo = int(cargarEquipo(ProyectoID))
     integrantes = listaEstudiantes(ProyectoID)
     periodo = periodoCuatrimestral()
    
@@ -77,7 +78,7 @@ def buscarExpedienteAsesorEmpresarial():
         with engine.connect() as conn:
             proyecto = conn.execute(query, {'ProyectoID': ProyectoID}).fetchone()
             if proyecto:
-                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes,periodo=periodo)
+                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes,periodo=periodo,equipo=equipo)
             else:
                 return render_template('Cargas/ProyectoNEncontrado.html')
             
@@ -562,22 +563,30 @@ def cargarCalificacionesSer(matricula):
 
 @app.route('/EvEmpresasiguiente',methods=['POST'])  
 def EvEmpresasiguiente():
+    giro = request.form['Giro']
+    tipoempresa = request.form['tipoempresa']
+    periodo = request.form['periodo']
+    equipo = request.form['equipo']
+    nombre_empresa = request.form['companyName']
+    grado_estudios = request.form['advisorDegree']
+    capital = request.form['capital']
+    anios_operacion = request.form['aniosOperacion']
+    tamanio_empresa = request.form['Tamaño']
+    mercado_venta = request.form['Mercado']
     nombreProyecto = request.form['projectTitl']
-    # si = obtenerMatriculas(nombreProyecto)
     procedimiento,carrera = obtenerProcedimientoYCarrera(nombreProyecto)
-   
-    # for carrera in si:
+
     if procedimiento and carrera:
         if carrera == "IS":
-            return render_template('Cuestionarios/cuestionario_salida_IS.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_IS.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto, periodo=periodo, nombre_empresa=nombre_empresa, grado_estudios=grado_estudios, capital=capital, anios_operacion=anios_operacion, tamanio_empresa=tamanio_empresa, mercado_venta=mercado_venta,equipo= equipo,tipoempresa = tipoempresa)
         elif carrera == "IMA":
-            return render_template('Cuestionarios/cuestionario_salida_IMA.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_IMA.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto, periodo=periodo, nombre_empresa=nombre_empresa, grado_estudios=grado_estudios, capital=capital, anios_operacion=anios_operacion, tamanio_empresa=tamanio_empresa, mercado_venta=mercado_venta,equipo= equipo,tipoempresa = tipoempresa)
         elif carrera == "IF":
-            return render_template('Cuestionarios/cuestionario_salida_IF.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_IF.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto, periodo=periodo, nombre_empresa=nombre_empresa, grado_estudios=grado_estudios, capital=capital, anios_operacion=anios_operacion, tamanio_empresa=tamanio_empresa, mercado_venta=mercado_venta,equipo= equipo,tipoempresa = tipoempresa)
         elif carrera == "ITM":
-            return render_template('Cuestionarios/cuestionario_salida_ITM.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_ITM.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto, periodo=periodo, nombre_empresa=nombre_empresa, grado_estudios=grado_estudios, capital=capital, anios_operacion=anios_operacion, tamanio_empresa=tamanio_empresa, mercado_venta=mercado_venta,equipo= equipo,tipoempresa = tipoempresa)
         elif carrera == "LNI":
-            return render_template('Cuestionarios/cuestionario_salida_LNI.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_LNI.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto, periodo=periodo, nombre_empresa=nombre_empresa, grado_estudios=grado_estudios, capital=capital, anios_operacion=anios_operacion, tamanio_empresa=tamanio_empresa, mercado_venta=mercado_venta,equipo= equipo,tipoempresa = tipoempresa)
     return 'no'
 
 #Función para insertar los datos del cuestionario de salida
@@ -596,37 +605,20 @@ def obtenerProcedimientoYCarrera(nombreProyecto):
         else:
             return None, None  # Si no se encuentra el proyecto
 
-# #Función para insertar los datos del cuestionario de salida
-# @app.route('/procesar_cuestionario', methods=['POST'])
-# def procesar_cuestionario():
-#     fecha_valoracion = datetime.now().date()
-#     periodo = 
-#     titulo_proyecto = 
-#     no_equipo = 
-#     procedimiento = 
-#     nombre_empresa = 
-#     modalidad = 
-#     grado_estudios = 
-#     nombre_asesor_emp = 
-#     tipo_empresa = 
-#     giro_empresa =
-#     capital =
-#     anios_operacion =
-#     tamanio_empresa =
-#     mercado_venta =
-#     carrera =
-#     funciones_prioritarias =
-
-
-
+#Función para insertar los datos del cuestionario de salida
+@app.route('/procesar_cuestionario', methods=['POST'])
+def procesar_cuestionario():
+    procedimiento = request.form["procedimiento"]
+    nombreProyecto = request.form["nombreProyecto"]
+    periodo = request.form["periodo"]
+    nombre_empresa = request.form["nombre_empresa"]
+    grado_estudios = request.form["grado_estudios"]
+    capital = request.form["capital"]
+    anios_operacion = request.form["anios_operacion"]
+    tamanio_empresa = request.form["tamanio_empresa"]
+    mercado_venta = request.form["mercado_venta"]
     
-#     resolvio_necesidad = request.form.get('resolvio_necesidad')
-#     interes_participar = request.form.get('interes_participar')
-#     investigacion_desarrollo = request.form.get('investigacion_desarrollo')
-#     contratar_egresados = request.form.get('contratar_egresados')
-#     porque_contratar = request.form.get('porque_contratar')
-#     aprobacion_edicion = request.form.get('aprobacion_edicion')
-#     clausula_especial = request.form.get('clausula_especial')
+
 
 
 def obtenerIntegrantes(nombreProyecto):
@@ -815,6 +807,20 @@ def guardarEquipo5(matricula, matricula2, matricula3, matricula4, matricula5, No
                 return True
     except Exception as e:
         return ID 
+
+
+def cargarEquipo(Id_Proyecto):
+    try:
+        query = text("SELECT NoEquipo FROM equipos WHERE Id_Proyecto = :Id_Proyecto")
+        with engine.connect() as conn:
+            ok= conn.execute(query, {'Id_Proyecto': Id_Proyecto}).fetchone()
+            if ok:
+                ID = ok[0]
+                return ID
+            else:
+                return 'no encontado'
+    except Exception as e:
+            return f'error {e}'
 
 def cargarIDProyecto(nombre):
     try:
@@ -1508,3 +1514,76 @@ def redireccion():
     ID = request.form['IDAsesor']
     resultado = cargarProyectosAsesor(ID)
     return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID)
+
+
+@app.route('/estancia1',methods=['POST'])
+def estancia1():
+    modalidad = ""
+    tipoempresa = request.form['tipoempresa']
+    equipo = request.form['equipo']
+    procedimiento = request.form['procedimiento']
+    periodo = request.form['periodo']
+    Nombreproyecto = request.form['nombreProyecto']
+    empresa= request.form['nombre_empresa']
+    gradoEstudios = request.form['grado_estudios']
+    capital = request.form['capital']
+    anios_operacion = request.form['anios_operacion']
+    tamanio_empresa = request.form['tamanio_empresa']
+    mercado = request.form['mercado_venta']
+    funcionEstancia = request.form.getlist('funcion-estancia1[]')
+    if len(funcionEstancia) !=3:
+        return "Error: deben de ser 3 funciones"
+    funcionEstancia1,funcionEstancia2,funcionEstancia3 = funcionEstancia
+    resolvio = request.form['resolvio_necesidad']
+    interes = request.form['interes_participar']
+    investigacion = request.form['investigacion_desarrollo']
+    contratar_egresados = request.form['contratar_egresados']
+    porque = request.form['porque_contratar']
+    aprueba = request.form['aprobacion_edicion']
+    clausula_especial = request.form.get('clausula_especial')
+    if clausula_especial == "":
+        clausula_especial = "No aplica"
+
+    fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3)
+
+    
+    
+    
+
+
+
+def guardarFOEST07(Periodo, TituloProyecto, NoEquipo, Procedimiento, NombreEmpresa, Modalidad, GradoEstudiosAsesor, NombreAsesor, TipoEmpresa, GiroEmpresa, Capital, AniosOperacion, TamanioEmpresa, Mercado, Carrera, FuncionP1, FuncionP2, FuncionP3):
+    query = text("""
+        INSERT INTO foest07 
+        (Periodo, TituloProyecto, NoEquipo, Procedimiento, NombreEmpresa, Modalidad, GradoEstudiosAsesor, NombreAsesor, TipoEmpresa, GiroEmpresa, Capital, AniosOperacion, TamanioEmpresa, Mercado, Carrera, FuncionesPrioritarias, FuncionaesPrioritarias2, FuncionesPrioritarias3)
+        VALUES 
+        (:Periodo, :TituloProyecto, :NoEquipo, :Procedimiento, :NombreEmpresa, :Modalidad, :GradoEstudiosAsesor, :NombreAsesor, :TipoEmpresa, :GiroEmpresa, :Capital, :AniosOperacion, :TamanioEmpresa, :Mercado, :Carrera, :FuncionP1, :FuncionP2, :FuncionP3)
+    """)
+
+    try:
+        with engine.connect() as conn:
+            with conn.begin():
+                conn.execute(query, {
+                    "Periodo": Periodo,
+                    "TituloProyecto": TituloProyecto,
+                    "NoEquipo": NoEquipo,
+                    "Procedimiento": Procedimiento,
+                    "NombreEmpresa": NombreEmpresa,
+                    "Modalidad": Modalidad,
+                    "GradoEstudiosAsesor": GradoEstudiosAsesor,
+                    "NombreAsesor": NombreAsesor,
+                    "TipoEmpresa": TipoEmpresa,
+                    "GiroEmpresa": GiroEmpresa,
+                    "Capital": Capital,
+                    "AniosOperacion": AniosOperacion,
+                    "TamanioEmpresa": TamanioEmpresa,
+                    "Mercado": Mercado,
+                    "Carrera": Carrera,
+                    "FuncionesPrioritarias": FuncionP1,
+                    "FuncionesPrioritarias2": FuncionP2,
+                    "FuncionesPrioritarias3": FuncionP3
+                })
+        return True  
+    except Exception as e:
+        print(f"Error al insertar en foest07: {e}")
+        return False 

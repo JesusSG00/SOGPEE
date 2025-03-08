@@ -21,6 +21,10 @@
     <main class="container">
         {% if procedimiento == 'ESTNC1' %}
         <form action="/estancia1" method="post">
+            
+            <input type="hidden" name="NombreAsesor" value="{{ NombreAsesor }}">
+            <input type="hidden" name="Giro" value="{{ Giro }}">
+            <input type="hidden" name="carrera" value="Ingenieria en Software">
             <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
             <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
             <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">

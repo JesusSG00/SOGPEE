@@ -66,7 +66,8 @@
                 <div class="form-group">
                     <label for="advisorName">Nombre y Apellidos del Asesor Empresarial</label>
                     {{nombre | safe}}
-
+                    
+                    <input type="hidden" id="nombreasesor" name="nombreasesor" value="{{nombreoculto}}">
                     <input type="hidden" id="equipo" name="equipo" value="{{equipo}}">
                 </div>
 

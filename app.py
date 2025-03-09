@@ -1,3 +1,4 @@
+import datetime
 from flask import Flask,render_template,request, url_for,send_file
 from werkzeug.utils import secure_filename
 from sqlalchemy import text
@@ -27,13 +28,55 @@ def loginAsesorAcademico2():
 @app.route('/loginAsesorAcademico3',methods=['POST'])
 def loginAsesorAcademico3():
     return render_template('/login/loginAsesorAcademico2.html')
+
 #Formulario de login del coordinador
 @app.route('/loginCoordinacion2')
 def loginCoordinacion2():
     return render_template('login/loginCoordinacion2.html')
+
 @app.route('/loginCoordinacionIni')
 def loginCoordinacion():
-    return render_template('/perfil_coordinacion.html')
+    return render_template('perfiles/Coordinacion/perfil_coordinacion.html')
+
+@app.route('/modificarPeriodo',methods=['POST'])
+def modificarPeriodo():
+    return render_template('perfiles/Coordinacion/modificar_periodo.html')
+
+@app.route('/modificarPeriodoFun',methods=['POST'])
+def modificarPeriodoFun():
+    periodo = request.form['periodo']
+    updateModificarPeriodo(periodo)
+    return render_template('Cargas/periodo_modificado.html')
+
+def updateModificarPeriodo(periodo):
+    with engine.connect() as conn:
+        try:
+       # Desactivar todos los periodos primero
+            query_desactivar = text("UPDATE periodos SET Estado = 'inactivo'")
+            conn.execute(query_desactivar)
+
+            # Activar el periodo seleccionado
+            query_activar = text("""
+                UPDATE periodos 
+                SET Estado = 'activo' 
+                WHERE PeriodoCuatrimestral = :periodo
+            """)
+            conn.execute(query_activar, {'periodo': periodo})
+
+            # Confirmar la transacción
+            conn.commit()
+
+            
+
+        except Exception as e:
+            # En caso de error, hacer rollback y mostrar un mensaje de error
+            conn.rollback()
+            return f'ERROR AL MODIFICAR EL PERIODO: {str(e)}'
+
+if __name__ == '__main__':
+    app.run(debug=True)
+
+
 
 @app.route('/loginCoordinacion3',methods=['POST'])
 def loginCoordinacion3():
@@ -64,19 +107,21 @@ def asesorEmpresarial2():
 @app.route('/buscarExpedienteAsesorEmpresarial', methods=['POST'])
 def buscarExpedienteAsesorEmpresarial():
     ProyectoID= request.form['ProyectoID']
+    equipo = int(cargarEquipo(ProyectoID))
     integrantes = listaEstudiantes(ProyectoID)
     periodo = periodoCuatrimestral()
    
     Nombreproyecto = proyectoAsesorEmpr(ProyectoID)
     empresa=cargarEmpresaEquipo(ProyectoID)
     nombre=NombreAsesor(ProyectoID)
+    nombreoculto = NombreAsesorOculto(ProyectoID)
 
     try:
         query = text("SELECT * FROM proyecto WHERE ProyectoID = :ProyectoID")
         with engine.connect() as conn:
             proyecto = conn.execute(query, {'ProyectoID': ProyectoID}).fetchone()
             if proyecto:
-                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes,periodo=periodo)
+                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes,periodo=periodo,equipo=equipo,nombreoculto=nombreoculto)
             else:
                 return render_template('Cargas/ProyectoNEncontrado.html')
             
@@ -88,8 +133,6 @@ def buscarExpedienteAsesorEmpresarial():
 @app.route('/evaluacionEmpresa')
 def evaluacionEmpresa():
     return render_template('evaluacion_empresa.html')
-
-
 
 
 
@@ -360,6 +403,8 @@ def calificarExpediente():
 @app.route('/guardarCalificacionSer',methods=['POST'])
 def guardarCalificacionSer():
     proyecto = request.form['proyecto']
+    IDA = request.form['ID']
+    ID = IDproyecto(proyecto)
     puntualidad = int(request.form['puntualidad'])
     responsabilidad = int(request.form['responsabilidad'])
     atencion = int(request.form['atencion'])
@@ -368,18 +413,20 @@ def guardarCalificacionSer():
     liderazgo = int(request.form['liderazgo'])
     matricula = request.form['estudiante']
     parcial = request.form['parcial']
-    
+    validado = validarSer(matricula)
     calificacion = (puntualidad+responsabilidad+atencion+etica+capacidad+liderazgo)/6
     redondeo = round(calificacion,1)
     calificacion = redondeo
-    guardado = guardarCalificacion(puntualidad, responsabilidad, atencion, etica, capacidad, liderazgo, calificacion,matricula, parcial)
+    if validado == False:
+        guardado = guardarCalificacion(puntualidad, responsabilidad, atencion, etica, capacidad, liderazgo, calificacion,matricula, parcial)
+    else:
+        return render_template('Cargas/SerCalificado.html',IDA = IDA,parcial = parcial,proyecto=proyecto,ID = ID)
     if guardado == True:
         return render_template('Cargas/EnvioCalificacion.html',calificacion = calificacion,proyecto = proyecto,parcial= parcial)
     else:
-        return 'error'
-    
-
-def guardarCalificacion(puntualidad, responsabilidad, atencion, etica, capacidad, liderazgo, calificacion,matricula, parcial):
+        return render_template('Error/Error.html')
+        
+def guardarCalificacion(matricula,parcial):
     try:
         query = text("INSERT INTO Ser (Puntualidad,Responsabilidad,Atencion,Etica,Capacidad,Liderazgo,Calificacion,Matricula,Parcial) VALUES (:puntualidad, :responsabilidad, :atencion, :etica, :capacidad, :liderazgo, :calificacion, :matricula, :parcial)")
         with engine.begin() as conn:
@@ -399,7 +446,19 @@ def calificarSer():
         return render_template('Error/SeleccionInvalida.html',ID = ID)
     ID = IDproyecto(proyecto)
     resultado = obtenerMatricula(ID)
-    return render_template('perfiles/AsesorAcademico/calificar_ser.html',resultado = resultado,parcial = parcial,proyecto=proyecto)
+    return render_template('perfiles/AsesorAcademico/calificar_ser.html',resultado = resultado,parcial = parcial,proyecto=proyecto,ID = ID)
+
+def validarSer(matricula):
+    try:
+        query = text("SELECT COUNT(*) FROM ser WHERE Matricula = :matricula")
+        with engine.connect() as conn:
+            result = conn.execute(query, {'matricula': matricula}).scalar()
+            if result > 0:
+                return True
+            else:
+                return False
+    except Exception as e:
+        return f'error {e}'
 
 @app.route('/descargarPdf',methods=['POST'])
 def descargaPdf():
@@ -547,22 +606,31 @@ def cargarCalificacionesSer(matricula):
 
 @app.route('/EvEmpresasiguiente',methods=['POST'])  
 def EvEmpresasiguiente():
+    NombreAsesor = request.form['nombreasesor']
+    giro = request.form['Giro']
+    tipoempresa = request.form['tipoempresa']
+    periodo = request.form['periodo']
+    equipo = request.form['equipo']
+    nombre_empresa = request.form['companyName']
+    grado_estudios = request.form['advisorDegree']
+    capital = request.form['capital']
+    anios_operacion = request.form['aniosOperacion']
+    tamanio_empresa = request.form['Tamaño']
+    mercado_venta = request.form['Mercado']
     nombreProyecto = request.form['projectTitl']
-    # si = obtenerMatriculas(nombreProyecto)
     procedimiento,carrera = obtenerProcedimientoYCarrera(nombreProyecto)
-   
-    # for carrera in si:
+
     if procedimiento and carrera:
         if carrera == "IS":
-            return render_template('Cuestionarios/cuestionario_salida_IS.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_IS.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto, periodo=periodo, nombre_empresa=nombre_empresa, grado_estudios=grado_estudios, capital=capital, anios_operacion=anios_operacion, tamanio_empresa=tamanio_empresa, mercado_venta=mercado_venta,equipo= equipo,tipoempresa = tipoempresa,Giro = giro,NombreAsesor=NombreAsesor)
         elif carrera == "IMA":
-            return render_template('Cuestionarios/cuestionario_salida_IMA.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_IMA.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto, periodo=periodo, nombre_empresa=nombre_empresa, grado_estudios=grado_estudios, capital=capital, anios_operacion=anios_operacion, tamanio_empresa=tamanio_empresa, mercado_venta=mercado_venta,equipo= equipo,tipoempresa = tipoempresa,Giro = giro,NombreAsesor=NombreAsesor)
         elif carrera == "IF":
-            return render_template('Cuestionarios/cuestionario_salida_IF.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_IF.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto, periodo=periodo, nombre_empresa=nombre_empresa, grado_estudios=grado_estudios, capital=capital, anios_operacion=anios_operacion, tamanio_empresa=tamanio_empresa, mercado_venta=mercado_venta,equipo= equipo,tipoempresa = tipoempresa,Giro = giro,NombreAsesor=NombreAsesor)
         elif carrera == "ITM":
-            return render_template('Cuestionarios/cuestionario_salida_ITM.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_ITM.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto, periodo=periodo, nombre_empresa=nombre_empresa, grado_estudios=grado_estudios, capital=capital, anios_operacion=anios_operacion, tamanio_empresa=tamanio_empresa, mercado_venta=mercado_venta,equipo= equipo,tipoempresa = tipoempresa,Giro = giro,NombreAsesor=NombreAsesor)
         elif carrera == "LNI":
-            return render_template('Cuestionarios/cuestionario_salida_LNI.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto)
+            return render_template('Cuestionarios/cuestionario_salida_LNI.html',procedimiento=procedimiento, nombreProyecto=nombreProyecto, periodo=periodo, nombre_empresa=nombre_empresa, grado_estudios=grado_estudios, capital=capital, anios_operacion=anios_operacion, tamanio_empresa=tamanio_empresa, mercado_venta=mercado_venta,equipo= equipo,tipoempresa = tipoempresa,Giro = giro,NombreAsesor=NombreAsesor)
     return 'no'
 
 #Función para insertar los datos del cuestionario de salida
@@ -580,6 +648,14 @@ def obtenerProcedimientoYCarrera(nombreProyecto):
             return resultado[0], resultado[1]  # Devuelve (procedimiento, carrera)
         else:
             return None, None  # Si no se encuentra el proyecto
+
+
+
+
+
+    
+
+
 
 def obtenerIntegrantes(nombreProyecto):
     query = text("""
@@ -618,7 +694,7 @@ def inicioSesionCoordinacion(correo,password):
                 nombre2=ok[1]
                 apellidoP=ok[2]
                 apellidoM=ok[3]
-                return render_template('/perfil_coordinacion.html',nombre = nombre,nombre2 = nombre2,apellidoP=apellidoP,apellidoM=apellidoM,correo=correo)
+                return render_template('/perfiles/Coordinacion/perfil_coordinacion.html',nombre = nombre,nombre2 = nombre2,apellidoP=apellidoP,apellidoM=apellidoM,correo=correo)
             else:
                 return render_template('Error/CoordinacionNoEncontrado.html')
     except Exception as e:
@@ -672,19 +748,7 @@ def guardarProyectos(archivo,parcial,nombre,matricula):
     archivo.save(ruta_guardado)
     return ruta_guardado
     
-def guardar03(archivo,parcial,nombre,matricula):
-    base_folder = os.path.join('Documentos',matricula,parcial)
-    UPLOAD_FOLDER = os.path.join(base_folder,'FO03')
-    if not os.path.exists(UPLOAD_FOLDER):
-        os.makedirs(UPLOAD_FOLDER)
-    nuevo_nombre = f'proyeto{nombre}{parcial}.pdf'
-    if archivo.filename == '':
-        return 'No se selecciono ningun archivo'
-    if not archivo.filename.endswith('.pdf'):
-        return 'debe ser un archivo pdf'
-    ruta_guardado = os.path.join(UPLOAD_FOLDER,secure_filename(nuevo_nombre))
-    archivo.save(ruta_guardado)
-    return ruta_guardado
+
 
 def cargarAsesorEmp():
     query = text("SELECT AsesorID,Nombre1,Nombre2,ApellidoP,ApellidoM,Empresa from asesorempresarial ORDER BY Empresa")
@@ -780,6 +844,20 @@ def guardarEquipo5(matricula, matricula2, matricula3, matricula4, matricula5, No
     except Exception as e:
         return ID 
 
+
+def cargarEquipo(Id_Proyecto):
+    try:
+        query = text("SELECT NoEquipo FROM equipos WHERE Id_Proyecto = :Id_Proyecto")
+        with engine.connect() as conn:
+            ok= conn.execute(query, {'Id_Proyecto': Id_Proyecto}).fetchone()
+            if ok:
+                ID = ok[0]
+                return ID
+            else:
+                return 'no encontado'
+    except Exception as e:
+            return f'error {e}'
+
 def cargarIDProyecto(nombre):
     try:
         query = text("SELECT ProyectoID FROM proyecto WHERE Nombre = :Nombre")
@@ -835,19 +913,7 @@ def guardarRutaDocumentos(matricula,ruta_proyecto,parcial,NombreProyecto):
     else:
         return False
 
-def guardarRuta03(matricula,ruta_03,parcial):
-    formatoExiste = formato03Existe(matricula,parcial)
-    if formatoExiste != True:
-        try:
-            query = text("INSERT INTO Formato03 (Matricula,Formato03,Parcial) VALUES (:Matricula,:ruta_03,:parcial)")
-            with engine.connect() as conn:
-                conn.execute(query,{'Matricula':matricula,'ruta_03':ruta_03,'parcial':parcial})
-                conn.commit()
-                return True
-        except Exception as e:
-            return f'-------------Error {e}'
-    else:
-        return False
+
 
 def guardarCartass(matricula,ruta_cartas,parcial):
     cartaExiste = cartasExiste(matricula,parcial)
@@ -1125,14 +1191,7 @@ def documentoExiste(matricula,parcial):
             return False
         
 
-def formato03Existe(matricula,parcial):
-    query = text("SELECT Formato03 FROM Formato03 WHERE Matricula = :Matricula AND Parcial = :Parcial")
-    with engine.connect() as conn:
-        resultado = conn.execute(query,{'Matricula':matricula,'Parcial':parcial}).fetchone()
-        if resultado:
-            return True
-        else:
-            return False
+
 
 def cartasExiste(matricula,parcial):
     query = text("SELECT Cartas FROM Cartas WHERE Matricula = :Matricula AND Parcial = :Parcial")
@@ -1386,6 +1445,22 @@ WHERE pro.ProyectoID = :equipo;""")
         
         return opciones
 
+def NombreAsesorOculto(equipo):
+    query = text("""SELECT ase.Nombre1, Nombre2, ApellidoP, ApellidoM
+FROM asesorempresarial ase
+JOIN proyectoasesores p ON p.Id_asesorE = ase.AsesorID
+JOIN proyecto pro ON pro.ProyectoID = p.Id_proyecto
+WHERE pro.ProyectoID = :equipo;""")
+    
+    with engine.connect() as conn:
+        ok = conn.execute(query, {'equipo': equipo}).fetchone()        
+        if not ok:
+            return '<p>No se encontró información del asesor</p>'
+        
+        nombre, nombre2, apellidoP, apellidoM = ok
+        opciones = f'{nombre} {nombre2} {apellidoP} {apellidoM}'
+        
+        return opciones
 
 def obtenerMatriculas(nombreP):
     query = text("""
@@ -1491,3 +1566,165 @@ def redireccion():
     ID = request.form['IDAsesor']
     resultado = cargarProyectosAsesor(ID)
     return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID)
+
+
+@app.route('/estancia1',methods=['POST'])
+def estancia1():
+    modalidad = "" #cambiar cuando sepa que es
+    giro = request.form['Giro']
+    NombreAsesor = request.form['NombreAsesor']
+    carrera = request.form['carrera']
+    tipoempresa = request.form['tipoempresa']
+    equipo = request.form['equipo']
+    procedimiento = request.form['procedimiento']
+    periodo = request.form['periodo']
+    Nombreproyecto = request.form['nombreProyecto']
+    empresa= request.form['nombre_empresa']
+    gradoEstudios = request.form['grado_estudios']
+    
+    capital = request.form['capital']
+    anios_operacion = request.form['anios_operacion']
+    tamanio_empresa = request.form['tamanio_empresa']
+    mercado = request.form['mercado_venta']
+    funcionEstancia = request.form.getlist('funcion-estancia1[]')
+   
+    funcionEstancia1 = funcionEstancia[0]
+    funcionEstancia2 = funcionEstancia[1]
+    funcionEstancia3 = funcionEstancia[2]
+    if len(funcionEstancia) !=3:
+        return "Error: deben de ser 3 funciones"
+    resolvio = request.form['resolvio_necesidad']
+    interes = request.form['interes_participar']
+    investigacion = request.form['investigacion_desarrollo']
+    contratar_egresados = request.form['contratar_egresados']
+    porque = request.form['porque_contratar']
+    aprueba = request.form['aprobacion_edicion']
+    clausula_especial = request.form.get('clausula_especial')
+    if clausula_especial == "":
+        clausula_especial = "No aplica"
+
+    fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3)
+    if fo07:
+        return render_template('login/asesorEmpresarial3.html')
+
+     
+    
+@app.route('/estancia2',methods=['POST'])
+def estancia2():
+    modalidad = "" #cambiar cuando sepa que es
+    giro = request.form['Giro']
+    NombreAsesor = request.form['NombreAsesor']
+    carrera = request.form['carrera']
+    tipoempresa = request.form['tipoempresa']
+    equipo = request.form['equipo']
+    procedimiento = request.form['procedimiento']
+    periodo = request.form['periodo']
+    Nombreproyecto = request.form['nombreProyecto']
+    empresa= request.form['nombre_empresa']
+    gradoEstudios = request.form['grado_estudios']
+    
+    capital = request.form['capital']
+    anios_operacion = request.form['anios_operacion']
+    tamanio_empresa = request.form['tamanio_empresa']
+    mercado = request.form['mercado_venta']
+    funcionEstancia = request.form.getlist('funcion-estancia2[]')
+    if len(funcionEstancia) !=3:
+        return "Error: deben de ser 3 funciones"
+    funcionEstancia1 = funcionEstancia[0]
+    funcionEstancia2 = funcionEstancia[1]
+    funcionEstancia3 = funcionEstancia[2]
+    
+    resolvio = request.form['resolvio_necesidad']
+    interes = request.form['interes_participar']
+    investigacion = request.form['investigacion_desarrollo']
+    contratar_egresados = request.form['contratar_egresados']
+    porque = request.form['porque_contratar']
+    aprueba = request.form['aprobacion_edicion']
+    clausula_especial = request.form.get('clausula_especial')
+    if clausula_especial == "":
+        clausula_especial = "No aplica"
+
+    fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3)
+    if fo07:
+        return render_template('login/asesorEmpresarial3.html')
+
+    
+
+
+@app.route('/estadia',methods=['POST'])
+def estadia():
+    modalidad = "" #cambiar cuando sepa que es
+    giro = request.form['Giro']
+    NombreAsesor = request.form['NombreAsesor']
+    carrera = request.form['carrera']
+    tipoempresa = request.form['tipoempresa']
+    equipo = request.form['equipo']
+    procedimiento = request.form['procedimiento']
+    periodo = request.form['periodo']
+    Nombreproyecto = request.form['nombreProyecto']
+    empresa= request.form['nombre_empresa']
+    gradoEstudios = request.form['grado_estudios']
+    
+    capital = request.form['capital']
+    anios_operacion = request.form['anios_operacion']
+    tamanio_empresa = request.form['tamanio_empresa']
+    mercado = request.form['mercado_venta']
+    funcionEstancia = request.form.getlist('funcion-estadia[]')
+    if len(funcionEstancia) !=3:
+        return f"Error: deben de ser 3 funciones"
+    funcionEstancia1 = funcionEstancia[0]
+    funcionEstancia2 = funcionEstancia[1]
+    funcionEstancia3 = funcionEstancia[2]
+    
+    resolvio = request.form['resolvio_necesidad']
+    interes = request.form['interes_participar']
+    investigacion = request.form['investigacion_desarrollo']
+    contratar_egresados = request.form['contratar_egresados']
+    porque = request.form['porque_contratar']
+    aprueba = request.form['aprobacion_edicion']
+    clausula_especial = request.form.get('clausula_especial')
+    if clausula_especial == "":
+        clausula_especial = "No aplica"
+
+    fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3)
+    if fo07:
+        return render_template('login/asesorEmpresarial3.html')
+
+    
+
+def guardarFOEST07(Periodo, TituloProyecto, NoEquipo, Procedimiento, NombreEmpresa, Modalidad, GradoEstudiosAsesorEmp, NombreAsesorEmp, TipoEmpresa, GiroEmpresa, Capital, AniosOperacion, TamanioEmpresa, MercadoVenta, Carrera, funcionEstancia1, funcionEstancia2, funcionEstancia3):
+    query = text("""
+        INSERT INTO foest07 
+        (Periodo, TituloProyecto, NoEquipo, Procedimiento, NombreEmpresa, Modalidad, GradoEstudiosAsesorEmp, NombreAsesorEmp, TipoEmpresa, GiroEmpresa, Capital, AniosOperacion, TamanioEmpresa, MercadoVenta, Carrera, FuncionesPrioritarias, FuncionesPrioritarias2, FuncionesPrioritarias3)
+        VALUES 
+        (:Periodo, :TituloProyecto, :NoEquipo, :Procedimiento, :NombreEmpresa, :Modalidad, :GradoEstudiosAsesorEmp, :NombreAsesorEmp, :TipoEmpresa, :GiroEmpresa, :Capital, :AniosOperacion, :TamanioEmpresa, :MercadoVenta, :Carrera, :funcionEstancia1, :funcionEstancia2, :funcionEstancia3)
+    """)
+
+    try:
+        with engine.connect() as conn:
+            with conn.begin():
+                conn.execute(query, {
+                    "Periodo": Periodo,
+                    "TituloProyecto": TituloProyecto,
+                    "NoEquipo": NoEquipo,
+                    "Procedimiento": Procedimiento,
+                    "NombreEmpresa": NombreEmpresa,
+                    "Modalidad": Modalidad,
+                    "GradoEstudiosAsesorEmp": GradoEstudiosAsesorEmp,
+                    "NombreAsesorEmp": NombreAsesorEmp,
+                    "TipoEmpresa": TipoEmpresa,
+                    "GiroEmpresa": GiroEmpresa,
+                    "Capital": Capital,
+                    "AniosOperacion": AniosOperacion,
+                    "TamanioEmpresa": TamanioEmpresa,
+                    "MercadoVenta": MercadoVenta,
+                    "Carrera": Carrera,
+                    "funcionEstancia1": funcionEstancia1,
+                    "funcionEstancia2": funcionEstancia2,
+                    "funcionEstancia3": funcionEstancia3
+                })
+                
+        return True  
+    except Exception as e:
+        return f"Error al insertar en foest07: {e}"
+         

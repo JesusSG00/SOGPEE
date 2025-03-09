@@ -25,10 +25,18 @@
 <body>
 
     <header class="container-fluid d-flex justify-content-center bg-white p-2">
-        <a href="/" class="logo-upt">
-<img src="../static/img/logo_upt.png" alt="Logo UPT" height="125">
-        </a> 
+        <form action="/asesor22" method="GET">
+            <input type="hidden" name="ID" value="{{ session['ID'] }}">
+            <button type="submit" class="custom-btn">← Atrás</button>
+        </form>
+        <div class="logoUPT ms-3">
+            <a href="/" class="logo-upt">
+                <img src="../static/img/logo_upt.png" alt="Logo UPT" height="125">
+            </a>
+        </div>
     </header>
+    
+    
 
     <div class="container">
         <div class="form-container">

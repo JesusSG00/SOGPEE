@@ -15,9 +15,24 @@
     </nav>
 </header> -->
 
-<form action="" method="post">
+
     <main class="container">
         {% if procedimiento == 'ESTNC1' %}
+        <form action="/estancia1" method="post">
+            <input type="hidden" name="NombreAsesor" value="{{ NombreAsesor }}">
+            <input type="hidden" name="Giro" value="{{ Giro }}">
+            <input type="hidden" name="carrera" value="Ingenieria en Software">
+            <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
+            <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+            <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+            <input type="hidden" name="periodo" value="{{ periodo }}">
+            <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+            <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+            <input type="hidden" name="capital" value="{{ capital }}">
+            <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+            <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+            <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+            <input type="hidden" name="equipo" value="{{ equipo }}">
         <section id="estancia1" class="form-section active">
 
             <header>
@@ -32,55 +47,55 @@
                     <div class="options-grid">
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Diseñar estrategias organizadas">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Diseñar estrategias organizadas">
                                 Diseñar estrategias organizadas
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Análisis de operaciones">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Análisis de operaciones">
                                 Análisis de operaciones
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Identificación de mercados nacionales/internacionales">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Identificación de mercados nacionales/internacionales">
                                 Identificación de mercados nacionales/internacionales
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Planeación estratégica de negocios">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Planeación estratégica de negocios">
                                 Planeación estratégica de negocios
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Evaluación del entorno de mercado">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Evaluación del entorno de mercado">
                                 Evaluación del entorno de mercado
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Análisis de proveedores, clientes y propiedades">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Análisis de proveedores, clientes y propiedades">
                                 Análisis de proveedores, clientes y propiedades
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Identificación de oportunidad de negocios">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Identificación de oportunidad de negocios">
                                 Identificación de oportunidad de negocios
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Mejoras administrativas">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Mejoras administrativas">
                                 Mejoras administrativas
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Gestión de procesos administrativos">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Gestión de procesos administrativos">
                                 Gestión de procesos administrativos
                             </div>
                         </label>
@@ -88,7 +103,7 @@
                         <!-- Añade más opciones aquí siguiendo el mismo patrón -->
                         <label class="option-item other-option">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="otras">
+                                <input type="checkbox" name="funcion-estancia1[]" value="otras">
                             </div>
                             <input type="text" placeholder="Otras funciones...">
                         </label>
@@ -96,182 +111,7 @@
                 </div>
             </div>
         </section>
-        
-        {% elif procedimiento == 'ESTNC2' %}
-        <section id="estancia2" class="form-section">
-
-            <header>
-                <h1 class="tituloCarrera">Licenciatura en Negocios Internacionales</h1>
-                <h1 class="tituloFormulario" >Formulario de Estancia II</h1> 
-            </header>
-
-            <div class="question-container">
-                <div class="question">
-                    <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE DURANTE SU ESTANCIA II?</h2>
-                    <div class>
-                        <div class="options-grid">
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Optimizar funciones comerciales internacionales">
-                                    Optimizar funciones comerciales internacionales
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Optimizar operaciones legales internacionales">
-                                    Optimizar operaciones legales internacionales
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Optimizar operaciones financieras internacionales">
-                                    Optimizar operaciones financieras internacionales
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Optimizar operaciones comerciales internacionales">
-                                    Optimizar operaciones comerciales internacionales
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Estrategia de negocio internacional">
-                                    Estrategia de negocio internacional
-                                </div>
-                            </label><label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2" value="Desarrollar procesos de exportación-importación">
-                                Desarrollar procesos de exportación-importación
-                            </div>
-                        </label><label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2" value="Actividades de despacho aduanero">
-                                Actividades de despacho aduanero
-                            </div>
-                        </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Diversificación de mercado a nivel internacional">
-                                    Diversificación de mercado a nivel internacional
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Análisis de proveedores internacionales">
-                                    Análisis de proveedores internacionales
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Mejoras a cadena de suministro-Logística">
-                                    Mejoras a cadena de suministro-Logística
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Administrar sistemas de calidad">
-                                    Administrar sistemas de calidad
-                                </div>
-                            </label>
-                            <label class="option-item other-option">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="otras">
-                                </div>
-                                <input type="text" placeholder="Otras funciones...">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-        </section>
-        
-        {% elif procedimiento == 'ESTD' %}
-        <section id="estadia" class="form-section">
-
-            <header>
-                <h1 class="tituloCarrera">Licenciatura en Negocios Internacionales</h1>
-                <h1 class="tituloFormulario" >Formulario de Estadía</h1> 
-            </header>
-
-            <div class="question-container">
-                <div class="question">
-                    <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE DURANTE SU ESTADÍA?</h2>
-                    <div class="options-grid">
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Establecer relaciones comerciales">
-                                Establecer relaciones comerciales
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Plan de negocios de exportación-importación">
-                                Plan de negocios de exportación-importación
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Dirigir estrategias gerencias y de negociación internacional">
-                                Dirigir estrategias gerencias y de negociación internacional
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Asesorar estrategias gerencias y de negociación internacional">
-                                Asesorar estrategias gerencias y de negociación internacional
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Ejecutar estrategias gerencias y de negociación internacional">
-                                Ejecutar estrategias gerencias y de negociación internacional
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Aplicación de herramientas administrativas en un entorno internacional">
-                                Aplicación de herramientas administrativas en un entorno internacional
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Planes de mercadotecnia internacional">
-                                Planes de mercadotecnia internacional
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Proyectos de Inversión">
-                                Proyectos de Inversión
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Aplicación de normatividad internacional">
-                                Aplicación de normatividad internacional
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Estrategias de competitividad de productos y servicios">
-                                Estrategias de competitividad de productos y servicios
-                            </div>
-                        </label>
-                        <label class="option-item other-option">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="otras">
-                            </div>
-                            <input type="text" placeholder="Otras funciones...">
-                        </label>
-    
-                    </div>
-                </div>
-            </div>
-    
-        </section>
-        {% endif %}
-    
-        <section>
+        <section class="radio-section">
             <!-- Pregunta 1 -->
             <div>
                 <label for="resolvio_necesidad">¿EL PROYECTO RESOLVIÓ SU NECESIDAD?</label><br>
@@ -321,12 +161,329 @@
                 <label for="clausula_especial">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
                 <textarea id="clausula_especial" name="clausula_especial" cols="30" rows="10"></textarea>
             </div>
-    
+
             <!-- Botón de envío -->
             <button type="submit" class="buttonSiguiente">Enviar</button>
         </section>
+    </form>
+        
+    {% elif procedimiento == 'ESTNC2' %}
+    <form action="/estancia2" method="post">
+        <input type="hidden" name="NombreAsesor" value="{{ NombreAsesor }}">
+        <input type="hidden" name="Giro" value="{{ Giro }}">
+        <input type="hidden" name="carrera" value="Ingenieria en Software">
+        <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
+        <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+        <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+        <input type="hidden" name="periodo" value="{{ periodo }}">
+        <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+        <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+        <input type="hidden" name="capital" value="{{ capital }}">
+        <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+        <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+        <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+        <input type="hidden" name="equipo" value="{{ equipo }}">
+
+        <section id="estancia1" class="form-section active">
+
+            <header>
+                <h1 class="tituloCarrera">Licenciatura en Negocios Internacionales</h1>
+                <h1 class="tituloFormulario" >Formulario de Estancia II</h1> 
+            </header>
+
+            <div class="question-container">
+                <div class="question">
+                    <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE DURANTE SU ESTANCIA II?</h2>
+                    <div class>
+                        <div class="options-grid">
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Optimizar funciones comerciales internacionales">
+                                    Optimizar funciones comerciales internacionales
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Optimizar operaciones legales internacionales">
+                                    Optimizar operaciones legales internacionales
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Optimizar operaciones financieras internacionales">
+                                    Optimizar operaciones financieras internacionales
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Optimizar operaciones comerciales internacionales">
+                                    Optimizar operaciones comerciales internacionales
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Estrategia de negocio internacional">
+                                    Estrategia de negocio internacional
+                                </div>
+                            </label><label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estancia2[]" value="Desarrollar procesos de exportación-importación">
+                                Desarrollar procesos de exportación-importación
+                            </div>
+                        </label><label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estancia2[]" value="Actividades de despacho aduanero">
+                                Actividades de despacho aduanero
+                            </div>
+                        </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Diversificación de mercado a nivel internacional">
+                                    Diversificación de mercado a nivel internacional
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Análisis de proveedores internacionales">
+                                    Análisis de proveedores internacionales
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Mejoras a cadena de suministro-Logística">
+                                    Mejoras a cadena de suministro-Logística
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Administrar sistemas de calidad">
+                                    Administrar sistemas de calidad
+                                </div>
+                            </label>
+                            <label class="option-item other-option">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="otras">
+                                </div>
+                                <input type="text" placeholder="Otras funciones...">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+        </section>
+        <section class="radio-section">
+            <!-- Pregunta 1 -->
+            <div>
+                <label for="resolvio_necesidad">¿EL PROYECTO RESOLVIÓ SU NECESIDAD?</label><br>
+                <input type="radio" name="resolvio_necesidad" value="Si"> Si
+                <br>
+                <input type="radio" name="resolvio_necesidad" value="No"> No
+            </div>
+    
+            <!-- Pregunta 2 -->
+            <div>
+                <label for="interes_participar">LE INTERESARÍA PARTICIPAR EN PROYECTOS DE INVESTIGACIÓN Y DESARROLLO TECNOLÓGICO, ASESORADOS POR LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+                <input type="radio" name="interes_participar" value="Si"> Si
+                <br>
+                <input type="radio" name="interes_participar" value="No"> No
+            </div>
+    
+            <!-- Pregunta 3 -->
+            <div>
+                <label for="investigacion_desarrollo">¿REALIZA INVESTIGACIÓN Y DESARROLLO EN SU EMPRESA?</label><br>
+                <input type="radio" name="investigacion_desarrollo" value="Si"> Si
+                <br>
+                <input type="radio" name="investigacion_desarrollo" value="No"> No
+            </div>
+    
+            <!-- Pregunta 4 -->
+            <div>
+                <label for="contratar_egresados">¿ESTARÍA USTED DISPUESTO A CONTRATAR A EGRESADOS DE LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+                <input type="radio" name="contratar_egresados" value="Si"> Si
+                <br>
+                <input type="radio" name="contratar_egresados" value="No"> No
+                <br>
+    
+                <label for="porque_contratar">¿POR QUÉ?</label><br>
+                <input type="text" id="porque_contratar" name="porque_contratar">
+            </div>
+    
+            <!-- Pregunta 5 -->
+            <div>
+                <label for="aprobacion_edicion">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?</label><br>
+                <input type="radio" name="aprobacion_edicion" value="Si"> Si
+                <br>
+                <input type="radio" name="aprobacion_edicion" value="No"> No
+            </div>
+    
+            <!-- Pregunta 6 -->
+            <div>
+                <label for="clausula_especial">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
+                <textarea id="clausula_especial" name="clausula_especial" cols="30" rows="10"></textarea>
+            </div>
+
+            <!-- Botón de envío -->
+            <button type="submit" class="buttonSiguiente">Enviar</button>
+        </section>
+        </form>
+        
+        {% elif procedimiento == 'ESTD' %}
+        <form action="/estadia" method="post">
+            <input type="hidden" name="NombreAsesor" value="{{ NombreAsesor }}">
+            <input type="hidden" name="Giro" value="{{ Giro }}">
+            <input type="hidden" name="carrera" value="Ingenieria en Software">
+            <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
+            <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+            <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+            <input type="hidden" name="periodo" value="{{ periodo }}">
+            <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+            <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+            <input type="hidden" name="capital" value="{{ capital }}">
+            <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+            <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+            <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+            <input type="hidden" name="equipo" value="{{ equipo }}">
+            <section id="estancia1" class="form-section active">
+
+            <header>
+                <h1 class="tituloCarrera">Licenciatura en Negocios Internacionales</h1>
+                <h1 class="tituloFormulario" >Formulario de Estadía</h1> 
+            </header>
+
+            <div class="question-container">
+                <div class="question">
+                    <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE DURANTE SU ESTADÍA?</h2>
+                    <div class="options-grid">
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Establecer relaciones comerciales">
+                                Establecer relaciones comerciales
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Plan de negocios de exportación-importación">
+                                Plan de negocios de exportación-importación
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Dirigir estrategias gerencias y de negociación internacional">
+                                Dirigir estrategias gerencias y de negociación internacional
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Asesorar estrategias gerencias y de negociación internacional">
+                                Asesorar estrategias gerencias y de negociación internacional
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Ejecutar estrategias gerencias y de negociación internacional">
+                                Ejecutar estrategias gerencias y de negociación internacional
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Aplicación de herramientas administrativas en un entorno internacional">
+                                Aplicación de herramientas administrativas en un entorno internacional
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Planes de mercadotecnia internacional">
+                                Planes de mercadotecnia internacional
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Proyectos de Inversión">
+                                Proyectos de Inversión
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Aplicación de normatividad internacional">
+                                Aplicación de normatividad internacional
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Estrategias de competitividad de productos y servicios">
+                                Estrategias de competitividad de productos y servicios
+                            </div>
+                        </label>
+                        <label class="option-item other-option">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="otras">
+                            </div>
+                            <input type="text" placeholder="Otras funciones...">
+                        </label>
+    
+                    </div>
+                </div>
+            </div>
+    
+        </section>
+        <section class="radio-section">
+            <!-- Pregunta 1 -->
+            <div>
+                <label for="resolvio_necesidad">¿EL PROYECTO RESOLVIÓ SU NECESIDAD?</label><br>
+                <input type="radio" name="resolvio_necesidad" value="Si"> Si
+                <br>
+                <input type="radio" name="resolvio_necesidad" value="No"> No
+            </div>
+    
+            <!-- Pregunta 2 -->
+            <div>
+                <label for="interes_participar">LE INTERESARÍA PARTICIPAR EN PROYECTOS DE INVESTIGACIÓN Y DESARROLLO TECNOLÓGICO, ASESORADOS POR LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+                <input type="radio" name="interes_participar" value="Si"> Si
+                <br>
+                <input type="radio" name="interes_participar" value="No"> No
+            </div>
+    
+            <!-- Pregunta 3 -->
+            <div>
+                <label for="investigacion_desarrollo">¿REALIZA INVESTIGACIÓN Y DESARROLLO EN SU EMPRESA?</label><br>
+                <input type="radio" name="investigacion_desarrollo" value="Si"> Si
+                <br>
+                <input type="radio" name="investigacion_desarrollo" value="No"> No
+            </div>
+    
+            <!-- Pregunta 4 -->
+            <div>
+                <label for="contratar_egresados">¿ESTARÍA USTED DISPUESTO A CONTRATAR A EGRESADOS DE LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+                <input type="radio" name="contratar_egresados" value="Si"> Si
+                <br>
+                <input type="radio" name="contratar_egresados" value="No"> No
+                <br>
+    
+                <label for="porque_contratar">¿POR QUÉ?</label><br>
+                <input type="text" id="porque_contratar" name="porque_contratar">
+            </div>
+    
+            <!-- Pregunta 5 -->
+            <div>
+                <label for="aprobacion_edicion">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?</label><br>
+                <input type="radio" name="aprobacion_edicion" value="Si"> Si
+                <br>
+                <input type="radio" name="aprobacion_edicion" value="No"> No
+            </div>
+    
+            <!-- Pregunta 6 -->
+            <div>
+                <label for="clausula_especial">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
+                <textarea id="clausula_especial" name="clausula_especial" cols="30" rows="10"></textarea>
+            </div>
+
+            <!-- Botón de envío -->
+            <button type="submit" class="buttonSiguiente">Enviar</button>
+        </form>
+    </section>
+
+        {% endif %}
+    
     </main>
-</form>
 
 
 <script>

@@ -17,7 +17,23 @@
 
 <main class="container">
     {% if procedimiento == "ESTNC1" %}
-    <section id="estancia1" class="form-section active">
+    <form action="/estancia1" method="post">
+        <input type="hidden" name="NombreAsesor" value="{{ NombreAsesor }}">
+        <input type="hidden" name="Giro" value="{{ Giro }}">
+        <input type="hidden" name="carrera" value="Ingenieria en Software">
+        <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
+        <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+        <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+        <input type="hidden" name="periodo" value="{{ periodo }}">
+        <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+        <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+        <input type="hidden" name="capital" value="{{ capital }}">
+        <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+        <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+        <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+        <input type="hidden" name="equipo" value="{{ equipo }}">
+            <section id="estancia1" class="form-section active">
+                
         <header>
             <h1 class="tituloCarrera">Ingeniería en Mecánica Automotriz</h1>
             <h1 class="tituloFormulario" >Formulario de Estancia I</h1> 
@@ -29,13 +45,13 @@
                 <div class="options-grid">
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="Dimensionar de componentes Mecánicos">
+                            <input type="checkbox" name="funcion-estancia1[]" value="Dimensionar de componentes Mecánicos">
                             Dimensionar de componentes Mecánicos
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="Establecimiento de procedimientos de manufactura">
+                            <input type="checkbox" name="funcion-estancia1[]" value="Establecimiento de procedimientos de manufactura">
                             Establecimiento de procedimientos de manufactura
                         </div>
                     </label>
@@ -47,37 +63,37 @@
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="Identificar características dimensionales y geométricas">
+                            <input type="checkbox" name="funcion-estancia1[]" value="Identificar características dimensionales y geométricas">
                             Identificar características dimensionales y geométricas
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="Aplicar herramientas mediante las TIC´s para generar planos de taller">
+                            <input type="checkbox" name="funcion-estancia1[]" value="Aplicar herramientas mediante las TIC´s para generar planos de taller">
                             Aplicar herramientas mediante las TIC´s para generar planos de taller
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="Implementar manual de mantenimiento">
+                            <input type="checkbox" name="funcion-estancia1[]" value="Implementar manual de mantenimiento">
                             Implementar manual de mantenimiento
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="Reestructuración de procesos">
+                            <input type="checkbox" name="funcion-estancia1[]" value="Reestructuración de procesos">
                             Reestructuración de procesos
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="Estrategias de desarrollo">
+                            <input type="checkbox" name="funcion-estancia1[]" value="Estrategias de desarrollo">
                             Estrategias de desarrollo
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="Mantenimiento mecánico">
+                            <input type="checkbox" name="funcion-estancia1[]" value="Mantenimiento mecánico">
                             Mantenimiento mecánico
                         </div>
                     </label>
@@ -85,7 +101,7 @@
                     <!-- Añade más opciones aquí siguiendo el mismo patrón -->
                     <label class="option-item other-option">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1" value="otras">
+                            <input type="checkbox" name="funcion-estancia1[]" value="otras">
                         </div>
                         <input type="text" placeholder="Otras funciones...">
                     </label>
@@ -93,9 +109,81 @@
             </div>
         </div>
     </section>
+    <section class="radio-section">
+        <!-- Pregunta 1 -->
+        <div>
+            <label for="resolvio_necesidad">¿EL PROYECTO RESOLVIÓ SU NECESIDAD?</label><br>
+            <input type="radio" name="resolvio_necesidad" value="Si"> Si
+            <br>
+            <input type="radio" name="resolvio_necesidad" value="No"> No
+        </div>
+
+        <!-- Pregunta 2 -->
+        <div>
+            <label for="interes_participar">LE INTERESARÍA PARTICIPAR EN PROYECTOS DE INVESTIGACIÓN Y DESARROLLO TECNOLÓGICO, ASESORADOS POR LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+            <input type="radio" name="interes_participar" value="Si"> Si
+            <br>
+            <input type="radio" name="interes_participar" value="No"> No
+        </div>
+
+        <!-- Pregunta 3 -->
+        <div>
+            <label for="investigacion_desarrollo">¿REALIZA INVESTIGACIÓN Y DESARROLLO EN SU EMPRESA?</label><br>
+            <input type="radio" name="investigacion_desarrollo" value="Si"> Si
+            <br>
+            <input type="radio" name="investigacion_desarrollo" value="No"> No
+        </div>
+
+        <!-- Pregunta 4 -->
+        <div>
+            <label for="contratar_egresados">¿ESTARÍA USTED DISPUESTO A CONTRATAR A EGRESADOS DE LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+            <input type="radio" name="contratar_egresados" value="Si"> Si
+            <br>
+            <input type="radio" name="contratar_egresados" value="No"> No
+            <br>
+
+            <label for="porque_contratar">¿POR QUÉ?</label><br>
+            <input type="text" id="porque_contratar" name="porque_contratar">
+        </div>
+
+        <!-- Pregunta 5 -->
+        <div>
+            <label for="aprobacion_edicion">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?</label><br>
+            <input type="radio" name="aprobacion_edicion" value="Si"> Si
+            <br>
+            <input type="radio" name="aprobacion_edicion" value="No"> No
+        </div>
+
+        <!-- Pregunta 6 -->
+        <div>
+            <label for="clausula_especial">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
+            <textarea id="clausula_especial" name="clausula_especial" cols="30" rows="10"></textarea>
+        </div>
+
+        <!-- Botón de envío -->
+        <button type="submit" class="buttonSiguiente">Enviar</button>
+    </section>
+</form>
 
     {% elif procedimiento == "ESTNC2" %}
-    <section id="estancia2" class="form-section">
+    <form action="/estancia2" method="post">
+        <input type="hidden" name="NombreAsesor" value="{{ NombreAsesor }}">
+        <input type="hidden" name="Giro" value="{{ Giro }}">
+        <input type="hidden" name="carrera" value="Ingenieria en Software">
+        <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
+        <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+        <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+        <input type="hidden" name="periodo" value="{{ periodo }}">
+        <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+        <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+        <input type="hidden" name="capital" value="{{ capital }}">
+        <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+        <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+        <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+        <input type="hidden" name="equipo" value="{{ equipo }}">
+
+        <section id="estancia1" class="form-section active">
+            <header>
         <h1>INGENIERÍA EN MECÁNICA AUTOMOTRIZ</h1>
         <h1>Formulario de Estancia II</h1>
         <div class="question-container">
@@ -106,59 +194,59 @@
                     <div class="options-grid">
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2" value="Proponer procesos de manufactura de componentes mecánicos">
+                                <input type="checkbox" name="funcion-estancia2[]" value="Proponer procesos de manufactura de componentes mecánicos">
                                 Proponer procesos de manufactura de componentes mecánicos
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2" value="Establecer procedimientos de fabricación">
+                                <input type="checkbox" name="funcion-estancia2[]" value="Establecer procedimientos de fabricación">
                                 Establecer procedimientos de fabricación
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2" value="Establecer normas de calidad y seguridad">
+                                <input type="checkbox" name="funcion-estancia2[]" value="Establecer normas de calidad y seguridad">
                                 Establecer normas de calidad y seguridad
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2" value="Implementar procesos de manufactura convencional-CNC">
+                                <input type="checkbox" name="funcion-estancia2[]" value="Implementar procesos de manufactura convencional-CNC">
                                 Implementar procesos de manufactura convencional-CNC
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2" value="Implementar normas de la industria">
+                                <input type="checkbox" name="funcion-estancia2[]" value="Implementar normas de la industria">
                                 Implementar normas de la industria
                             </div>
                         </label><label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia2" value="Definir componentes mecánicos">
+                            <input type="checkbox" name="funcion-estancia2[]" value="Definir componentes mecánicos">
                             Definir componentes mecánicos
                         </div>
                     </label><label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia2" value="Integrar sistemas mecánicos">
+                            <input type="checkbox" name="funcion-estancia2[]" value="Integrar sistemas mecánicos">
                             Integrar sistemas mecánicos
                         </div>
                     </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2" value="Simular modelos de componentes mecánicos mediante las TIC´s">
+                                <input type="checkbox" name="funcion-estancia2[]" value="Simular modelos de componentes mecánicos mediante las TIC´s">
                                 Simular modelos de componentes mecánicos mediante las TIC´s
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2" value="Mantenimiento mecánico">
+                                <input type="checkbox" name="funcion-estancia2[]" value="Mantenimiento mecánico">
                                 Mantenimiento mecánico
                             </div>
                         </label>
                         <label class="option-item other-option">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2" value="otras">
+                                <input type="checkbox" name="funcion-estancia2[]" value="otras">
                             </div>
                             <input type="text" placeholder="Otras funciones...">
                         </label>
@@ -166,9 +254,80 @@
                 </div>
             </div>
     </section>
+    <section class="radio-section">
+        <!-- Pregunta 1 -->
+        <div>
+            <label for="resolvio_necesidad">¿EL PROYECTO RESOLVIÓ SU NECESIDAD?</label><br>
+            <input type="radio" name="resolvio_necesidad" value="Si"> Si
+            <br>
+            <input type="radio" name="resolvio_necesidad" value="No"> No
+        </div>
+
+        <!-- Pregunta 2 -->
+        <div>
+            <label for="interes_participar">LE INTERESARÍA PARTICIPAR EN PROYECTOS DE INVESTIGACIÓN Y DESARROLLO TECNOLÓGICO, ASESORADOS POR LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+            <input type="radio" name="interes_participar" value="Si"> Si
+            <br>
+            <input type="radio" name="interes_participar" value="No"> No
+        </div>
+
+        <!-- Pregunta 3 -->
+        <div>
+            <label for="investigacion_desarrollo">¿REALIZA INVESTIGACIÓN Y DESARROLLO EN SU EMPRESA?</label><br>
+            <input type="radio" name="investigacion_desarrollo" value="Si"> Si
+            <br>
+            <input type="radio" name="investigacion_desarrollo" value="No"> No
+        </div>
+
+        <!-- Pregunta 4 -->
+        <div>
+            <label for="contratar_egresados">¿ESTARÍA USTED DISPUESTO A CONTRATAR A EGRESADOS DE LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+            <input type="radio" name="contratar_egresados" value="Si"> Si
+            <br>
+            <input type="radio" name="contratar_egresados" value="No"> No
+            <br>
+
+            <label for="porque_contratar">¿POR QUÉ?</label><br>
+            <input type="text" id="porque_contratar" name="porque_contratar">
+        </div>
+
+        <!-- Pregunta 5 -->
+        <div>
+            <label for="aprobacion_edicion">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?</label><br>
+            <input type="radio" name="aprobacion_edicion" value="Si"> Si
+            <br>
+            <input type="radio" name="aprobacion_edicion" value="No"> No
+        </div>
+
+        <!-- Pregunta 6 -->
+        <div>
+            <label for="clausula_especial">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
+            <textarea id="clausula_especial" name="clausula_especial" cols="30" rows="10"></textarea>
+        </div>
+
+        <!-- Botón de envío -->
+        <button type="submit" class="buttonSiguiente">Enviar</button>
+    </section>
+    </form>
 
     {% elif procedimiento == "ESTD" %}
-    <section id="estadia" class="form-section">
+    <form action="/estadia" method="post">
+        <input type="hidden" name="NombreAsesor" value="{{ NombreAsesor }}">
+        <input type="hidden" name="Giro" value="{{ Giro }}">
+        <input type="hidden" name="carrera" value="Ingenieria en Software">
+        <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
+        <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+        <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+        <input type="hidden" name="periodo" value="{{ periodo }}">
+        <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+        <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+        <input type="hidden" name="capital" value="{{ capital }}">
+        <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+        <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+        <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+        <input type="hidden" name="equipo" value="{{ equipo }}">
+        <section id="estancia1" class="form-section active">
+            <header>
         <h1>INGENIERÍA EN MECÁNICA AUTOMOTRIZ</h1>
         <h1>Formulario de Estadía</h1>
         <div class="question-container">
@@ -177,85 +336,85 @@
                 <div class="options-grid">
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estadia" value="Establecer procedimientos de fabricación que cumplan con normas de calidad y seguridad">
+                            <input type="checkbox" name="funcion-estadia[]" value="Establecer procedimientos de fabricación que cumplan con normas de calidad y seguridad">
                             Establecer procedimientos de fabricación que cumplan con normas de calidad y seguridad
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estadia" value="Implementar procesos de Manufactura convencional y/o CNC mediante estándares">
+                            <input type="checkbox" name="funcion-estadia[]" value="Implementar procesos de Manufactura convencional y/o CNC mediante estándares">
                             Implementar procesos de Manufactura convencional y/o CNC mediante estándares
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estadia" value="Integración de sistemas mecánicos">
+                            <input type="checkbox" name="funcion-estadia[]" value="Integración de sistemas mecánicos">
                             Integración de sistemas mecánicos
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estadia" value="Simulación de Componentes por medio de herramientas computacionales para validar comportamiento dinámico">
+                            <input type="checkbox" name="funcion-estadia[]" value="Simulación de Componentes por medio de herramientas computacionales para validar comportamiento dinámico">
                             Simulación de Componentes por medio de herramientas computacionales para validar comportamiento dinámico
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estadia" value="Integración de sistemas mecánicos">
+                            <input type="checkbox" name="funcion-estadia[]" value="Integración de sistemas mecánicos">
                             Integración de sistemas mecánicos
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estadia" value="Procedimientos de fabricación">
+                            <input type="checkbox" name="funcion-estadia[]" value="Procedimientos de fabricación">
                             Procedimientos de fabricación
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estadia" value="Determinar la implementación de normas de calidad nacional e internacional ">
+                            <input type="checkbox" name="funcion-estadia[]" value="Determinar la implementación de normas de calidad nacional e internacional ">
                             Determinar la implementación de normas de calidad nacional e internacional 
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estadia" value="Implementación de normas ambientales nacional e internacional">
+                            <input type="checkbox" name="funcion-estadia[]" value="Implementación de normas ambientales nacional e internacional">
                             Implementación de normas ambientales nacional e internacional
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estadia" value="Operación de industria 4.0">
+                            <input type="checkbox" name="funcion-estadia[]" value="Operación de industria 4.0">
                             Operación de industria 4.0
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estadia" value="Dirección de Recursos Humanos">
+                            <input type="checkbox" name="funcion-estadia[]" value="Dirección de Recursos Humanos">
                             Dirección de Recursos Humanos
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estadia" value="Establecer mantenimiento mecánico">
+                            <input type="checkbox" name="funcion-estadia[]" value="Establecer mantenimiento mecánico">
                             Establecer mantenimiento mecánico                        
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estadia" value="Implementación de procesos de manufactura por medio de tecnología">
+                            <input type="checkbox" name="funcion-estadia[]" value="Implementación de procesos de manufactura por medio de tecnología">
                             Implementación de procesos de manufactura por medio de tecnología
                         </div>
                     </label>
                     <label class="option-item">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estadia" value="Estrategias para el desarrollo de vehículos para el cuidado y protección del medio ambiente">
+                            <input type="checkbox" name="funcion-estadia[]" value="Estrategias para el desarrollo de vehículos para el cuidado y protección del medio ambiente">
                             Estrategias para el desarrollo de vehículos para el cuidado y protección del medio ambiente
                         </div>
                     </label>
                     <label class="option-item other-option">
                         <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estadia" value="otras">
+                            <input type="checkbox" name="funcion-estadia[]" value="otras">
                         </div>
                         <input type="text" placeholder="Otras funciones...">
                     </label>
@@ -264,56 +423,62 @@
             </div>
         </div>
     </section>
-    {% endif %}
+    <section class="radio-section">
+        <!-- Pregunta 1 -->
+        <div>
+            <label for="resolvio_necesidad">¿EL PROYECTO RESOLVIÓ SU NECESIDAD?</label><br>
+            <input type="radio" name="resolvio_necesidad" value="Si"> Si
+            <br>
+            <input type="radio" name="resolvio_necesidad" value="No"> No
+        </div>
 
+        <!-- Pregunta 2 -->
+        <div>
+            <label for="interes_participar">LE INTERESARÍA PARTICIPAR EN PROYECTOS DE INVESTIGACIÓN Y DESARROLLO TECNOLÓGICO, ASESORADOS POR LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+            <input type="radio" name="interes_participar" value="Si"> Si
+            <br>
+            <input type="radio" name="interes_participar" value="No"> No
+        </div>
 
-    <section>
+        <!-- Pregunta 3 -->
         <div>
-            <label for="">¿EL PROYECTO RESOLVIÓ SU NECESIDAD ?</label><br>
-                <input type="radio" value="Si"> Si
-                <br>
-                <input type="radio" value="No"> No
+            <label for="investigacion_desarrollo">¿REALIZA INVESTIGACIÓN Y DESARROLLO EN SU EMPRESA?</label><br>
+            <input type="radio" name="investigacion_desarrollo" value="Si"> Si
+            <br>
+            <input type="radio" name="investigacion_desarrollo" value="No"> No
         </div>
+
+        <!-- Pregunta 4 -->
         <div>
-            <label for="">LE INTERESARÍA PARTICIPAR EN PROYECTOS DE INVESTIGACIÓN Y DESARROLLO TECNOLÓGICO, ASESORADOS
-                POR LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label>
-                <input type="radio" value="Si"> Si
-                <br>
-                <input type="radio" value="No"> No
-        </div>
-        <div>
-            <label for="">¿REALIZA INVESTIGACIÓN Y DESARROLLO EN SU EMPRESA?</label>
-                <input type="radio" value="Si"> Si
-                <br>
-                <input type="radio" value="No"> No
-        </div>
-        <div>
-            <label for="">¿ESTARÍA USTED DISPUESTO A CONTRATAR A EGRESADOS DE LA UNIVERSIDAD POLITÉCNICA DE
-                TECÁMAC?</label>
-                <input type="radio" value="Si"> Si
-                <br>
-                <input type="radio" value="No"> No
+            <label for="contratar_egresados">¿ESTARÍA USTED DISPUESTO A CONTRATAR A EGRESADOS DE LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+            <input type="radio" name="contratar_egresados" value="Si"> Si
+            <br>
+            <input type="radio" name="contratar_egresados" value="No"> No
             <br>
 
-            <label for="">¿POR QUÉ?</label><br>
-            <input type="text">
-
+            <label for="porque_contratar">¿POR QUÉ?</label><br>
+            <input type="text" id="porque_contratar" name="porque_contratar">
         </div>
+
+        <!-- Pregunta 5 -->
         <div>
-            <label for="">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL
-                PROYECTO?</label>
-                <input type="radio" value="Si"> Si
-                <br>
-                <input type="radio" value="No"> No
+            <label for="aprobacion_edicion">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?</label><br>
+            <input type="radio" name="aprobacion_edicion" value="Si"> Si
+            <br>
+            <input type="radio" name="aprobacion_edicion" value="No"> No
         </div>
+
+        <!-- Pregunta 6 -->
         <div>
-            <label for="">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR
-                EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
-
-            <textarea name="" id="" cols="30" rows="10"></textarea>
+            <label for="clausula_especial">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
+            <textarea id="clausula_especial" name="clausula_especial" cols="30" rows="10"></textarea>
         </div>
-    </section>
 
+        <!-- Botón de envío -->
+        <button type="submit" class="buttonSiguiente">Enviar</button>
+    </form>
+</section>
+    {% endif %}
 </main>
 
 <script>

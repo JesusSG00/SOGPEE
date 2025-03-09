@@ -15,11 +15,25 @@
     </nav>
 </header> -->
 
-<form action="" method="post">
     <main class="container">
-
         {% if procedimiento == 'ESTNC1' %}
-        <section id="estancia1" class="form-section active">
+
+        <form action="/estancia1" method="post">
+            <input type="hidden" name="NombreAsesor" value="{{ NombreAsesor }}">
+            <input type="hidden" name="Giro" value="{{ Giro }}">
+            <input type="hidden" name="carrera" value="Ingenieria en Software">
+            <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
+            <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+            <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+            <input type="hidden" name="periodo" value="{{ periodo }}">
+            <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+            <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+            <input type="hidden" name="capital" value="{{ capital }}">
+            <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+            <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+            <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+            <input type="hidden" name="equipo" value="{{ equipo }}">
+                <section id="estancia1" class="form-section active">
 
             <header>
                 <h1 class="tituloCarrera">Ingeniería en Tecnologías de Manufactura</h1>
@@ -34,226 +48,52 @@
                     <div class="options-grid">
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Estructurar sistemas de producción">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Estructurar sistemas de producción">
                                 Estructurar sistemas de producción
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Control estadístico de calidad">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Control estadístico de calidad">
                                 Control estadístico de calidad
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Aplicar software de diseño">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Aplicar software de diseño">
                                 Aplicar software de diseño
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Implementación de normatividad para optimizar recursos">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Implementación de normatividad para optimizar recursos">
                                 Implementación de normatividad para optimizar recursos
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Análisis de rentabilidad de productos">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Análisis de rentabilidad de productos">
                                 Análisis de rentabilidad de productos
                             </div>
                         </label>
                         <label class="option-item">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="Implementación de calidad en productos y servicios">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Implementación de calidad en productos y servicios">
                                 Implementación de calidad en productos y servicios
                             </div>    
                         <!-- Añade más opciones aquí siguiendo el mismo patrón -->
                         <label class="option-item other-option">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1" value="otras">
+                                <input type="checkbox" name="funcion-estancia1[]" value="otras">
                             </div>
                             <input type="text" placeholder="Otras funciones...">
                         </label>
                     </div>
                 </div>
             </div>
+            
         </section>
-        
-        {% elif procedimiento == 'ESTNC2' %}
-        <section id="estancia2" class="form-section">
-
-            <header>
-                <h1 class="tituloCarrera">Ingeniería en Tecnologías de Manufactura</h1>
-                <h1 class="tituloFormulario" >Formulario de Estancia II</h1> 
-            </header>
-
-            <div class="question-container">
-                <div class="question">
-                    <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE DURANTE SU ESTANCIA II?</h2>
-                    <div class>
-                        <div class="options-grid">
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Gestión procesos de manufactura">
-                                    Gestión procesos de manufactura
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Gestionar estándares de calidad">
-                                    Gestionar estándares de calidad
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Estructurar mejoras en los procesos productivos">
-                                    Estructurar mejoras en los procesos productivos
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Planear diagnostico de procesos de producción">
-                                    Planear diagnostico de procesos de producción
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Controlar procesos de producción">
-                                    Controlar procesos de producción
-                                </div>
-                            </label><label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2" value="Eficientar el manejo de recursos (Humanos, materiales, financieros)">
-                                Eficientar el manejo de recursos (Humanos, materiales, financieros)
-                            </div>
-                        </label><label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2" value="Desarrollar sistemas de calidad">
-                                Desarrollar sistemas de calidad
-                            </div>
-                        </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Coordinar planes de mantenimiento de TPM, jidoka ">
-                                    Coordinar planes de mantenimiento de TPM, jidoka 
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Estimación de costo-beneficio">
-                                    Estimación de costo-beneficio
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Manejar software especializado">
-                                    Manejar software especializado
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="Manejo de Equipo y maquinaria auxiliar en la organización">
-                                    Manejo de Equipo y maquinaria auxiliar en la organización
-                                </div>
-                            </label>
-                            <label class="option-item other-option">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2" value="otras">
-                                </div>
-                                <input type="text" placeholder="Otras funciones...">
-                            </label>
-                        </div>
-                    </div>
-                </div>
-        </section>
-    
-        {% elif procedimiento == 'ESTD' %}
-        <section id="estadia" class="form-section">
-
-            <header>
-                <h1 class="tituloCarrera">Ingeniería en Tecnologías de Manufactura</h1>
-                <h1 class="tituloFormulario" >Formulario de Estadía</h1> 
-            </header>
-
-            <div class="question-container">
-                <div class="question">
-                    <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE
-                        DURANTE SU ESTADÍA?</h2>
-                    <div class="options-grid">
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Evaluar proyectos productivos estratégicos e innovadores">
-                                Evaluar proyectos productivos estratégicos e innovadores
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Aplicar software de simulación">
-                                Aplicar software de simulación
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Aplicar herramientas de manufactura avanzada">
-                                Aplicar herramientas de manufactura avanzada
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Gestionar propuestas tecnológicas innovadoras">
-                                Gestionar propuestas tecnológicas innovadoras 
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Diseñar productos utilizando paquetes CAD-CAM-CAE">
-                                Diseñar productos utilizando paquetes CAD-CAM-CAE
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Validar proyectos productivos">
-                                Validar proyectos productivos
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Toma de decisiones para mejora de competitividad">
-                                Toma de decisiones para mejora de competitividad
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Generar planos y especificaciones de producto">
-                                Generar planos y especificaciones de producto
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Analizar procesos y productos">
-                                Analizar procesos y productos 
-                            </div>
-                        </label>
-                        <label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="Generar estrategias de productividad y competitividad">
-                                Generar estrategias de productividad y competitividad
-                            </div>
-                        </label>
-                        <label class="option-item other-option">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia" value="otras">
-                            </div>
-                            <input type="text" placeholder="Otras funciones...">
-                        </label>
-    
-                    </div>
-                </div>
-            </div>
-        </section>
-        {% endif %}
-
-        <section>
+        <section class="radio-section">
             <!-- Pregunta 1 -->
             <div>
                 <label for="resolvio_necesidad">¿EL PROYECTO RESOLVIÓ SU NECESIDAD?</label><br>
@@ -303,12 +143,329 @@
                 <label for="clausula_especial">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
                 <textarea id="clausula_especial" name="clausula_especial" cols="30" rows="10"></textarea>
             </div>
-    
+
             <!-- Botón de envío -->
             <button type="submit" class="buttonSiguiente">Enviar</button>
         </section>
-    </main>
-</form>
+    </form>
+        
+        {% elif procedimiento == 'ESTNC2' %}
+        <form action="/estancia2" method="post">
+            <input type="hidden" name="NombreAsesor" value="{{ NombreAsesor }}">
+            <input type="hidden" name="Giro" value="{{ Giro }}">
+            <input type="hidden" name="carrera" value="Ingenieria en Software">
+            <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
+            <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+            <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+            <input type="hidden" name="periodo" value="{{ periodo }}">
+            <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+            <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+            <input type="hidden" name="capital" value="{{ capital }}">
+            <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+            <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+            <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+            <input type="hidden" name="equipo" value="{{ equipo }}">
+
+            <section id="estancia1" class="form-section active">
+
+            <header>
+                <h1 class="tituloCarrera">Ingeniería en Tecnologías de Manufactura</h1>
+                <h1 class="tituloFormulario" >Formulario de Estancia II</h1> 
+            </header>
+
+            <div class="question-container">
+                <div class="question">
+                    <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE DURANTE SU ESTANCIA II?</h2>
+                    
+                        <div class="options-grid">
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Gestión procesos de manufactura">
+                                    Gestión procesos de manufactura
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Gestionar estándares de calidad">
+                                    Gestionar estándares de calidad
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Estructurar mejoras en los procesos productivos">
+                                    Estructurar mejoras en los procesos productivos
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Planear diagnostico de procesos de producción">
+                                    Planear diagnostico de procesos de producción
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Controlar procesos de producción">
+                                    Controlar procesos de producción
+                                </div>
+                            </label><label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estancia2[]" value="Eficientar el manejo de recursos (Humanos, materiales, financieros)">
+                                Eficientar el manejo de recursos (Humanos, materiales, financieros)
+                            </div>
+                        </label><label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estancia2[]" value="Desarrollar sistemas de calidad">
+                                Desarrollar sistemas de calidad
+                            </div>
+                        </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Coordinar planes de mantenimiento de TPM, jidoka ">
+                                    Coordinar planes de mantenimiento de TPM, jidoka 
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Estimación de costo-beneficio">
+                                    Estimación de costo-beneficio
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Manejar software especializado">
+                                    Manejar software especializado
+                                </div>
+                            </label>
+                            <label class="option-item">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Manejo de Equipo y maquinaria auxiliar en la organización">
+                                    Manejo de Equipo y maquinaria auxiliar en la organización
+                                </div>
+                            </label>
+                            <label class="option-item other-option">
+                                <div class="checkbox-wrapper">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="otras">
+                                </div>
+                                <input type="text" placeholder="Otras funciones...">
+                            </label>
+                        </div>
+                    </div>
+                </div>
+        </section>
+        <section class="radio-section">
+            <!-- Pregunta 1 -->
+            <div>
+                <label for="resolvio_necesidad">¿EL PROYECTO RESOLVIÓ SU NECESIDAD?</label><br>
+                <input type="radio" name="resolvio_necesidad" value="Si"> Si
+                <br>
+                <input type="radio" name="resolvio_necesidad" value="No"> No
+            </div>
+    
+            <!-- Pregunta 2 -->
+            <div>
+                <label for="interes_participar">LE INTERESARÍA PARTICIPAR EN PROYECTOS DE INVESTIGACIÓN Y DESARROLLO TECNOLÓGICO, ASESORADOS POR LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+                <input type="radio" name="interes_participar" value="Si"> Si
+                <br>
+                <input type="radio" name="interes_participar" value="No"> No
+            </div>
+    
+            <!-- Pregunta 3 -->
+            <div>
+                <label for="investigacion_desarrollo">¿REALIZA INVESTIGACIÓN Y DESARROLLO EN SU EMPRESA?</label><br>
+                <input type="radio" name="investigacion_desarrollo" value="Si"> Si
+                <br>
+                <input type="radio" name="investigacion_desarrollo" value="No"> No
+            </div>
+    
+            <!-- Pregunta 4 -->
+            <div>
+                <label for="contratar_egresados">¿ESTARÍA USTED DISPUESTO A CONTRATAR A EGRESADOS DE LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+                <input type="radio" name="contratar_egresados" value="Si"> Si
+                <br>
+                <input type="radio" name="contratar_egresados" value="No"> No
+                <br>
+    
+                <label for="porque_contratar">¿POR QUÉ?</label><br>
+                <input type="text" id="porque_contratar" name="porque_contratar">
+            </div>
+    
+            <!-- Pregunta 5 -->
+            <div>
+                <label for="aprobacion_edicion">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?</label><br>
+                <input type="radio" name="aprobacion_edicion" value="Si"> Si
+                <br>
+                <input type="radio" name="aprobacion_edicion" value="No"> No
+            </div>
+    
+            <!-- Pregunta 6 -->
+            <div>
+                <label for="clausula_especial">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
+                <textarea id="clausula_especial" name="clausula_especial" cols="30" rows="10"></textarea>
+            </div>
+
+            <!-- Botón de envío -->
+            <button type="submit" class="buttonSiguiente">Enviar</button>
+        </section>
+        </form>
+    
+        {% elif procedimiento == 'ESTD' %}
+        <form action="/estadia" method="post">
+            <input type="hidden" name="NombreAsesor" value="{{ NombreAsesor }}">
+            <input type="hidden" name="Giro" value="{{ Giro }}">
+            <input type="hidden" name="carrera" value="Ingenieria en Software">
+            <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
+            <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+            <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+            <input type="hidden" name="periodo" value="{{ periodo }}">
+            <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+            <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+            <input type="hidden" name="capital" value="{{ capital }}">
+            <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+            <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+            <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+            <input type="hidden" name="equipo" value="{{ equipo }}">
+            <section id="estancia1" class="form-section active">
+
+            <header>
+                <h1 class="tituloCarrera">Ingeniería en Tecnologías de Manufactura</h1>
+                <h1 class="tituloFormulario" >Formulario de Estadía</h1> 
+            </header>
+
+            <div class="question-container">
+                <div class="question">
+                    <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE
+                        DURANTE SU ESTADÍA?</h2>
+                    <div class="options-grid">
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Evaluar proyectos productivos estratégicos e innovadores">
+                                Evaluar proyectos productivos estratégicos e innovadores
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Aplicar software de simulación">
+                                Aplicar software de simulación
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Aplicar herramientas de manufactura avanzada">
+                                Aplicar herramientas de manufactura avanzada
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Gestionar propuestas tecnológicas innovadoras">
+                                Gestionar propuestas tecnológicas innovadoras 
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Diseñar productos utilizando paquetes CAD-CAM-CAE">
+                                Diseñar productos utilizando paquetes CAD-CAM-CAE
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Validar proyectos productivos">
+                                Validar proyectos productivos
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Toma de decisiones para mejora de competitividad">
+                                Toma de decisiones para mejora de competitividad
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Generar planos y especificaciones de producto">
+                                Generar planos y especificaciones de producto
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Analizar procesos y productos">
+                                Analizar procesos y productos 
+                            </div>
+                        </label>
+                        <label class="option-item">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="Generar estrategias de productividad y competitividad">
+                                Generar estrategias de productividad y competitividad
+                            </div>
+                        </label>
+                        <label class="option-item other-option">
+                            <div class="checkbox-wrapper">
+                                <input type="checkbox" name="funcion-estadia[]" value="otras">
+                            </div>
+                            <input type="text" placeholder="Otras funciones...">
+                        </label>
+    
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="radio-section">
+            <!-- Pregunta 1 -->
+            <div>
+                <label for="resolvio_necesidad">¿EL PROYECTO RESOLVIÓ SU NECESIDAD?</label><br>
+                <input type="radio" name="resolvio_necesidad" value="Si"> Si
+                <br>
+                <input type="radio" name="resolvio_necesidad" value="No"> No
+            </div>
+    
+            <!-- Pregunta 2 -->
+            <div>
+                <label for="interes_participar">LE INTERESARÍA PARTICIPAR EN PROYECTOS DE INVESTIGACIÓN Y DESARROLLO TECNOLÓGICO, ASESORADOS POR LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+                <input type="radio" name="interes_participar" value="Si"> Si
+                <br>
+                <input type="radio" name="interes_participar" value="No"> No
+            </div>
+    
+            <!-- Pregunta 3 -->
+            <div>
+                <label for="investigacion_desarrollo">¿REALIZA INVESTIGACIÓN Y DESARROLLO EN SU EMPRESA?</label><br>
+                <input type="radio" name="investigacion_desarrollo" value="Si"> Si
+                <br>
+                <input type="radio" name="investigacion_desarrollo" value="No"> No
+            </div>
+    
+            <!-- Pregunta 4 -->
+            <div>
+                <label for="contratar_egresados">¿ESTARÍA USTED DISPUESTO A CONTRATAR A EGRESADOS DE LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+                <input type="radio" name="contratar_egresados" value="Si"> Si
+                <br>
+                <input type="radio" name="contratar_egresados" value="No"> No
+                <br>
+    
+                <label for="porque_contratar">¿POR QUÉ?</label><br>
+                <input type="text" id="porque_contratar" name="porque_contratar">
+            </div>
+    
+            <!-- Pregunta 5 -->
+            <div>
+                <label for="aprobacion_edicion">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?</label><br>
+                <input type="radio" name="aprobacion_edicion" value="Si"> Si
+                <br>
+                <input type="radio" name="aprobacion_edicion" value="No"> No
+            </div>
+    
+            <!-- Pregunta 6 -->
+            <div>
+                <label for="clausula_especial">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
+                <textarea id="clausula_especial" name="clausula_especial" cols="30" rows="10"></textarea>
+            </div>
+
+            <!-- Botón de envío -->
+            <button type="submit" class="buttonSiguiente">Enviar</button>
+        </form>
+    </section>
+
+        {% endif %}
+
+        </main>
 
 
 <script>

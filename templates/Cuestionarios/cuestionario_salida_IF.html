@@ -16,23 +16,24 @@
     </nav>
 </header> -->
 
-<form action="estancia1" method="post">
-    <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
-
-    <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
-    <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
-    <input type="hidden" name="periodo" value="{{ periodo }}">
-    <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
-    <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
-    <input type="hidden" name="capital" value="{{ capital }}">
-    <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
-    <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
-    <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
-    <input type="hidden" name="equipo" value="{{ equipo }}">
-
     <main class="container">
         {% if procedimiento == 'ESTNC1' %}
-        <section id="estancia1" class="form-section active">
+        <form action="/estancia1" method="post">
+            <input type="hidden" name="NombreAsesor" value="{{ NombreAsesor }}">
+            <input type="hidden" name="Giro" value="{{ Giro }}">
+            <input type="hidden" name="carrera" value="Ingenieria en Software">
+            <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
+            <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+            <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+            <input type="hidden" name="periodo" value="{{ periodo }}">
+            <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+            <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+            <input type="hidden" name="capital" value="{{ capital }}">
+            <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+            <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+            <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+            <input type="hidden" name="equipo" value="{{ equipo }}">
+                <section id="estancia1" class="form-section active">
 
             <header>
                 <h1 class="tituloCarrera">Ingeniería Financiera</h1>
@@ -128,9 +129,80 @@
                 </div>
             </div>
         </section>
+        <section class="radio-section">
+            <!-- Pregunta 1 -->
+            <div>
+                <label for="resolvio_necesidad">¿EL PROYECTO RESOLVIÓ SU NECESIDAD?</label><br>
+                <input type="radio" name="resolvio_necesidad" value="Si"> Si
+                <br>
+                <input type="radio" name="resolvio_necesidad" value="No"> No
+            </div>
+    
+            <!-- Pregunta 2 -->
+            <div>
+                <label for="interes_participar">LE INTERESARÍA PARTICIPAR EN PROYECTOS DE INVESTIGACIÓN Y DESARROLLO TECNOLÓGICO, ASESORADOS POR LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+                <input type="radio" name="interes_participar" value="Si"> Si
+                <br>
+                <input type="radio" name="interes_participar" value="No"> No
+            </div>
+    
+            <!-- Pregunta 3 -->
+            <div>
+                <label for="investigacion_desarrollo">¿REALIZA INVESTIGACIÓN Y DESARROLLO EN SU EMPRESA?</label><br>
+                <input type="radio" name="investigacion_desarrollo" value="Si"> Si
+                <br>
+                <input type="radio" name="investigacion_desarrollo" value="No"> No
+            </div>
+    
+            <!-- Pregunta 4 -->
+            <div>
+                <label for="contratar_egresados">¿ESTARÍA USTED DISPUESTO A CONTRATAR A EGRESADOS DE LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+                <input type="radio" name="contratar_egresados" value="Si"> Si
+                <br>
+                <input type="radio" name="contratar_egresados" value="No"> No
+                <br>
+    
+                <label for="porque_contratar">¿POR QUÉ?</label><br>
+                <input type="text" id="porque_contratar" name="porque_contratar">
+            </div>
+    
+            <!-- Pregunta 5 -->
+            <div>
+                <label for="aprobacion_edicion">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?</label><br>
+                <input type="radio" name="aprobacion_edicion" value="Si"> Si
+                <br>
+                <input type="radio" name="aprobacion_edicion" value="No"> No
+            </div>
+    
+            <!-- Pregunta 6 -->
+            <div>
+                <label for="clausula_especial">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
+                <textarea id="clausula_especial" name="clausula_especial" cols="30" rows="10"></textarea>
+            </div>
+
+            <!-- Botón de envío -->
+            <button type="submit" class="buttonSiguiente">Enviar</button>
+        </section>
+    </form>
 
         {% elif procedimiento == 'ESTNC2' %}
-        <section id="estancia2" class="form-section active">
+        <form action="/estancia2" method="post">
+            <input type="hidden" name="NombreAsesor" value="{{ NombreAsesor }}">
+            <input type="hidden" name="Giro" value="{{ Giro }}">
+            <input type="hidden" name="carrera" value="Ingenieria en Software">
+            <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
+            <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+            <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+            <input type="hidden" name="periodo" value="{{ periodo }}">
+            <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+            <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+            <input type="hidden" name="capital" value="{{ capital }}">
+            <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+            <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+            <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+            <input type="hidden" name="equipo" value="{{ equipo }}">
+
+            <section id="estancia1" class="form-section active">
 
             <header>
                 <h1 class="tituloCarrera">Ingeniería Financiera</h1>
@@ -212,9 +284,79 @@
                     </div>
                 </div>
         </section>
+        <section class="radio-section">
+            <!-- Pregunta 1 -->
+            <div>
+                <label for="resolvio_necesidad">¿EL PROYECTO RESOLVIÓ SU NECESIDAD?</label><br>
+                <input type="radio" name="resolvio_necesidad" value="Si"> Si
+                <br>
+                <input type="radio" name="resolvio_necesidad" value="No"> No
+            </div>
+    
+            <!-- Pregunta 2 -->
+            <div>
+                <label for="interes_participar">LE INTERESARÍA PARTICIPAR EN PROYECTOS DE INVESTIGACIÓN Y DESARROLLO TECNOLÓGICO, ASESORADOS POR LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+                <input type="radio" name="interes_participar" value="Si"> Si
+                <br>
+                <input type="radio" name="interes_participar" value="No"> No
+            </div>
+    
+            <!-- Pregunta 3 -->
+            <div>
+                <label for="investigacion_desarrollo">¿REALIZA INVESTIGACIÓN Y DESARROLLO EN SU EMPRESA?</label><br>
+                <input type="radio" name="investigacion_desarrollo" value="Si"> Si
+                <br>
+                <input type="radio" name="investigacion_desarrollo" value="No"> No
+            </div>
+    
+            <!-- Pregunta 4 -->
+            <div>
+                <label for="contratar_egresados">¿ESTARÍA USTED DISPUESTO A CONTRATAR A EGRESADOS DE LA UNIVERSIDAD POLITÉCNICA DE TECÁMAC?</label><br>
+                <input type="radio" name="contratar_egresados" value="Si"> Si
+                <br>
+                <input type="radio" name="contratar_egresados" value="No"> No
+                <br>
+    
+                <label for="porque_contratar">¿POR QUÉ?</label><br>
+                <input type="text" id="porque_contratar" name="porque_contratar">
+            </div>
+    
+            <!-- Pregunta 5 -->
+            <div>
+                <label for="aprobacion_edicion">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?</label><br>
+                <input type="radio" name="aprobacion_edicion" value="Si"> Si
+                <br>
+                <input type="radio" name="aprobacion_edicion" value="No"> No
+            </div>
+    
+            <!-- Pregunta 6 -->
+            <div>
+                <label for="clausula_especial">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
+                <textarea id="clausula_especial" name="clausula_especial" cols="30" rows="10"></textarea>
+            </div>
+
+            <!-- Botón de envío -->
+            <button type="submit" class="buttonSiguiente">Enviar</button>
+        </section>
+        </form>
         
         {% elif procedimiento == 'ESTD' %}
-        <section id="estadia" class="form-section active">
+        <form action="/estadia" method="post">
+            <input type="hidden" name="NombreAsesor" value="{{ NombreAsesor }}">
+            <input type="hidden" name="Giro" value="{{ Giro }}">
+            <input type="hidden" name="carrera" value="Ingenieria en Software">
+            <input type="hidden" name="tipoempresa" value="{{ tipoempresa }}">
+            <input type="hidden" name="procedimiento" value="{{ procedimiento }}">
+            <input type="hidden" name="nombreProyecto" value="{{ nombreProyecto }}">
+            <input type="hidden" name="periodo" value="{{ periodo }}">
+            <input type="hidden" name="nombre_empresa" value="{{ nombre_empresa }}">
+            <input type="hidden" name="grado_estudios" value="{{ grado_estudios }}">
+            <input type="hidden" name="capital" value="{{ capital }}">
+            <input type="hidden" name="anios_operacion" value="{{ anios_operacion }}">
+            <input type="hidden" name="tamanio_empresa" value="{{ tamanio_empresa }}">
+            <input type="hidden" name="mercado_venta" value="{{ mercado_venta }}">
+            <input type="hidden" name="equipo" value="{{ equipo }}">
+            <section id="estancia1" class="form-section active">
 
             <header>
                 <h1 class="tituloCarrera">Ingeniería Financiera</h1>
@@ -297,9 +439,7 @@
                 </div>
             </div>
         </section>
-        {% endif %}
-
-        <section>
+        <section class="radio-section">
             <!-- Pregunta 1 -->
             <div>
                 <label for="resolvio_necesidad">¿EL PROYECTO RESOLVIÓ SU NECESIDAD?</label><br>
@@ -352,9 +492,13 @@
 
             <!-- Botón de envío -->
             <button type="submit" class="buttonSiguiente">Enviar</button>
-        </section>
+        </form>
+    </section>
+        {% endif %}
+
+    
     </main>
-</form>
+
 
 
 <script>

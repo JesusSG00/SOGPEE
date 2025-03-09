@@ -1587,6 +1587,47 @@ def estancia1():
     tamanio_empresa = request.form['tamanio_empresa']
     mercado = request.form['mercado_venta']
     funcionEstancia = request.form.getlist('funcion-estancia1[]')
+   
+    funcionEstancia1 = funcionEstancia[0]
+    funcionEstancia2 = funcionEstancia[1]
+    funcionEstancia3 = funcionEstancia[2]
+    if len(funcionEstancia) !=3:
+        return "Error: deben de ser 3 funciones"
+    resolvio = request.form['resolvio_necesidad']
+    interes = request.form['interes_participar']
+    investigacion = request.form['investigacion_desarrollo']
+    contratar_egresados = request.form['contratar_egresados']
+    porque = request.form['porque_contratar']
+    aprueba = request.form['aprobacion_edicion']
+    clausula_especial = request.form.get('clausula_especial')
+    if clausula_especial == "":
+        clausula_especial = "No aplica"
+
+    fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3)
+    if fo07:
+        return render_template('login/asesorEmpresarial3.html')
+
+     
+    
+@app.route('/estancia2',methods=['POST'])
+def estancia2():
+    modalidad = "" #cambiar cuando sepa que es
+    giro = request.form['Giro']
+    NombreAsesor = request.form['NombreAsesor']
+    carrera = request.form['carrera']
+    tipoempresa = request.form['tipoempresa']
+    equipo = request.form['equipo']
+    procedimiento = request.form['procedimiento']
+    periodo = request.form['periodo']
+    Nombreproyecto = request.form['nombreProyecto']
+    empresa= request.form['nombre_empresa']
+    gradoEstudios = request.form['grado_estudios']
+    
+    capital = request.form['capital']
+    anios_operacion = request.form['anios_operacion']
+    tamanio_empresa = request.form['tamanio_empresa']
+    mercado = request.form['mercado_venta']
+    funcionEstancia = request.form.getlist('funcion-estancia2[]')
     if len(funcionEstancia) !=3:
         return "Error: deben de ser 3 funciones"
     funcionEstancia1 = funcionEstancia[0]
@@ -1605,12 +1646,51 @@ def estancia1():
 
     fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3)
     if fo07:
-        return f'{fo07}'
-    
-    
+        return render_template('login/asesorEmpresarial3.html')
+
     
 
 
+@app.route('/estadia',methods=['POST'])
+def estadia():
+    modalidad = "" #cambiar cuando sepa que es
+    giro = request.form['Giro']
+    NombreAsesor = request.form['NombreAsesor']
+    carrera = request.form['carrera']
+    tipoempresa = request.form['tipoempresa']
+    equipo = request.form['equipo']
+    procedimiento = request.form['procedimiento']
+    periodo = request.form['periodo']
+    Nombreproyecto = request.form['nombreProyecto']
+    empresa= request.form['nombre_empresa']
+    gradoEstudios = request.form['grado_estudios']
+    
+    capital = request.form['capital']
+    anios_operacion = request.form['anios_operacion']
+    tamanio_empresa = request.form['tamanio_empresa']
+    mercado = request.form['mercado_venta']
+    funcionEstancia = request.form.getlist('funcion-estadia[]')
+    if len(funcionEstancia) !=3:
+        return f"Error: deben de ser 3 funciones"
+    funcionEstancia1 = funcionEstancia[0]
+    funcionEstancia2 = funcionEstancia[1]
+    funcionEstancia3 = funcionEstancia[2]
+    
+    resolvio = request.form['resolvio_necesidad']
+    interes = request.form['interes_participar']
+    investigacion = request.form['investigacion_desarrollo']
+    contratar_egresados = request.form['contratar_egresados']
+    porque = request.form['porque_contratar']
+    aprueba = request.form['aprobacion_edicion']
+    clausula_especial = request.form.get('clausula_especial')
+    if clausula_especial == "":
+        clausula_especial = "No aplica"
+
+    fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3)
+    if fo07:
+        return render_template('login/asesorEmpresarial3.html')
+
+    
 
 def guardarFOEST07(Periodo, TituloProyecto, NoEquipo, Procedimiento, NombreEmpresa, Modalidad, GradoEstudiosAsesorEmp, NombreAsesorEmp, TipoEmpresa, GiroEmpresa, Capital, AniosOperacion, TamanioEmpresa, MercadoVenta, Carrera, funcionEstancia1, funcionEstancia2, funcionEstancia3):
     query = text("""

@@ -1570,7 +1570,7 @@ def redireccion():
 
 @app.route('/estancia1',methods=['POST'])
 def estancia1():
-    modalidad = "" #cambiar cuando sepa que es
+    modalidad = request.form['modalidad']
     giro = request.form['Giro']
     NombreAsesor = request.form['NombreAsesor']
     carrera = request.form['carrera']
@@ -1588,11 +1588,11 @@ def estancia1():
     mercado = request.form['mercado_venta']
     funcionEstancia = request.form.getlist('funcion-estancia1[]')
    
+    if len(funcionEstancia) !=3:
+        return "Error: deben de ser 3 funciones"
     funcionEstancia1 = funcionEstancia[0]
     funcionEstancia2 = funcionEstancia[1]
     funcionEstancia3 = funcionEstancia[2]
-    if len(funcionEstancia) !=3:
-        return "Error: deben de ser 3 funciones"
     resolvio = request.form['resolvio_necesidad']
     interes = request.form['interes_participar']
     investigacion = request.form['investigacion_desarrollo']
@@ -1611,7 +1611,7 @@ def estancia1():
     
 @app.route('/estancia2',methods=['POST'])
 def estancia2():
-    modalidad = "" #cambiar cuando sepa que es
+    modalidad = request.form['modalidad']
     giro = request.form['Giro']
     NombreAsesor = request.form['NombreAsesor']
     carrera = request.form['carrera']
@@ -1653,7 +1653,7 @@ def estancia2():
 
 @app.route('/estadia',methods=['POST'])
 def estadia():
-    modalidad = "" #cambiar cuando sepa que es
+    modalidad = request.form['modalidad']
     giro = request.form['Giro']
     NombreAsesor = request.form['NombreAsesor']
     carrera = request.form['carrera']

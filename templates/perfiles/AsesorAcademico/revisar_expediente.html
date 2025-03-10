@@ -25,8 +25,7 @@
 <body>
 
     <header class="container-fluid d-flex justify-content-center bg-white p-2">
-        <form action="/asesor22" method="GET">
-            <input type="hidden" name="ID" value="{{ session['ID'] }}">
+        <form action="/loginAsesorAcademico3" method="post">            
             <button type="submit" class="custom-btn">← Atrás</button>
         </form>
         <div class="logoUPT ms-3">
@@ -131,7 +130,7 @@
     const resultadoSpanS1 = document.getElementById('proyectoSer1');
     const resultadoSpanS2 = document.getElementById('proyectoSer2');
     const resultadoSpanS3 = document.getElementById('proyectoSer3');
-    const selectElement2 = document.getElementById('parcial');
+ 
     
 
     selectElement.addEventListener('change', function() {
@@ -171,10 +170,7 @@
         });
 
     
-    selectElement2.addEventListener('change', function() {
-    const textoSeleccionado2 = selectElement2.options[selectElement2.selectedIndex].value;
-    resultadoSpan2.value = textoSeleccionado2 !== "--Selecciona una opción--" ? textoSeleccionado2 : "Ninguno";
-        });
+   
     </script>
 
     <script

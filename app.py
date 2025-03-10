@@ -34,7 +34,7 @@ def loginAsesorAcademico3():
 def loginCoordinacion2():
     return render_template('login/loginCoordinacion2.html')
 
-@app.route('/loginCoordinacionIni')
+@app.route('/loginCoordinacionIni',methods=['POST'])
 def loginCoordinacion():
     return render_template('perfiles/Coordinacion/perfil_coordinacion.html')
 
@@ -225,7 +225,13 @@ def guardartodo():
         if ok != True:
             return render_template('Error/Error.html',ID=ok)
         return render_template('Cargas/cargaEquipo.html')
-    
+
+@app.route('/regresarasesoracademico',methods=['POST'])
+def regresarasesor():
+    ID = request.form['IDA']
+    resultado = cargarProyectosAsesor(ID)
+    return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID)
+                
 
 #Funcion para subir los documentos del estudiante
 @app.route('/enviarDocumentos', methods=['POST'])
@@ -394,7 +400,7 @@ def calificarExpediente():
     proyecto = request.form['proyectoC']
     IDA = request.form['ID']
     if proyecto =="" or proyecto =="0":
-        return render_template('Error/SeleccionInvalida.html',IDA = IDA)
+        return render_template('Error/SeleccionInvalida.html',ID = IDA)
     else:
         ID = IDproyecto(proyecto)
         estudiantes = obtenerMatricula(ID)
@@ -426,7 +432,7 @@ def guardarCalificacionSer():
     else:
         return render_template('Error/Error.html')
         
-def guardarCalificacion(matricula,parcial):
+def guardarCalificacion(puntualidad, responsabilidad, atencion, etica, capacidad, liderazgo, calificacion,matricula, parcial):
     try:
         query = text("INSERT INTO Ser (Puntualidad,Responsabilidad,Atencion,Etica,Capacidad,Liderazgo,Calificacion,Matricula,Parcial) VALUES (:puntualidad, :responsabilidad, :atencion, :etica, :capacidad, :liderazgo, :calificacion, :matricula, :parcial)")
         with engine.begin() as conn:
@@ -439,6 +445,7 @@ def guardarCalificacion(matricula,parcial):
 
 @app.route('/calificarSer',methods=['POST'])
 def calificarSer():
+    IDA = request.form['ID']
     proyecto = request.form['proyecto']
     parcial = request.form['parcial']
     if proyecto =="" or proyecto =="0":
@@ -446,7 +453,7 @@ def calificarSer():
         return render_template('Error/SeleccionInvalida.html',ID = ID)
     ID = IDproyecto(proyecto)
     resultado = obtenerMatricula(ID)
-    return render_template('perfiles/AsesorAcademico/calificar_ser.html',resultado = resultado,parcial = parcial,proyecto=proyecto,ID = ID)
+    return render_template('perfiles/AsesorAcademico/calificar_ser.html',resultado = resultado,parcial = parcial,proyecto=proyecto,ID = ID,IDA = IDA)
 
 def validarSer(matricula):
     try:
@@ -739,7 +746,7 @@ def guardarCartas(archivo,parcial,nombre,matricula):
     return ruta_guardado
 
 def guardarProyectos(archivo,parcial,nombre,matricula):
-    base_folder = os.path.join('Documentos',matricula,parcial)
+    base_folder = os.path.join('static/Documentos',matricula,parcial)
     UPLOAD_FOLDER = os.path.join(base_folder,'Proyecto')
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
@@ -959,7 +966,7 @@ def calificarProyectoU1():
 @app.route('/calificarProyectoU2',methods=['POST'])
 def calificarProyectoU2():
     Matricula = request.form['matriculau2']
-    IDAsesor = request.form['ID']
+    IDAsesor = request.form['IDAsesor']
     proyecto = request.form['proyecto']
     validado = validarCalificadoU2(proyecto)
     Marco = int(request.form['Marco'])
@@ -981,7 +988,7 @@ def calificarProyectoU2():
 
 @app.route('/calificarProyectoU3',methods=['POST'])
 def calificarProyectoU3():
-    IDAsesor = request.form['ID']
+    IDAsesor = request.form['IDAsesor']
     Matricula = request.form['matriculau3']
     proyecto = request.form['proyecto']
     validado = validarCalificadoU3(proyecto)
@@ -1120,18 +1127,17 @@ def guardarProyectoAsesores(ID,asesorE,asesorA):
 
 def inicioSesionAsesorA(correo,password):
     try:
-        query = text("SELECT Nombre1,Nombre2,ApellidoP,ApellidoM,Telefono,Correo,Id FROM asesoracademico WHERE password = :password AND Correo =:correo")
+        query = text("SELECT Correo,Id FROM asesoracademico WHERE password = :password AND Correo =:correo")
         with engine.connect() as conn:
             ok= conn.execute(query, {'password': password,'correo':correo}).fetchone()
             if ok:
-                Nombre1 = ok[0]
-                Nombre2 = ok[1]
-                ApellidoP = ok[2]
-                ApellidoM = ok[3]
-                Telefono = ok[4]
-                Correo = ok[5]
-                ID = ok[6]
-                return render_template('/perfiles/AsesorAcademico/asesor.html',Nombre1=Nombre1,Nombre2=Nombre2,ApellidoM=ApellidoM,ApellidoP=ApellidoP,Telefono=Telefono,Correo=Correo,ID = ID)
+                
+                Correo = ok[0]
+                ID = ok[1]
+                
+                resultado = cargarProyectosAsesor(ID)
+                return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID)
+                
             else:
                 return render_template('Error/AsesorNoEncontrado.html')
     except Exception as e:
@@ -1223,7 +1229,18 @@ def obtenerRutaPDF(proyecto,parcial):
     except Exception as e:
         return f'error--------aqui-------->{e}'
     
-
+def obtenerRutaPDF2(proyecto, parcial):
+    try:
+        query = text("SELECT Proyecto FROM documentos WHERE NombreProyecto = :NombreProyecto AND Parcial = :parcial")
+        with engine.connect() as conn:
+            ok = conn.execute(query, {'NombreProyecto': proyecto, 'parcial': parcial})
+            ruta = ok.fetchone()
+            if ruta:
+                return ruta[0]
+            else:
+                return None  # No se encontró la ruta
+    except Exception as e:
+        return f'Error al obtener la ruta del PDF: {e}'
 def verificarAsignacionProyecto(Matricula):
     try:
         query = text("SELECT matricula FROM Equipos WHERE Matricula = :Matricula")
@@ -1570,7 +1587,7 @@ def redireccion():
 
 @app.route('/estancia1',methods=['POST'])
 def estancia1():
-    modalidad = "" #cambiar cuando sepa que es
+    modalidad = request.form['modalidad']
     giro = request.form['Giro']
     NombreAsesor = request.form['NombreAsesor']
     carrera = request.form['carrera']
@@ -1588,11 +1605,11 @@ def estancia1():
     mercado = request.form['mercado_venta']
     funcionEstancia = request.form.getlist('funcion-estancia1[]')
    
+    if len(funcionEstancia) !=3:
+        return "Error: deben de ser 3 funciones"
     funcionEstancia1 = funcionEstancia[0]
     funcionEstancia2 = funcionEstancia[1]
     funcionEstancia3 = funcionEstancia[2]
-    if len(funcionEstancia) !=3:
-        return "Error: deben de ser 3 funciones"
     resolvio = request.form['resolvio_necesidad']
     interes = request.form['interes_participar']
     investigacion = request.form['investigacion_desarrollo']
@@ -1611,7 +1628,7 @@ def estancia1():
     
 @app.route('/estancia2',methods=['POST'])
 def estancia2():
-    modalidad = "" #cambiar cuando sepa que es
+    modalidad = request.form['modalidad']
     giro = request.form['Giro']
     NombreAsesor = request.form['NombreAsesor']
     carrera = request.form['carrera']
@@ -1653,7 +1670,7 @@ def estancia2():
 
 @app.route('/estadia',methods=['POST'])
 def estadia():
-    modalidad = "" #cambiar cuando sepa que es
+    modalidad = request.form['modalidad']
     giro = request.form['Giro']
     NombreAsesor = request.form['NombreAsesor']
     carrera = request.form['carrera']
@@ -1728,3 +1745,57 @@ def guardarFOEST07(Periodo, TituloProyecto, NoEquipo, Procedimiento, NombreEmpre
     except Exception as e:
         return f"Error al insertar en foest07: {e}"
          
+@app.route('/verproyectos',methods=['POST'])
+def verproyectos():
+    proyectos = cargarproyectoscoordinacion()
+    return render_template('perfiles/Coordinacion/proyectos.html', proyectos = proyectos)
+
+def cargarproyectoscoordinacion():
+    query = text("SELECT NombreProyecto FROM documentos WHERE Parcial = 'Parcial 3'")
+    with engine.connect() as conn:
+        ok = conn.execute(query)
+        rows = ok.fetchall()
+        if rows:
+            opciones = ''.join([f'''<form action="/abrirproyectoruta" method="post">
+            Nombre <br>
+            <label for="">{row[0]}</label><br>
+            <input type="hidden" name="nombre" value="{row[0]}">
+            <button>Abrir</button>
+        </form>''' for row in rows])
+            return opciones
+        else:
+            opciones = 'NADA POR MOSTRAR'
+            return opciones
+        
+@app.route('/abrirproyectoruta',methods=['POST'])
+def abrirproyectoruta():
+    nombre = request.form['nombre']
+    ruta = obtenerRutaPDF2(nombre,'Parcial 3')
+    
+    return render_template('verproyecto.html',ruta = ruta)
+
+
+@app.route('/verproyectos2',methods=['POST'])
+def verproyectos2():
+    nombre = request.form['busqueda']
+    proyecto = cargarproyectolike(nombre)
+    return render_template('perfiles/Coordinacion/proyectosbusqueda.html', proyectos = proyecto)
+
+def cargarproyectolike(proyecto):
+    query = text("SELECT NombreProyecto FROM documentos WHERE Parcial = 'Parcial 3' AND NombreProyecto LIKE :proyecto")
+    with engine.connect() as conn:
+        ok = conn.execute(query, {'proyecto': f'%{proyecto}%'})
+        rows = ok.fetchall()
+        if rows:
+            opciones = ''.join([f'''
+            <div class="proyecto">
+                <form action="/abrirproyectoruta" method="post">
+                    <label for="">{row[0]}</label><br>
+                    <input type="hidden" name="nombre" value="{row[0]}">
+                    <button class="button-elegante">Abrir</button>
+                </form>
+            </div>
+            ''' for row in rows])
+            return opciones
+        else:
+            return '<div class="proyecto">NADA POR MOSTRAR</div>'

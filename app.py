@@ -34,7 +34,7 @@ def loginAsesorAcademico3():
 def loginCoordinacion2():
     return render_template('login/loginCoordinacion2.html')
 
-@app.route('/loginCoordinacionIni')
+@app.route('/loginCoordinacionIni',methods=['POST'])
 def loginCoordinacion():
     return render_template('perfiles/Coordinacion/perfil_coordinacion.html')
 
@@ -966,7 +966,7 @@ def calificarProyectoU1():
 @app.route('/calificarProyectoU2',methods=['POST'])
 def calificarProyectoU2():
     Matricula = request.form['matriculau2']
-    IDAsesor = request.form['ID']
+    IDAsesor = request.form['IDAsesor']
     proyecto = request.form['proyecto']
     validado = validarCalificadoU2(proyecto)
     Marco = int(request.form['Marco'])
@@ -1757,7 +1757,7 @@ def cargarproyectoscoordinacion():
         rows = ok.fetchall()
         if rows:
             opciones = ''.join([f'''<form action="/abrirproyectoruta" method="post">
-            Nombre <br>
+            
             <label for="">{row[0]}</label><br>
             <input type="hidden" name="nombre" value="{row[0]}">
             <button>Abrir</button>
@@ -1784,16 +1784,18 @@ def verproyectos2():
 def cargarproyectolike(proyecto):
     query = text("SELECT NombreProyecto FROM documentos WHERE Parcial = 'Parcial 3' AND NombreProyecto LIKE :proyecto")
     with engine.connect() as conn:
-        ok = conn.execute(query,{'proyecto':f'%{proyecto}%'})
+        ok = conn.execute(query, {'proyecto': f'%{proyecto}%'})
         rows = ok.fetchall()
         if rows:
-            opciones = ''.join([f'''<form action="/abrirproyectoruta" method="post">
-            Nombre <br>
-            <center><label for="">{row[0]}</label><br>
-            <input type="hidden" name="nombre" value="{row[0]}">
-            <button class="button-elegante">Abrir</button>
-        </form>''' for row in rows])
+            opciones = ''.join([f'''
+            <div class="proyecto">
+                <form action="/abrirproyectoruta" method="post">
+                    <label for="">{row[0]}</label><br>
+                    <input type="hidden" name="nombre" value="{row[0]}">
+                    <button class="button-elegante">Abrir</button>
+                </form>
+            </div>
+            ''' for row in rows])
             return opciones
         else:
-            opciones = 'NADA POR MOSTRAR'
-            return opciones
+            return '<div class="proyecto">NADA POR MOSTRAR</div>'

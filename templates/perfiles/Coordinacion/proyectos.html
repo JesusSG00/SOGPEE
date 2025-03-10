@@ -5,6 +5,34 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        #form-busqueda{
+            box-shadow: none !important;
+            height: 35px;
+    }
+        .custom-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 8px 15px; /* Tamaño más compacto */
+    width: auto; /* Que no ocupe todo el ancho */
+    border-radius: 15px 15px 15px 15px; /* Esquina superior izquierda redondeada */
+    background-color: #007bff; /* Azul bootstrap */
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.custom-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
         #busqueda{
             border-color: none;
             width: 100%;
@@ -101,6 +129,11 @@ button:active {
 }
     </style>
 </head>
+<header>
+    <form action="/loginCoordinacionIni" method="post" id="form-busqueda">
+        <button type="submit" class="custom-btn">← Atrás</button>
+    </form>
+</header>
 <body>
     <h1>Proyectos completos</h1>
     <form action="/verproyectos2" method="post" id="form-busqueda">

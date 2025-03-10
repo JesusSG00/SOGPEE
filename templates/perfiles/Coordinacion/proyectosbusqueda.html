@@ -5,63 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        #busqueda{
+        #form-busqueda{
+            box-shadow: none !important;
+            height: 35px;
+    }
+        .custom-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            padding: 8px 15px; /* Tamaño más compacto */
+            width: auto; /* Que no ocupe todo el ancho */
+            border-radius: 15px 15px 15px 15px; /* Esquina superior izquierda redondeada */
+            background-color: #007bff; /* Azul bootstrap */
+            color: white;
+            border: none;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .custom-btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+        #busqueda {
             border-color: none;
             width: 100%;
             height: 50px;
             border-radius: 5px;
-            padding: 10px;
+            padding: 4px;
         }
-        form{
+        form {
             align-items: center;
             justify-content: center;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-
             height: 200px;
         }
-
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
             background-color: #f4f4f4;
         }
-
         h1 {
             text-align: center;
             margin-bottom: 20px;
         }
-
         .proyectos {
             display: grid;
             grid-template-columns: repeat(4, 1fr); 
             gap: 20px; 
             padding: 10px;
         }
-
         .proyecto {
-            background-color: #e88888;
-            border: 1px solid #8f8585;
             border-radius: 5px;
             padding: 15px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-
         @media (max-width: 800px) {
             .proyectos {
                 grid-template-columns: repeat(3, 1fr); 
             }
         }
-
         @media (max-width: 500px) {
             .proyectos {
                 grid-template-columns: 1fr; 
             }
         }
-
         #form-busqueda {
             display: flex;
             justify-content: center;
@@ -73,39 +89,40 @@
             border: 1px solid #ddd;
             border-radius: 5px;
         }
-
         button {
-    background-color: #4CAF50; /* Color de fondo */
-    border: none; /* Sin borde */
-    color: white; /* Color del texto */
-    padding: 15px 32px; /* Espaciado interno */
-    text-align: center; /* Alinear texto al centro */
-    text-decoration: none; /* Sin subrayado */
-    display: inline-block; /* Para que se comporte como un bloque */
-    font-size: 16px; /* Tamaño de fuente */
-    margin: 4px 2px; /* Margen */
-    cursor: pointer; /* Cambia el cursor al pasar el mouse */
-    border-radius: 8px; /* Bordes redondeados */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
-    transition: background-color 0.3s, transform 0.2s; /* Transiciones suaves */
-}
-
-button:hover {
-    background-color: #45a049; /* Color de fondo al pasar el mouse */
-    transform: translateY(-2px); /* Efecto de elevación */
-}
-
-button:active {
-    transform: translateY(0); /* Regresa a la posición original al hacer clic */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra más pequeña al hacer clic */
-}
+            background-color: #4CAF50; /* Color de fondo */
+            border: none; /* Sin borde */
+            color: white; /* Color del texto */
+            padding: 15px 32px; /* Espaciado interno */
+            text-align: center; /* Alinear texto al centro */
+            text-decoration: none; /* Sin subrayado */
+            display: inline-block; /* Para que se comporte como un bloque */
+            font-size: 16px; /* Tamaño de fuente */
+            margin: 4px 2px; /* Margen */
+            cursor: pointer; /* Cambia el cursor al pasar el mouse */
+            border-radius: 8px; /* Bordes redondeados */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+            transition: background-color 0.3s, transform 0.2s; /* Transiciones suaves */
+        }
+        button:hover {
+            background-color: #45a049; /* Color de fondo al pasar el mouse */
+            transform: translateY(-2px); /* Efecto de elevación */
+        }
+        button:active {
+            transform: translateY(0); /* Regresa a la posición original al hacer clic */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra más pequeña al hacer clic */
+        }
     </style>
 </head>
+<header>
+    <form action="/loginCoordinacionIni" method="post" id="form-busqueda">
+        <button type="submit" class="custom-btn">← Atrás</button>
+    </form>
+</header>
 <body>
     <h1>Proyectos completos</h1>
     <form action="/verproyectos2" method="post" id="form-busqueda">
-    
-    <input type="search" name="busqueda" id="busqueda" placeholder="Nombre del proyecto">
+        <input type="search" name="busqueda" id="busqueda" placeholder="Nombre del proyecto">
     </form>
     <div class="proyectos">
         {{ proyectos | safe }}

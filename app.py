@@ -1757,7 +1757,7 @@ def cargarproyectoscoordinacion():
         rows = ok.fetchall()
         if rows:
             opciones = ''.join([f'''<form action="/abrirproyectoruta" method="post">
-            Nombre <br>
+            
             <label for="">{row[0]}</label><br>
             <input type="hidden" name="nombre" value="{row[0]}">
             <button>Abrir</button>

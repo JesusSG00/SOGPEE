@@ -103,7 +103,7 @@
                         <!-- Añade más opciones aquí siguiendo el mismo patrón -->
                         <label class="option-item other-option">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1[]" value="otras">
+                                <input type="checkbox" name="funcion-estancia1[]" value="Otras funciones">
                             </div>
                             <input type="text" placeholder="Otras funciones...">
                         </label>
@@ -272,7 +272,7 @@
                             </label>
                             <label class="option-item other-option">
                                 <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2[]" value="otras">
+                                    <input type="checkbox" name="funcion-estancia2[]" value="Otras funciones">
                                 </div>
                                 <input type="text" placeholder="Otras funciones...">
                             </label>
@@ -435,7 +435,7 @@
                         </label>
                         <label class="option-item other-option">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia[]" value="otras">
+                                <input type="checkbox" name="funcion-estadia[]" value="Otras funciones">
                             </div>
                             <input type="text" placeholder="Otras funciones...">
                         </label>
@@ -450,6 +450,10 @@
             <div>
                 <label for="modalidad">MODALIDAD O TIPO DE ESTUDIANTE</label>
                 <select name="modalidad" id="modalidad">
+                    <option value="">Seleccionar</option>
+                    <option value="Estudiante en empresa">Estudiante en empresa</option>
+                    <option value="Estudiante en cursos">Estudiante en cursos</option>
+                    <option value="Estudiante en proyecto con PTC">Estudiante en proyecto con PTC</option>
                     <option value="Estudiante impartiendo cursos">Estudiante impartiendo cursos</option>
                 </select>
             </div>
@@ -514,7 +518,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const checkboxes = document.querySelectorAll('input[name="funcion-estancia1"], input[name="funcion-estancia2"], input[name="funcion-estadia"]');
+        const checkboxes = document.querySelectorAll('input[name="funcion-estancia1[]"], input[name="funcion-estancia2[]"], input[name="funcion-estadia[]"]');
 
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener("change", function () {

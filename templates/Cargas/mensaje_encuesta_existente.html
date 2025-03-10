@@ -3,16 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Encuesta ya realizada</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+    <title>Confirmación de Carga</title>
+    <link rel="stylesheet" href="{{
+        url_for('static',
+        filename='css/carga.css')}}">
+        <script>
+            window.onload = function() {
+                setTimeout(function() {
+                    document.getElementById('formulario').submit();
+                }, 1880); 
+            };
+        </script>
 </head>
-<body class="bg-gray-100 p-8">
-    <div class="max-w-md mx-auto bg-white rounded-lg shadow-md p-6">
-        <h1 class="text-xl font-bold text-red-600 mb-4">Encuesta ya completada</h1>
-        <p class="text-gray-700">{{mensaje}}</p>
-        <div class="mt-4">
-            <a href="/iniciarSesionEstudiante" class="text-blue-500 hover:text-blue-700">Volver al inicio</a>
+<body>
+    <div class="container">
+        <div class="card">
+            <h1>Encuesta completada</h1>
+            <div class="icon"><img src="../static/img/verificado.gif" alt="gifcorrect" id="gifc"></div>
+            <p>{{mensaje}}</p>
+            <form method="post" action="/iniciarsesionestudianteEncuesta" id="formulario">
+                <input type="hidden" name="Matricula" value="{{Matricula}}">
+            </form>
         </div>
     </div>
 </body>
 </html>
+

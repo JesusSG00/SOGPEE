@@ -283,7 +283,13 @@ def borrarID():
     opcion = cargarAsesorEmp()
     asesorAcademico = cargarAsesorAcademico()
     return render_template('/Agregar.html',cargar = opcion, asesorAcademic = asesorAcademico) 
-
+@app.route('/iniciarsesionestudianteEncuesta',methods=['POST'])
+def iniciarsesionEncuesta():
+    matricula = request.form['Matricula']
+    proyecto = cargarProyectoAlumno(matricula)
+    asesor = cargarAsesorEmpresarial(proyecto)
+    
+    return render_template('/perfiles/evaluacionEstudiante.html',Matricula=matricula,proyecto = proyecto,asesor=asesor)
 #Funcion para cargar la pagina de cuestionario de satisfaccion
 @app.route('/encuestaSatisfaccion', methods=['POST'])
 def encuestaSatisfaccion():
@@ -299,7 +305,7 @@ def encuestaSatisfaccion():
             if result > 0:
                 # Si ya existe, mostrar mensaje
                 return render_template('Cargas/mensaje_encuesta_existente.html', 
-                                    mensaje="Ya has completado la encuesta anteriormente.")
+                                    mensaje="Ya has completado la encuesta anteriormente.",Matricula = Matricula)
             else:
                 # Si no existe, mostrar el formulario de la encuesta
                 return render_template('Cuestionarios/evaluacion_cuestionario.html',
@@ -1757,7 +1763,7 @@ def cargarproyectoscoordinacion():
         rows = ok.fetchall()
         if rows:
             opciones = ''.join([f'''<form action="/abrirproyectoruta" method="post">
-            Nombre <br>
+            
             <label for="">{row[0]}</label><br>
             <input type="hidden" name="nombre" value="{row[0]}">
             <button>Abrir</button>

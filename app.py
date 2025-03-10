@@ -225,7 +225,13 @@ def guardartodo():
         if ok != True:
             return render_template('Error/Error.html',ID=ok)
         return render_template('Cargas/cargaEquipo.html')
-    
+
+@app.route('/regresarasesoracademico',methods=['POST'])
+def regresarasesor():
+    ID = request.form['IDA']
+    resultado = cargarProyectosAsesor(ID)
+    return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID)
+                
 
 #Funcion para subir los documentos del estudiante
 @app.route('/enviarDocumentos', methods=['POST'])
@@ -394,7 +400,7 @@ def calificarExpediente():
     proyecto = request.form['proyectoC']
     IDA = request.form['ID']
     if proyecto =="" or proyecto =="0":
-        return render_template('Error/SeleccionInvalida.html',IDA = IDA)
+        return render_template('Error/SeleccionInvalida.html',ID = IDA)
     else:
         ID = IDproyecto(proyecto)
         estudiantes = obtenerMatricula(ID)
@@ -426,7 +432,7 @@ def guardarCalificacionSer():
     else:
         return render_template('Error/Error.html')
         
-def guardarCalificacion(matricula,parcial):
+def guardarCalificacion(puntualidad, responsabilidad, atencion, etica, capacidad, liderazgo, calificacion,matricula, parcial):
     try:
         query = text("INSERT INTO Ser (Puntualidad,Responsabilidad,Atencion,Etica,Capacidad,Liderazgo,Calificacion,Matricula,Parcial) VALUES (:puntualidad, :responsabilidad, :atencion, :etica, :capacidad, :liderazgo, :calificacion, :matricula, :parcial)")
         with engine.begin() as conn:
@@ -439,6 +445,7 @@ def guardarCalificacion(matricula,parcial):
 
 @app.route('/calificarSer',methods=['POST'])
 def calificarSer():
+    IDA = request.form['ID']
     proyecto = request.form['proyecto']
     parcial = request.form['parcial']
     if proyecto =="" or proyecto =="0":
@@ -446,7 +453,7 @@ def calificarSer():
         return render_template('Error/SeleccionInvalida.html',ID = ID)
     ID = IDproyecto(proyecto)
     resultado = obtenerMatricula(ID)
-    return render_template('perfiles/AsesorAcademico/calificar_ser.html',resultado = resultado,parcial = parcial,proyecto=proyecto,ID = ID)
+    return render_template('perfiles/AsesorAcademico/calificar_ser.html',resultado = resultado,parcial = parcial,proyecto=proyecto,ID = ID,IDA = IDA)
 
 def validarSer(matricula):
     try:
@@ -1120,18 +1127,17 @@ def guardarProyectoAsesores(ID,asesorE,asesorA):
 
 def inicioSesionAsesorA(correo,password):
     try:
-        query = text("SELECT Nombre1,Nombre2,ApellidoP,ApellidoM,Telefono,Correo,Id FROM asesoracademico WHERE password = :password AND Correo =:correo")
+        query = text("SELECT Correo,Id FROM asesoracademico WHERE password = :password AND Correo =:correo")
         with engine.connect() as conn:
             ok= conn.execute(query, {'password': password,'correo':correo}).fetchone()
             if ok:
-                Nombre1 = ok[0]
-                Nombre2 = ok[1]
-                ApellidoP = ok[2]
-                ApellidoM = ok[3]
-                Telefono = ok[4]
-                Correo = ok[5]
-                ID = ok[6]
-                return render_template('/perfiles/AsesorAcademico/asesor.html',Nombre1=Nombre1,Nombre2=Nombre2,ApellidoM=ApellidoM,ApellidoP=ApellidoP,Telefono=Telefono,Correo=Correo,ID = ID)
+                
+                Correo = ok[0]
+                ID = ok[1]
+                
+                resultado = cargarProyectosAsesor(ID)
+                return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID)
+                
             else:
                 return render_template('Error/AsesorNoEncontrado.html')
     except Exception as e:
@@ -1783,7 +1789,7 @@ def cargarproyectolike(proyecto):
         if rows:
             opciones = ''.join([f'''<form action="/abrirproyectoruta" method="post">
             Nombre <br>
-            <label for="">{row[0]}</label><br>
+            <center><label for="">{row[0]}</label><br>
             <input type="hidden" name="nombre" value="{row[0]}">
             <button class="button-elegante">Abrir</button>
         </form>''' for row in rows])

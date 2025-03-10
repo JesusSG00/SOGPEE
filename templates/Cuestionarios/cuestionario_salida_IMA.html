@@ -200,10 +200,7 @@
             <h1 class="tituloFormulario">Formulario de Estancia II</h1>
         </header>
         
-            <header>
-        <h1>INGENIERÍA EN MECÁNICA AUTOMOTRIZ</h1>
-        <h1>Formulario de Estancia II</h1>
-        </header>
+            
         <div class="question-container">
             <div class="question">
                 <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE
@@ -520,7 +517,7 @@
 
 <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const checkboxes = document.querySelectorAll('input[name="funcion-estancia1"], input[name="funcion-estancia2"], input[name="funcion-estadia"]');
+        const checkboxes = document.querySelectorAll('input[name="funcion-estancia1[]"], input[name="funcion-estancia2[]"], input[name="funcion-estadia[]"]');
 
         checkboxes.forEach(checkbox => {
             checkbox.addEventListener("change", function () {

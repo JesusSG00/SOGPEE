@@ -237,3 +237,11 @@ input:focus, textarea:focus {
     border-radius: 8px;
     
 }
+
+#modalidad {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}

@@ -113,7 +113,7 @@
                             <!-- Opción "Otras funciones" con manejo del campo de texto -->
                             <label class="option-item other-option">
                                 <div class="checkbox-wrapper">
-                                    <input type="checkbox" id="otrasCheckbox" name="funcion-estancia1[]" value="otras">
+                                    <input type="checkbox" id="otrasCheckbox" name="funcion-estancia1[]" value="Otras funciones">
                                     <span>Otras:</span>
                                 </div>
                                 <input type="text" id="otrasInput" name="funcion-estancia1_otros" placeholder="Otras funciones..." disabled>
@@ -286,7 +286,7 @@
                         </label>
                         <label class="option-item other-option">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2[]" value="otras">
+                                <input type="checkbox" name="funcion-estancia2[]" value="Otras funciones">
                             </div>
                             <input type="text" name="funcion-estancia2_otros" placeholder="Otras funciones...">
                         </label>
@@ -464,7 +464,7 @@
                         </label>
                         <label class="option-item other-option">
                             <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia[]" value="otras">
+                                <input type="checkbox" name="funcion-estadia[]" value="Otras funciones">
                             </div>
                             <input type="text" name="funcion-estadia_otros" placeholder="Otras funciones...">
                         </label>
@@ -477,6 +477,10 @@
                 <div>
                     <label for="modalidad">MODALIDAD O TIPO DE ESTUDIANTE</label>
                     <select name="modalidad" id="modalidad">
+                        <option value="">Seleccionar</option>
+                        <option value="Estudiante en empresa">Estudiante en empresa</option>
+                        <option value="Estudiante en cursos">Estudiante en cursos</option>
+                        <option value="Estudiante en proyecto con PTC">Estudiante en proyecto con PTC</option>
                         <option value="Estudiante impartiendo cursos">Estudiante impartiendo cursos</option>
                     </select>
                 </div>

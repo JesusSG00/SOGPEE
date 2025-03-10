@@ -244,4 +244,5 @@ input:focus, textarea:focus {
     border: 1px solid #ddd;
     border-radius: 4px;
     box-sizing: border-box;
+    margin-bottom: 10px;
 }

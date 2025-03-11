@@ -395,8 +395,9 @@ def abrirExpediente_parcials():
 @app.route('/abrirCalificaciones',methods=['POST'])
 def verCalificaciones():
     matricula = request.form['matricula']
+    correo = request.form['correo']
     proyecto = request.form['proyectoR']
-    Calificaciones = Estudiante(matricula,proyecto)
+    Calificaciones = Estudiante(matricula,proyecto,correo)
     return Calificaciones
 
 
@@ -510,7 +511,7 @@ def inicioSesionEstudiante(matricula,correo):
             return f'error {e}'
     
 
-def Estudiante(matricula, proyecto):
+def Estudiante(matricula, proyecto,correo):
     try:
         with engine.connect() as conn:
             # Obtener datos del estudiante
@@ -569,7 +570,7 @@ def Estudiante(matricula, proyecto):
 
         return render_template('/perfiles/calificaciones.html',
                                Nombre1=Nombre1, Nombre2=Nombre2, ApellidoP=ApellidoP, ApellidoM=ApellidoM,
-                               calificacionF=calificacionF, **datos)
+                               calificacionF=calificacionF, **datos,correo = correo,matricula=matricula)
     except Exception as e:
         return f'error {e}'
 
@@ -1073,7 +1074,11 @@ def validarCalificadoU2(proyecto):
 
 
 
-    
+@app.route('/regresarAsesorAcademico',methods=['POST'])
+def regresarAsesorAcademico():
+    ID = request.form['ID']
+    resultado = cargarProyectosAsesor(ID)
+    return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID) 
 
 
 
@@ -1778,7 +1783,7 @@ def abrirproyectoruta():
     nombre = request.form['nombre']
     ruta = obtenerRutaPDF2(nombre,'Parcial 3')
     
-    return render_template('verproyecto.html',ruta = ruta)
+    return render_template('perfiles/coordinacion/verproyecto.html',ruta = ruta)
 
 
 @app.route('/verproyectos2',methods=['POST'])

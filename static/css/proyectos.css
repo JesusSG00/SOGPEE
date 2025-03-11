@@ -2,6 +2,9 @@
     box-shadow: none !important;
     height: 35px;
 }
+#cabecera{
+    height: 150px;
+}
 .custom-btn {
 position: absolute;
 top: 10px;

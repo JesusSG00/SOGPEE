@@ -8,8 +8,14 @@
 </head>
 <body>
     <header class="container-fluid d-flex justify-content-center bg-white p-2">
+        <form action="/Regresar " method="post">
+            <input type="hidden" name="matricula" id="matricula" value="{{ matricula }}">
+            <input type="hidden" name="correo" id="correo" value="{{ correo }}">
+            <button type="submit" class="custom-btn">← Atrás</button>
+        </form>
         <a href="/" class="logo-upt">
 <img src="../static/img/logo_upt.png" alt="Logo UPT" height="125">
+
         </a>
     </header>
 

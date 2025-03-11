@@ -5,32 +5,33 @@
 
 #cabecera{
     height: 150px;
+    width: 100%;
   
 }
 .custom-btn {
-position: absolute;
-top: 10px;
-left: 10px;
-padding: 8px 15px; /* Tamaño más compacto */
-width: auto; /* Que no ocupe todo el ancho */
-border-radius: 15px 15px 15px 15px; /* Esquina superior izquierda redondeada */
-background-color: #007bff; /* Azul bootstrap */
-color: white;
-border: none;
-font-size: 16px;
-font-weight: bold;
-box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-transition: all 0.3s ease-in-out;
-display: flex;
-align-items: center;
-justify-content: center;
-cursor: pointer;
-}
-
-.custom-btn:hover {
-background-color: #0056b3;
-transform: scale(1.05);
-}
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 8px 15px; /* Tamaño más compacto */
+    width: auto; /* Que no ocupe todo el ancho */
+    border-radius: 15px 15px 15px 15px; /* Esquina superior izquierda redondeada */
+    background-color:#800000 ; /* Azul bootstrap */
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .custom-btn:hover {
+    background-color: #900000;
+    transform: scale(1.05);
+  }
 #busqueda{
     border-color: none;
     width: 100%;
@@ -44,6 +45,7 @@ form{
     text-align: center;
     display: flex;
     gap: 10px;
+    width: 100%;
     flex-direction: column;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     height: 200px;
@@ -56,7 +58,7 @@ form{
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 20px;
+
     background-color: #f4f4f4;
 }
 
@@ -83,9 +85,6 @@ h1 {
     text-align: center;
 }
 
-.form-box{
-    
-}
 
 @media (max-width: 800px) {
     .proyectos {

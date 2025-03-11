@@ -85,7 +85,10 @@ h1 {
     text-align: center;
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 2947a3effdbf9bc2e6bf94fe62d2ae8b6f38cd3e
 @media (max-width: 800px) {
     .proyectos {
         grid-template-columns: repeat(3, 1fr); 
@@ -111,27 +114,27 @@ h1 {
 }
 
 button {
-background-color: #4CAF50; /* Color de fondo */
-border: none; /* Sin borde */
-color: white; /* Color del texto */
-padding: 15px 32px; /* Espaciado interno */
-text-align: center; /* Alinear texto al centro */
-text-decoration: none; /* Sin subrayado */
-display: inline-block; /* Para que se comporte como un bloque */
-font-size: 16px; /* Tamaño de fuente */
-margin: 4px 2px; /* Margen */
-cursor: pointer; /* Cambia el cursor al pasar el mouse */
-border-radius: 8px; /* Bordes redondeados */
-box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
-transition: background-color 0.3s, transform 0.2s; /* Transiciones suaves */
+    background-color: #4CAF50; /* Color de fondo */
+    border: none; /* Sin borde */
+    color: white; /* Color del texto */
+    padding: 15px 32px; /* Espaciado interno */
+    text-align: center; /* Alinear texto al centro */
+    text-decoration: none; /* Sin subrayado */
+    display: inline-block; /* Para que se comporte como un bloque */
+    font-size: 16px; /* Tamaño de fuente */
+    margin: 4px 2px; /* Margen */
+    cursor: pointer; /* Cambia el cursor al pasar el mouse */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra */
+    transition: background-color 0.3s, transform 0.2s; /* Transiciones suaves */
 }
 
 button:hover {
-background-color: #45a049; /* Color de fondo al pasar el mouse */
-transform: translateY(-2px); /* Efecto de elevación */
+    background-color: #45a049; /* Color de fondo al pasar el mouse */
+    transform: translateY(-2px); /* Efecto de elevación */
 }
 
 button:active {
-transform: translateY(0); /* Regresa a la posición original al hacer clic */
-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra más pequeña al hacer clic */
+    transform: translateY(0); /* Regresa a la posición original al hacer clic */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra más pequeña al hacer clic */
 }

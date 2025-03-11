@@ -16,7 +16,7 @@
    <!-- Style CSS -->
    <link rel="stylesheet" href="{{
       url_for('static',
-      filename='css/style.css')
+      filename='css/revisar_expediente.css')
    }}">
 
 
@@ -35,92 +35,79 @@
         </div>
     </header>
     
-    
-
-    <div class="container">
-        <div class="form-container">
-          
-           
-
-            <!-- Columna derecha -->
-            <div class="right-column">
-                <div class="form-group">
+    <main>
+        <div class="container">
+            <div class="form-container d-flex justify-content-center align-items-center row">
                 <h1>Revisar expediente</h1>
-                    <label for="titulo">Nombre del proyecto:</label>
-                    <select id="titulo" name="titulo" required>
-                        <option value="0">Seleccionar un proyecto</option>
-                        {{resultado | safe}}
-                    </select>
-                    <div class="contenedorBotones">
-                        
-                    
-                    <body>
-                        <div class="dropdown">
-                            <button class="btn btn-evaluar">Ver archivo</button>
-                            <div class="dropdown-content">
-                                <form action="/verArchivo" method="POST">
-                                    <input type="hidden" name="parcial" value="Parcial 1">
-                                    <input type="hidden" name="proyecto" id="proyecto" value="">
-                                    <input type="hidden" name="ID" id="ID" value="{{ID}}">
-                                    <button type="submit" id="botonParciales">Parcial 1</button>
-                                </form>
-                                <form action="/verArchivo" method="POST">
-                                    <input type="hidden" name="parcial" value="Parcial 2">
-                                    <input type="hidden" name="proyecto" id="proyectoP2" value="">
-                                    <input type="hidden" name="ID" id="ID" value="{{ID}}">
-                                    <button type="submit" id="botonParciales">Parcial 2</button>
-                                </form>
-                                <form action="/verArchivo" method="POST">
-                                    <input type="hidden" name="parcial" value="Parcial 3">
-                                    <input type="hidden" name="proyecto" id="proyectoP3" value="">
-                                    <input type="hidden" name="ID" id="ID" value="{{ID}}">
-                                    <button type="submit" id="botonParciales">Parcial 3</button>
-                                </form>
-                            </div>
-                        </div>
-                        <form action="/calificarExpediente" method="post">
-                            <button class="btn btn-calificar">Calificar expediente</button>
-                            <input type="hidden" name="proyectoC" id="proyectoC" value="">
-                            <input type="hidden" id="nombre" name="nombre" value="{{Nombre1}} {{Nombre2}} {{ApellidoP}} {{ApellidoM}}">
-                            <input type="hidden" id="telefono" name="telefono" value="{{Telefono}}">
-                            <input type="hidden" id="correo" name="correo" value="{{Correo}}">
+                <label for="titulo">Nombre del proyecto:</label>
+                <select id="titulo" name="titulo" required>
+                    <option value="0">Seleccionar un proyecto</option>
+                    {{resultado | safe}}
+                </select>
+                
+                <div class="dropdown">
+                    <button class="btn btn-evaluar">Ver archivo</button>
+                    <div class="dropdown-content">
+                        <form action="/verArchivo" method="POST">
+                            <input type="hidden" name="parcial" value="Parcial 1">
+                            <input type="hidden" name="proyecto" id="proyecto" value="">
                             <input type="hidden" name="ID" id="ID" value="{{ID}}">
-
-
-
+                            <button type="submit" id="botonParciales">Parcial 1</button>
                         </form>
-                        <div class="dropdown">
-                            <button class="btn btn-Ser">Calificar Ser</button>
-                            <div class="dropdown-content">
-                                <form action="/calificarSer" method="POST">
-                                    <input type="hidden" name="parcial" value="Parcial 1">
-                                    <input type="hidden" name="proyecto" id="proyectoSer1" value="">
-                                    <input type="hidden" name="ID" id="ID" value="{{ID}}">
-                                    <button type="submit" id="botonParciales">Parcial 1</button>
-                                </form>
-                                <form action="/calificarSer" method="POST">
-                                    <input type="hidden" name="parcial" value="Parcial 2">
-                                    <input type="hidden" name="proyecto" id="proyectoSer2" value="">
-                                    <input type="hidden" name="ID" id="ID" value="{{ID}}">
-                                    <button type="submit" id="botonParciales">Parcial 2</button>
-                                </form>
-                                <form action="/calificarSer" method="POST">
-                                    <input type="hidden" name="parcial" value="Parcial 3">
-                                    <input type="hidden" name="proyecto" id="proyectoSer3" value="">
-                                    <input type="hidden" name="ID" id="ID" value="{{ID}}">
-                                    <button type="submit" id="botonParciales">Parcial 3</button>
-                                </form>
-                            </div>
-                        </div>
-
-
-                       
+                        <form action="/verArchivo" method="POST">
+                            <input type="hidden" name="parcial" value="Parcial 2">
+                            <input type="hidden" name="proyecto" id="proyectoP2" value="">
+                            <input type="hidden" name="ID" id="ID" value="{{ID}}">
+                            <button type="submit" id="botonParciales">Parcial 2</button>
+                        </form>
+                        <form action="/verArchivo" method="POST">
+                            <input type="hidden" name="parcial" value="Parcial 3">
+                            <input type="hidden" name="proyecto" id="proyectoP3" value="">
+                            <input type="hidden" name="ID" id="ID" value="{{ID}}">
+                            <button type="submit" id="botonParciales">Parcial 3</button>
+                        </form>
                     </div>
                 </div>
+                <form action="/calificarExpediente" method="post">
+                    <button class="btn btn-calificar">Calificar expediente</button>
+                    <input type="hidden" name="proyectoC" id="proyectoC" value="">
+                    <input type="hidden" id="nombre" name="nombre" value="{{Nombre1}} {{Nombre2}} {{ApellidoP}} {{ApellidoM}}">
+                    <input type="hidden" id="telefono" name="telefono" value="{{Telefono}}">
+                    <input type="hidden" id="correo" name="correo" value="{{Correo}}">
+                    <input type="hidden" name="ID" id="ID" value="{{ID}}">
 
+
+
+                </form>
+                <div class="dropdown">
+                    <button class="btn btn-Ser">Calificar Ser</button>
+                    <div class="dropdown-content">
+                        <form action="/calificarSer" method="POST">
+                            <input type="hidden" name="parcial" value="Parcial 1">
+                            <input type="hidden" name="proyecto" id="proyectoSer1" value="">
+                            <input type="hidden" name="ID" id="ID" value="{{ID}}">
+                            <button type="submit" id="botonParciales">Parcial 1</button>
+                        </form>
+                        <form action="/calificarSer" method="POST">
+                            <input type="hidden" name="parcial" value="Parcial 2">
+                            <input type="hidden" name="proyecto" id="proyectoSer2" value="">
+                            <input type="hidden" name="ID" id="ID" value="{{ID}}">
+                            <button type="submit" id="botonParciales">Parcial 2</button>
+                        </form>
+                        <form action="/calificarSer" method="POST">
+                            <input type="hidden" name="parcial" value="Parcial 3">
+                            <input type="hidden" name="proyecto" id="proyectoSer3" value="">
+                            <input type="hidden" name="ID" id="ID" value="{{ID}}">
+                            <button type="submit" id="botonParciales">Parcial 3</button>
+                        </form>
+                    </div>
+                </div>
+                
             </div>
         </div>
-    </div>
+    </main>
+
+    
     <script>
     const selectElement = document.getElementById('titulo');
     const resultadoSpan = document.getElementById('proyecto');

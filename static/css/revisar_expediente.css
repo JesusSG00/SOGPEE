@@ -77,23 +77,31 @@ select {
 
 .btn-calificar {
     background-color: #7bbf46;
+    width: 100%;
 }
 
 .btn-evaluar {
     background-color: #fa5604;
+    width: 100%;
     
 }
+
+.dropdown-content {
+    width: 100%;
+}
+
 .btn-evaluar:hover {
     background-color: #d14702;
     color: white;
 }
 .btn-calificar:hover {
     background-color: #649b3a;
-    color: white;
+    color: white
 }
 
 .btn-Ser {
     background-color: #5271ff;
+    width: 100%;
 }
 .btn-Ser:hover {
     background-color: #4059ca;
@@ -134,3 +142,28 @@ select {
 #botonParciales:hover{
     background: #d4d4d4;
 }
+
+.custom-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 8px 15px; /* Tamaño más compacto */
+    width: auto; /* Que no ocupe todo el ancho */
+    border-radius: 15px 15px 15px 15px; /* Esquina superior izquierda redondeada */
+    background-color: #007bff; /* Azul bootstrap */
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+  .custom-btn:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+  }

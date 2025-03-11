@@ -2,6 +2,10 @@
     box-shadow: none !important;
     height: 35px;
 }
+#cabecera{
+    height: 150px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
 .custom-btn {
     position: absolute;
     top: 10px;

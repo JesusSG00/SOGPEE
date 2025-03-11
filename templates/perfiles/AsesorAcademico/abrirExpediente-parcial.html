@@ -11,9 +11,14 @@
 <body>
     <!-- Header -->
     <header class="container-fluid d-flex justify-content-center bg-white p-2">
+        <form action="/regresarAsesorAcademico" method="post">
+            <input type="hidden" id="ID" name="ID" value="{{ID}}">
+
+            <button type="submit" class="custom-btn">← Atrás</button>
         <a href="/" class="logo-upt">
 <img src="../static/img/logo_upt.png" alt="Logo UPT" height="125">
         </a> 
+        </form>
     </header>
 
     <!-- Main Content -->

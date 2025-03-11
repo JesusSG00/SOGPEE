@@ -8,140 +8,148 @@
 
 </head>
 <body>
-    <form action="/EvEmpresasiguiente" method="post">
-        <div class="container">
-            <div class="header">
-                <h1>FO-EST- 07 CUESTIONARIO DE SALIDA ESTANCIAS / ESTADÍA</h1>
-                <div class="codigo">
-                    <p>Código: FO-EST-07</p>
-                    <p>Edición: 6</p>
-                    <p>Fecha: 31/08/2022 </p>
-                </div>
-    
-            </div>
-            
-            
-            <div class="instructions">
-                <p>Instrucciones: Solicitamos de su tiempo para contestar las siguientes preguntas.</p>
-            </div>
-    
-                <div class="form-group">
-                    <label for="projectTitle">Título del Proyecto del Estudiante</label>
-                    <input type="text" id="projectTitle" name="projectTitle" disabled value="{{Nombreproyecto}}">
-                    <input type="hidden" id="projectTitl" name="projectTitl" value="{{Nombreproyecto}}">
-                </div>
-
-                <div class="form-group">
-                    <label for="periodo">Periodo:</label>
-                    <input type="text" id="" name="" disabled value="{{periodo}}">
-                    <input type="text" id="periodo" name="periodo" hidden value="{{periodo}}">
+    <div>
+        <form action="/EvEmpresasiguiente" method="post">
+            <div class="container">
+                <div class="header">
+                    <h1>FO-EST- 07 CUESTIONARIO DE SALIDA ESTANCIAS / ESTADÍA</h1>
+                    <div class="codigo">
+                        <p>Código: FO-EST-07</p>
+                        <p>Edición: 6</p>
+                        <p>Fecha: 31/08/2022 </p>
+                    </div>
+        
                 </div>
                 
+                
+                <div class="instructions">
+                    <p>Instrucciones: Solicitamos de su tiempo para contestar las siguientes preguntas.</p>
+                </div>
+        
+                    <div class="form-group">
+                        <label for="projectTitle">Título del Proyecto del Estudiante</label>
+                        <input type="text" id="projectTitle" name="projectTitle" disabled value="{{Nombreproyecto}}">
+                        <input type="hidden" id="projectTitl" name="projectTitl" value="{{Nombreproyecto}}">
+                    </div>
     
-                <div class="form-group">
-                    <label>Nombre(s) del/de los estudiante(s):</label>
-                        
-                        {{integrantes | safe}}
-                
-                </div>
-                
-                <div class="form-group">
-                    <label for="companyName">Nombre de la Empresa</label>
-                    <input type="text" id="" name="" disabled value="{{empresa}}">
-                    <input type="text" id="companyName" name="companyName" hidden value="{{empresa}}">
-                </div>
-                
-
-                <div class="form-group">
-                    <label for="advisorDegree">Grado de Estudios del Asesor Empresarial</label>
-                    <select id="advisorDegree" name="advisorDegree" required>
-                        <option value="">Seleccione un grado</option>
-                        <option value="Ing.">Ing.</option>
-                        <option value="Lic.">Lic.</option>
-                        <option value="C.">C.</option>
-                        <option value="Dr.">Dr.</option>
-                        <option value="Mtra.">Mtra.</option>
-                        <option value="Mtro.">Mtro.</option>
-                    </select>
-                </div>
-    
-                <div class="form-group">
-                    <label for="advisorName">Nombre y Apellidos del Asesor Empresarial</label>
-                    {{nombre | safe}}
+                    <div class="form-group">
+                        <label for="periodo">Periodo:</label>
+                        <input type="text" id="" name="" disabled value="{{periodo}}">
+                        <input type="text" id="periodo" name="periodo" hidden value="{{periodo}}">
+                    </div>
                     
-                    <input type="hidden" id="nombreasesor" name="nombreasesor" value="{{nombreoculto}}">
-                    <input type="hidden" id="equipo" name="equipo" value="{{equipo}}">
-                </div>
-
-                <div class="form-group">
-                    <label for="tipo">Tipo de Empresa.</label>
-                    <select id="tipoempresa" name="tipoempresa" required>
-                        <option value="">Selecciona el tipo de empresa</option>
-                        <option value="Privada">Privada</option>
-                        <option value="Pública">Pública</option>
-                        <option value="Social">Social</option>
-                        <option value="UPT">UPT</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="Giro">Giro de la empresa:</label>
-                    <select id="Giro" name="Giro" required>
-                        <option value="">Seleccione el giro</option>
-                        <option value="Manufacturera o industrial">Manufacturera o industrial</option>
-                        <option value="Comercial">Comercial</option>
-                        <option value="Servicios">Servicios</option>
-                    </select>
-                </div>
+        
+                    <div class="form-group">
+                        <label>Nombre(s) del/de los estudiante(s):</label>
+                            
+                            {{integrantes | safe}}
+                    
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="companyName">Nombre de la Empresa</label>
+                        <input type="text" id="" name="" disabled value="{{empresa}}">
+                        <input type="text" id="companyName" name="companyName" hidden value="{{empresa}}">
+                    </div>
+                    
+    
+                    <div class="form-group">
+                        <label for="advisorDegree">Grado de Estudios del Asesor Empresarial</label>
+                        <select id="advisorDegree" name="advisorDegree" required>
+                            <option value="">Seleccione un grado</option>
+                            <option value="Ing.">Ing.</option>
+                            <option value="Lic.">Lic.</option>
+                            <option value="C.">C.</option>
+                            <option value="Dr.">Dr.</option>
+                            <option value="Mtra.">Mtra.</option>
+                            <option value="Mtro.">Mtro.</option>
+                        </select>
+                    </div>
+        
+                    <div class="form-group">
+                        <label for="advisorName">Nombre y Apellidos del Asesor Empresarial</label>
+                        {{nombre | safe}}
+                        
+                        <input type="hidden" id="nombreasesor" name="nombreasesor" value="{{nombreoculto}}">
+                        <input type="hidden" id="equipo" name="equipo" value="{{equipo}}">
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="tipo">Tipo de Empresa.</label>
+                        <select id="tipoempresa" name="tipoempresa" required>
+                            <option value="">Selecciona el tipo de empresa</option>
+                            <option value="Privada">Privada</option>
+                            <option value="Pública">Pública</option>
+                            <option value="Social">Social</option>
+                            <option value="UPT">UPT</option>
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="Giro">Giro de la empresa:</label>
+                        <select id="Giro" name="Giro" required>
+                            <option value="">Seleccione el giro</option>
+                            <option value="Manufacturera o industrial">Manufacturera o industrial</option>
+                            <option value="Comercial">Comercial</option>
+                            <option value="Servicios">Servicios</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="Capital">Tipo de capital:</label>
+                        <select id="capital" name="capital" required>
+                            <option value="">Seleccione el tipo</option>
+                            <option value="Nacional">Nacional</option>
+                            <option value="Extranjero">Extranjero</option>
+                            <option value="Ambos">Ambos</option>
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="aniosOperacion">Años en operación:</label>
+                        <select id="aniosOperacion" name="aniosOperacion" required>
+                            <option value="">Seleccione los años</option>
+                            <option value="1-5">1-5</option>
+                            <option value="6-10">6-10</option>
+                            <option value="11-19">11-19</option>
+                            <option value="20 o MÁS">20 o MÁS</option>
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="Tamaño">Tamaño de la empresa:</label>
+                        <select id="Tamaño" name="Tamaño" required>
+                            <option value="">Seleccione el tamaño de la empresa</option>
+                            <option value="Microempresa">Microempresa (0-10 empleados)</option>
+                            <option value="Pequeña">Pequeña (11-49 empleados)</option>
+                            <option value="Mediana">Mediana (50-250 empleados)</option>
+                            <option value="Grande">Grande (Más de 250 empleados)</option>
+                        </select>
+                    </div>
+    
+                    <div class="form-group">
+                        <label for="Mercado">Mercado de Venta:</label>
+                        <select id="Mercado" name="Mercado" required>
+                            <option value="">Seleccione el tipo</option>
+                            <option value="Local">Local</option>
+                            <option value="Nacional">Nacional</option>
+                            <option value="Internacional">Internacional</option>
+                            <option value="Local-Nacional">Local-Nacional</option>
+                            <option value="Local-Nacional-Internacional">Local-Nacional-Internacional</option>
+                        </select>
+                    </div>
+                    
+                    <button class="buttonSiguiente">Siguiente</button>
                 
-                <div class="form-group">
-                    <label for="Capital">Tipo de capital:</label>
-                    <select id="capital" name="capital" required>
-                        <option value="">Seleccione el tipo</option>
-                        <option value="Nacional">Nacional</option>
-                        <option value="Extranjero">Extranjero</option>
-                        <option value="Ambos">Ambos</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="aniosOperacion">Años en operación:</label>
-                    <select id="aniosOperacion" name="aniosOperacion" required>
-                        <option value="">Seleccione los años</option>
-                        <option value="1-5">1-5</option>
-                        <option value="6-10">6-10</option>
-                        <option value="11-19">11-19</option>
-                        <option value="20 o MÁS">20 o MÁS</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="Tamaño">Tamaño de la empresa:</label>
-                    <select id="Tamaño" name="Tamaño" required>
-                        <option value="">Seleccione el tamaño de la empresa</option>
-                        <option value="Microempresa">Microempresa (0-10 empleados)</option>
-                        <option value="Pequeña">Pequeña (11-49 empleados)</option>
-                        <option value="Mediana">Mediana (50-250 empleados)</option>
-                        <option value="Grande">Grande (Más de 250 empleados)</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label for="Mercado">Mercado de Venta:</label>
-                    <select id="Mercado" name="Mercado" required>
-                        <option value="">Seleccione el tipo</option>
-                        <option value="Local">Local</option>
-                        <option value="Nacional">Nacional</option>
-                        <option value="Internacional">Internacional</option>
-                        <option value="Local-Nacional">Local-Nacional</option>
-                        <option value="Local-Nacional-Internacional">Local-Nacional-Internacional</option>
-                    </select>
-                </div>
-                
-                <button class="buttonSiguiente">Siguiente</button>
-            
+            </div>
+        </form>
+        <div id="regresar">
+            <form action="/asesorEmpresarial" method="get" class="container">
+                <button class="buttonAtras">Regresar</button>
+            </form>
         </div>
-    </form>
+    </div>
+    
 
     <script>
     //     document.addEventListener('DOMContentLoaded', function() {

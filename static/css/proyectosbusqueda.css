@@ -13,7 +13,7 @@
     padding: 8px 15px; /* Tamaño más compacto */
     width: auto; /* Que no ocupe todo el ancho */
     border-radius: 15px 15px 15px 15px; /* Esquina superior izquierda redondeada */
-    background-color: #007bff; /* Azul bootstrap */
+    background-color:#800000 ; /* Azul bootstrap */
     color: white;
     border: none;
     font-size: 16px;
@@ -24,11 +24,12 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
-}
-.custom-btn:hover {
-    background-color: #0056b3;
+  }
+  
+  .custom-btn:hover {
+    background-color: #900000;
     transform: scale(1.05);
-}
+  }
 #busqueda {
     border-color: none;
     width: 100%;
@@ -50,7 +51,7 @@ form {
 body {
     font-family: Arial, sans-serif;
     margin: 0;
-    padding: 20px;
+
     background-color: #f4f4f4;
 }
 h1 {

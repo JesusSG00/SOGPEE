@@ -305,7 +305,7 @@ def encuestaSatisfaccion():
             if result > 0:
                 # Si ya existe, mostrar mensaje
                 return render_template('Cargas/mensaje_encuesta_existente.html', 
-                                    mensaje="Ya has completado la encuesta anteriormente.",Matricula = Matricula)
+                                    mensaje="Ya has completado la encuesta anteriormente.",Matricula = Matricula,Correo= Correo)
             else:
                 # Si no existe, mostrar el formulario de la encuesta
                 return render_template('Cuestionarios/evaluacion_cuestionario.html',

@@ -21,8 +21,9 @@
             <h1>Encuesta completada</h1>
             <div class="icon"><img src="../static/img/verificado.gif" alt="gifcorrect" id="gifc"></div>
             <p>{{mensaje}}</p>
-            <form method="post" action="/iniciarsesionestudianteEncuesta" id="formulario">
-                <input type="hidden" name="Matricula" value="{{Matricula}}">
+            <form method="post" action="/iniciarSesionEstudiante" id="formulario">
+                <input type="hidden" name="correo" value="{{Correo}}">
+                <input type="hidden" name="matricula" value="{{Matricula}}">
             </form>
         </div>
     </div>

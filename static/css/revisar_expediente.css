@@ -5,7 +5,7 @@
     padding: 8px 15px; /* Tamaño más compacto */
     width: auto; /* Que no ocupe todo el ancho */
     border-radius: 15px 15px 15px 15px; /* Esquina superior izquierda redondeada */
-    background-color:#800000 ; /* Azul bootstrap */
+    background-color:#800000 !important;  
     color: white;
     border: none;
     font-size: 16px;
@@ -55,7 +55,7 @@ header {
 .form-container {
     display: grid;
     grid-template-columns: 1fr 1px 1fr;
-    gap: 40px;
+    gap: 20px;
 }
 
 .divider {

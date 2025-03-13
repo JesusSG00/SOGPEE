@@ -435,7 +435,7 @@ def guardarCalificacionSer():
     else:
         return render_template('Cargas/SerCalificado.html',IDA = IDA,parcial = parcial,proyecto=proyecto,ID = ID)
     if guardado == True:
-        return render_template('Cargas/EnvioCalificacion.html',calificacion = calificacion,proyecto = proyecto,parcial= parcial)
+        return render_template('Cargas/EnvioCalificacion.html',calificacion = calificacion,proyecto = proyecto,parcial= parcial,IDA = IDA,ID = ID)
     else:
         return render_template('Error/Error.html')
         
@@ -490,6 +490,7 @@ def regresar():
 def inicioSesionEstudiante(matricula,correo):
     proyecto = cargarProyectoAlumno(matricula)
     asesor = cargarAsesorEmpresarial(proyecto)
+    folio = folioproyecto(proyecto)
     try:
         query = text("SELECT Matricula,Nombre1,Nombre2,ApellidoP,ApellidoM,Telefono,Correo FROM estudiante WHERE matricula = :matricula AND correo =:correo")
         with engine.connect() as conn:
@@ -504,12 +505,25 @@ def inicioSesionEstudiante(matricula,correo):
                 Correo = ok[6]
                 validar = verificarAsignacionProyecto(matricula)
                 
-                return render_template('/perfiles/evaluacionEstudiante.html',Matricula=Matricula,Nombre1=Nombre1,Nombre2=Nombre2,ApellidoM=ApellidoM,ApellidoP=ApellidoP,Telefono=Telefono,Correo=Correo,proyecto = proyecto,asesor=asesor,validar= validar)
+                return render_template('/perfiles/evaluacionEstudiante.html',Matricula=Matricula,Nombre1=Nombre1,Nombre2=Nombre2,ApellidoM=ApellidoM,ApellidoP=ApellidoP,Telefono=Telefono,Correo=Correo,proyecto = proyecto,asesor=asesor,validar= validar,folio = folio)
             else:
                 return render_template('Error/EstudianteNoEncontrado.html')
     except Exception as e:
             return f'error {e}'
     
+
+def folioproyecto(proyecto):
+    try:
+        query = text("SELECT ProyectoID FROM proyecto WHERE Nombre = :proyecto")
+        with engine.connect() as conn:
+            ok= conn.execute(query, {'proyecto': proyecto}).fetchone()
+            if ok:
+                folio = ok[0]
+                return folio
+            else:
+                return "no encontrado"
+    except Exception as e:
+            return f'error {e}'
 
 def Estudiante(matricula, proyecto,correo):
     try:
@@ -1505,6 +1519,14 @@ def obtenerMatriculas(nombreP):
         return carreras if carreras else []
         
 
+
+@app.route('/correccionNo',methods=['POST'])
+def correccionNo():
+    ID = request.form['IDAsesor']
+    resultado = cargarProyectosAsesor(ID)
+    return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID)
+
+    
 
 @app.route('/correccionSi',methods=['POST'])
 def correccion():

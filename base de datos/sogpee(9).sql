@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 21-02-2025 a las 18:12:24
+-- Tiempo de generación: 21-04-2025 a las 23:56:16
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -74,7 +74,8 @@ INSERT INTO `asesoracademico` (`Id`, `Nombre1`, `Nombre2`, `ApellidoP`, `Apellid
 (29, 'Mercedes', 'Elisabeth', 'Morales', 'Torres', '1100112233', 'mercedes.morales@gmail.com', 'mercedes.morales@gmail.com'),
 (30, 'Santiago', 'Carlos', 'Hernández', 'Álvarez', '2200223344', 'santiago.hernandez@gmail.com', 'santiago.hernandez@gmail.com'),
 (31, 'Ed', 'Mundo', 'Viveros', 'German', '5547462155', 'mundo.mundo@gmail.com', 'mundo.mundo@gmail.com'),
-(32, 'Ed', 'Mundo', 'Pererez', 'Perereira', '5547062122', 'cristo.cristo@gmail.com', 'cristo.cristo@gmail.com');
+(32, 'Ed', 'Mundo', 'Pererez', 'Perereira', '5547062122', 'cristo.cristo@gmail.com', 'cristo.cristo@gmail.com'),
+(33, 'Ramon', 'juan', 'Sanchez', 'Martinez', '5599762315', 'ramon12@gmail.com', 'ramon12@gmail.com');
 
 -- --------------------------------------------------------
 
@@ -147,7 +148,8 @@ INSERT INTO `asesorempresarial` (`AsesorID`, `Nombre1`, `Nombre2`, `ApellidoP`, 
 (47, 'María', 'Alejandra', 'Figueroa', 'Hidalgo', 2147483647, 'mafigueroa@codecraft.io', 'CodeCraft'),
 (48, 'Pedro', 'Tomás', 'Alvarado', 'Cárdenas', 2147483647, 'ptalvarado@innovdev.com', 'InnovDev'),
 (49, 'Fernanda', 'Dulce', 'Cruz', 'Jiménez', 2147483647, 'fdcruz@softnext.com', 'SoftNext'),
-(50, 'Ed', 'Mundo', 'Viveros', 'German', 2147483647, 'mundo.mundo@gmail.com', 'AlphaCode');
+(50, 'Ed', 'Mundo', 'Viveros', 'German', 2147483647, 'mundo.mundo@gmail.com', 'AlphaCode'),
+(51, 'juan', 'ramon', 'sanchez', 'perez', 2147483647, 'juan12@gmail.com', 'PixelSoft');
 
 -- --------------------------------------------------------
 
@@ -171,7 +173,8 @@ CREATE TABLE `calificacionproyectop1` (
 --
 
 INSERT INTO `calificacionproyectop1` (`Id`, `Proyecto`, `Antecedentes`, `Planteamiento`, `Justificacion`, `Objetivos`, `ObjetivosEspecificos`, `Calificacion`) VALUES
-(16, 'SOGPEE', 10, 5, 8, 8, 9, 8);
+(16, 'SOGPEE', 10, 5, 8, 8, 9, 8),
+(17, 'Diseño y Optimización de un Sistema de Refrigeración para Motores de Combustión Interna', 8, 5, 5, 5, 5, 5.6);
 
 -- --------------------------------------------------------
 
@@ -194,7 +197,7 @@ CREATE TABLE `calificacionproyectop2` (
 --
 
 INSERT INTO `calificacionproyectop2` (`id`, `Proyecto`, `Marco`, `Metodologia`, `Cronograma`, `Desarrollo`, `Calificacion`) VALUES
-(4, 'SOGPEE', 5, 0, 5, 10, 6.75);
+(5, 'SOGPEE', 10, 10, 10, 10, 10);
 
 -- --------------------------------------------------------
 
@@ -217,7 +220,8 @@ CREATE TABLE `calificacionproyectop3` (
 --
 
 INSERT INTO `calificacionproyectop3` (`id`, `Proyecto`, `Resultados`, `Conclusiones`, `Referencias`, `Anexos`, `Calificacion`) VALUES
-(2, 'SOGPEE', 7, 7, 7, 7, 7);
+(2, 'SOGPEE', 9, 10, 6, 10, 8.75),
+(3, 'Diseño y Optimización de un Sistema de Refrigeración para Motores de Combustión Interna', 7, 8, 8, 10, 8.25);
 
 -- --------------------------------------------------------
 
@@ -262,7 +266,8 @@ INSERT INTO `cartas` (`Id`, `Matricula`, `Cartas`, `Parcial`) VALUES
 (1, 1322134083, 'Documentos\\1322134083\\Parcial1\\Cartas\\cartasJesusMargaritoParcial1.pdf', 'Parcial 1'),
 (2, 1322134083, 'Documentos\\1322134083\\Parcial3\\Cartas\\cartasJesusMargaritoParcial3.pdf', 'Parcial 3'),
 (4, 1322134083, 'Documentos\\1322134083\\Parcial2\\Cartas\\cartasJesusMargaritoParcial2.pdf', 'Parcial 2'),
-(5, 1322134100, 'Documentos\\1322134100\\Parcial1\\Cartas\\cartasMonicaRocioParcial1.pdf', 'Parcial 1');
+(5, 1322134100, 'Documentos\\1322134100\\Parcial1\\Cartas\\cartasMonicaRocioParcial1.pdf', 'Parcial 1'),
+(6, 1322130003, 'Documentos\\1322130003\\Parcial 1\\Cartas\\cartasLuisFernandoParcial_1.pdf', 'Parcial 1');
 
 -- --------------------------------------------------------
 
@@ -306,7 +311,16 @@ CREATE TABLE `documentos` (
 --
 
 INSERT INTO `documentos` (`Id`, `Matricula`, `Proyecto`, `Parcial`, `NombreProyecto`) VALUES
-(17, 1322134083, 'Documentos\\1322134083\\Parcial 1\\Proyecto\\proyetoJesusMargaritoParcial_1.pdf', 'Parcial 1', 'SOGPEE');
+(19, 1322134083, 'static/Documentos\\1322134083\\Parcial 3\\Proyecto\\proyetoJesusMargaritoParcial_3.pdf', 'Parcial 3', 'SOGPEE'),
+(20, 1322134085, 'static/Documentos\\1322134085\\Parcial 3\\Proyecto\\proyetoAnaMariaParcial_3.pdf', 'Parcial 3', 'Iris'),
+(21, 1322134099, 'static/Documentos\\1322134099\\Parcial 3\\Proyecto\\proyetoOscarEduardoParcial_3.pdf', 'Parcial 3', 'Mar'),
+(22, 1322134101, 'static/Documentos\\1322134101\\Parcial 3\\Proyecto\\proyetoRamonHumbertoParcial_3.pdf', 'Parcial 3', 'Gestion'),
+(23, 1322130001, 'static/Documentos\\1322130001\\Parcial 3\\Proyecto\\proyetoJuanCarlosParcial_3.pdf', 'Parcial 3', 'Sistema Integrado de Gestión de Operaciones (SIGO)'),
+(24, 1322130005, 'static/Documentos\\1322130005\\Parcial 3\\Proyecto\\proyetoCarlosParcial_3.pdf', 'Parcial 3', 'Diseño y Optimización de un Sistema de Refrigeración para Motores de Combustión Interna'),
+(25, 1322130019, 'static/Documentos\\1322130019\\Parcial 3\\Proyecto\\proyetoRicardoManuelParcial_3.pdf', 'Parcial 3', 'Desarrollo de un Modelo de Optimización Financiera para la Gestión de Inversiones en Pequeñas Empresas'),
+(26, 1322134093, 'static/Documentos\\1322134093\\Parcial 3\\Proyecto\\proyetoRicardoAlonsoParcial_3.pdf', 'Parcial 3', 'aaa'),
+(27, 1322130003, 'static/Documentos\\1322130003\\Parcial 1\\Proyecto\\proyetoLuisFernandoParcial_1.pdf', 'Parcial 1', 'Sistema Integrado de Gestión de Operaciones (SIGO)'),
+(28, 1322134083, 'static/Documentos\\1322134083\\Parcial 1\\Proyecto\\proyetoJesusMargaritoParcial_1.pdf', 'Parcial 1', 'SOGPEE');
 
 -- --------------------------------------------------------
 
@@ -362,7 +376,8 @@ CREATE TABLE `encuesta08` (
 --
 
 INSERT INTO `encuesta08` (`Id`, `Promedio`, `Veracidad`, `Matricula`) VALUES
-(3, 10.00, 'si', 1322134083);
+(6, 9.00, 'si', 1322134083),
+(7, 10.00, 'si', 1322130010);
 
 -- --------------------------------------------------------
 
@@ -400,7 +415,9 @@ INSERT INTO `equipos` (`Id`, `Matricula`, `NoEquipo`, `Id_Proyecto`, `Procedimie
 (221, 1322130020, 7, 21, 'ESTD'),
 (222, 1322134093, 8, 24, 'ESTNC1'),
 (223, 1322134094, 9, 25, 'ESTNC2'),
-(225, 1322134095, 10, 26, 'ESTD');
+(225, 1322134095, 10, 26, 'ESTD'),
+(226, 1322130025, 11, 27, 'ESTNC2'),
+(227, 1322130010, 12, 28, 'ESTD');
 
 -- --------------------------------------------------------
 
@@ -518,7 +535,7 @@ INSERT INTO `estudiante` (`Matricula`, `Nombre1`, `Nombre2`, `ApellidoP`, `Apell
 
 CREATE TABLE `foest07` (
   `Id_FOEST07` int(11) NOT NULL,
-  `FechaValoracion` date DEFAULT NULL,
+  `FechaValoracion` date DEFAULT current_timestamp(),
   `Periodo` varchar(50) DEFAULT NULL,
   `TituloProyecto` text DEFAULT NULL,
   `NoEquipo` int(11) DEFAULT NULL,
@@ -534,28 +551,38 @@ CREATE TABLE `foest07` (
   `TamanioEmpresa` varchar(50) DEFAULT NULL,
   `MercadoVenta` varchar(100) DEFAULT NULL,
   `Carrera` text DEFAULT NULL,
-  `FuncionesPrioritarias` text DEFAULT NULL
+  `FuncionesPrioritarias` text DEFAULT NULL,
+  `FuncionesPrioritarias2` text NOT NULL,
+  `FuncionesPrioritarias3` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Volcado de datos para la tabla `foest07`
+--
+
+INSERT INTO `foest07` (`Id_FOEST07`, `FechaValoracion`, `Periodo`, `TituloProyecto`, `NoEquipo`, `Procedimiento`, `NombreEmpresa`, `Modalidad`, `GradoEstudiosAsesorEmp`, `NombreAsesorEmp`, `TipoEmpresa`, `GiroEmpresa`, `Capital`, `AniosOperacion`, `TamanioEmpresa`, `MercadoVenta`, `Carrera`, `FuncionesPrioritarias`, `FuncionesPrioritarias2`, `FuncionesPrioritarias3`) VALUES
+(15, '2025-03-09', 'ENERO-ABRIL', 'Sistema Integrado de Gestión de Operaciones (SIGO)', 5, 'ESTNC2', 'CodeCraft', 'Estudiante en empresa', 'Ing.', 'Hugo Emilio Silva Hernández', 'Pública', 'Manufacturera o industrial', 'Nacional', '6-10', 'Microempresa', 'Local-Nacional', 'Ingenieria en Software', 'Proponer procesos de manufactura de componentes mecánicos', 'Establecer procedimientos de fabricación', 'Implementar normas de la industria');
 
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `formato03`
+-- Estructura de tabla para la tabla `periodos`
 --
 
-CREATE TABLE `formato03` (
-  `Id` int(11) NOT NULL,
-  `Matricula` int(11) NOT NULL,
-  `Formato03` text NOT NULL,
-  `Parcial` text NOT NULL
+CREATE TABLE `periodos` (
+  `idPeriodo` varchar(11) NOT NULL,
+  `PeriodoCuatrimestral` varchar(25) NOT NULL,
+  `Estado` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Volcado de datos para la tabla `formato03`
+-- Volcado de datos para la tabla `periodos`
 --
 
-INSERT INTO `formato03` (`Id`, `Matricula`, `Formato03`, `Parcial`) VALUES
-(1, 1322134083, 'Documentos\\1322134083\\Parcial1\\FO03\\proyetoJesusMargaritoParcial1.pdf', 'Parcial1');
+INSERT INTO `periodos` (`idPeriodo`, `PeriodoCuatrimestral`, `Estado`) VALUES
+('Ene-Abr', 'ENERO-ABRIL', 'activo'),
+('May-Ago', 'MAYO-AGOSTO', 'inactivo'),
+('Sep-Dic', 'SEPTIEMBRE-DICIEMBRE', 'inactivo');
 
 -- --------------------------------------------------------
 
@@ -604,7 +631,9 @@ INSERT INTO `proyecto` (`ProyectoID`, `Nombre`, `Funcion`) VALUES
 (21, 'Desarrollo de un Modelo de Optimización Financiera para la Gestión de Inversiones en Pequeñas Empresas', 'Crear un modelo financiero basado en análisis de riesgo y rentabilidad que ayude a las pequeñas empresas a tomar decisiones estratégicas de inversión, maximizando ganancias y minimizando riesgos mediante herramientas como simulaciones de Monte Carlo y análisis de sensibilidad.'),
 (24, 'aaa', 'aaaa'),
 (25, 'qqqqqq', 'qqqqq'),
-(26, 'wwwwww', 'wwww');
+(26, 'wwwwww', 'wwww'),
+(27, 'Submarino', 'funcionamiento'),
+(28, 'GESTOR DE MECANICA', 'MANUALES');
 
 -- --------------------------------------------------------
 
@@ -633,7 +662,9 @@ INSERT INTO `proyectoasesores` (`Id`, `Id_asesorE`, `Id_asesorA`, `Id_proyecto`)
 (27, 15, 19, 21),
 (30, 38, 10, 24),
 (31, 38, 10, 25),
-(32, 38, 10, 26);
+(32, 38, 10, 26),
+(33, 30, 2, 27),
+(34, 47, 5, 28);
 
 -- --------------------------------------------------------
 
@@ -659,9 +690,8 @@ CREATE TABLE `ser` (
 --
 
 INSERT INTO `ser` (`ID`, `Puntualidad`, `Responsabilidad`, `Atencion`, `Etica`, `Capacidad`, `Liderazgo`, `Calificacion`, `Matricula`, `Parcial`) VALUES
-(14, 9, 10, 9, 9, 8, 10, 9.2, 1322134084, 'Parcial 1'),
-(15, 9, 7, 7, 9, 9, 10, 8.5, 1322134084, 'Parcial 2'),
-(16, 10, 9, 7, 8, 8, 9, 8.5, 1322134084, 'Parcial 3');
+(18, 8, 8, 10, 10, 10, 10, 9.3, 1322134083, 'Parcial 3'),
+(19, 8, 8, 9, 10, 5, 8, 8, 1322130006, 'Parcial 2');
 
 -- --------------------------------------------------------
 
@@ -777,11 +807,10 @@ ALTER TABLE `foest07`
   ADD PRIMARY KEY (`Id_FOEST07`);
 
 --
--- Indices de la tabla `formato03`
+-- Indices de la tabla `periodos`
 --
-ALTER TABLE `formato03`
-  ADD PRIMARY KEY (`Id`),
-  ADD KEY `Matricula` (`Matricula`);
+ALTER TABLE `periodos`
+  ADD PRIMARY KEY (`idPeriodo`);
 
 --
 -- Indices de la tabla `procedimientos`
@@ -829,37 +858,37 @@ ALTER TABLE `valoracionesempresario`
 -- AUTO_INCREMENT de la tabla `asesoracademico`
 --
 ALTER TABLE `asesoracademico`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de la tabla `asesorempresarial`
 --
 ALTER TABLE `asesorempresarial`
-  MODIFY `AsesorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=51;
+  MODIFY `AsesorID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT de la tabla `calificacionproyectop1`
 --
 ALTER TABLE `calificacionproyectop1`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `calificacionproyectop2`
 --
 ALTER TABLE `calificacionproyectop2`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `calificacionproyectop3`
 --
 ALTER TABLE `calificacionproyectop3`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `cartas`
 --
 ALTER TABLE `cartas`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `coordinacion`
@@ -871,49 +900,43 @@ ALTER TABLE `coordinacion`
 -- AUTO_INCREMENT de la tabla `documentos`
 --
 ALTER TABLE `documentos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `encuesta08`
 --
 ALTER TABLE `encuesta08`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `equipos`
 --
 ALTER TABLE `equipos`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=226;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=228;
 
 --
 -- AUTO_INCREMENT de la tabla `foest07`
 --
 ALTER TABLE `foest07`
-  MODIFY `Id_FOEST07` int(11) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `formato03`
---
-ALTER TABLE `formato03`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `Id_FOEST07` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `proyecto`
 --
 ALTER TABLE `proyecto`
-  MODIFY `ProyectoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `ProyectoID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT de la tabla `proyectoasesores`
 --
 ALTER TABLE `proyectoasesores`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT de la tabla `ser`
 --
 ALTER TABLE `ser`
-  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `ID` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 
 --
 -- AUTO_INCREMENT de la tabla `valoracionesempresario`
@@ -962,12 +985,6 @@ ALTER TABLE `equipos`
 --
 ALTER TABLE `estudiante`
   ADD CONSTRAINT `estudiante_ibfk_1` FOREIGN KEY (`Carrera`) REFERENCES `carreras` (`IdCarrera`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `formato03`
---
-ALTER TABLE `formato03`
-  ADD CONSTRAINT `formato03_ibfk_1` FOREIGN KEY (`Matricula`) REFERENCES `estudiante` (`Matricula`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `proyectoasesores`

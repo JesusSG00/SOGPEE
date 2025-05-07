@@ -176,19 +176,30 @@
                     <input type="text" id="porque_contratar" name="porque_contratar">
                 </div>
         
-                <!-- Pregunta 5 -->
-                <div>
-                    <label for="aprobacion_edicion">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?</label><br>
-                    <input type="radio" name="aprobacion_edicion" value="Si"> Si
-                    <br>
-                    <input type="radio" name="aprobacion_edicion" value="No"> No
+                
+                <div class="mt-6 p-4 bg-gray-100 rounded-lg">
+                    <p class="mb-3">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?<span class="required">*</span></p>
+                    <div class="flex space-x-6">
+                        <label class="radio-label">
+                            <input type="radio" name="Aprueba" value="Si" onclick="toggleComentarios(false)"> Sí
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="Aprueba" value="No" onclick="toggleComentarios(true)"> No
+                        </label>
+                    </div>
+                
+                    <div id="comentariosContainer" class="hidden">
+                        <p class="mt-4">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</p>
+                        <textarea name="clausula_especial" rows="4" class="w-full p-2 border rounded-lg"></textarea>
+                    </div>
                 </div>
-        
-                <!-- Pregunta 6 -->
-                <div>
-                    <label for="clausula_especial">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
-                    <textarea id="clausula_especial" name="clausula_especial" cols="30" rows="10"></textarea>
-                </div>
+                
+                <script>
+                    function toggleComentarios(show) {
+                        const container = document.getElementById('comentariosContainer');
+                        container.classList.toggle('hidden', !show);
+                    }
+                </script>
     
                 <!-- Botón de envío -->
                 <button type="submit" class="buttonSiguiente">Enviar</button>
@@ -341,20 +352,30 @@
                 <label for="porque_contratar">¿POR QUÉ?</label><br>
                 <input type="text" id="porque_contratar" name="porque_contratar">
             </div>
-    
-            <!-- Pregunta 5 -->
-            <div>
-                <label for="aprobacion_edicion">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?</label><br>
-                <input type="radio" name="aprobacion_edicion" value="Si"> Si
-                <br>
-                <input type="radio" name="aprobacion_edicion" value="No"> No
+     
+            <div class="mt-6 p-4 bg-gray-100 rounded-lg">
+                <p class="mb-3">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?<span class="required">*</span></p>
+                <div class="flex space-x-6">
+                    <label class="radio-label">
+                        <input type="radio" name="Aprueba" value="Si" onclick="toggleComentarios(false)"> Sí
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="Aprueba" value="No" onclick="toggleComentarios(true)"> No
+                    </label>
+                </div>
+            
+                <div id="comentariosContainer" class="hidden">
+                    <p class="mt-4">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</p>
+                    <textarea name="clausula_especial" rows="4" class="w-full p-2 border rounded-lg"></textarea>
+                </div>
             </div>
-    
-            <!-- Pregunta 6 -->
-            <div>
-                <label for="clausula_especial">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
-                <textarea id="clausula_especial" name="clausula_especial" cols="30" rows="10"></textarea>
-            </div>
+            
+            <script>
+                function toggleComentarios(show) {
+                    const container = document.getElementById('comentariosContainer');
+                    container.classList.toggle('hidden', !show);
+                }
+            </script>
 
             <!-- Botón de envío -->
             <button type="submit" class="buttonSiguiente">Enviar</button>
@@ -519,19 +540,31 @@
                     <input type="text" id="porque_contratar" name="porque_contratar">
                 </div>
         
-                <!-- Pregunta 5 -->
-                <div>
-                    <label for="aprobacion_edicion">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?</label><br>
-                    <input type="radio" name="aprobacion_edicion" value="Si"> Si
-                    <br>
-                    <input type="radio" name="aprobacion_edicion" value="No"> No
+
+                
+                <div class="mt-6 p-4 bg-gray-100 rounded-lg">
+                    <p class="mb-3">¿APRUEBA LA EDICIÓN ELECTRÓNICA Y/O IMPRESA DE LA VERSIÓN FINAL DEL PROYECTO?<span class="required">*</span></p>
+                    <div class="flex space-x-6">
+                        <label class="radio-label">
+                            <input type="radio" name="Aprueba" value="Si" onclick="toggleComentarios(false)"> Sí
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="Aprueba" value="No" onclick="toggleComentarios(true)"> No
+                        </label>
+                    </div>
+                
+                    <div id="comentariosContainer" class="hidden">
+                        <p class="mt-4">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</p>
+                        <textarea name="clausula_especial" rows="4" class="w-full p-2 border rounded-lg"></textarea>
+                    </div>
                 </div>
-        
-                <!-- Pregunta 6 -->
-                <div>
-                    <label for="clausula_especial">CLÁUSULA ESPECIAL DE LAS CONDICIONES DE EDICIÓN POR PARTE DEL ASESOR EMPRESARIAL (EN CASO DE EXISTIR)</label><br>
-                    <textarea id="clausula_especial" name="clausula_especial" cols="30" rows="10"></textarea>
-                </div>
+                
+                <script>
+                    function toggleComentarios(show) {
+                        const container = document.getElementById('comentariosContainer');
+                        container.classList.toggle('hidden', !show);
+                    }
+                </script>
     
                 <!-- Botón de envío -->
                 <button type="submit" class="buttonSiguiente">Enviar</button>

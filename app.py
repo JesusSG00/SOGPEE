@@ -298,7 +298,7 @@ def encuestaSatisfaccion():
     
     # Verificar si ya existe una encuesta
     try:
-        query = text("SELECT COUNT(*) FROM encuesta08 WHERE Matricula = :Matricula")
+        query = text("SELECT COUNT(*) FROM foest08 WHERE Matricula = :Matricula")
         with engine.connect() as conn:
             result = conn.execute(query, {'Matricula': Matricula}).scalar()
             
@@ -336,9 +336,13 @@ def enviarEvaluacionEstudiante():
     question18 = int(request.form['question18'])
     question19 = int(request.form['question19'])
     veracidad = request.form['veracidad']  
+    comentario = request.form.get('comentarios')
+    if comentario == "":
+        comentario = "Sin comentarios"
+  
     prom = promedio(question11,question12,question13,question14,question15,
                    question16,question17,question18,question19)
-    guardarForm08(prom,veracidad,matricula)
+    guardarForm08C(question11,question12,question13,question14,question15,question16,question17,question18,question19,prom,veracidad,comentario,matricula)
     return render_template('Cargas/EnvioEvaluacionEstudiante.html',
                          matricula=matricula, correo=correo)
 
@@ -1111,7 +1115,7 @@ def validarCalificadoU3(proyecto):
  
 def verificar_encuesta_existente(matricula):
     try:
-        query = text("SELECT COUNT(*) FROM encuesta08 WHERE Matricula = :Matricula")
+        query = text("SELECT COUNT(*) FROM foest08 WHERE Matricula = :Matricula")
         with engine.connect() as conn:
             result = conn.execute(query, {'Matricula': matricula}).scalar()
             return result > 0
@@ -1130,11 +1134,22 @@ def encuestaSatisfaccion():
     return render_template('Cuestionarios/evaluacion_cuestionario.html',
                          Matricula=Matricula, correo=Correo)
 
-def guardarForm08(promedio,veracidad,matricula):
+def guardarForm08(question11,question12,question13,question14,question15,question16,question17,question18,question19,prom,veracidad,matricula):
     try:
-        query = text("INSERT INTO encuesta08 (Promedio, Veracidad, Matricula) VALUES (:Promedio,:Veracidad,:Matricula)")
+        query = text("INSERT INTO foest08 (Pregunta01,Pregunta02,Pregunta03,Pregunta04,Pregunta05,Pregunta06,Pregunta07,Pregunta08,Pregunta09, Promedio, Veracidad, Matricula) VALUES (:Pregunta01, :Pregunta02, :Pregunta03,:Pregunta04,:Pregunta05,:Pregunta06,:Pregunta07,:Pregunta08,:Pregunta09, :Promedio,:Veracidad,:Matricula)")
         with engine.connect() as conn:
-            conn.execute(query,{'Promedio':promedio,'Veracidad':veracidad,'Matricula':matricula})
+            conn.execute(query,{'Pregunta01':question11,'Pregunta02':question12,'Pregunta03':question13,'Pregunta04':question14,'Pregunta05':question15,'Pregunta06':question16,'Pregunta07':question17,'Pregunta08':question18,'Pregunta09':question19,'Promedio':prom,'Veracidad':veracidad,'Matricula':matricula})
+            conn.commit()
+            return True
+    except Exception as e:
+        return f'error---------------->{e}'
+
+
+def guardarForm08C(question11,question12,question13,question14,question15,question16,question17,question18,question19,prom,veracidad,Comentarios,matricula):
+    try:
+        query = text("INSERT INTO foest08 (Pregunta01,Pregunta02,Pregunta03,Pregunta04,Pregunta05,Pregunta06,Pregunta07,Pregunta08,Pregunta09, Promedio, Veracidad,Comentarios, Matricula) VALUES (:Pregunta01, :Pregunta02, :Pregunta03,:Pregunta04,:Pregunta05,:Pregunta06,:Pregunta07,:Pregunta08,:Pregunta09, :Promedio,:Veracidad,:Comentarios,:Matricula)")
+        with engine.connect() as conn:
+            conn.execute(query,{'Pregunta01':question11,'Pregunta02':question12,'Pregunta03':question13,'Pregunta04':question14,'Pregunta05':question15,'Pregunta06':question16,'Pregunta07':question17,'Pregunta08':question18,'Pregunta09':question19,'Promedio':prom,'Veracidad':veracidad,'Comentarios':Comentarios,'Matricula':matricula})
             conn.commit()
             return True
     except Exception as e:

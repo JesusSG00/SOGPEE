@@ -95,9 +95,14 @@ def loginEstudiante():
     return resultado
 
 #Dirigir pagina para buscar expediente Asesor Empresarial
-@app.route('/asesorEmpresarial')
+@app.route('/foest07')
 def asesorEmpresarial():
     return render_template('login/asesorEmpresarial3.html')
+
+#Dirigir pagina para buscar expediente Asesor Empresarial pero en el foest 02
+@app.route('/foest02')
+def asesorEmpresarial1():
+    return render_template('login/asesorEmpresarialfoest02.html')
 
 @app.route('/asesorEmpresarial2',methods=['POST'])
 def asesorEmpresarial2():
@@ -128,13 +133,42 @@ def buscarExpedienteAsesorEmpresarial():
     except Exception as e:
         return render_template('Cargas/ProyectoNEncontrado.html')
     
+#Función para buscar expediente Asesor Empresarial
+@app.route('/buscarExpedienteAsesorEmpresarial1', methods=['POST'])
+def buscarExpedienteAsesorEmpresarial1():
+    ProyectoID= request.form['ProyectoID']
+    equipo = int(cargarEquipo(ProyectoID))
+    integrantes = listaEstudiantes(ProyectoID)
+    periodo = periodoCuatrimestral()
+    carrera = cargarCarrera(ProyectoID)
+    etapa = cargarEtapa(ProyectoID)
+   
+    Nombreproyecto = proyectoAsesorEmpr(ProyectoID)
+    empresa=cargarEmpresaEquipo(ProyectoID)
+    nombre=NombreAsesor(ProyectoID)
+    nombreoculto = NombreAsesorOculto(ProyectoID)
+
+    try:
+        query = text("SELECT * FROM proyecto WHERE ProyectoID = :ProyectoID")
+        with engine.connect() as conn:
+            proyecto = conn.execute(query, {'ProyectoID': ProyectoID}).fetchone()
+            if proyecto:
+                return render_template('Cuestionarios/cuestionario_foest02.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes,periodo=periodo,carrera=carrera,equipo=equipo,nombreoculto=nombreoculto)
+            else:
+                return render_template('Cargas/ProyectoNEncontrado.html')
+            
+    except Exception as e:
+        return render_template('Cargas/ProyectoNEncontrado.html')
 
 #Evaluacion empresa
 @app.route('/evaluacionEmpresa')
 def evaluacionEmpresa():
     return render_template('evaluacion_empresa.html')
 
-
+#Evaluacion empresa 02
+@app.route('/cuestionario_foest02')
+def cuestionario_foest02():
+    return render_template('Cuestionarios/cuestionario_foest02.html')
 
 
 
@@ -1440,6 +1474,20 @@ def periodoCuatrimestral():
             return ok[1]
         else:
             return 'No hay periodo activo'
+
+def cargarCarrera(ProyectoID):
+    query = text("SELECT e.Carrera FROM estudiante e JOIN equipos eq ON e.Matricula = eq.Matricula WHERE eq.Id_Proyecto = :id")
+    with engine.connect() as conn:
+        ok = conn.execute(query, {"id": ProyectoID})
+        ok = ok.fetchone()
+        if ok:
+            return ok[0]
+        else:
+            return 'El estudiante no cuenta con una carrera asignada'
+
+def cargarEtapa(ProyectoID):
+    query = text("")
+    
 
 @app.route('/asignarContraseñas',methods=['POST'])
 def asignarContraseñaAcademico():

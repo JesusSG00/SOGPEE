@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOGPEE</title>
+    <link rel="stylesheet" href="{{
+        url_for('static',
+        filename='css/login3.css')
+     }}">
+</head>
+<body>
+    <header>
+        <a href="/" class="logo-upt">
+<img src="../static/img/logo_upt.png" alt="Logo UPT" height="125">
+        </a>
+    </header>
+    <main>
+        <div class="login-container">
+            <div class="login-card">
+                <h2 class="text-center mb-4">BUSCAR EXPEDIENTE</h2><br>
+        
+                <form action="/buscarExpedienteAsesorEmpresarial1" method="POST">
+                    <div class="form-group mb-3">
+                        <label for="ProyectoID">Número de expediente</label>
+                        <input type="number" class="form-control" id="ProyectoID" name="ProyectoID" placeholder="Ingrese número de expediente" min="1" required>
+                    </div>
+                
+                    <div class="text-center mb-3">
+                        <button type="submit" id="btnlogin" class="btn btn-block">Buscar</button>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 SOGPEE. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

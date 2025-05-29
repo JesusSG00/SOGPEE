@@ -132,3 +132,37 @@ li {
     list-style-type: none;
     margin-top: 1vh;
 }
+
+.criteria-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-family: Arial, sans-serif;
+}
+
+.criteria-table th, .criteria-table td {
+  border: 1px solid #ddd;
+  padding: 12px;
+  text-align: center;
+}
+
+.criteria-table th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.criteria-table td:first-child {
+  text-align: left;
+  width: 45%;
+}
+
+.criteria-table .circle {
+  font-size: 18px;
+  color: #666;
+}
+
+.footer-note {
+  color: #666;
+  font-style: italic;
+  margin-top: 10px;
+}

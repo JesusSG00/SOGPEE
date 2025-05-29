@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>FO-EST-02</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/evaluacion_empresa.css') }}">
+    </head>
+
+    <body>
+        
+        <main class="container">
+            
+            <form action="">
+                <div class="header text-center mb-4">
+                        <h1>FO-EST- 02 EVALUACIÓN POR LA EMPRESA</h1>
+                        <div class="codigo">
+                            <p>Código: FO-EST-02</p>
+                            <p>Edición: 6</p>
+                            <p>Fecha: 31/08/2022 </p>
+                            <p>La evaluación por la empresa aporta el 40% a la calificación del 3er parcial de la estancia/estadía.</p>
+                        </div>
+                    </div>
+                <div class="instructions">
+                    <p>Instrucciones: Elija la respuesta que describa con mayor veracidad el desenvolvimiento del estudiante durante el desarrollo y permanencia dentro de  su empresa, de acuerdo a los criterios que se muestran a continuación.           (evaluación por estudiante).</p>
+                </div>
+                <div class="form-group">
+                    <label for="advisorName">Estudiante:</label>
+                    <select name="advisorName" id="">
+                        <option value="">Seleccione un estudiante</option>
+                        {% for estudiante in estudiantes %}
+                            <option value="{{ estudiante }}">{{ estudiante }}</option>
+                        {% endfor %}
+                    </select>
+                    
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label for="">ACTITUD DEL ESTUDIANTE:</label>
+                        <p>CRITERIOS DE DESEMPEÑO: Usar una escala del 6 al 10, donde 6=NO COMPETENTE, 7=BÁSICO, 8=BÁSICO AVANZADO, 9=INDEPENDIENTE Y 10=COMPETENTE.</p>
+                    </div>
+                    <table class="criteria-table">
+                    <thead>
+                        <tr>
+                        <th></th>
+                        <th>10</th>
+                        <th>9</th>
+                        <th>8</th>
+                        <th>7</th>
+                        <th>6</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td>¿Puntualidad y Asistencia?</td>
+                        <td><label class="radio-label"><input type="radio" name="question1" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question1" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question1" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question1" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question1" value="6"></label></td>
+                        </tr>
+                        <tr>
+                        <td>¿Responsabilidad en cumplimiento de sus actividades establecidas?</td>
+                        <td><label class="radio-label"><input type="radio" name="question2" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question2" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question2" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question2" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question2" value="6"></label></td>
+                        </tr>
+                        <tr>
+                        <td>¿Muestra ética y confiabilidad en el manejo de la información?</td>
+                        <td><label class="radio-label"><input type="radio" name="question3" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question3" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question3" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question3" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question3" value="6"></label></td>
+                        </tr>
+                        <tr>
+                        <td>¿Evidencia capacidad para la toma de decisiones en la resolución de  problemas?</td>
+                        <td><label class="radio-label"><input type="radio" name="question4" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question4" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question4" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question4" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question4" value="6"></label></td>
+                        </tr>
+                        <tr>
+                        <td>¿Muestra liderazgo en su desempeño?</td>
+                        <td><label class="radio-label"><input type="radio" name="question5" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question5" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question5" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question5" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question5" value="6"></label></td>
+                        </tr>
+                        <tr>
+                        <td>¿Expresa sus ideas de forma clara?</td>
+                        <td><label class="radio-label"><input type="radio" name="question6" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question6" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question6" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question6" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question6" value="6"></label></td>
+                        </tr>
+                        <td>¿Muestra comunicación asertiva en su desempeño?</td>
+                        <td><label class="radio-label"><input type="radio" name="question7" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question7" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question7" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question7" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question7" value="6"></label></td>
+                        </tr>
+                        <tr>
+                        <td>¿Propone alternativas para resolución de situaciones?</td>
+                        <td><label class="radio-label"><input type="radio" name="question8" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question8" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question8" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question8" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question8" value="6"></label></td>
+                        </tr>
+                        <tr>
+                        <td>¿Muestra actitud favorable?</td>
+                        <td><label class="radio-label"><input type="radio" name="question9" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question9" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question9" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question9" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question9" value="6"></label></td>
+                        </tr>
+                        <tr>
+                        <td>¿Muestra capacidad para trabajar en equipo?</td>
+                        <td><label class="radio-label"><input type="radio" name="question10" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question10" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question10" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question10" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question10" value="6"></label></td>
+                        </tr>
+                    </tbody>
+                    </table>
+
+                </div>
+                <div class="form-group">
+                    <div>
+                        <label for="">DESARROLLO DE ACTIVIDADES:</label>
+                        <p>CRITERIOS DE DESEMPEÑO: Usar una escala del 6 al 10, donde 6=NO COMPETENTE, 7=BÁSICO, 8=BÁSICO AVANZADO, 9=INDEPENDIENTE Y 10=COMPETENTE.</p>
+                    </div>
+                    <table class="criteria-table">
+                    <thead>
+                        <tr>
+                        <th></th>
+                        <th>10</th>
+                        <th>9</th>
+                        <th>8</th>
+                        <th>7</th>
+                        <th>6</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                        <td>¿Diseña, desarrolla y ejecuta estrategias dentro del área?</td>
+                        <td><label class="radio-label"><input type="radio" name="question11" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question11" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question11" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question11" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question11" value="6"></label></td>
+                        </tr>
+                        <tr>
+                        <td>¿Analiza y plantea acciones de mejora?</td>
+                        <td><label class="radio-label"><input type="radio" name="question12" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question12" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question12" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question12" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question12" value="6"></label></td>
+                        </tr>
+                        <tr>
+                        <td>¿Genera y mejora los procesos de operación en base a su desarrollo?</td>
+                        <td><label class="radio-label"><input type="radio" name="question13" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question13" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question13" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question13" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question13" value="6"></label></td>
+                        </tr>
+                        <tr>
+                        <td>¿Plantea soluciones e ideas innovadoras en la solución de problemas dentro de la empresa?</td>
+                        <td><label class="radio-label"><input type="radio" name="question14" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question14" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question14" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question14" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question14" value="6"></label></td>
+                        </tr>
+                        <tr>
+                        <td>¿El perfil del estudiante responde a las necesidades de la empresa?</td>
+                        <td><label class="radio-label"><input type="radio" name="question15" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question15" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question15" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question15" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question15" value="6"></label></td>
+                        </tr>
+                        <tr>
+                        <td>¿Realiza las actividades encomendadas y cumple correctamente durante el tiempo de la estancia/estadía?</td>
+                        <td><label class="radio-label"><input type="radio" name="question16" value="10"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question16" value="9"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question16" value="8"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question16" value="7"></label></td>
+                        <td><label class="radio-label"><input type="radio" name="question16" value="6"></label></td>
+                        </tr>
+                        <tr>
+                        
+                    </tbody>
+                    
+                    </table>
+
+                </div>
+                <button class="buttonSiguiente">Enviar</button>
+            </form>
+        </main>
+        
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>

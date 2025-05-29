@@ -148,7 +148,7 @@ def buscarExpedienteAsesorEmpresarial1():
     integrantes = listaEstudiantes(ProyectoID)
     periodo = periodoCuatrimestral()
     carrera = cargarCarrera(ProyectoID)
-    etapa = cargarEtapa(ProyectoID)
+    # etapa = cargarEtapa(ProyectoID)
    
     Nombreproyecto = proyectoAsesorEmpr(ProyectoID)
     empresa=cargarEmpresaEquipo(ProyectoID)
@@ -177,6 +177,10 @@ def evaluacionEmpresa():
 def cuestionario_foest02():
     return render_template('Cuestionarios/cuestionario_foest02.html')
 
+#Evaluacion empresa 02 siguiente parte 
+@app.route('/evaluacion_foest02')
+def evaluacion_foest02():
+    return render_template('Cuestionarios/evaluacion_foest02.html')
 
 
 #Validacion del login de coordinacion
@@ -1501,8 +1505,15 @@ def cargarCarrera(ProyectoID):
         else:
             return 'El estudiante no cuenta con una carrera asignada'
 
-def cargarEtapa(ProyectoID):
-    query = text("")
+# def cargarEtapa(ProyectoID):
+#     query = text("SELECT DISTINCT p.Procedimiento AS Etapa FROM proyectoasesores pa JOIN equipos eq ON pa.Id_proyecto = eq.Id_Proyecto JOIN procedimientos p ON eq.Procedimiento = p.idProcedimiento WHERE pa.Id_asesorE = :id")
+#     with engine.connect() as conn:
+#         ok = conn.execute(query, {"id": ProyectoID})
+#         ok = ok.fetchone()
+#         if ok:
+#             return ok[0]
+#         else:
+#             return 'No cuenta con una etapa asignada'
     
 
 @app.route('/asignarContraseñas',methods=['POST'])

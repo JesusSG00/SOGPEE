@@ -22,6 +22,12 @@
     <form action="/verproyectos2" method="post" class="form-box"  id="form-busqueda">
     
     <input type="search" name="busqueda" id="busqueda" placeholder="Nombre del proyecto">
+      <select name="ciclo" id="ciclo">
+          <option value="0">Seleccionar</option>
+            <option value="ESTNC1">Estancia 1</option>
+            <option value="ESTNC2">Estancia 2</option>
+            <option value="ESTD">Estadia</option>
+        </select>
     </form>
     <div class="proyectos">
         {{ proyectos | safe }}

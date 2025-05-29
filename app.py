@@ -40,7 +40,8 @@ def loginCoordinacion():
 
 @app.route('/modificarPeriodo',methods=['POST'])
 def modificarPeriodo():
-    return render_template('perfiles/Coordinacion/modificar_periodo.html')
+    año = obtener_anio_actual()
+    return render_template('perfiles/Coordinacion/modificar_periodo.html',año = año)
 
 @app.route('/modificarPeriodoFun',methods=['POST'])
 def modificarPeriodoFun():
@@ -66,6 +67,12 @@ def updateModificarPeriodo(periodo):
             # Confirmar la transacción
             conn.commit()
 
+            
+
+        except Exception as e:
+            # En caso de error, hacer rollback y mostrar un mensaje de error
+            conn.rollback()
+            return f'ERROR AL MODIFICAR EL PERIODO: {str(e)}'
             
 
         except Exception as e:
@@ -718,8 +725,12 @@ def obtenerProcedimientoYCarrera(nombreProyecto):
 
 
 
-
-    
+@app.route('/AgregarProyectoDesdeAsesor', methods=['POST'])
+def AgregarProyectoDesdeAsesor():
+    carga = cargarAsesorEmp()
+    nombre = request.form['nombre']
+    ID = request.form['ID']
+    return render_template('perfiles/AsesorAcademico/AgregarProyecto.html', nombre=nombre, ID=ID, cargar=carga)
 
 
 
@@ -1201,16 +1212,21 @@ def guardarProyectoAsesores(ID,asesorE,asesorA):
 
 def inicioSesionAsesorA(correo,password):
     try:
-        query = text("SELECT Correo,Id FROM asesoracademico WHERE password = :password AND Correo =:correo")
+        query = text("SELECT Id,Nombre1,Nombre2,ApellidoP,ApellidoM FROM asesoracademico WHERE password = :password AND Correo =:correo")
         with engine.connect() as conn:
             ok= conn.execute(query, {'password': password,'correo':correo}).fetchone()
             if ok:
                 
-                Correo = ok[0]
-                ID = ok[1]
+                ID = ok[0]
+                nombre = ok[1]
+                nombre2 = ok[2]
+                apellidoP = ok[3]
+                apellidoM = ok[4]
+
+
                 
                 resultado = cargarProyectosAsesor(ID)
-                return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID)
+                return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID, nombre=nombre,nombre2=nombre2,apellidoP=apellidoP,apellidoM=apellidoM,correo=correo)
                 
             else:
                 return render_template('Error/AsesorNoEncontrado.html')
@@ -1691,6 +1707,7 @@ def estancia1():
     equipo = request.form['equipo']
     procedimiento = request.form['procedimiento']
     periodo = request.form['periodo']
+    
     Nombreproyecto = request.form['nombreProyecto']
     empresa= request.form['nombre_empresa']
     gradoEstudios = request.form['grado_estudios']
@@ -1711,10 +1728,20 @@ def estancia1():
     investigacion = request.form['investigacion_desarrollo']
     contratar_egresados = request.form['contratar_egresados']
     porque = request.form['porque_contratar']
-    aprueba = request.form['aprobacion_edicion']
+    aprueba = request.form['Aprueba']
     clausula_especial = request.form.get('clausula_especial')
-    if clausula_especial == "":
-        clausula_especial = "No aplica"
+    if aprueba == "No":
+        funcionEstancia3 = clausula_especial
+    
+
+    #comprobar si no se ha contestado antes
+    sql = text("SELECT TituloProyecto,Procedimiento FROM foest07")
+    with engine.connect() as conn:
+        result = conn.execute(sql)
+        rows = result.fetchall()
+        for row in rows:
+            if row[0] == Nombreproyecto and row[1] == procedimiento:
+                return f'Error: ya se ha registrado el proyecto {Nombreproyecto} con el procedimiento {procedimiento}'
 
     fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3)
     if fo07:
@@ -1752,10 +1779,11 @@ def estancia2():
     investigacion = request.form['investigacion_desarrollo']
     contratar_egresados = request.form['contratar_egresados']
     porque = request.form['porque_contratar']
-    aprueba = request.form['aprobacion_edicion']
+    aprueba = request.form['Aprueba']
     clausula_especial = request.form.get('clausula_especial')
-    if clausula_especial == "":
-        clausula_especial = "No aplica"
+    if aprueba == "No":
+        funcionEstancia3 = clausula_especial
+  
 
     fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3)
     if fo07:
@@ -1794,10 +1822,11 @@ def estadia():
     investigacion = request.form['investigacion_desarrollo']
     contratar_egresados = request.form['contratar_egresados']
     porque = request.form['porque_contratar']
-    aprueba = request.form['aprobacion_edicion']
+    aprueba = request.form['Aprueba']
     clausula_especial = request.form.get('clausula_especial')
-    if clausula_especial == "":
-        clausula_especial = "No aplica"
+    if aprueba == "No":
+        funcionEstancia3 = clausula_especial
+  
 
     fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3)
     if fo07:
@@ -1874,9 +1903,18 @@ def abrirproyectoruta():
 @app.route('/verproyectos2',methods=['POST'])
 def verproyectos2():
     nombre = request.form['busqueda']
-    proyecto = cargarproyectolike(nombre)
-    return render_template('perfiles/Coordinacion/proyectosbusqueda.html', proyectos = proyecto)
-
+    ciclo = request.form.get('ciclo')
+    if ciclo !="0":
+        proyecto = cargarproyectoselect(nombre,ciclo)
+        return render_template('perfiles/Coordinacion/proyectosbusqueda.html', proyectos = proyecto)
+    else:
+        proyecto = cargarproyectolike(nombre)
+        return render_template('perfiles/Coordinacion/proyectosbusqueda.html', proyectos = proyecto)
+        
+@app.route('/refresh',methods=['POST'])
+def refresh_proyectos():
+    proyectos = refresh()
+    return render_template('perfiles/Coordinacion/proyectosbusqueda.html', proyectos = proyectos) 
 def cargarproyectolike(proyecto):
     query = text("SELECT NombreProyecto FROM documentos WHERE Parcial = 'Parcial 3' AND NombreProyecto LIKE :proyecto")
     with engine.connect() as conn:
@@ -1895,3 +1933,65 @@ def cargarproyectolike(proyecto):
             return opciones
         else:
             return '<div class="proyecto">NADA POR MOSTRAR</div>'
+
+
+def refresh():
+    query = text("SELECT NombreProyecto FROM documentos WHERE Parcial = 'Parcial 3'")
+    with engine.connect() as conn:
+        ok = conn.execute(query)
+        rows = ok.fetchall()
+        if rows:
+            opciones = ''.join([f'''
+            <div class="proyecto">
+                <form action="/abrirproyectoruta" method="post">
+                    <label for="">{row[0]}</label><br>
+                    <input type="hidden" name="nombre" value="{row[0]}">
+                    <button class="button-elegante">Abrir</button>
+                </form>
+            </div>
+            ''' for row in rows])
+            return opciones
+        else:
+            return '<div class="proyecto">NADA POR MOSTRAR</div>'
+        
+
+
+def cargarproyectoselect(proyecto, procedimiento=None):
+    base_query = """
+    SELECT DISTINCT d.NombreProyecto 
+    FROM documentos d
+    JOIN equipos e ON d.Matricula = e.Matricula
+    JOIN procedimientos p ON e.Procedimiento = p.idProcedimiento
+    WHERE d.Parcial = 'Parcial 3' AND d.NombreProyecto LIKE :proyecto
+    """
+    
+    if procedimiento:
+        base_query += " AND p.idProcedimiento = :procedimiento"
+
+    query = text(base_query)
+
+    with engine.connect() as conn:
+        params = {'proyecto': f'%{proyecto}%'}
+        if procedimiento:
+            params['procedimiento'] = procedimiento
+        result = conn.execute(query, params)
+        rows = result.fetchall()
+
+        if rows:
+            opciones = ''.join([f'''
+            <div class="proyecto">
+                <form action="/abrirproyectoruta" method="post">
+                    <label for="">{row[0]}</label><br>
+                    <input type="hidden" name="nombre" value="{row[0]}">
+                    <button class="button-elegante">Abrir</button>
+                </form>
+            </div>
+            ''' for row in rows])
+            return opciones
+        else:
+            return '<div class="proyecto">NADA POR MOSTRAR</div>'
+
+
+
+def obtener_anio_actual():
+    return datetime.datetime.now().year

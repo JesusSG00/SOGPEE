@@ -42,16 +42,14 @@
                     <div class="form-group">
                         <select name="periodo" id="periodo" required>
                             <option value="">Seleccione un periodo</option>
-                            <option value="ENERO-ABRIL">ENERO-ABRIL</option>
-                            <option value="MAYO-AGOSTO">MAYO-AGOSTO</option>
-                            <option value="SEPTIEMBRE-DICIEMBRE">SEPTIEMBRE-DICIEMBRE</option>
+                            <option value="ENERO-ABRIL">ENERO-ABRIL {{anio}}</option>
+                            <option value="MAYO-AGOSTO">MAYO-AGOSTO {{anio}}</option>
+                            <option value="SEPTIEMBRE-DICIEMBRE">SEPTIEMBRE-DICIEMBRE {{anio}}</option>
                         </select>
                     </div>
                     <button class="buttonSiguiente">Cambiar</button>
                 </form>
-                <form action="/actualizarAnioPeriodo" method="post">
-                    <button>Actualizar al año actual</button>
-                </form>
+                
         </section>
 
         <footer>

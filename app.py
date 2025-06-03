@@ -40,13 +40,14 @@ def loginCoordinacion():
 
 @app.route('/modificarPeriodo',methods=['POST'])
 def modificarPeriodo():
-    año = obtener_anio_actual()
-    return render_template('perfiles/Coordinacion/modificar_periodo.html',año = año)
+    anio=aniobase()
+    return render_template('perfiles/Coordinacion/modificar_periodo.html',anio=anio)
 
 @app.route('/modificarPeriodoFun',methods=['POST'])
 def modificarPeriodoFun():
     periodo = request.form['periodo']
     updateModificarPeriodo(periodo)
+    obtener_anio_actual()
     return render_template('Cargas/periodo_modificado.html')
 
 def updateModificarPeriodo(periodo):
@@ -118,6 +119,7 @@ def asesorEmpresarial2():
 #Función para buscar expediente Asesor Empresarial
 @app.route('/buscarExpedienteAsesorEmpresarial', methods=['POST'])
 def buscarExpedienteAsesorEmpresarial():
+    anio = aniobase()
     ProyectoID= request.form['ProyectoID']
     equipo = int(cargarEquipo(ProyectoID))
     integrantes = listaEstudiantes(ProyectoID)
@@ -133,7 +135,7 @@ def buscarExpedienteAsesorEmpresarial():
         with engine.connect() as conn:
             proyecto = conn.execute(query, {'ProyectoID': ProyectoID}).fetchone()
             if proyecto:
-                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes,periodo=periodo,equipo=equipo,nombreoculto=nombreoculto)
+                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes,periodo=periodo,equipo=equipo,nombreoculto=nombreoculto,anio=anio)
             else:
                 return render_template('Cargas/ProyectoNEncontrado.html')
             
@@ -1718,7 +1720,7 @@ def estancia1():
     equipo = request.form['equipo']
     procedimiento = request.form['procedimiento']
     periodo = request.form['periodo']
-    
+    funcionestancia1_otros = request.form.get("funcion-estancia1_otros")
     Nombreproyecto = request.form['nombreProyecto']
     empresa= request.form['nombre_empresa']
     gradoEstudios = request.form['grado_estudios']
@@ -1734,6 +1736,11 @@ def estancia1():
     funcionEstancia1 = funcionEstancia[0]
     funcionEstancia2 = funcionEstancia[1]
     funcionEstancia3 = funcionEstancia[2]
+
+    if funcionEstancia3 == "Otras funciones":
+        funcionEstancia3 = funcionestancia1_otros
+
+
     resolvio = request.form['resolvio_necesidad']
     interes = request.form['interes_participar']
     investigacion = request.form['investigacion_desarrollo']
@@ -1741,8 +1748,8 @@ def estancia1():
     porque = request.form['porque_contratar']
     aprueba = request.form['Aprueba']
     clausula_especial = request.form.get('clausula_especial')
-    if aprueba == "No":
-        funcionEstancia3 = clausula_especial
+   
+    
     
 
     #comprobar si no se ha contestado antes
@@ -2005,4 +2012,23 @@ def cargarproyectoselect(proyecto, procedimiento=None):
 
 
 def obtener_anio_actual():
-    return datetime.datetime.now().year
+    anio = datetime.datetime.now().year
+    sql = text("SELECT Anio FROM periodos")
+    with engine.connect() as conn:
+        result = conn.execute(sql)
+        row = result.fetchone()
+    if row:
+        if int(row[0]) < anio:
+            sql2 = text("UPDATE periodos set Anio = :anio")
+            with engine.connect() as conn:
+                conn.execute(sql2, {'anio': anio})
+                conn.commit()
+    
+def aniobase():
+    sql = text("SELECT Anio FROM periodos")
+    with engine.connect() as conn:
+        result = conn.execute(sql)
+        row = result.fetchone()
+        return row[0]
+
+    

@@ -119,15 +119,28 @@
                         </label>
                         </label>
                         <!-- Añade más opciones aquí siguiendo el mismo patrón -->
-                        <label class="option-item other-option">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia1[]" value="Otras funciones">
-                            </div>
-                            <input type="text" placeholder="Otras funciones...">
-                        </label>
-                    </div>
+                         <label class="option-item other-option">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="otrasCheckbox" name="funcion-estancia1[]" value="Otras funciones">
+                    <span>Otras:</span>
                 </div>
-            </div>
+                <input type="text" id="otrasInput" name="funcion-estancia1_otros" placeholder="Otras funciones..." disabled>
+            </label>
+        </div>
+    </div>
+</div>
+<!-- SCRIPT para habilitar campo "Otras" -->
+<script>
+    const otrasCheckbox = document.getElementById("otrasCheckbox");
+    const otrasInput = document.getElementById("otrasInput");
+
+    otrasCheckbox.addEventListener("change", function () {
+        otrasInput.disabled = !this.checked;
+        if (!this.checked) {
+            otrasInput.value = "";
+        }
+    });
+</script>
         </section>
         <section class="radio-section">
             <!-- Pregunta 1 -->
@@ -219,78 +232,95 @@
             
 
             <div class="question-container">
-                <div class="question">
-                    <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE
-                        DURANTE SU ESTANCIA II?</h2>
-                    <div class>
-                        <div class="options-grid">
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2[]" value="Construir estrategias financieras">
-                                    Construir estrategias financieras
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2[]" value="Desarrollar estrategias costo-beneficio">
-                                    Desarrollar estrategias costo-beneficio
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2[]" value="Diseñar alternativas de negocio">
-                                    Diseñar alternativas de negocio
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2[]" value="Gestionar proyectos de inversión">
-                                    Gestionar proyectos de inversión
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2[]" value="Sistematizar procesos administrativos mediante las TIC´S">
-                                    Sistematizar procesos administrativos mediante las TIC´S
-                                </div>
-                            </label><label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2[]" value="Generar reportes ejecutivos y técnicos para la toma de decisiones">
-                                Generar reportes ejecutivos y técnicos para la toma de decisiones
-                            </div>
-                        </label><label class="option-item">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2[]" value="Diseñar modelos financieras y económicos">
-                                Diseñar modelos financieras y económicos
-                            </div>
-                        </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2[]" value="Transferir tecnología y conocimiento para la creación de negocios inteligentes">
-                                    Transferir tecnología y conocimiento para la creación de negocios inteligentes
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2[]" value="Desarrollo de negocios inteligentes">
-                                    Desarrollo de negocios inteligentes
-                                </div>
-                            </label>
-                            <label class="option-item">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2[]" value="Análisis de tendencias y hábitos del mercado">
-                                    Análisis de tendencias y hábitos del mercado
-                                </div>
-                            </label>
-                            <label class="option-item other-option">
-                                <div class="checkbox-wrapper">
-                                    <input type="checkbox" name="funcion-estancia2[]" value="Otras funciones">
-                                </div>
-                                <input type="text" placeholder="Otras funciones...">
-                            </label>
-                        </div>
-                    </div>
+    <div class="question">
+        <h2 class="question-title">¿CUÁLES SON LAS TRES FUNCIONES PRIORITARIAS QUE LLEVÓ A CABO EL ESTUDIANTE DURANTE SU ESTANCIA II?</h2>
+        <div class="options-grid">
+            <label class="option-item">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="funcion-estancia2[]" value="Construir estrategias financieras">
                 </div>
+                Construir estrategias financieras
+            </label>
+            <label class="option-item">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="funcion-estancia2[]" value="Desarrollar estrategias costo-beneficio">
+                </div>
+                Desarrollar estrategias costo-beneficio
+            </label>
+            <label class="option-item">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="funcion-estancia2[]" value="Diseñar alternativas de negocio">
+                </div>
+                Diseñar alternativas de negocio
+            </label>
+            <label class="option-item">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="funcion-estancia2[]" value="Gestionar proyectos de inversión">
+                </div>
+                Gestionar proyectos de inversión
+            </label>
+            <label class="option-item">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="funcion-estancia2[]" value="Sistematizar procesos administrativos mediante las TIC´S">
+                </div>
+                Sistematizar procesos administrativos mediante las TIC´S
+            </label>
+            <label class="option-item">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="funcion-estancia2[]" value="Generar reportes ejecutivos y técnicos para la toma de decisiones">
+                </div>
+                Generar reportes ejecutivos y técnicos para la toma de decisiones
+            </label>
+            <label class="option-item">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="funcion-estancia2[]" value="Diseñar modelos financieras y económicos">
+                </div>
+                Diseñar modelos financieras y económicos
+            </label>
+            <label class="option-item">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="funcion-estancia2[]" value="Transferir tecnología y conocimiento para la creación de negocios inteligentes">
+                </div>
+                Transferir tecnología y conocimiento para la creación de negocios inteligentes
+            </label>
+            <label class="option-item">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="funcion-estancia2[]" value="Desarrollo de negocios inteligentes">
+                </div>
+                Desarrollo de negocios inteligentes
+            </label>
+            <label class="option-item">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" name="funcion-estancia2[]" value="Análisis de tendencias y hábitos del mercado">
+                </div>
+                Análisis de tendencias y hábitos del mercado
+            </label>
+             <label class="option-item other-option">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="otrasCheckbox" name="funcion-estancia1[]" value="Otras funciones">
+                    <span>Otras:</span>
+                </div>
+                <input type="text" id="otrasInput" name="funcion-estancia1_otros" placeholder="Otras funciones..." disabled>
+            </label>
+        </div>
+    </div>
+</div>
+
+<script>
+{
+    const otrasCheckbox = document.getElementById("otrasCheckbox");
+    const otrasInput = document.getElementById("otrasInput");
+
+    otrasCheckbox.addEventListener("change", function () {
+        otrasInput.disabled = !this.checked;
+        if (!this.checked) {
+            otrasInput.value = "";
+        }
+    });
+}
+</script>
+
+                
         </section>
         <section class="radio-section">
             <!-- Pregunta 1 -->
@@ -446,16 +476,31 @@
                                 Optimizar recursos
                             </div>
                         </label>
-                        <label class="option-item other-option">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estadia[]" value="Otras funciones">
-                            </div>
-                            <input type="text" placeholder="Otras funciones...">
-                        </label>
-    
-                    </div>
+                                       <label class="option-item other-option">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="otrasCheckbox" name="funcion-estancia2[]" value="Otras funciones">
+                    <span>Otras:</span>
                 </div>
-            </div>
+                <input type="text" id="otrasInput" name="funcion-estancia2_otros" placeholder="Otras funciones..." disabled>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPT para habilitar campo "Otras" -->
+<script>
+{
+    const otrasCheckbox = document.getElementById("otrasCheckbox");
+    const otrasInput = document.getElementById("otrasInput");
+
+    otrasCheckbox.addEventListener("change", function () {
+        otrasInput.disabled = !this.checked;
+        if (!this.checked) {
+            otrasInput.value = "";
+        }
+    });
+}
+</script>
         </section>
         <section class="radio-section">
             <!-- Pregunta 1 -->

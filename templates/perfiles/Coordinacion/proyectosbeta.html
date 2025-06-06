@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Buscar Proyectos</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/proyectosbusqueda.css') }}">
+    <title>Proyectos</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/proyectos.css') }}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css">
 
-    
+
 </head>
 <header class="container-fluid d-flex justify-content-center bg-white p-2"> 
-    <form action="/loginCoordinacionIni " method="post" id="cabecera">
+    <form action="/loginCoordinacionIni" method="post" id="cabecera">
         <button type="submit" class="custom-btn">← Atrás</button>
         <div class="logoUPT ms-3">
             <a href="/" class="logo-upt">
@@ -19,7 +19,6 @@
         </div>
     </form>
 </header>
-
 <body>
     <div class="container my-4">
         <h1 class="text-center fw-bold">Proyectos completos</h1>
@@ -34,17 +33,14 @@
             </select>
             <button type="submit" class="btn btn-success">Buscar</button>
         </form>
-        
-        <form action="/refresh" method="post">
-            <button type="submit" style="background: none; border: none; padding: 0; cursor: pointer;">
-                <img src="static/img/refresh.png" alt="Recargar" style="width: 50px; height: 50px; display: block; border: none; background-color: transparent;">
-            </button>
-        </form>
-
+    
         <div class="row justify-content-center" id="proyectos-container">
             {{ proyectos | safe }}
         </div>
     </div>
+    
+
+
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

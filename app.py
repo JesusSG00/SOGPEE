@@ -1,13 +1,18 @@
 import datetime
 from flask import Flask,render_template,request, url_for,send_file
 from werkzeug.utils import secure_filename
-from sqlalchemy import text
+from sqlalchemy import text, create_engine, MetaData, Table
 from conexion import engine
 import os,fitz,re
 from PIL import Image
 from pathlib import Path
+import pandas as pd
 
 app = Flask(__name__)
+CSV_PATH = 'data/foest07.csv'
+EXCEL_PATH = 'data/foest07.xlsx'
+
+
 #Pagina principal
 @app.route('/')
 def index():

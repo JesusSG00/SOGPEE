@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Calificaciones del Alumno</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --font-family: 'Poppins', sans-serif;
+      --color-text-primary: #111827;
+      --color-text-secondary: #6b7280;
+      --color-bg: #ffffff;
+      --color-card-bg: #f9fafb;
+      --color-shadow: rgba(0, 0, 0, 0.05);
+      --border-radius: 0.75rem;
+      --spacing-unit: 1.5rem;
+      --color-accent: #2563eb;
+      --color-accent-hover: #1e40af;
+      --table-header-bg: #e0e7ff;
+      --table-row-hover-bg: #f3f4f6;
+      --input-bg: #fff;
+      --input-border: #d1d5db;
+      --input-focus-border: #2563eb;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: var(--font-family);
+      background: var(--color-bg);
+      color: var(--color-text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding: var(--spacing-unit);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-weight: 500;
+      font-size: 1.2rem;
+      margin-bottom: var(--spacing-unit);
+      color: var(--color-text-primary);
+      text-align: center;
+      user-select: none;
+    }
+
+    main.container {
+      max-width: 1200px;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      padding: var(--spacing-unit) 0;
+    }
+
+    section.table-card {
+      background: var(--color-card-bg);
+      border-radius: var(--border-radius);
+      box-shadow: 0 2px 8px var(--color-shadow);
+      padding: var(--spacing-unit);
+      display: flex;
+      flex-direction: column;
+    }
+
+    section.table-card h2 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--color-accent);
+      text-align: center;
+      user-select: none;
+    }
+
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 1rem;
+      text-align: center;
+    }
+
+    thead {
+      background-color: var(--table-header-bg);
+    }
+    thead th {
+      padding: 0.75rem 0.5rem;
+      font-weight: 600;
+      color: var(--color-text-primary);
+      border-bottom: 2px solid var(--color-accent);
+      user-select: none;
+    }
+
+    tbody tr {
+      transition: background-color 0.3s ease;
+    }
+    tbody tr:hover {
+      background-color: var(--table-row-hover-bg);
+    }
+
+    tbody td {
+      padding: 0.6rem 0.5rem;
+      border-bottom: 1px solid #e5e7eb;
+      color: var(--color-text-secondary);
+      vertical-align: middle;
+    }
+
+    tfoot td {
+      font-weight: 700;
+      padding: 0.75rem 0.5rem;
+      color: var(--color-text-primary);
+      border-top: 2px solid var(--color-accent);
+      background-color: var(--table-header-bg);
+      user-select: none;
+    }
+
+    input.grade-input {
+      font-family: var(--font-family);
+      font-size: 1rem;
+      width: 3.25rem;
+      padding: 0.25rem 0.5rem;
+      border: 1.5px solid var(--input-border);
+      border-radius: 0.5rem;
+      text-align: center;
+      background: var(--input-bg);
+      color: var(--color-text-primary);
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      outline-offset: 2px;
+    }
+
+    input.grade-input:focus {
+      border-color: var(--input-focus-border);
+      box-shadow: 0 0 5px var(--color-accent);
+      outline: none;
+    }
+
+    footer {
+      margin-top: 3rem;
+      font-size: 0.875rem;
+      color: var(--color-text-secondary);
+      text-align: center;
+      user-select: none;
+    }
+
+  </style>
+</head>
+<body>
+  <h1 id="student-name">Alumno: {{Nombre1}} {{Nombre2}} {{ApellidoP}} {{ApellidoM}}</h1>
+  <main class="container" role="main" aria-label="Calificaciones y promedios del alumno">
+    <section class="table-card" aria-labelledby="ser-title">
+      <h2 id="ser-title">Calificaciones de Actitud</h2>
+      <table aria-describedby="ser-desc" role="grid">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Calificación</th>
+          </tr>
+        </thead>
+        <tbody id="ser-grades">
+          <!-- 10 input rows for Ser grades -->
+          <tr><td>Puntualidad y asistencia</td><td>{{Puntualidad}}</td></tr>
+          <tr><td>Responsabilidad en cumplimiento de actividades establecidad</td><td>{{Responsabilidad}}</td></tr>
+          <tr><td>Muestra ética y confiabilidad en el manejo de la información</td><td>{{Etica}}</td></tr>
+          <tr><td>Evidencia capacidad para la toma de decisiones en la resolución de problemas</td><td>{{TomaDecisiones}}</td></tr>
+          <tr><td>Muestra liderazgo en su desempeño</td><td>{{Liderazgo}}</td></tr>
+          <tr><td>Expresa sus ideas de forma clara</td><td>{{ExpresaIdeas}}</td></tr>
+          <tr><td>Muestra comunicación asertiva en su desempeño</td><td>{{ComunicacionAsertiva}}</td></tr>
+          <tr><td>Propone alternativas para resolución de situaciones</td><td>{{ResolucionSituaciones}}</td></tr>
+          <tr><td>Muestra actitud favorable</td><td>{{ActitudFavorable}}</td></tr>
+          <tr><td>1Muestra capacidad para trabajar en equipo</td><td>{{TrabajoEquipo}}</td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>Promedio</td>
+            <td id="ser-average">{{promedio_actitud}}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
+
+    <section class="table-card" aria-labelledby="desarrollo-title">
+      <h2 id="desarrollo-title">Calificaciones de Desarrollo</h2>
+      <table aria-describedby="desarrollo-desc" role="grid">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Calificación</th>
+          </tr>
+        </thead>
+        <tbody id="desarrollo-grades">
+          <!-- 6 input rows for Desarrollo grades -->
+          <tr><td>Diseña, desarrolla y ejecuta estrategias dentro del área</td><td>{{Estrategias}}</td></tr>
+          <tr><td>Analiza y plantea acciones de mejora</td><td>{{AccionesMejora}}</td></tr>
+          <tr><td>Genera y mejora los procesos de operación en base a su desarrollo</td><td>{{ProcesoOperacion}}</td></tr>
+          <tr><td>Plantea soluciones e ideas innovadoras en la solución de problemas dentro de la empresa</td><td>{{PlanteaSoluciones}}</td></tr>
+          <tr><td>El perfil del estudiante responde a las necesidades de la empresa</td><td>{{RespondeNecesidades}}</td></tr>
+          <tr><td>Realiza las actividades encomendadas y cumple correctamente durante el tiempo de la estancia/estadía</td><td>{{CumpleTiempos}}</td></tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <td>Promedio</td>
+            <td id="desarrollo-average">{{promedio_desarrollo}}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
+  </main>
+
+
+
+ </body>
+</html>
+

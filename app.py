@@ -794,7 +794,7 @@ def cargarCalificaciones02():
                     <td>{int(fila[5])}</td>
                     <td>{int(fila[6])}</td>
                     <td>
-                        <form action="/vercalificaciones" method="post">
+                        <form action="/calificacionCompleta" method="post">
                             <input type="hidden" name="Miembro" value="{fila[0]}">
                             <button type="submit" class="btn btn-success btn-sm">Ver calif. completas</button>
                         </form>
@@ -814,9 +814,17 @@ def cargarCalificaciones02():
 @app.route('/calificacionCompleta', methods=['POST'])
 def cargarCalificaciones02Completas():
     try:
-        query = text("SELECT estudiante.Nombre1, estudiante.Nombre2, estudiante.ApellidoP, estudiante.ApellidoM,foest02.*FROM estudiante JOIN foest02 ON estudiante.Matricula = foest02.Miembro;")
+        Miembro = request.form['Miembro']
+        query = text("""
+            SELECT estudiante.Nombre1, estudiante.Nombre2, estudiante.ApellidoP, estudiante.ApellidoM, foest02.*
+            FROM estudiante 
+            JOIN foest02 ON estudiante.Matricula = foest02.Miembro
+            WHERE foest02.Miembro = :miembro
+        """)
+
         with engine.connect() as conn:
-            ok = conn.execute(query).fetchall()  
+            ok = conn.execute(query, {'miembro': Miembro}).fetchall()
+
             
             if ok:
                 for fila in ok:

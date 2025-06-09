@@ -147,9 +147,37 @@
       user-select: none;
     }
 
+    .custom-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    padding: 8px 15px; /* Tamaño más compacto */
+    width: auto; /* Que no ocupe todo el ancho */
+    border-radius: 15px 15px 15px 15px; /* Esquina superior izquierda redondeada */
+    background-color:#800000 ; /* Azul bootstrap */
+    color: white;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease-in-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  
+    .custom-btn:hover {
+        background-color: #900000;
+        transform: scale(1.05);
+    }
+
   </style>
 </head>
 <body>
+  <form action="/vercalificacion02 " method="post">
+    <button type="submit" class="custom-btn">← Atrás</button>
+  </form>
   <h1 id="student-name">Alumno: {{Nombre1}} {{Nombre2}} {{ApellidoP}} {{ApellidoM}}</h1>
   <main class="container" role="main" aria-label="Calificaciones y promedios del alumno">
     <section class="table-card" aria-labelledby="ser-title">
@@ -196,7 +224,7 @@
           <!-- 6 input rows for Desarrollo grades -->
           <tr><td>Diseña, desarrolla y ejecuta estrategias dentro del área</td><td>{{Estrategias}}</td></tr>
           <tr><td>Analiza y plantea acciones de mejora</td><td>{{AccionesMejora}}</td></tr>
-          <tr><td>Genera y mejora los procesos de operación en base a su desarrollo</td><td>{{ProcesoOperacion}}</td></tr>
+          <tr><td>Genera y mejora los procesos de operación en base a su desarrollo</td><td>{{ProcesosOperacion}}</td></tr>
           <tr><td>Plantea soluciones e ideas innovadoras en la solución de problemas dentro de la empresa</td><td>{{PlanteaSoluciones}}</td></tr>
           <tr><td>El perfil del estudiante responde a las necesidades de la empresa</td><td>{{RespondeNecesidades}}</td></tr>
           <tr><td>Realiza las actividades encomendadas y cumple correctamente durante el tiempo de la estancia/estadía</td><td>{{CumpleTiempos}}</td></tr>

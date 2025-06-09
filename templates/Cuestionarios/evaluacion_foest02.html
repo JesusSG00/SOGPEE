@@ -16,7 +16,15 @@
         
         <main class="container">
             
-            <form action="">
+            <form action="/foest02Evaluar" method="post">
+                <input type="hidden" name="nombreasesor" value="{{nombreasesor}}">
+                <input type="hidden" name="Grado" value="{{GradoEstudios}}">
+                <input type="hidden" name="Periodo" value="{{periodo}}">
+                <input type="hidden" name="Carrera" value="{{Carrera}}">
+                <input type="hidden" name="NombreEmpresa" value="{{NombreEmpresa}}">
+               
+                <input type="hidden" name="Proyecto" value="{{projectTitl}}">
+
                 <div class="header text-center mb-4">
                         <h1>FO-EST- 02 EVALUACIÓN POR LA EMPRESA</h1>
                         <div class="codigo">
@@ -31,13 +39,11 @@
                 </div>
                 <div class="form-group">
                     <label for="advisorName">Estudiante:</label>
-                    <select name="advisorName" id="">
+                    <select name="Miembro" id="Miembro">
                         <option value="">Seleccione un estudiante</option>
-                        {% for estudiante in estudiantes %}
-                            <option value="{{ estudiante }}">{{ estudiante }}</option>
-                        {% endfor %}
+                       {{resultado|safe}}
                     </select>
-                    
+                   
                 </div>
                 <div class="form-group">
                     <div>

@@ -112,6 +112,10 @@ def asesorEmpresarial():
 def asesorEmpresarial1():
     return render_template('login/asesorEmpresarialfoest02.html')
 
+@app.route('/foest02',methods=['POST'])
+def asesorEmpresarialpost():
+    return render_template('login/asesorEmpresarialfoest02.html')
+
 @app.route('/asesorEmpresarial2',methods=['POST'])
 def asesorEmpresarial2():
     return render_template('login/asesorEmpresarial3.html')
@@ -127,7 +131,7 @@ def buscarExpedienteAsesorEmpresarial():
    
     Nombreproyecto = proyectoAsesorEmpr(ProyectoID)
     empresa=cargarEmpresaEquipo(ProyectoID)
-    nombre=NombreAsesor(ProyectoID)
+ 
     nombreoculto = NombreAsesorOculto(ProyectoID)
 
     try:
@@ -135,7 +139,7 @@ def buscarExpedienteAsesorEmpresarial():
         with engine.connect() as conn:
             proyecto = conn.execute(query, {'ProyectoID': ProyectoID}).fetchone()
             if proyecto:
-                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes,periodo=periodo,equipo=equipo,nombreoculto=nombreoculto,anio=anio)
+                return render_template('perfiles/AsesorEmpresarial/evaluacion_empresa.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombreoculto,integrantes = integrantes,periodo=periodo,equipo=equipo,nombreoculto=nombreoculto,anio=anio)
             else:
                 return render_template('Cargas/ProyectoNEncontrado.html')
             
@@ -162,7 +166,7 @@ def buscarExpedienteAsesorEmpresarial1():
         with engine.connect() as conn:
             proyecto = conn.execute(query, {'ProyectoID': ProyectoID}).fetchone()
             if proyecto:
-                return render_template('Cuestionarios/cuestionario_foest02.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes,periodo=periodo,carrera=carrera,equipo=equipo,nombreoculto=nombreoculto)
+                return render_template('Cuestionarios/cuestionario_foest02.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes,periodo=periodo,carrera=carrera,equipo=equipo,nombreoculto=nombreoculto,ProyectoID=ProyectoID)
             else:
                 return render_template('Cargas/ProyectoNEncontrado.html')
             
@@ -180,9 +184,18 @@ def cuestionario_foest02():
     return render_template('Cuestionarios/cuestionario_foest02.html')
 
 #Evaluacion empresa 02 siguiente parte 
-@app.route('/evaluacion_foest02')
+@app.route('/evaluacion_foest02',methods=['POST'])
 def evaluacion_foest02():
-    return render_template('Cuestionarios/evaluacion_foest02.html')
+    nombreasesor = request.form['nombreasesor']
+    ProyectoID= request.form['ProyectoID']
+    resultado = obtenerMatricula(ProyectoID)
+    GradoEstudios = request.form['GradoEstudios']
+    Carrera = request.form['Carrera']
+    periodo = request.form['periodo']
+    NombreEmpresa = request.form['NombreEmpresa']
+    projectTitl = request.form['projectTitl']
+
+    return render_template('Cuestionarios/evaluacion_foest02.html',nombreasesor=nombreasesor,resultado=resultado,GradoEstudios=GradoEstudios,Carrera=Carrera,periodo=periodo,NombreEmpresa=NombreEmpresa,projectTitl=projectTitl,ProyectoID=ProyectoID)
 
 
 #Validacion del login de coordinacion
@@ -728,7 +741,67 @@ def obtenerProcedimientoYCarrera(nombreProyecto):
         else:
             return None, None  # Si no se encuentra el proyecto
 
+@app.route('/vercalificacion02', methods=['POST'])
+def vercalificacion02():
+    resultado  = cargarCalificaciones02()
 
+    return render_template('perfiles/Coordinacion/vercalificacion02.html', resultado=resultado)
+
+def cargarCalificaciones02():
+    try:
+        query = text("SELECT foest02.Miembro, estudiante.Nombre1, estudiante.Nombre2, estudiante.ApellidoP, estudiante.ApellidoM,foest02.PromedioActitud,foest02.PromedioDesarrollo FROM estudiante JOIN foest02 ON estudiante.Matricula = foest02.miembro;")
+        with engine.connect() as conn:
+            ok = conn.execute(query).fetchall()  
+            resultado = ''
+            if ok:
+                for fila in ok:
+                    Miembro = fila[0]
+                    Nombre1 = fila[1]
+                    Nombre2 = fila[2]
+                    ApellidoP = fila[3]
+                    ApellidoM = fila[4]
+                    promedio_actitud = fila[5]
+                    promedio_desarrollo = fila[6]
+                    
+
+                    promedio_actitud=int(promedio_actitud)
+                    promedio_desarrollo=int(promedio_desarrollo)
+
+
+
+                    resultado += f'''<form action="" method="post" class="datos">
+                    <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Matrocula</th>
+            <th>Nombre</th>
+            <th>Segundo Nombre</th>
+            <th>Apellido Paterno</th>
+            <th>Apellido Materno</th>
+            <th>Prom. Actitud</th>
+            <th>Prom. Desarrollo</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{Miembro}</td>
+            <td>{Nombre1}</td>
+            <td>{Nombre2}</td>
+            <td>{ApellidoP}</td>
+            <td>{ApellidoM}</td>
+            <td>{promedio_actitud}</td>
+            <td>{promedio_desarrollo}</td>
+        </tr>
+    </tbody>
+</table>
+            <td><button>Ver calificaciones completas</button></td>
+
+                    <input type="hidden" name="Miembro" value="{Miembro}">
+                    
+                    </form> <br>'''
+    except Exception as e:
+        return f'Error al cargar las calificaciones: {str(e)}'
+    return resultado
 
 
 @app.route('/AgregarProyectoDesdeAsesor', methods=['POST'])
@@ -2032,3 +2105,71 @@ def aniobase():
         return row[0]
 
     
+@app.route('/foest02Evaluar', methods=['POST'])
+def foest02Evaluar():
+    Asesor = request.form.get('nombreasesor')
+    Proyecto = request.form.get('Proyecto')
+    Miembro = request.form.get('Miembro')
+    Empresa = request.form.get('NombreEmpresa')
+    Grado  = request.form.get('Grado')
+   
+    puntualidad = int(request.form['question1'])
+    Responsabilidad = int(request.form['question2'])
+    Etica = int(request.form['question3'])
+    TomaDecisiones = int(request.form['question4'])
+    Liderazgo = int(request.form['question5'])
+    ExpresaIdeas = int(request.form['question6'])
+    ComunicacionAsertiva = int(request.form['question7'])
+    ResolucionSituaciones = int(request.form['question8'])
+    ActitudFavorable = int(request.form['question9'])
+    TrabajoEnEquipo = int(request.form['question10'])
+    PromedioActitud = puntualidad + Responsabilidad + Etica + TomaDecisiones + Liderazgo + ExpresaIdeas + ComunicacionAsertiva + ResolucionSituaciones +ActitudFavorable + TrabajoEnEquipo
+    PromedioActitud = PromedioActitud / 10
+    Estrategias = int(request.form['question11'])
+    AccionesMejora = int(request.form['question12'])
+    ProcesosOperacion = int(request.form['question13'])
+    PlanteaSoluciones = int(request.form['question14'])
+    RespondeNecesidades = int(request.form['question15'])
+    CumpleTiempo = int(request.form['question16'])
+    PromedioDesarrollo = Estrategias + AccionesMejora + ProcesosOperacion + PlanteaSoluciones + RespondeNecesidades + CumpleTiempo
+    PromedioDesarrollo = PromedioDesarrollo / 6
+    guardado =guardarFOEST02(Proyecto, Miembro, Empresa, Grado, Asesor, puntualidad, Responsabilidad, Etica, TomaDecisiones, Liderazgo, ExpresaIdeas, ComunicacionAsertiva, ResolucionSituaciones, ActitudFavorable, TrabajoEnEquipo, PromedioActitud, Estrategias, AccionesMejora, ProcesosOperacion, PlanteaSoluciones, RespondeNecesidades, CumpleTiempo, PromedioDesarrollo)
+    if guardado:
+        return render_template('Cargas/foest02.html')
+    else:
+        return 'Error al guardar los datos en la base de datos'
+def guardarFOEST02(Proyecto,Miembro,Empresa,GradoEstudios,AsesorEmpresarial,puntualidad, Responsabilidad, Etica, TomaDecisiones, Liderazgo, ExpresaIdeas, ComunicacionAsertiva, ResolucionSituaciones, ActitudFavorable, TrabajoEnEquipo, PromedioActitud, Estrategias, AccionesMejora, ProcesosOperacion, PlanteaSoluciones, RespondeNecesidades, CumpleTiempo, PromedioDesarrollo):
+    query = text("INSERT INTO foest02 (Proyecto, Miembro, Empresa, GradoEstudios, AsesorEmpresarial, puntualidad, Responsabilidad, Etica, TomaDecisiones, Liderazgo, ExpresaIdeas, ComunicacionAsertiva, ResolucionSituaciones, ActitudFavorable, TrabajoEnEquipo, PromedioActitud, Estrategias, AccionesMejora, ProcesosOperacion, PlanteaSoluciones, RespondeNecesidades, CumpleTiempo, PromedioDesarrollo) VALUES (:Proyecto,:Miembro,:Empresa,:GradoEstudios,:AsesorEmpresarial,:puntualidad,:Responsabilidad,:Etica,:TomaDecisiones,:Liderazgo,:ExpresaIdeas,:ComunicacionAsertiva,:ResolucionSituaciones,:ActitudFavorable,:TrabajoEnEquipo,:PromedioActitud,:Estrategias,:AccionesMejora,:ProcesosOperacion,:PlanteaSoluciones,:RespondeNecesidades,:CumpleTiempo,:PromedioDesarrollo)")
+    # Asegúrate de que los parámetros coincidan con los nombres de las columnas en tu tabla foest02
+    try:
+        with engine.connect() as conn:
+            with conn.begin():
+                conn.execute(query, {
+                    'Proyecto': Proyecto,
+                    'Miembro': Miembro,
+                    'Empresa': Empresa,
+                    'GradoEstudios': GradoEstudios,
+                    'AsesorEmpresarial': AsesorEmpresarial,
+                    'puntualidad': puntualidad,
+                    'Responsabilidad': Responsabilidad,
+                    'Etica': Etica,
+                    'TomaDecisiones': TomaDecisiones,
+                    'Liderazgo': Liderazgo,
+                    'ExpresaIdeas': ExpresaIdeas,
+                    'ComunicacionAsertiva': ComunicacionAsertiva,
+                    'ResolucionSituaciones': ResolucionSituaciones,
+                    'ActitudFavorable': ActitudFavorable,
+                    'TrabajoEnEquipo': TrabajoEnEquipo,
+                    'PromedioActitud': PromedioActitud,
+                    'Estrategias': Estrategias,
+                    'AccionesMejora': AccionesMejora,
+                    'ProcesosOperacion': ProcesosOperacion,
+                    'PlanteaSoluciones': PlanteaSoluciones,
+                    'RespondeNecesidades': RespondeNecesidades,
+                    'CumpleTiempo': CumpleTiempo,
+                    'PromedioDesarrollo': PromedioDesarrollo
+                })
+        return True
+    except Exception as e:
+        print(f"------------------------------------------Error al insertar en foest02: {e}")
+        return False

@@ -18,13 +18,14 @@
     
         <main>
             
-            <form action="/evaluacion_foest02" method="">
+            <form action="/evaluacion_foest02" method="post">
+                <input type="hidden" name="ProyectoID" value="{{ProyectoID}}">
                 <div class="container">
                     <div class="header text-center mb-4">
                         <h1>FO-EST- 02 EVALUACIÓN POR LA EMPRESA</h1>
                         <div class="codigo">
                             <p>Código: FO-EST-02</p>
-                            <p>Edición: 6</p>
+                            <p>Edición: 7</p>
                             <p>Fecha: 31/08/2022 </p>
                             <p>La evaluación por la empresa aporta el 40% a la calificación del 3er parcial de la estancia/estadía.</p>
                         </div>
@@ -33,12 +34,13 @@
                     <label for="advisorName">Nombre y Apellidos del Asesor Empresarial:</label>
                     
                     <input type="text" id="nombreasesor" name="nombreasesor" disabled value="{{nombreoculto}}">
+                    <input type="hidden" id="nombreasesor" name="nombreasesor" value="{{nombreoculto}}">
                     <input type="hidden" id="equipo" name="equipo" value="{{equipo}}">
                 </div>
 
                 <div class="form-group">
                     <label for="advisorDegree">Grado de Estudios del Asesor Empresarial:</label>
-                    <select id="advisorDegree" name="advisorDegree" required>
+                    <select id="advisorDegree" name="GradoEstudios" required>
                         <option value="">Seleccione un grado</option>
                         <option value="Ing.">Ing.</option>
                         <option value="Lic.">Lic.</option>
@@ -52,7 +54,7 @@
                 <div class="form-group">
                     <label for="projectTitle">Carrera:</label>
                     <input type="text" id="" name="" disabled value="{{carrera}}">
-                    <input type="text" id="" name="" hidden value="{{carrera}}">
+                    <input type="text" id="" name="Carrera" hidden value="{{carrera}}">
                 </div>
 
                 <div class="form-group">
@@ -61,16 +63,12 @@
                     <input type="text" id="periodo" name="periodo" hidden value="{{periodo}}">
                 </div>
 
-                <!-- <div class="form-group">
-                    <label for="periodo">Etapa:</label>
-                    <input type="text" id="" name="" disabled value="{{etapa}}">
-                    <input type="text" id="periodo" name="periodo" hidden value="{{etapa}}">
-                </div> -->
+               
 
                 <div class="form-group">
                     <label for="companyName">Nombre de la Empresa</label>
                     <input type="text" id="" name="" disabled value="{{empresa}}">
-                    <input type="text" id="companyName" name="companyName" hidden value="{{empresa}}">
+                    <input type="text" id="companyName" name="NombreEmpresa" hidden value="{{empresa}}">
                 </div>
 
                 <div class="form-group">

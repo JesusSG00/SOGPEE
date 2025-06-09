@@ -754,59 +754,62 @@ def vercalificacion02():
 
 def cargarCalificaciones02():
     try:
-        query = text("SELECT foest02.Miembro, estudiante.Nombre1, estudiante.Nombre2, estudiante.ApellidoP, estudiante.ApellidoM,foest02.PromedioActitud,foest02.PromedioDesarrollo FROM estudiante JOIN foest02 ON estudiante.Matricula = foest02.miembro;")
+        query = text("""
+            SELECT foest02.Miembro, estudiante.Nombre1, estudiante.Nombre2, estudiante.ApellidoP, estudiante.ApellidoM,
+                   foest02.PromedioActitud, foest02.PromedioDesarrollo 
+            FROM estudiante 
+            JOIN foest02 ON estudiante.Matricula = foest02.miembro;
+        """)
         with engine.connect() as conn:
-            ok = conn.execute(query).fetchall()  
-            resultado = ''
-            if ok:
-                for fila in ok:
-                    Miembro = fila[0]
-                    Nombre1 = fila[1]
-                    Nombre2 = fila[2]
-                    ApellidoP = fila[3]
-                    ApellidoM = fila[4]
-                    promedio_actitud = fila[5]
-                    promedio_desarrollo = fila[6]
-                    
+            rows = conn.execute(query).fetchall()  
+            
+            if not rows:
+                return '<div class="alert alert-warning text-center">No hay datos disponibles</div>'
 
-                    promedio_actitud=int(promedio_actitud)
-                    promedio_desarrollo=int(promedio_desarrollo)
-
-
-
-                    resultado += f'''<form action="" method="post" class="datos">
-                    <table border="1" cellpadding="5" cellspacing="0">
-    <thead>
-        <tr>
-            <th>Matrocula</th>
-            <th>Nombre</th>
-            <th>Segundo Nombre</th>
-            <th>Apellido Paterno</th>
-            <th>Apellido Materno</th>
-            <th>Prom. Actitud</th>
-            <th>Prom. Desarrollo</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>{Miembro}</td>
-            <td>{Nombre1}</td>
-            <td>{Nombre2}</td>
-            <td>{ApellidoP}</td>
-            <td>{ApellidoM}</td>
-            <td>{promedio_actitud}</td>
-            <td>{promedio_desarrollo}</td>
-        </tr>
-    </tbody>
-</table>
-            <td><button>Ver calificaciones completas</button></td>
-
-                    <input type="hidden" name="Miembro" value="{Miembro}">
-                    
-                    </form> <br>'''
+            resultado = '''
+            <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Nombre</th>
+                        <th>Segundo Nombre</th>
+                        <th>Apellido Paterno</th>
+                        <th>Apellido Materno</th>
+                        <th>Prom. Actitud</th>
+                        <th>Prom. Desarrollo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+            '''
+            for fila in rows:
+                resultado += f'''
+                <tr>
+                    <td>{fila[0]}</td>
+                    <td>{fila[1]}</td>
+                    <td>{fila[2]}</td>
+                    <td>{fila[3]}</td>
+                    <td>{fila[4]}</td>
+                    <td>{int(fila[5])}</td>
+                    <td>{int(fila[6])}</td>
+                    <td>
+                        <form action="/vercalificaciones" method="post">
+                            <input type="hidden" name="Miembro" value="{fila[0]}">
+                            <button type="submit" class="btn btn-success btn-sm">Ver calif. completas</button>
+                        </form>
+                    </td>
+                </tr>
+                '''
+            resultado += '''
+                </tbody>
+            </table>
+            </div>
+            '''
+            return resultado
     except Exception as e:
-        return f'Error al cargar las calificaciones: {str(e)}'
-    return resultado
+        return f'<div class="alert alert-danger text-center">Error al cargar las calificaciones: {str(e)}</div>'
+
 
 
 @app.route('/AgregarProyectoDesdeAsesor', methods=['POST'])

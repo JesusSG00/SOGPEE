@@ -97,17 +97,31 @@
                             Mantenimiento mecánico
                         </div>
                     </label>
-                    </label>
-                    <!-- Añade más opciones aquí siguiendo el mismo patrón -->
                     <label class="option-item other-option">
-                        <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estancia1[]" value="Otras funciones">
-                        </div>
-                        <input type="text" placeholder="Otras funciones...">
-                    </label>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="otrasCheckbox" name="funcion-estancia2[]" value="Otras funciones">
+                    <span>Otras:</span>
                 </div>
-            </div>
+                <input type="text" id="otrasInput" name="funcion-estancia2_otros" placeholder="Otras funciones..." disabled>
+            </label>
         </div>
+    </div>
+</div>
+
+<!-- SCRIPT para habilitar campo "Otras" -->
+<script>
+{
+    const otrasCheckbox = document.getElementById("otrasCheckbox");
+    const otrasInput = document.getElementById("otrasInput");
+
+    otrasCheckbox.addEventListener("change", function () {
+        otrasInput.disabled = !this.checked;
+        if (!this.checked) {
+            otrasInput.value = "";
+        }
+    });
+}
+</script>
     </section>
     <section class="radio-section">
         <!-- Pregunta 1 -->
@@ -260,14 +274,30 @@
                             </div>
                         </label>
                         <label class="option-item other-option">
-                            <div class="checkbox-wrapper">
-                                <input type="checkbox" name="funcion-estancia2[]" value="Otras funciones">
-                            </div>
-                            <input type="text" placeholder="Otras funciones...">
-                        </label>
-                    </div>
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="otrasCheckbox" name="funcion-estancia2[]" value="Otras funciones">
+                    <span>Otras:</span>
                 </div>
-            </div>
+                <input type="text" id="otrasInput" name="funcion-estancia2_otros" placeholder="Otras funciones..." disabled>
+            </label>
+        </div>
+    </div>
+</div>
+
+<!-- SCRIPT para habilitar campo "Otras" -->
+<script>
+{
+    const otrasCheckbox = document.getElementById("otrasCheckbox");
+    const otrasInput = document.getElementById("otrasInput");
+
+    otrasCheckbox.addEventListener("change", function () {
+        otrasInput.disabled = !this.checked;
+        if (!this.checked) {
+            otrasInput.value = "";
+        }
+    });
+}
+</script>
     </section>
     <section class="radio-section">
         <!-- Pregunta 1 -->
@@ -440,16 +470,32 @@
                             Estrategias para el desarrollo de vehículos para el cuidado y protección del medio ambiente
                         </div>
                     </label>
-                    <label class="option-item other-option">
-                        <div class="checkbox-wrapper">
-                            <input type="checkbox" name="funcion-estadia[]" value="Otras funciones">
-                        </div>
-                        <input type="text" placeholder="Otras funciones...">
-                    </label>
-
+                   <label class="option-item other-option">
+                <div class="checkbox-wrapper">
+                    <input type="checkbox" id="otrasCheckbox" name="funcion-estancia2[]" value="Otras funciones">
+                    <span>Otras:</span>
                 </div>
-            </div>
+                <input type="text" id="otrasInput" name="funcion-estancia2_otros" placeholder="Otras funciones..." disabled>
+            </label>
         </div>
+    </div>
+</div>
+
+<!-- SCRIPT para habilitar campo "Otras" -->
+<script>
+{
+    const otrasCheckbox = document.getElementById("otrasCheckbox");
+    const otrasInput = document.getElementById("otrasInput");
+
+    otrasCheckbox.addEventListener("change", function () {
+        otrasInput.disabled = !this.checked;
+        if (!this.checked) {
+            otrasInput.value = "";
+        }
+    });
+}
+</script>
+
     </section>
     <section class="radio-section">
         <!-- Pregunta 1 -->

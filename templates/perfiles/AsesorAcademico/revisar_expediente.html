@@ -25,7 +25,7 @@
 <body>
 
     <header class="container-fluid d-flex justify-content-center bg-white p-2"> 
-        <form action="/loginCoordinacion2 " method="get">
+        <form action="/loginAsesorAcademico2" method="get">
             <button type="submit" class="custom-btn">← Atrás</button>
         </form>
         <div class="logoUPT ms-3">
@@ -38,6 +38,16 @@
     <main>
         <div class="container">
             <div class="form-container d-flex justify-content-center align-items-center row">
+                <h1>Proyectos</h1>
+                   <form action="/AgregarProyectoDesdeAsesor" method="post">
+                    <button class="btn btn-calificar">Agregar</button>
+                    <input type="hidden" id="nombre" name="nombre" value="{{nombre}} {{nombre2}} {{apellidoP}} {{apellidoM}}">
+                    
+                    <input type="hidden" name="ID" id="ID" value="{{ID}}">
+
+
+
+                </form>
                 <h1>Revisar expediente</h1>
                 <label for="titulo">Nombre del proyecto:</label>
                 <select id="titulo" name="titulo" required>

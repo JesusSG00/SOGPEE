@@ -85,10 +85,6 @@ h1 {
     text-align: center;
 }
 
-<<<<<<< HEAD
-
-=======
->>>>>>> 2947a3effdbf9bc2e6bf94fe62d2ae8b6f38cd3e
 @media (max-width: 800px) {
     .proyectos {
         grid-template-columns: repeat(3, 1fr); 
@@ -138,3 +134,4 @@ button:active {
     transform: translateY(0); /* Regresa a la posición original al hacer clic */
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Sombra más pequeña al hacer clic */
 }
+

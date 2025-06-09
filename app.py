@@ -769,7 +769,7 @@ def cargarCalificaciones02():
 
 
 
-                    resultado += f'''<form action="" method="post" class="datos">
+                    resultado += f'''<form action="/calificacionCompleta" method="post" class="datos">
                     <table border="1" cellpadding="5" cellspacing="0">
     <thead>
         <tr>
@@ -802,6 +802,52 @@ def cargarCalificaciones02():
     except Exception as e:
         return f'Error al cargar las calificaciones: {str(e)}'
     return resultado
+
+@app.route('/calificacionCompleta', methods=['POST'])
+def cargarCalificaciones02Completas():
+    try:
+        query = text("SELECT estudiante.Nombre1, estudiante.Nombre2, estudiante.ApellidoP, estudiante.ApellidoM,foest02.*FROM estudiante JOIN foest02 ON estudiante.Matricula = foest02.Miembro;")
+        with engine.connect() as conn:
+            ok = conn.execute(query).fetchall()  
+            
+            if ok:
+                for fila in ok:
+                    Nombre1 = fila[0]
+                    Nombre2 = fila[1]
+                    ApellidoP = fila[2]
+                    ApellidoM = fila[3]
+                    
+                    Puntualidad = fila[11]
+                    Responsabilidad = fila[12]
+                    Etica = fila[13]
+                    TomaDecisiones = fila[14]
+                    Liderazgo = fila[15]
+                    ExpresaIdeas= fila[16]
+                    ComunicacionAsertiva = fila[17]
+                    ResolucionSituaciones = fila[18]
+                    ActitudFavorable = fila[19]
+                    TrabajoEquipo = fila[20]
+                    promedio_actitud = fila[21]
+                    Estrategias = fila[22]
+                    AccionesMejora = fila[23]
+                    ProcesosOperacion = fila[24]
+                    PlanteaSoluciones = fila[25]
+                    RespondeNecesidades = fila[26]
+                    CumpleTiempos = fila[27]
+                    promedio_desarrollo = fila[28]
+                    
+
+                    promedio_actitud=int(promedio_actitud)
+                    promedio_desarrollo=int(promedio_desarrollo)
+    except Exception as e:
+        return f'Error al cargar las calificaciones: {str(e)}'
+
+
+                
+    return render_template('perfiles/Coordinacion/calificacionCompleta.html',Nombre1=Nombre1, Nombre2=Nombre2, ApellidoP=ApellidoP, ApellidoM=ApellidoM,
+                           Puntualidad=Puntualidad, Responsabilidad=Responsabilidad, Etica=Etica, TomaDecisiones=TomaDecisiones, Liderazgo=Liderazgo,ExpresaIdeas=ExpresaIdeas,
+                           ComunicacionAsertiva=ComunicacionAsertiva, ResolucionSituaciones=ResolucionSituaciones, ActitudFavorable=ActitudFavorable, TrabajoEquipo=TrabajoEquipo,Estrategias=Estrategias,
+                           AccionesMejora=AccionesMejora, ProcesosOperacion=ProcesosOperacion, PlanteaSoluciones=PlanteaSoluciones, RespondeNecesidades=RespondeNecesidades, CumpleTiempos=CumpleTiempos,promedio_actitud=promedio_actitud,promedio_desarrollo=promedio_desarrollo)
 
 
 @app.route('/AgregarProyectoDesdeAsesor', methods=['POST'])

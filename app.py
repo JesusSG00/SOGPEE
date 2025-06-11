@@ -753,6 +753,43 @@ def vercalificacion02():
     return render_template('perfiles/Coordinacion/vercalificacion02.html', resultado=resultado)
 
 
+@app.route('/calificacionCompleta08',methods=['POST'])
+def calificacionCompleta08():
+    try:
+        matricula = request.form['Matricula']
+        query = text("""
+            SELECT * from foest08 where Matricula = :matricula
+        """)
+
+        with engine.connect() as conn:
+            ok = conn.execute(query,{"matricula":matricula}).fetchall()
+
+            
+            if ok:
+                for fila in ok:
+                    Pregunta1 = fila[1]
+                    Pregunta2 = fila[2]
+                    Pregunta3 = fila[3]
+                    Pregunta4 = fila[4]
+                    Pregunta5 = fila[5]
+                    Pregunta6 = fila[6]
+
+                    Pregunta7 = fila[7]
+                    Pregunta8 = fila[8]
+                    Pregunta9 = fila[9]
+                    Promedio= fila[10]
+                    Veracidad = fila[11]
+
+                    Comentarios = fila[12]
+                    Matricula = fila[13]
+                 
+                   
+    except Exception as e:
+        return f'Error al cargar las calificaciones: {str(e)}'   
+    return render_template('perfiles/Coordinacion/calificacionesCompletas08.html',Pregunta1 = Pregunta1,Pregunta2 = Pregunta2,Pregunta3 = Pregunta3,Pregunta4 = Pregunta4,Pregunta5 = Pregunta5,Pregunta6 = Pregunta6,Pregunta7 = Pregunta7,
+                           Pregunta8 = Pregunta8,Pregunta9 = Pregunta9,Promedio = Promedio,Veracidad = Veracidad,Comentarios = Comentarios,Matricula = Matricula)
+
+
 @app.route('/calificacionCompleta03',methods=['POST'])
 def calificacionCompleta03():
     try:
@@ -805,6 +842,62 @@ def verMasCalificaciones():
 def verCalificacion03():
     resultado = cargarCalificaciones03()
     return render_template('perfiles/Coordinacion/vercalificacion03.html',resultado = resultado)
+
+@app.route('/vercalificacion08',methods=['POST'])
+def verCalificacion08():
+    resultado = cargarCalificaciones08()
+    return render_template('perfiles/Coordinacion/vercalificaciones08.html',resultado = resultado)
+
+def cargarCalificaciones08():
+    try:
+        query = text("""
+            SELECT Matricula,Promedio,Comentarios FROM foest08;
+        """)
+        with engine.connect() as conn:
+            rows = conn.execute(query).fetchall()  
+            
+            if not rows:
+                return '<div class="alert alert-warning text-center">No hay datos disponibles</div>'
+
+            resultado = '''
+            <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Promedio</th>
+                        <th>Comentarios</th>
+
+                   
+                    </tr>
+                </thead>
+                <tbody>
+            '''
+            for fila in rows:
+                resultado += f'''
+                <tr>
+                    <td>{fila[0]}</td>
+                    <td>{fila[1]}</td>
+                    <td>{fila[2]}</td>
+
+                    <td>
+                        <form action="/calificacionCompleta08" method="post">
+                            <input type="hidden" name="Matricula" value="{fila[0]}">
+                            <button type="submit" class="btn btn-success btn-sm">Ver calif. completas</button>
+                        </form>
+                    </td>
+                </tr>
+                '''
+            resultado += '''
+                </tbody>
+            </table>
+            </div>
+            '''
+            return resultado
+    except Exception as e:
+        return f'<div class="alert alert-danger text-center">Error al cargar las calificaciones: {str(e)}</div>'
+
+
 
 def cargarCalificaciones02():
     try:

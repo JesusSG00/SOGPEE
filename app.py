@@ -752,6 +752,60 @@ def vercalificacion02():
 
     return render_template('perfiles/Coordinacion/vercalificacion02.html', resultado=resultado)
 
+
+@app.route('/calificacionCompleta03',methods=['POST'])
+def calificacionCompleta03():
+    try:
+        nombre = request.form['Nombre']
+        query = text("""
+            SELECT calificacionproyectop1.*,calificacionproyectop2.*,calificacionproyectop3.*
+FROM proyecto
+JOIN calificacionproyectop1 ON proyecto.Nombre = calificacionproyectop1.Proyecto
+JOIN calificacionproyectop2 ON proyecto.Nombre = calificacionproyectop2.Proyecto
+JOIN calificacionproyectop3 ON proyecto.Nombre = calificacionproyectop3.Proyecto
+WHERE proyecto.Nombre = :Nombre;
+        """)
+
+        with engine.connect() as conn:
+            ok = conn.execute(query,{"Nombre":nombre}).fetchall()
+
+            
+            if ok:
+                for fila in ok:
+                    Antecedentes = fila[2]
+                    Planteamiento = fila[3]
+                    Justificacion = fila[4]
+                    Objetivos = fila[5]
+                    ObjetivosEspecificos = fila[6]
+                    PromedioP1 = fila[7]
+
+                    Marco = fila[10]
+                    Metodologia = fila[11]
+                    Cronograma = fila[12]
+                    Desarrollo= fila[13]
+                    PromedioP2 = fila[14]
+
+                    Resultados = fila[17]
+                    Conclusiones = fila[18]
+                    Referencias = fila[19]
+                    Anexos = fila[20]
+                    PromedioP3 = fila[21]
+                   
+    except Exception as e:
+        return f'Error al cargar las calificaciones: {str(e)}'   
+    return render_template('perfiles/Coordinacion/calificacionesCompletas03.html',Antecedentes=Antecedentes,Planteamiento=Planteamiento,Justificacion=Justificacion,
+                           Objetivos = Objetivos,ObjetivosEspecificos=ObjetivosEspecificos,PromedioP1 = PromedioP1,Marco = Marco,Metodologia = Metodologia,Cronograma = Cronograma,
+                           Desarrollo = Desarrollo,PromedioP2 = PromedioP2,Resultados = Resultados,Conclusiones = Conclusiones,Referencias = Referencias,Anexos = Anexos,PromedioP3 = PromedioP3)
+
+@app.route('/verMasCalificaciones', methods=['POST'])
+def verMasCalificaciones():
+    return render_template('perfiles/Coordinacion/verCalificaciones.html')
+
+@app.route('/vercalificacion03',methods=['POST'])
+def verCalificacion03():
+    resultado = cargarCalificaciones03()
+    return render_template('perfiles/Coordinacion/vercalificacion03.html',resultado = resultado)
+
 def cargarCalificaciones02():
     try:
         query = text("""
@@ -796,6 +850,60 @@ def cargarCalificaciones02():
                     <td>
                         <form action="/calificacionCompleta" method="post">
                             <input type="hidden" name="Miembro" value="{fila[0]}">
+                            <button type="submit" class="btn btn-success btn-sm">Ver calif. completas</button>
+                        </form>
+                    </td>
+                </tr>
+                '''
+            resultado += '''
+                </tbody>
+            </table>
+            </div>
+            '''
+            return resultado
+    except Exception as e:
+        return f'<div class="alert alert-danger text-center">Error al cargar las calificaciones: {str(e)}</div>'
+
+def cargarCalificaciones03():
+    try:
+        query = text("""
+            SELECT proyecto.Nombre,calificacionproyectop1.Calificacion,calificacionproyectop2.Calificacion,calificacionproyectop3.Calificacion
+FROM proyecto
+JOIN calificacionproyectop1 ON proyecto.Nombre = calificacionproyectop1.Proyecto
+JOIN calificacionproyectop2 ON proyecto.Nombre = calificacionproyectop2.Proyecto
+JOIN calificacionproyectop3 ON proyecto.Nombre = calificacionproyectop3.Proyecto;
+        """)
+        with engine.connect() as conn:
+            rows = conn.execute(query).fetchall()  
+            
+            if not rows:
+                return '<div class="alert alert-warning text-center">No hay datos disponibles</div>'
+
+            resultado = '''
+            <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Proyecto</th>
+                        <th>Parcial 1</th>
+                        <th>Parcial 2</th>
+                        <th>Parcial 3</th>
+                    </tr>
+                </thead>
+                <tbody>
+            '''
+            for fila in rows:
+                resultado += f'''
+                <tr>
+                    <td>{fila[0]}</td>
+                    <td>{fila[1]}</td>
+                    <td>{fila[2]}</td>
+                    <td>{fila[3]}</td>
+                 
+                    <td>
+                        <form action="/calificacionCompleta03" method="post">
+                            <input type="hidden" name="Nombre" value="{fila[0]}">
+
                             <button type="submit" class="btn btn-success btn-sm">Ver calif. completas</button>
                         </form>
                     </td>
@@ -860,8 +968,7 @@ def cargarCalificaciones02Completas():
 
 
                 
-    return render_template('perfiles/Coordinacion/calificacionCompleta.html',Nombre1=Nombre1, Nombre2=Nombre2, ApellidoP=ApellidoP, ApellidoM=ApellidoM,
-                           Puntualidad=Puntualidad, Responsabilidad=Responsabilidad, Etica=Etica, TomaDecisiones=TomaDecisiones, Liderazgo=Liderazgo,ExpresaIdeas=ExpresaIdeas,
+    return render_template('perfiles/Coordinacion/calificacionCompleta.html',Puntualidad=Puntualidad, Responsabilidad=Responsabilidad, Etica=Etica, TomaDecisiones=TomaDecisiones, Liderazgo=Liderazgo,ExpresaIdeas=ExpresaIdeas,
                            ComunicacionAsertiva=ComunicacionAsertiva, ResolucionSituaciones=ResolucionSituaciones, ActitudFavorable=ActitudFavorable, TrabajoEquipo=TrabajoEquipo,Estrategias=Estrategias,
                            AccionesMejora=AccionesMejora, ProcesosOperacion=ProcesosOperacion, PlanteaSoluciones=PlanteaSoluciones, RespondeNecesidades=RespondeNecesidades, CumpleTiempos=CumpleTiempos,promedio_actitud=promedio_actitud,promedio_desarrollo=promedio_desarrollo)
 

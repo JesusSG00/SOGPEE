@@ -175,12 +175,12 @@
   </style>
 </head>
 <body>
-  <form action="/vercalificacion02 " method="post">
+  <form action="/vercalificacion03 " method="post">
     <button type="submit" class="custom-btn">← Atrás</button>
   </form>
   <main class="container" role="main" aria-label="Calificaciones y promedios del alumno">
     <section class="table-card" aria-labelledby="ser-title">
-      <h2 id="ser-title">Calificaciones de Actitud</h2>
+      <h2 id="ser-title">Calificaciones Parcial 1</h2>
       <table aria-describedby="ser-desc" role="grid">
         <thead>
           <tr>
@@ -190,28 +190,50 @@
         </thead>
         <tbody id="ser-grades">
           <!-- 10 input rows for Ser grades -->
-          <tr><td>Puntualidad y asistencia</td><td>{{Puntualidad}}</td></tr>
-          <tr><td>Responsabilidad en cumplimiento de actividades establecidad</td><td>{{Responsabilidad}}</td></tr>
-          <tr><td>Muestra ética y confiabilidad en el manejo de la información</td><td>{{Etica}}</td></tr>
-          <tr><td>Evidencia capacidad para la toma de decisiones en la resolución de problemas</td><td>{{TomaDecisiones}}</td></tr>
-          <tr><td>Muestra liderazgo en su desempeño</td><td>{{Liderazgo}}</td></tr>
-          <tr><td>Expresa sus ideas de forma clara</td><td>{{ExpresaIdeas}}</td></tr>
-          <tr><td>Muestra comunicación asertiva en su desempeño</td><td>{{ComunicacionAsertiva}}</td></tr>
-          <tr><td>Propone alternativas para resolución de situaciones</td><td>{{ResolucionSituaciones}}</td></tr>
-          <tr><td>Muestra actitud favorable</td><td>{{ActitudFavorable}}</td></tr>
-          <tr><td>1Muestra capacidad para trabajar en equipo</td><td>{{TrabajoEquipo}}</td></tr>
+          <tr><td>Antecedentes</td><td>{{Antecedentes}}</td></tr>
+          <tr><td>Planteamiento</td><td>{{Planteamiento}}</td></tr>
+          <tr><td>Justificacion</td><td>{{Justificacion}}</td></tr>
+          <tr><td>Objetivos</td><td>{{Objetivos}}</td></tr>
+          <tr><td>Objetivos Especificos</td><td>{{ObjetivosEspecificos}}</td></tr>
         </tbody>
         <tfoot>
           <tr>
-            <td>Promedio</td>
-            <td id="ser-average">{{promedio_actitud}}</td>
+            <td>Calificacion</td>
+            <td id="ser-average">{{PromedioP1}}</td>
           </tr>
         </tfoot>
       </table>
     </section>
 
+
+    <section class="table-card" aria-labelledby="ser-title">
+      <h2 id="ser-title">Calificaciones Parcial 2</h2>
+      <table aria-describedby="ser-desc" role="grid">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Calificación</th>
+          </tr>
+        </thead>
+        <tbody id="ser-grades">
+          <!-- 10 input rows for Ser grades -->
+          <tr><td>Marco Teorico</td><td>{{Marco}}</td></tr>
+          <tr><td>Metodologia</td><td>{{Metodologia}}</td></tr>
+          <tr><td>Cronograma</td><td>{{Cronograma}}</td></tr>
+          <tr><td>Desarrollo</td><td>{{Desarrollo}}</td></tr>
+         </tbody>
+        <tfoot>
+          <tr>
+            <td>Promedio</td>
+            <td id="ser-average">{{PromedioP2}}</td>
+          </tr>
+        </tfoot>
+      </table>
+    </section>
+
+
     <section class="table-card" aria-labelledby="desarrollo-title">
-      <h2 id="desarrollo-title">Calificaciones de Desarrollo</h2>
+      <h2 id="desarrollo-title">Calificaciones Parcial 3</h2>
       <table aria-describedby="desarrollo-desc" role="grid">
         <thead>
           <tr>
@@ -221,17 +243,16 @@
         </thead>
         <tbody id="desarrollo-grades">
           <!-- 6 input rows for Desarrollo grades -->
-          <tr><td>Diseña, desarrolla y ejecuta estrategias dentro del área</td><td>{{Estrategias}}</td></tr>
-          <tr><td>Analiza y plantea acciones de mejora</td><td>{{AccionesMejora}}</td></tr>
-          <tr><td>Genera y mejora los procesos de operación en base a su desarrollo</td><td>{{ProcesosOperacion}}</td></tr>
-          <tr><td>Plantea soluciones e ideas innovadoras en la solución de problemas dentro de la empresa</td><td>{{PlanteaSoluciones}}</td></tr>
-          <tr><td>El perfil del estudiante responde a las necesidades de la empresa</td><td>{{RespondeNecesidades}}</td></tr>
-          <tr><td>Realiza las actividades encomendadas y cumple correctamente durante el tiempo de la estancia/estadía</td><td>{{CumpleTiempos}}</td></tr>
+          <tr><td>Resultados</td><td>{{Resultados}}</td></tr>
+          <tr><td>Conclusiones</td><td>{{Conclusiones}}</td></tr>
+          <tr><td>Referencias</td><td>{{Referencias}}</td></tr>
+          <tr><td>Anexos</td><td>{{Anexos}}</td></tr>
+
         </tbody>
         <tfoot>
           <tr>
             <td>Promedio</td>
-            <td id="desarrollo-average">{{promedio_desarrollo}}</td>
+            <td id="desarrollo-average">{{PromedioP3}}</td>
           </tr>
         </tfoot>
       </table>

@@ -1,5 +1,5 @@
 import datetime
-from flask import Flask,render_template,request, url_for,send_file
+from flask import Flask, flash, redirect,render_template,request, url_for,send_file
 from werkzeug.utils import secure_filename
 from sqlalchemy import text, create_engine, MetaData, Table
 from conexion import engine
@@ -7,10 +7,18 @@ import os,fitz,re
 from PIL import Image
 from pathlib import Path
 import pandas as pd
-
+from logins import *
+from Alumno_Complementos import *
+from Coordinacion_Complementos import *
 app = Flask(__name__)
 CSV_PATH = 'data/foest07.csv'
 EXCEL_PATH = 'data/foest07.xlsx'
+
+
+@app.errorhandler(405)
+def metodo_no_permitido(e):
+    flash("Acceso no permitido directamente a esta página.")
+    return f'no'
 
 
 #Pagina principal
@@ -22,6 +30,19 @@ def index():
 @app.route('/loginEstudiante2')
 def loginEstudiante2():
     return render_template('/login/loginEstudiante2.html')
+
+
+@app.route('/logins')
+def logins():
+    return render_template('/login/logins.html')
+
+
+@app.route('/validarLogins',methods=['POST'])
+def validarLogins():
+    correo = request.form['correo']
+    password = request.form['password']
+    resultado = validarLogin(correo,password) 
+    return resultado
 
 @app.route('/loginEstudiante3',methods=['POST'])
 def loginEstudiante3():
@@ -86,8 +107,7 @@ def updateModificarPeriodo(periodo):
             conn.rollback()
             return f'ERROR AL MODIFICAR EL PERIODO: {str(e)}'
 
-if __name__ == '__main__':
-    app.run(debug=True)
+
 
 
 
@@ -297,6 +317,7 @@ def guardartodo():
 def regresarasesor():
     ID = request.form['IDA']
     resultado = cargarProyectosAsesor(ID)
+    limpiar_temp()
     return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID)
                 
 
@@ -562,43 +583,10 @@ def regresar():
     correo = request.form['correo']
     return inicioSesionEstudiante(matricula,correo)
 
-def inicioSesionEstudiante(matricula,correo):
-    proyecto = cargarProyectoAlumno(matricula)
-    asesor = cargarAsesorEmpresarial(proyecto)
-    folio = folioproyecto(proyecto)
-    try:
-        query = text("SELECT Matricula,Nombre1,Nombre2,ApellidoP,ApellidoM,Telefono,Correo FROM estudiante WHERE matricula = :matricula AND correo =:correo")
-        with engine.connect() as conn:
-            ok= conn.execute(query, {'matricula': matricula,'correo':correo}).fetchone()
-            if ok:
-                Matricula = ok[0]
-                Nombre1 = ok[1]
-                Nombre2 = ok[2]
-                ApellidoP = ok[3]
-                ApellidoM = ok[4]
-                Telefono = ok[5]
-                Correo = ok[6]
-                validar = verificarAsignacionProyecto(matricula)
-                
-                return render_template('/perfiles/evaluacionEstudiante.html',Matricula=Matricula,Nombre1=Nombre1,Nombre2=Nombre2,ApellidoM=ApellidoM,ApellidoP=ApellidoP,Telefono=Telefono,Correo=Correo,proyecto = proyecto,asesor=asesor,validar= validar,folio = folio)
-            else:
-                return render_template('Error/EstudianteNoEncontrado.html')
-    except Exception as e:
-            return f'error {e}'
+
     
 
-def folioproyecto(proyecto):
-    try:
-        query = text("SELECT ProyectoID FROM proyecto WHERE Nombre = :proyecto")
-        with engine.connect() as conn:
-            ok= conn.execute(query, {'proyecto': proyecto}).fetchone()
-            if ok:
-                folio = ok[0]
-                return folio
-            else:
-                return "no encontrado"
-    except Exception as e:
-            return f'error {e}'
+
 
 def Estudiante(matricula, proyecto,correo):
     try:
@@ -755,91 +743,21 @@ def obtenerProcedimientoYCarrera(nombreProyecto):
 @app.route('/vercalificacion02', methods=['POST'])
 def vercalificacion02():
     resultado  = cargarCalificaciones02()
-
     return render_template('perfiles/Coordinacion/vercalificacion02.html', resultado=resultado)
 
 
 @app.route('/calificacionCompleta08',methods=['POST'])
 def calificacionCompleta08():
-    try:
-        matricula = request.form['Matricula']
-        query = text("""
-            SELECT * from foest08 where Matricula = :matricula
-        """)
-
-        with engine.connect() as conn:
-            ok = conn.execute(query,{"matricula":matricula}).fetchall()
-
-            
-            if ok:
-                for fila in ok:
-                    Pregunta1 = fila[1]
-                    Pregunta2 = fila[2]
-                    Pregunta3 = fila[3]
-                    Pregunta4 = fila[4]
-                    Pregunta5 = fila[5]
-                    Pregunta6 = fila[6]
-
-                    Pregunta7 = fila[7]
-                    Pregunta8 = fila[8]
-                    Pregunta9 = fila[9]
-                    Promedio= fila[10]
-                    Veracidad = fila[11]
-
-                    Comentarios = fila[12]
-                    Matricula = fila[13]
-                 
-                   
-    except Exception as e:
-        return f'Error al cargar las calificaciones: {str(e)}'   
-    return render_template('perfiles/Coordinacion/calificacionesCompletas08.html',Pregunta1 = Pregunta1,Pregunta2 = Pregunta2,Pregunta3 = Pregunta3,Pregunta4 = Pregunta4,Pregunta5 = Pregunta5,Pregunta6 = Pregunta6,Pregunta7 = Pregunta7,
-                           Pregunta8 = Pregunta8,Pregunta9 = Pregunta9,Promedio = Promedio,Veracidad = Veracidad,Comentarios = Comentarios,Matricula = Matricula)
-
-
+    matricula = request.form['Matricula']
+    Resultado = Completa08(matricula)
+    return Resultado
+   
 @app.route('/calificacionCompleta03',methods=['POST'])
 def calificacionCompleta03():
-    try:
-        nombre = request.form['Nombre']
-        query = text("""
-            SELECT calificacionproyectop1.*,calificacionproyectop2.*,calificacionproyectop3.*
-FROM proyecto
-JOIN calificacionproyectop1 ON proyecto.Nombre = calificacionproyectop1.Proyecto
-JOIN calificacionproyectop2 ON proyecto.Nombre = calificacionproyectop2.Proyecto
-JOIN calificacionproyectop3 ON proyecto.Nombre = calificacionproyectop3.Proyecto
-WHERE proyecto.Nombre = :Nombre;
-        """)
-
-        with engine.connect() as conn:
-            ok = conn.execute(query,{"Nombre":nombre}).fetchall()
-
-            
-            if ok:
-                for fila in ok:
-                    Antecedentes = fila[2]
-                    Planteamiento = fila[3]
-                    Justificacion = fila[4]
-                    Objetivos = fila[5]
-                    ObjetivosEspecificos = fila[6]
-                    PromedioP1 = fila[7]
-
-                    Marco = fila[10]
-                    Metodologia = fila[11]
-                    Cronograma = fila[12]
-                    Desarrollo= fila[13]
-                    PromedioP2 = fila[14]
-
-                    Resultados = fila[17]
-                    Conclusiones = fila[18]
-                    Referencias = fila[19]
-                    Anexos = fila[20]
-                    PromedioP3 = fila[21]
-                   
-    except Exception as e:
-        return f'Error al cargar las calificaciones: {str(e)}'   
-    return render_template('perfiles/Coordinacion/calificacionesCompletas03.html',Antecedentes=Antecedentes,Planteamiento=Planteamiento,Justificacion=Justificacion,
-                           Objetivos = Objetivos,ObjetivosEspecificos=ObjetivosEspecificos,PromedioP1 = PromedioP1,Marco = Marco,Metodologia = Metodologia,Cronograma = Cronograma,
-                           Desarrollo = Desarrollo,PromedioP2 = PromedioP2,Resultados = Resultados,Conclusiones = Conclusiones,Referencias = Referencias,Anexos = Anexos,PromedioP3 = PromedioP3)
-
+    nombre = request.form['Nombre']
+    Resultado = Completa03(nombre)
+    return Resultado
+    
 @app.route('/verMasCalificaciones', methods=['POST'])
 def verMasCalificaciones():
     return render_template('perfiles/Coordinacion/verCalificaciones.html')
@@ -854,222 +772,12 @@ def verCalificacion08():
     resultado = cargarCalificaciones08()
     return render_template('perfiles/Coordinacion/vercalificaciones08.html',resultado = resultado)
 
-def cargarCalificaciones08():
-    try:
-        query = text("""
-            SELECT Matricula,Promedio,Comentarios FROM foest08;
-        """)
-        with engine.connect() as conn:
-            rows = conn.execute(query).fetchall()  
-            
-            if not rows:
-                return '<div class="alert alert-warning text-center">No hay datos disponibles</div>'
-
-            resultado = '''
-            <div class="table-responsive">
-            <table class="table table-bordered text-center align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th>Matrícula</th>
-                        <th>Promedio</th>
-                        <th>Comentarios</th>
-
-                   
-                    </tr>
-                </thead>
-                <tbody>
-            '''
-            for fila in rows:
-                resultado += f'''
-                <tr>
-                    <td>{fila[0]}</td>
-                    <td>{fila[1]}</td>
-                    <td>{fila[2]}</td>
-
-                    <td>
-                        <form action="/calificacionCompleta08" method="post">
-                            <input type="hidden" name="Matricula" value="{fila[0]}">
-                            <button type="submit" class="btn btn-success btn-sm">Ver calif. completas</button>
-                        </form>
-                    </td>
-                </tr>
-                '''
-            resultado += '''
-                </tbody>
-            </table>
-            </div>
-            '''
-            return resultado
-    except Exception as e:
-        return f'<div class="alert alert-danger text-center">Error al cargar las calificaciones: {str(e)}</div>'
-
-
-
-def cargarCalificaciones02():
-    try:
-        query = text("""
-            SELECT foest02.Miembro, estudiante.Nombre1, estudiante.Nombre2, estudiante.ApellidoP, estudiante.ApellidoM,
-                   foest02.PromedioActitud, foest02.PromedioDesarrollo 
-            FROM estudiante 
-            JOIN foest02 ON estudiante.Matricula = foest02.miembro;
-        """)
-        with engine.connect() as conn:
-            rows = conn.execute(query).fetchall()  
-            
-            if not rows:
-                return '<div class="alert alert-warning text-center">No hay datos disponibles</div>'
-
-            resultado = '''
-            <div class="table-responsive">
-            <table class="table table-bordered text-center align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th>Matrícula</th>
-                        <th>Nombre</th>
-                        <th>Segundo Nombre</th>
-                        <th>Apellido Paterno</th>
-                        <th>Apellido Materno</th>
-                        <th>Prom. Actitud</th>
-                        <th>Prom. Desarrollo</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-            '''
-            for fila in rows:
-                resultado += f'''
-                <tr>
-                    <td>{fila[0]}</td>
-                    <td>{fila[1]}</td>
-                    <td>{fila[2]}</td>
-                    <td>{fila[3]}</td>
-                    <td>{fila[4]}</td>
-                    <td>{int(fila[5])}</td>
-                    <td>{int(fila[6])}</td>
-                    <td>
-                        <form action="/calificacionCompleta" method="post">
-                            <input type="hidden" name="Miembro" value="{fila[0]}">
-                            <button type="submit" class="btn btn-success btn-sm">Ver calif. completas</button>
-                        </form>
-                    </td>
-                </tr>
-                '''
-            resultado += '''
-                </tbody>
-            </table>
-            </div>
-            '''
-            return resultado
-    except Exception as e:
-        return f'<div class="alert alert-danger text-center">Error al cargar las calificaciones: {str(e)}</div>'
-
-def cargarCalificaciones03():
-    try:
-        query = text("""
-            SELECT proyecto.Nombre,calificacionproyectop1.Calificacion,calificacionproyectop2.Calificacion,calificacionproyectop3.Calificacion
-FROM proyecto
-JOIN calificacionproyectop1 ON proyecto.Nombre = calificacionproyectop1.Proyecto
-JOIN calificacionproyectop2 ON proyecto.Nombre = calificacionproyectop2.Proyecto
-JOIN calificacionproyectop3 ON proyecto.Nombre = calificacionproyectop3.Proyecto;
-        """)
-        with engine.connect() as conn:
-            rows = conn.execute(query).fetchall()  
-            
-            if not rows:
-                return '<div class="alert alert-warning text-center">No hay datos disponibles</div>'
-
-            resultado = '''
-            <div class="table-responsive">
-            <table class="table table-bordered text-center align-middle">
-                <thead class="table-light">
-                    <tr>
-                        <th>Proyecto</th>
-                        <th>Parcial 1</th>
-                        <th>Parcial 2</th>
-                        <th>Parcial 3</th>
-                    </tr>
-                </thead>
-                <tbody>
-            '''
-            for fila in rows:
-                resultado += f'''
-                <tr>
-                    <td>{fila[0]}</td>
-                    <td>{fila[1]}</td>
-                    <td>{fila[2]}</td>
-                    <td>{fila[3]}</td>
-                 
-                    <td>
-                        <form action="/calificacionCompleta03" method="post">
-                            <input type="hidden" name="Nombre" value="{fila[0]}">
-
-                            <button type="submit" class="btn btn-success btn-sm">Ver calif. completas</button>
-                        </form>
-                    </td>
-                </tr>
-                '''
-            resultado += '''
-                </tbody>
-            </table>
-            </div>
-            '''
-            return resultado
-    except Exception as e:
-        return f'<div class="alert alert-danger text-center">Error al cargar las calificaciones: {str(e)}</div>'
-
-
 @app.route('/calificacionCompleta', methods=['POST'])
 def cargarCalificaciones02Completas():
-    try:
-        Miembro = request.form['Miembro']
-        query = text("""
-            SELECT estudiante.Nombre1, estudiante.Nombre2, estudiante.ApellidoP, estudiante.ApellidoM, foest02.*
-            FROM estudiante 
-            JOIN foest02 ON estudiante.Matricula = foest02.Miembro
-            WHERE foest02.Miembro = :miembro
-        """)
-
-        with engine.connect() as conn:
-            ok = conn.execute(query, {'miembro': Miembro}).fetchall()
-
-            
-            if ok:
-                for fila in ok:
-                    Nombre1 = fila[0]
-                    Nombre2 = fila[1]
-                    ApellidoP = fila[2]
-                    ApellidoM = fila[3]
-                    
-                    Puntualidad = fila[11]
-                    Responsabilidad = fila[12]
-                    Etica = fila[13]
-                    TomaDecisiones = fila[14]
-                    Liderazgo = fila[15]
-                    ExpresaIdeas= fila[16]
-                    ComunicacionAsertiva = fila[17]
-                    ResolucionSituaciones = fila[18]
-                    ActitudFavorable = fila[19]
-                    TrabajoEquipo = fila[20]
-                    promedio_actitud = fila[21]
-                    Estrategias = fila[22]
-                    AccionesMejora = fila[23]
-                    ProcesosOperacion = fila[24]
-                    PlanteaSoluciones = fila[25]
-                    RespondeNecesidades = fila[26]
-                    CumpleTiempos = fila[27]
-                    promedio_desarrollo = fila[28]
-                    
-
-                    promedio_actitud=int(promedio_actitud)
-                    promedio_desarrollo=int(promedio_desarrollo)
-    except Exception as e:
-        return f'Error al cargar las calificaciones: {str(e)}'
-
-
-                
-    return render_template('perfiles/Coordinacion/calificacionCompleta.html',Puntualidad=Puntualidad, Responsabilidad=Responsabilidad, Etica=Etica, TomaDecisiones=TomaDecisiones, Liderazgo=Liderazgo,ExpresaIdeas=ExpresaIdeas,
-                           ComunicacionAsertiva=ComunicacionAsertiva, ResolucionSituaciones=ResolucionSituaciones, ActitudFavorable=ActitudFavorable, TrabajoEquipo=TrabajoEquipo,Estrategias=Estrategias,
-                           AccionesMejora=AccionesMejora, ProcesosOperacion=ProcesosOperacion, PlanteaSoluciones=PlanteaSoluciones, RespondeNecesidades=RespondeNecesidades, CumpleTiempos=CumpleTiempos,promedio_actitud=promedio_actitud,promedio_desarrollo=promedio_desarrollo)
+    Miembro = request.form['Miembro']
+    Resultado = Completa02(Miembro)
+    return Resultado
+    
 
 
 @app.route('/AgregarProyectoDesdeAsesor', methods=['POST'])
@@ -1313,15 +1021,7 @@ def borrarIDproyecto(ID):
         print(f"Error: {e}") 
         return False
 
-def cargarProyectoAlumno(Matricula):
-    
-    query = text("SELECT p.Nombre FROM estudiante est JOIN equipos e ON est.Matricula = e.Matricula JOIN proyecto p ON e.Id_Proyecto = p.ProyectoID WHERE est.Matricula = :Matricula")
-    with engine.connect() as conn:
-        resultado = conn.execute(query,{'Matricula':Matricula}).fetchone()
-        if resultado:
-            return resultado[0]
-        else:
-            return "No asignado"
+
     
 def guardarRutaDocumentos(matricula,ruta_proyecto,parcial,NombreProyecto):
     docExiste = documentoExiste(matricula,parcial)
@@ -1488,6 +1188,7 @@ def validarCalificadoU2(proyecto):
 def regresarAsesorAcademico():
     ID = request.form['ID']
     resultado = cargarProyectosAsesor(ID)
+    limpiar_temp()
     return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID) 
 
 
@@ -1557,73 +1258,6 @@ def guardarProyectoAsesores(ID,asesorE,asesorA):
     except Exception as e:
         return f'error---------------->{e}'    
 
-def inicioSesionAsesorA(correo,password):
-    try:
-        query = text("SELECT Id,Nombre1,Nombre2,ApellidoP,ApellidoM FROM asesoracademico WHERE password = :password AND Correo =:correo")
-        with engine.connect() as conn:
-            ok= conn.execute(query, {'password': password,'correo':correo}).fetchone()
-            if ok:
-                
-                ID = ok[0]
-                nombre = ok[1]
-                nombre2 = ok[2]
-                apellidoP = ok[3]
-                apellidoM = ok[4]
-
-
-                
-                resultado = cargarProyectosAsesor(ID)
-                return render_template('/perfiles/AsesorAcademico/revisar_expediente.html',resultado = resultado,ID = ID, nombre=nombre,nombre2=nombre2,apellidoP=apellidoP,apellidoM=apellidoM,correo=correo)
-                
-            else:
-                return render_template('Error/AsesorNoEncontrado.html')
-    except Exception as e:
-            return f'error {e}'
-
-def cargarProyectosAsesor(ID):
-    try:
-        query = text('''SELECT 
-        p.Nombre AS NombreProyecto
-        FROM 
-        asesoracademico a
-        JOIN 
-        proyectoasesores pa
-        ON 
-        a.Id = pa.Id_asesorA
-        JOIN 
-        proyecto p
-        ON 
-        pa.Id_proyecto = p.ProyectoID
-        WHERE a.Id = :ID;''')
-        with engine.connect() as conn:
-            ok= conn.execute(query, {'ID': ID}).fetchall()
-            if ok:
-                opciones_html = "".join(f'<option value="{resultado[0]}">{resultado[0]}</option>' for resultado in ok)
-            else:
-                opciones_html ='<option value="">Nada por mostrar</option>'
-            return opciones_html
-    except Exception as e:
-        return None
-
-def cargarAsesorEmpresarial(Proyecto):
-    query = text('''SELECT 
-    CONCAT(ae.Nombre1, ' ', ae.Nombre2, ' ', ae.ApellidoP, ' ', ae.ApellidoM) AS AsesorEmpresarial,
-    p.ProyectoID,
-    p.Nombre AS NombreProyecto
-FROM 
-    proyectoasesores pa
-JOIN 
-    asesorempresarial ae ON pa.Id_asesorE = ae.AsesorID
-JOIN 
-    proyecto p ON pa.Id_proyecto = p.ProyectoID
-    WHERE p.Nombre = :NombreProyecto''')
-    with engine.connect() as conn:
-        resultado = conn.execute(query,{'NombreProyecto':Proyecto}).fetchone()
-        if resultado:
-            return resultado[0]
-        else:
-            return 'No asignado'
-
 def documentoExiste(matricula,parcial):
     query = text("SELECT Proyecto FROM documentos WHERE Matricula = :Matricula AND Parcial = :Parcial")
     with engine.connect() as conn:
@@ -1678,18 +1312,7 @@ def obtenerRutaPDF2(proyecto, parcial):
                 return None  # No se encontró la ruta
     except Exception as e:
         return f'Error al obtener la ruta del PDF: {e}'
-def verificarAsignacionProyecto(Matricula):
-    try:
-        query = text("SELECT matricula FROM Equipos WHERE Matricula = :Matricula")
-        with engine.connect() as conn:
-            ok= conn.execute(query,{'Matricula':Matricula})
-            succ = ok.fetchone()
-            if succ:
-                return True
-            else:
-                return False
-    except Exception as e:
-        return False
+
 
 def visualizarPDF(ruta):
     pdf_path = ruta

@@ -152,7 +152,7 @@ def buscarExpedienteAsesorEmpresarial():
     ProyectoID= request.form['ProyectoID']
     equipo = int(cargarEquipo(ProyectoID))
     integrantes = listaEstudiantes(ProyectoID)
-    periodo = periodoCuatrimestral()
+    periodo = periodoCuatrimestral() 
    
     Nombreproyecto = proyectoAsesorEmpr(ProyectoID)
     empresa=cargarEmpresaEquipo(ProyectoID)
@@ -174,6 +174,7 @@ def buscarExpedienteAsesorEmpresarial():
 #Función para buscar expediente Asesor Empresarial
 @app.route('/buscarExpedienteAsesorEmpresarial1', methods=['POST'])
 def buscarExpedienteAsesorEmpresarial1():
+    anio = aniobase()
     ProyectoID= request.form['ProyectoID']
     equipo = int(cargarEquipo(ProyectoID))
     integrantes = listaEstudiantes(ProyectoID)
@@ -191,7 +192,7 @@ def buscarExpedienteAsesorEmpresarial1():
         with engine.connect() as conn:
             proyecto = conn.execute(query, {'ProyectoID': ProyectoID}).fetchone()
             if proyecto:
-                return render_template('Cuestionarios/cuestionario_foest02.html', proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes,periodo=periodo,carrera=carrera,equipo=equipo,nombreoculto=nombreoculto,ProyectoID=ProyectoID)
+                return render_template('Cuestionarios/cuestionario_foest02.html', anio=anio,proyecto=proyecto,Nombreproyecto=Nombreproyecto,empresa=empresa,nombre=nombre,integrantes = integrantes,periodo=periodo,carrera=carrera,equipo=equipo,nombreoculto=nombreoculto,ProyectoID=ProyectoID)
             else:
                 return render_template('Cargas/ProyectoNEncontrado.html')
             
@@ -216,11 +217,12 @@ def evaluacion_foest02():
     resultado = obtenerMatricula(ProyectoID)
     GradoEstudios = request.form['GradoEstudios']
     Carrera = request.form['Carrera']
-    periodo = request.form['periodo']
     NombreEmpresa = request.form['NombreEmpresa']
     projectTitl = request.form['projectTitl']
+    periodo = periodoCuatrimestral()
+    anio = aniobase()
 
-    return render_template('Cuestionarios/evaluacion_foest02.html',nombreasesor=nombreasesor,resultado=resultado,GradoEstudios=GradoEstudios,Carrera=Carrera,periodo=periodo,NombreEmpresa=NombreEmpresa,projectTitl=projectTitl,ProyectoID=ProyectoID)
+    return render_template('Cuestionarios/evaluacion_foest02.html',nombreasesor=nombreasesor,resultado=resultado,GradoEstudios=GradoEstudios,Carrera=Carrera,NombreEmpresa=NombreEmpresa,projectTitl=projectTitl,ProyectoID=ProyectoID,periodo=periodo,anio=anio)
 
 
 #Validacion del login de coordinacion
@@ -381,6 +383,9 @@ def iniciarsesionEncuesta():
 def encuestaSatisfaccion():
     Matricula = request.form['Matricula']
     Correo = request.form['correo']
+    periodo = periodoCuatrimestral() 
+    anio = aniobase()
+
     
     # Verificar si ya existe una encuesta
     try:
@@ -391,11 +396,11 @@ def encuestaSatisfaccion():
             if result > 0:
                 # Si ya existe, mostrar mensaje
                 return render_template('Cargas/mensaje_encuesta_existente.html', 
-                                    mensaje="Ya has completado la encuesta anteriormente.",Matricula = Matricula,Correo= Correo)
+                                    mensaje="Ya has completado la encuesta anteriormente.",Matricula = Matricula,Correo= Correo, periodo=periodo,anio=anio)
             else:
                 # Si no existe, mostrar el formulario de la encuesta
                 return render_template('Cuestionarios/evaluacion_cuestionario.html',
-                                    Matricula=Matricula, correo=Correo)
+                                    Matricula=Matricula, correo=Correo, periodo=periodo,anio=anio)
                                     
     except Exception as e:
         # Manejar cualquier error de base de datos
@@ -405,7 +410,9 @@ def encuestaSatisfaccion():
 @app.route('/EvalulacionEstudiante', methods=['POST'])
 def enviarEvaluacionEstudiante():
     matricula = request.form['Matricula']
-    
+    periodo = periodoCuatrimestral() 
+    anio = aniobase()
+
     # Verificar nuevamente antes de guardar
     if verificar_encuesta_existente(matricula):
         return render_template('Cargas/mensaje_encuesta_existente.html', 
@@ -428,9 +435,8 @@ def enviarEvaluacionEstudiante():
   
     prom = promedio(question11,question12,question13,question14,question15,
                    question16,question17,question18,question19)
-    guardarForm08C(question11,question12,question13,question14,question15,question16,question17,question18,question19,prom,veracidad,comentario,matricula)
-    return render_template('Cargas/EnvioEvaluacionEstudiante.html',
-                         matricula=matricula, correo=correo)
+    guardarForm08C(question11,question12,question13,question14,question15,question16,question17,question18,question19,prom,veracidad,comentario,matricula,periodo,anio)
+    return render_template('Cargas/EnvioEvaluacionEstudiante.html',matricula=matricula, correo=correo, periodo=periodo,anio=anio)
 
 @app.route('/loginAsesorAcademico',methods=['POST'])
 def loginAsesorAcademico():
@@ -1232,11 +1238,11 @@ def guardarForm08(question11,question12,question13,question14,question15,questio
         return f'error---------------->{e}'
 
 
-def guardarForm08C(question11,question12,question13,question14,question15,question16,question17,question18,question19,prom,veracidad,Comentarios,matricula):
+def guardarForm08C(question11,question12,question13,question14,question15,question16,question17,question18,question19,prom,veracidad,Comentarios,matricula,periodo,anio):
     try:
-        query = text("INSERT INTO foest08 (Pregunta01,Pregunta02,Pregunta03,Pregunta04,Pregunta05,Pregunta06,Pregunta07,Pregunta08,Pregunta09, Promedio, Veracidad,Comentarios, Matricula) VALUES (:Pregunta01, :Pregunta02, :Pregunta03,:Pregunta04,:Pregunta05,:Pregunta06,:Pregunta07,:Pregunta08,:Pregunta09, :Promedio,:Veracidad,:Comentarios,:Matricula)")
+        query = text("INSERT INTO foest08 (Pregunta01,Pregunta02,Pregunta03,Pregunta04,Pregunta05,Pregunta06,Pregunta07,Pregunta08,Pregunta09, Promedio, Veracidad,Comentarios, Matricula, Periodo) VALUES (:Pregunta01, :Pregunta02, :Pregunta03,:Pregunta04,:Pregunta05,:Pregunta06,:Pregunta07,:Pregunta08,:Pregunta09, :Promedio,:Veracidad,:Comentarios,:Matricula,:Periodo)")
         with engine.connect() as conn:
-            conn.execute(query,{'Pregunta01':question11,'Pregunta02':question12,'Pregunta03':question13,'Pregunta04':question14,'Pregunta05':question15,'Pregunta06':question16,'Pregunta07':question17,'Pregunta08':question18,'Pregunta09':question19,'Promedio':prom,'Veracidad':veracidad,'Comentarios':Comentarios,'Matricula':matricula})
+            conn.execute(query,{'Pregunta01':question11,'Pregunta02':question12,'Pregunta03':question13,'Pregunta04':question14,'Pregunta05':question15,'Pregunta06':question16,'Pregunta07':question17,'Pregunta08':question18,'Pregunta09':question19,'Promedio':prom,'Veracidad':veracidad,'Comentarios':Comentarios,'Matricula':matricula, 'Periodo':periodo+ "-" +anio})
             conn.commit()
             return True
     except Exception as e:
@@ -1966,10 +1972,12 @@ def aniobase():
 @app.route('/foest02Evaluar', methods=['POST'])
 def foest02Evaluar():
     Asesor = request.form.get('nombreasesor')
+    Periodo = request.form.get('Periodo')
     Proyecto = request.form.get('Proyecto')
     Miembro = request.form.get('Miembro')
     Empresa = request.form.get('NombreEmpresa')
     Grado  = request.form.get('Grado')
+    
    
     puntualidad = int(request.form['question1'])
     Responsabilidad = int(request.form['question2'])
@@ -1991,18 +1999,21 @@ def foest02Evaluar():
     CumpleTiempo = int(request.form['question16'])
     PromedioDesarrollo = Estrategias + AccionesMejora + ProcesosOperacion + PlanteaSoluciones + RespondeNecesidades + CumpleTiempo
     PromedioDesarrollo = PromedioDesarrollo / 6
-    guardado =guardarFOEST02(Proyecto, Miembro, Empresa, Grado, Asesor, puntualidad, Responsabilidad, Etica, TomaDecisiones, Liderazgo, ExpresaIdeas, ComunicacionAsertiva, ResolucionSituaciones, ActitudFavorable, TrabajoEnEquipo, PromedioActitud, Estrategias, AccionesMejora, ProcesosOperacion, PlanteaSoluciones, RespondeNecesidades, CumpleTiempo, PromedioDesarrollo)
+    guardado =guardarFOEST02(Periodo, Proyecto, Miembro, Empresa, Grado, Asesor, puntualidad, Responsabilidad, Etica, TomaDecisiones, Liderazgo, ExpresaIdeas, ComunicacionAsertiva, ResolucionSituaciones, ActitudFavorable, TrabajoEnEquipo, PromedioActitud, Estrategias, AccionesMejora, ProcesosOperacion, PlanteaSoluciones, RespondeNecesidades, CumpleTiempo, PromedioDesarrollo)
     if guardado:
         return render_template('Cargas/foest02.html')
     else:
         return 'Error al guardar los datos en la base de datos'
-def guardarFOEST02(Proyecto,Miembro,Empresa,GradoEstudios,AsesorEmpresarial,puntualidad, Responsabilidad, Etica, TomaDecisiones, Liderazgo, ExpresaIdeas, ComunicacionAsertiva, ResolucionSituaciones, ActitudFavorable, TrabajoEnEquipo, PromedioActitud, Estrategias, AccionesMejora, ProcesosOperacion, PlanteaSoluciones, RespondeNecesidades, CumpleTiempo, PromedioDesarrollo):
-    query = text("INSERT INTO foest02 (Proyecto, Miembro, Empresa, GradoEstudios, AsesorEmpresarial, puntualidad, Responsabilidad, Etica, TomaDecisiones, Liderazgo, ExpresaIdeas, ComunicacionAsertiva, ResolucionSituaciones, ActitudFavorable, TrabajoEnEquipo, PromedioActitud, Estrategias, AccionesMejora, ProcesosOperacion, PlanteaSoluciones, RespondeNecesidades, CumpleTiempo, PromedioDesarrollo) VALUES (:Proyecto,:Miembro,:Empresa,:GradoEstudios,:AsesorEmpresarial,:puntualidad,:Responsabilidad,:Etica,:TomaDecisiones,:Liderazgo,:ExpresaIdeas,:ComunicacionAsertiva,:ResolucionSituaciones,:ActitudFavorable,:TrabajoEnEquipo,:PromedioActitud,:Estrategias,:AccionesMejora,:ProcesosOperacion,:PlanteaSoluciones,:RespondeNecesidades,:CumpleTiempo,:PromedioDesarrollo)")
+    
+def guardarFOEST02(Periodo,Proyecto,Miembro,Empresa,GradoEstudios,AsesorEmpresarial,puntualidad, Responsabilidad, Etica, TomaDecisiones, Liderazgo, ExpresaIdeas, ComunicacionAsertiva, ResolucionSituaciones, ActitudFavorable, TrabajoEnEquipo, PromedioActitud, Estrategias, AccionesMejora, ProcesosOperacion, PlanteaSoluciones, RespondeNecesidades, CumpleTiempo, PromedioDesarrollo):
+    anio = aniobase()
+    query = text("INSERT INTO foest02 (Periodo,Proyecto, Miembro, Empresa, GradoEstudios, AsesorEmpresarial, puntualidad, Responsabilidad, Etica, TomaDecisiones, Liderazgo, ExpresaIdeas, ComunicacionAsertiva, ResolucionSituaciones, ActitudFavorable, TrabajoEnEquipo, PromedioActitud, Estrategias, AccionesMejora, ProcesosOperacion, PlanteaSoluciones, RespondeNecesidades, CumpleTiempo, PromedioDesarrollo) VALUES (:Periodo,:Proyecto,:Miembro,:Empresa,:GradoEstudios,:AsesorEmpresarial,:puntualidad,:Responsabilidad,:Etica,:TomaDecisiones,:Liderazgo,:ExpresaIdeas,:ComunicacionAsertiva,:ResolucionSituaciones,:ActitudFavorable,:TrabajoEnEquipo,:PromedioActitud,:Estrategias,:AccionesMejora,:ProcesosOperacion,:PlanteaSoluciones,:RespondeNecesidades,:CumpleTiempo,:PromedioDesarrollo)")
     # Asegúrate de que los parámetros coincidan con los nombres de las columnas en tu tabla foest02
     try:
         with engine.connect() as conn:
             with conn.begin():
-                conn.execute(query, {
+                conn.execute(query,  {
+                    'Periodo': Periodo+'-'+anio,
                     'Proyecto': Proyecto,
                     'Miembro': Miembro,
                     'Empresa': Empresa,

@@ -48,9 +48,14 @@
             color: #e74c3c;
             margin-left: 4px;
         }
+
+
     </style>
 </head>
 <body class="p-4 md:p-8">
+
+    <input type="text" id="periodo" name="periodo" hidden value="{{periodo}} - {{anio}}">
+    
     <div class="max-w-4xl mx-auto">
         <div class="survey-container">
             <div class="survey-header">
@@ -61,6 +66,8 @@
                 <p>CRITERIOS DE DESEMPEÑO: Usar una escala del 10 al 6, donde: </p>
                 <p>10=Totalmente de acuerdo, 9=De acuerdo, 8=Indiferente, 7=En desacuerdo,    6=Totalmente en desacuerdo</p>
             </div>
+
+           
 
             <div class="p-4 md:p-6">
                 <form action="/EvalulacionEstudiante" method="post">
@@ -227,7 +234,14 @@
                     
                     <input type="hidden" name="Matricula" value="{{Matricula}}">
                     <input type="hidden" name="correo" value="{{correo}}">
-                    <button type="submit">Enviar</button>
+
+                    <div class="mt-6 text-center">
+                        <button type="submit" class="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                            Enviar
+                        </button>
+                    </div>
+
+                    
                 </form>
             </div>
         </div>

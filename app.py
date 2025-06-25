@@ -1465,17 +1465,6 @@ def cargarCarrera(ProyectoID):
         else:
             return 'El estudiante no cuenta con una carrera asignada'
 
-# def cargarEtapa(ProyectoID):
-#     query = text("SELECT DISTINCT p.Procedimiento AS Etapa FROM proyectoasesores pa JOIN equipos eq ON pa.Id_proyecto = eq.Id_Proyecto JOIN procedimientos p ON eq.Procedimiento = p.idProcedimiento WHERE pa.Id_asesorE = :id")
-#     with engine.connect() as conn:
-#         ok = conn.execute(query, {"id": ProyectoID})
-#         ok = ok.fetchone()
-#         if ok:
-#             return ok[0]
-#         else:
-#             return 'No cuenta con una etapa asignada'
-    
-
 @app.route('/asignarContraseñas',methods=['POST'])
 def asignarContraseñaAcademico():
     query = text("UPDATE asesoracademico SET password = Correo WHERE password = ' '")
@@ -1851,51 +1840,12 @@ def verproyectos():
     proyectos = cargarproyectoscoordinacion()
     return render_template('perfiles/Coordinacion/proyectos.html', proyectos = proyectos)
 
-def cargarproyectoscoordinacion():
-    query = text("SELECT NombreProyecto FROM documentos WHERE Parcial = 'Parcial 3'")
-    with engine.connect() as conn:
-        ok = conn.execute(query)
-        rows = ok.fetchall()
 
-        if rows:
-            tarjetas = ''
-            total = len(rows)
-
-            for row in rows:
-                nombre = row[0]
-                tarjetas += f'''
-                <div class="col-md-4 col-sm-6 col-10 mb-4 d-flex justify-content-center">
-                    <div class="card text-center shadow-sm proyecto-card">
-                        <div class="card-body d-flex flex-column justify-content-between">
-                            <h5 class="card-title fw-bold">{nombre}</h5>
-                            <form action="/abrirproyectoruta" method="post">
-                                <input type="hidden" name="nombre" value="{nombre}">
-                                <button type="submit" class="btn btn-success mt-3">Abrir</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-                '''
-
-            # Calcular cuántas tarjetas vacías se necesitan para completar la fila
-            sobrantes = (3 - (total % 3)) % 3  # Para evitar 3 si ya es múltiplo
-
-            for _ in range(sobrantes):
-                tarjetas += '''
-                <div class="col-md-4 col-sm-6 col-10 mb-4 d-flex justify-content-center">
-                    <div class="proyecto-card invisible"></div>
-                </div>
-                '''
-
-            return tarjetas
-        else:
-            return '<div class="alert alert-warning text-center">NADA POR MOSTRAR</div>'
 
 @app.route('/abrirproyectoruta',methods=['POST'])
 def abrirproyectoruta():
     nombre = request.form['nombre']
     ruta = obtenerRutaPDF2(nombre,'Parcial 3')
-    
     return render_template('perfiles/coordinacion/verproyecto.html',ruta = ruta)
 
 

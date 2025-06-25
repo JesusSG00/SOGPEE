@@ -23,7 +23,11 @@ def cargarCalificaciones08():
                         <th>Matrícula</th>
                         <th>Promedio</th>
                         <th>Comentarios</th>
-
+                        <th><div>
+                        <form action="" method="post">
+                            <button type="button" class="btn btn-primary">Graficar todo</button>
+                        </form>
+                    </div></th>
                    
                     </tr>
                 </thead>
@@ -79,7 +83,11 @@ def cargarCalificaciones02():
                         <th>Apellido Materno</th>
                         <th>Prom. Actitud</th>
                         <th>Prom. Desarrollo</th>
-                        <th>Acciones</th>
+                        <th><div>
+                        <form action="" method="post">
+                            <button type="button" class="btn btn-primary">Graficar todo</button>
+                        </form>
+                    </div></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -135,6 +143,11 @@ JOIN calificacionproyectop3 ON proyecto.Nombre = calificacionproyectop3.Proyecto
                         <th>Parcial 1</th>
                         <th>Parcial 2</th>
                         <th>Parcial 3</th>
+                        <th><div>
+                        <form action="" method="post">
+                            <button type="button" class="btn btn-primary">Graficar todo</button>
+                        </form>
+                    </div></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -293,3 +306,44 @@ def Completa02(Miembro):
     return render_template('perfiles/Coordinacion/calificacionCompleta.html',Puntualidad=Puntualidad, Responsabilidad=Responsabilidad, Etica=Etica, TomaDecisiones=TomaDecisiones, Liderazgo=Liderazgo,ExpresaIdeas=ExpresaIdeas,
                            ComunicacionAsertiva=ComunicacionAsertiva, ResolucionSituaciones=ResolucionSituaciones, ActitudFavorable=ActitudFavorable, TrabajoEquipo=TrabajoEquipo,Estrategias=Estrategias,
                            AccionesMejora=AccionesMejora, ProcesosOperacion=ProcesosOperacion, PlanteaSoluciones=PlanteaSoluciones, RespondeNecesidades=RespondeNecesidades, CumpleTiempos=CumpleTiempos,promedio_actitud=promedio_actitud,promedio_desarrollo=promedio_desarrollo)
+
+
+# Cargar proyectos de coordinación para el parcial 3
+def cargarproyectoscoordinacion():
+    query = text("SELECT NombreProyecto FROM documentos WHERE Parcial = 'Parcial 3'")
+    with engine.connect() as conn:
+        ok = conn.execute(query)
+        rows = ok.fetchall()
+
+        if rows:
+            tarjetas = ''
+            total = len(rows)
+
+            for row in rows:
+                nombre = row[0]
+                tarjetas += f'''
+                <div class="col-md-4 col-sm-6 col-10 mb-4 d-flex justify-content-center">
+                    <div class="card text-center shadow-sm proyecto-card">
+                        <div class="card-body d-flex flex-column justify-content-between">
+                            <h5 class="card-title fw-bold">{nombre}</h5>
+                            <form action="/abrirproyectoruta" method="post">
+                                <input type="hidden" name="nombre" value="{nombre}">
+                                <button type="submit" class="btn btn-success mt-3">Abrir</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                '''
+
+            sobrantes = (3 - (total % 3)) % 3  
+
+            for _ in range(sobrantes):
+                tarjetas += '''
+                <div class="col-md-4 col-sm-6 col-10 mb-4 d-flex justify-content-center">
+                    <div class="proyecto-card invisible"></div>
+                </div>
+                '''
+
+            return tarjetas
+        else:
+            return '<div class="alert alert-warning text-center">NADA POR MOSTRAR</div>'

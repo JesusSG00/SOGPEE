@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gráfica de Promedios</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h2>Promedios del Alumno</h2>
+    <canvas id="graficaPromedios" width="900" height="400"></canvas>
+
+    <script>
+    const ctx = document.getElementById('graficaPromedios').getContext('2d');
+
+    const grafica = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ etiquetas | tojson }}, 
+            datasets: [
+                {
+                    label: 'Promedios por Actividad',
+                    data: {{ datos_promedios | tojson }},
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    tension: 0.3,
+                    spanGaps: true,
+                    pointBackgroundColor: {{puntos_colores | tojson }}
+                }
+               
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 10,
+                    min:5
+                    
+                }
+            }
+        }
+    });
+    </script>
+    <script>
+
+</script>
+
+</body>
+</html>

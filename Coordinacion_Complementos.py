@@ -24,8 +24,8 @@ def cargarCalificaciones08():
                         <th>Promedio</th>
                         <th>Comentarios</th>
                         <th><div>
-                        <form action="" method="post">
-                            <button type="button" class="btn btn-primary">Graficar todo</button>
+                        <form action="/graficas08" method="post">
+                            <button type="submit" class="btn btn-primary">Graficar todo</button>
                         </form>
                     </div></th>
                    
@@ -84,8 +84,8 @@ def cargarCalificaciones02():
                         <th>Prom. Actitud</th>
                         <th>Prom. Desarrollo</th>
                         <th><div>
-                        <form action="" method="post">
-                            <button type="button" class="btn btn-primary">Graficar todo</button>
+                        <form action="/graficas" method="post">
+                            <button type="submit" class="btn btn-primary">Graficar</button>
                         </form>
                     </div></th>
                     </tr>

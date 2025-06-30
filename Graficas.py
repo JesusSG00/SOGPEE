@@ -108,7 +108,7 @@ AVG(Pregunta06) AS Promedio6,
 AVG(Pregunta07) AS Promedio7,
 AVG(Pregunta08) AS Promedio8,
 AVG(Pregunta09) AS Promedio9,
-AVG(Promedio) AS Promedio,
+AVG(Promedio) AS Promedio
 FROM foest08;""")
     
     with engine.connect() as conn:
@@ -135,13 +135,12 @@ FROM foest08;""")
 
 
 def graficar08():
-    row = obtenerPromedios02()
+    row = obtenerPromedios08()
     promedios = [
     row["Promedio1"], row["Promedio2"], row["Promedio3"],
     row["Promedio4"], row["Promedio5"], row["Promedio6"],
     row["Promedio7"], row["Promedio8"], row["Promedio9"],
     row["Promedio"]
-    
 ]
     
     
@@ -150,7 +149,7 @@ def graficar08():
             "Servicio de calidad", "Proporcionaron información útil", "Generaron cartas de forma eficiente y facil",
             "La gestion de la carta de presentacion fue oportuna", "La asignación del asesor fue oportuna", "La capacitación por el asesor fue adecuada",
             "El asesor asistio a las asesorias programadas", "El asesor aclaro dudas durante el desarrollo",
-            "El asesor mantuvo contacto con el asesor empresarial para un adecuado desarrollo del proyecto"
+            "El asesor mantuvo contacto con el asesor empresarial para un adecuado desarrollo del proyecto","Promedio"
         ]
         datos_promedios = promedios
         num_actividades = len(etiquetas)

@@ -1886,8 +1886,10 @@ def aniobase():
     
 @app.route('/foest02Evaluar', methods=['POST'])
 def foest02Evaluar():
+    anio = aniobase()
     Asesor = request.form.get('nombreasesor')
     Periodo = request.form.get('Periodo')
+    Periodo = f"{Periodo} - {anio}"
     Proyecto = request.form.get('Proyecto')
     Miembro = request.form.get('Miembro')
     Empresa = request.form.get('NombreEmpresa')
@@ -1914,21 +1916,20 @@ def foest02Evaluar():
     CumpleTiempo = int(request.form['question16'])
     PromedioDesarrollo = Estrategias + AccionesMejora + ProcesosOperacion + PlanteaSoluciones + RespondeNecesidades + CumpleTiempo
     PromedioDesarrollo = PromedioDesarrollo / 6
-    guardado =guardarFOEST02(Periodo, Proyecto, Miembro, Empresa, Grado, Asesor, puntualidad, Responsabilidad, Etica, TomaDecisiones, Liderazgo, ExpresaIdeas, ComunicacionAsertiva, ResolucionSituaciones, ActitudFavorable, TrabajoEnEquipo, PromedioActitud, Estrategias, AccionesMejora, ProcesosOperacion, PlanteaSoluciones, RespondeNecesidades, CumpleTiempo, PromedioDesarrollo)
+    guardado =guardarFOEST02( Proyecto, Miembro, Empresa, Grado, Asesor, puntualidad, Responsabilidad, Etica, TomaDecisiones, Liderazgo, ExpresaIdeas, ComunicacionAsertiva, ResolucionSituaciones, ActitudFavorable, TrabajoEnEquipo, PromedioActitud, Estrategias, AccionesMejora, ProcesosOperacion, PlanteaSoluciones, RespondeNecesidades, CumpleTiempo, PromedioDesarrollo,Periodo)
     if guardado:
         return render_template('Cargas/foest02.html')
     else:
         return 'Error al guardar los datos en la base de datos'
     
-def guardarFOEST02(Periodo,Proyecto,Miembro,Empresa,GradoEstudios,AsesorEmpresarial,puntualidad, Responsabilidad, Etica, TomaDecisiones, Liderazgo, ExpresaIdeas, ComunicacionAsertiva, ResolucionSituaciones, ActitudFavorable, TrabajoEnEquipo, PromedioActitud, Estrategias, AccionesMejora, ProcesosOperacion, PlanteaSoluciones, RespondeNecesidades, CumpleTiempo, PromedioDesarrollo):
-    anio = aniobase()
-    query = text("INSERT INTO foest02 (Periodo,Proyecto, Miembro, Empresa, GradoEstudios, AsesorEmpresarial, puntualidad, Responsabilidad, Etica, TomaDecisiones, Liderazgo, ExpresaIdeas, ComunicacionAsertiva, ResolucionSituaciones, ActitudFavorable, TrabajoEnEquipo, PromedioActitud, Estrategias, AccionesMejora, ProcesosOperacion, PlanteaSoluciones, RespondeNecesidades, CumpleTiempo, PromedioDesarrollo) VALUES (:Periodo,:Proyecto,:Miembro,:Empresa,:GradoEstudios,:AsesorEmpresarial,:puntualidad,:Responsabilidad,:Etica,:TomaDecisiones,:Liderazgo,:ExpresaIdeas,:ComunicacionAsertiva,:ResolucionSituaciones,:ActitudFavorable,:TrabajoEnEquipo,:PromedioActitud,:Estrategias,:AccionesMejora,:ProcesosOperacion,:PlanteaSoluciones,:RespondeNecesidades,:CumpleTiempo,:PromedioDesarrollo)")
+def guardarFOEST02(Proyecto,Miembro,Empresa,GradoEstudios,AsesorEmpresarial,puntualidad, Responsabilidad, Etica, TomaDecisiones, Liderazgo, ExpresaIdeas, ComunicacionAsertiva, ResolucionSituaciones, ActitudFavorable, TrabajoEnEquipo, PromedioActitud, Estrategias, AccionesMejora, ProcesosOperacion, PlanteaSoluciones, RespondeNecesidades, CumpleTiempo, PromedioDesarrollo,Periodo):
+    
+    query = text("INSERT INTO foest02 (Proyecto, Miembro, Empresa, GradoEstudios, AsesorEmpresarial, puntualidad, Responsabilidad, Etica, TomaDecisiones, Liderazgo, ExpresaIdeas, ComunicacionAsertiva, ResolucionSituaciones, ActitudFavorable, TrabajoEnEquipo, PromedioActitud, Estrategias, AccionesMejora, ProcesosOperacion, PlanteaSoluciones, RespondeNecesidades, CumpleTiempo, PromedioDesarrollo,Periodo) VALUES (:Proyecto,:Miembro,:Empresa,:GradoEstudios,:AsesorEmpresarial,:puntualidad,:Responsabilidad,:Etica,:TomaDecisiones,:Liderazgo,:ExpresaIdeas,:ComunicacionAsertiva,:ResolucionSituaciones,:ActitudFavorable,:TrabajoEnEquipo,:PromedioActitud,:Estrategias,:AccionesMejora,:ProcesosOperacion,:PlanteaSoluciones,:RespondeNecesidades,:CumpleTiempo,:PromedioDesarrollo,:Periodo)")
     # Asegúrate de que los parámetros coincidan con los nombres de las columnas en tu tabla foest02
     try:
         with engine.connect() as conn:
             with conn.begin():
                 conn.execute(query,  {
-                    'Periodo': Periodo+'-'+anio,
                     'Proyecto': Proyecto,
                     'Miembro': Miembro,
                     'Empresa': Empresa,
@@ -1951,7 +1952,8 @@ def guardarFOEST02(Periodo,Proyecto,Miembro,Empresa,GradoEstudios,AsesorEmpresar
                     'PlanteaSoluciones': PlanteaSoluciones,
                     'RespondeNecesidades': RespondeNecesidades,
                     'CumpleTiempo': CumpleTiempo,
-                    'PromedioDesarrollo': PromedioDesarrollo
+                    'PromedioDesarrollo': PromedioDesarrollo,
+                    'Periodo': Periodo
                 })
         return True
     except Exception as e:

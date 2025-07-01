@@ -3,7 +3,8 @@ from sqlalchemy import text
 from conexion import engine
 
 
-def obtenerPromedios02():
+
+def obtenerPromedios02(Periodo):
     query = text("""SELECT 
 AVG(Puntualidad) AS Promedio1,
 AVG(Responsabilidad) AS Promedio2,
@@ -23,10 +24,11 @@ AVG(PlanteaSoluciones) AS Promedio14,
 AVG(RespondeNecesidades) AS Promedio15,
 AVG(CumpleTiempo) AS Promedio16,
 AVG(PromedioDesarrollo) AS PromedioDesarrollo
-FROM foest02;""")
+FROM foest02
+                 WHERE Periodo = :Periodo;""")
     
     with engine.connect() as conn:
-        result = conn.execute(query).mappings().first()
+        result = conn.execute(query,{'Periodo':Periodo}).mappings().first()
         row = result
         if row:
             promedios = {
@@ -56,7 +58,10 @@ FROM foest02;""")
 
 
 def graficar02():
-    row = obtenerPromedios02()
+    PeriodoActivo = periodoCuatrimestral()
+    anio = aniobase()
+    Periodo = PeriodoActivo + "-" + anio
+    row = obtenerPromedios02(Periodo)
     promedios = [
     row["Promedio1"], row["Promedio2"], row["Promedio3"],
     row["Promedio4"], row["Promedio5"], row["Promedio6"],
@@ -87,7 +92,7 @@ def graficar02():
 
     return render_template('/Grafica/GraficaFoest02.html',
                        etiquetas=etiquetas,
-                       datos_promedios=datos_promedios,puntos_colores=puntos_colores)
+                       datos_promedios=datos_promedios,puntos_colores=puntos_colores,Periodo=Periodo)
 
 
 
@@ -161,3 +166,25 @@ def graficar08():
     return render_template('/Grafica/GraficaFoest08.html',
                        etiquetas=etiquetas,
                        datos_promedios=datos_promedios,puntos_colores=puntos_colores)
+
+
+
+#Periodos y año
+def periodoCuatrimestral():
+    query= text("SELECT * FROM periodos WHERE Estado = 'activo'")
+    with engine.connect() as conn:
+        ok= conn.execute(query)
+        ok = ok.fetchone()
+        if ok:
+            return ok[1]
+        else:
+            return 'No hay periodo activo'
+        
+
+
+def aniobase():
+    sql = text("SELECT Anio FROM periodos")
+    with engine.connect() as conn:
+        result = conn.execute(sql)
+        row = result.fetchone()
+        return row[0]

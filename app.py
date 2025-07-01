@@ -160,6 +160,11 @@ def asesorEmpresarial2():
 def buscarExpedienteAsesorEmpresarial():
     anio = aniobase()
     ProyectoID= request.form['ProyectoID']
+    query = text("SELECT ProyectoID FROM proyecto WHERE ProyectoID = :ProyectoID")
+    with engine.connect() as conn:
+        result = conn.execute(query, {'ProyectoID': ProyectoID}).fetchone()
+        if not result:
+            return render_template('Cargas/NoEncontrado07.html')
     equipo = int(cargarEquipo(ProyectoID))
     integrantes = listaEstudiantes(ProyectoID)
     periodo = periodoCuatrimestral() 
@@ -657,8 +662,11 @@ def obtenerProcedimientoYCarrera(nombreProyecto):
 
 @app.route('/vercalificacion02', methods=['POST'])
 def vercalificacion02():
-    resultado  = cargarCalificaciones02()
-    return render_template('perfiles/Coordinacion/vercalificacion02.html', resultado=resultado)
+    PeriodoActivo = periodoCuatrimestral()
+    anio = aniobase()
+    Periodo = PeriodoActivo + " - " + anio
+    resultado  = cargarCalificaciones02(Periodo)
+    return render_template('perfiles/Coordinacion/vercalificacion02.html', resultado=resultado,Periodo=Periodo)
 
 
 @app.route('/calificacionCompleta08',methods=['POST'])
@@ -1889,7 +1897,7 @@ def foest02Evaluar():
     anio = aniobase()
     Asesor = request.form.get('nombreasesor')
     Periodo = request.form.get('Periodo')
-    Periodo = f"{Periodo} - {anio}"
+    Periodo = f"{Periodo}-{anio}"
     Proyecto = request.form.get('Proyecto')
     Miembro = request.form.get('Miembro')
     Empresa = request.form.get('NombreEmpresa')

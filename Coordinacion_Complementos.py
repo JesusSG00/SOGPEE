@@ -57,16 +57,17 @@ def cargarCalificaciones08():
     except Exception as e:
         return f'<div class="alert alert-danger text-center">Error al cargar las calificaciones: {str(e)}</div>'
 
-def cargarCalificaciones02():
+def cargarCalificaciones02(Periodo):
     try:
         query = text("""
             SELECT foest02.Miembro, estudiante.Nombre1, estudiante.Nombre2, estudiante.ApellidoP, estudiante.ApellidoM,
-                   foest02.PromedioActitud, foest02.PromedioDesarrollo 
+                   foest02.PromedioActitud, foest02.PromedioDesarrollo, Periodo
             FROM estudiante 
-            JOIN foest02 ON estudiante.Matricula = foest02.miembro;
+            JOIN foest02 ON estudiante.Matricula = foest02.miembro
+                     WHERE Periodo = :Periodo;
         """)
         with engine.connect() as conn:
-            rows = conn.execute(query).fetchall()  
+            rows = conn.execute(query,{'Periodo':Periodo}).fetchall()  
             
             if not rows:
                 return '<div class="alert alert-warning text-center">No hay datos disponibles</div>'
@@ -83,6 +84,7 @@ def cargarCalificaciones02():
                         <th>Apellido Materno</th>
                         <th>Prom. Actitud</th>
                         <th>Prom. Desarrollo</th>
+                        <th>Periodo</th>
                         <th><div>
                         <form action="/graficas" method="post">
                             <button type="submit" class="btn btn-primary">Graficar</button>
@@ -102,6 +104,7 @@ def cargarCalificaciones02():
                     <td>{fila[4]}</td>
                     <td>{int(fila[5])}</td>
                     <td>{int(fila[6])}</td>
+                    <td>{fila[7]}</td>
                     <td>
                         <form action="/calificacionCompleta" method="post">
                             <input type="hidden" name="Miembro" value="{fila[0]}">

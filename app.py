@@ -137,6 +137,12 @@ def loginEstudiante():
     resultado = validarLogin(correo,matricula) #Llamada a la funcion de inicio de sesion que nos reedirige a la pagina de principal del estudiante
     return resultado
 
+
+@app.route('/conteo')
+def contar():
+    conteo_resultado = conteo()
+    return conteo_resultado
+
 #Dirigir pagina para buscar expediente Asesor Empresarial
 @app.route('/foest07')
 def asesorEmpresarial():

@@ -188,3 +188,233 @@ def aniobase():
         result = conn.execute(sql)
         row = result.fetchone()
         return row[0]
+    
+
+
+#Foest07 conteo
+def conteo():
+
+    valores_validos = [
+       
+    # Estancia I
+    "Analizar Recursos-Económicos",
+    "Planificar de recursos para su uso de forma eficiente",
+    "Diagnosticar el estado actual de la organización",
+    "Diseñar estrategias financieras",
+    "Formular alternativas optimas de administración",
+    "Diagnosticar variables económicas",
+    "Identificar elementos que afectan el desarrollo de la organización",
+    "Analizar variables económicas",
+    "Simular de escenarios para plan estratégico de acción",
+    "Cuantificar impacto en organización",
+    "Estudios técnicos económicos",
+    "Gestionar recursos",
+
+    # Estancia II
+    "Construir estrategias financieras",
+    "Desarrollar estrategias costo-beneficio",
+    "Diseñar alternativas de negocio",
+    "Gestionar proyectos de inversión",
+    "Sistematizar procesos administrativos mediante las TIC´S",
+    "Generar reportes ejecutivos y técnicos para la toma de decisiones",
+    "Diseñar modelos financieras y económicos",
+    "Transferir tecnología y conocimiento para la creación de negocios inteligentes",
+    "Desarrollo de negocios inteligentes",
+    "Análisis de tendencias y hábitos del mercado",
+
+    # Estadía
+    "Identificar variables económicas, contables, legales y administrativas",
+    "Aplicar fundamentos matemáticos y estadísticos",
+    "Diagnosticar aspectos financieros",
+    "Diagnosticar variables del entorno económico",
+    "Evaluar proyectos con base a variables del entorno económico",
+    "Diseñar modelos financieros aplicando las TIC´s",
+    "Construir proyectos de inversión",
+    "Transferencia tecnológica en el sector",
+    "Integración de estrategias financieras, bursátiles y empresariales",
+    "Optimizar recursos"
+
+    # Estancia I
+    "Dimensionar de componentes Mecánicos",
+    "Establecimiento de procedimientos de manufactura",
+    "Aplicar herramientas de medición mediante las TIC´s",
+    "Identificar características dimensionales y geométricas",
+    "Aplicar herramientas mediante las TIC´s para generar planos de taller",
+    "Implementar manual de mantenimiento",
+    "Reestructuración de procesos",
+    "Estrategias de desarrollo",
+    "Mantenimiento mecánico",
+
+    # Estancia II
+    "Proponer procesos de manufactura de componentes mecánicos",
+    "Establecer procedimientos de fabricación",
+    "Establecer normas de calidad y seguridad",
+    "Implementar procesos de manufactura convencional-CNC",
+    "Implementar normas de la industria",
+    "Definir componentes mecánicos",
+    "Integrar sistemas mecánicos",
+    "Simular modelos de componentes mecánicos mediante las TIC´s",
+    "Mantenimiento mecánico",
+
+    # Estadía
+    "Establecer procedimientos de fabricación que cumplan con normas de calidad y seguridad",
+    "Implementar procesos de Manufactura convencional y/o CNC mediante estándares",
+    "Integración de sistemas mecánicos",
+    "Simulación de Componentes por medio de herramientas computacionales para validar comportamiento dinámico",
+    "Procedimientos de fabricación",
+    "Determinar la implementación de normas de calidad nacional e internacional ",
+    "Implementación de normas ambientales nacional e internacional",
+    "Operación de industria 4.0",
+    "Dirección de Recursos Humanos",
+    "Establecer mantenimiento mecánico",
+    "Implementación de procesos de manufactura por medio de tecnología",
+    "Estrategias para el desarrollo de vehículos para el cuidado y protección del medio ambiente"
+
+    # Estancia I
+    "Estructurar sistemas de producción",
+    "Control estadístico de calidad",
+    "Aplicar software de diseño",
+    "Implementación de normatividad para optimizar recursos",
+    "Análisis de rentabilidad de productos",
+    "Implementación de calidad en productos y servicios",
+
+    # Estancia II
+    "Gestión procesos de manufactura",
+    "Gestionar estándares de calidad",
+    "Estructurar mejoras en los procesos productivos",
+    "Planear diagnostico de procesos de producción",
+    "Controlar procesos de producción",
+    "Eficientar el manejo de recursos (Humanos, materiales, financieros)",
+    "Desarrollar sistemas de calidad",
+    "Coordinar planes de mantenimiento de TPM, jidoka ",
+    "Estimación de costo-beneficio",
+    "Manejar software especializado",
+    "Manejo de Equipo y maquinaria auxiliar en la organización",
+
+    # Estadía
+    "Evaluar proyectos productivos estratégicos e innovadores",
+    "Aplicar software de simulación",
+    "Aplicar herramientas de manufactura avanzada",
+    "Gestionar propuestas tecnológicas innovadoras",
+    "Diseñar productos utilizando paquetes CAD-CAM-CAE",
+    "Validar proyectos productivos",
+    "Toma de decisiones para mejora de competitividad",
+    "Generar planos y especificaciones de producto",
+    "Analizar procesos y productos",
+    "Generar estrategias de productividad y competitividad"
+
+
+    # funcion-estancia1[] y funcion-estancia2[]
+    "Diseñar software",
+    "Aplicación adecuada de técnicas de desarrollo software",
+    "Diagnóstico de requerimientos",
+    "Implementar metodologías de modelado",
+    "Optimizar operaciones comerciales internacionales",
+    "Estructurar datos",
+    "Desarrollar interfaces para su validación",
+    "Aplicar normatividad y estándares",
+    "Representación técnica del software",
+    "Estructurar diseños de software con base en requerimientos",
+    "Aplicación de metodologías de diagnóstico",
+
+    # funcion-estadia[]
+    "Dirigir proyectos de software",
+    "Gestionar proyectos de software",
+    "Aplicación de la metodología de gestión de proyectos",
+    "Determinar herramientas administrativas y financieras",
+    "Coordinar el plan de pruebas de software",
+    "Ejecución de pruebas de software",
+    "Planes de mercadotecnia internacional",
+    "Aplicación de estandares para aseguramiento de calidad de software",
+    "Planear y coordinar mantenimiento de software",
+    "Uso de metodologías de mantenimiento de software",
+    "Implementar ingeniería inversa y reingeniería",
+    "Aplicación de estándares y normatividad aplicación y mejora del software"
+
+ 
+
+
+    "Diseñar estrategias organizadas",
+    "Análisis de operaciones",
+    "Identificación de mercados nacionales/internacionales",
+    "Planeación estratégica de negocios",
+    "Evaluación del entorno de mercado",
+    "Análisis de proveedores, clientes y propiedades",
+    "Identificación de oportunidad de negocios",
+    "Mejoras administrativas",
+    "Gestión de procesos administrativos",
+
+   
+    "Optimizar funciones comerciales internacionales",
+    "Optimizar operaciones legales internacionales",
+    "Optimizar operaciones financieras internacionales",
+    "Optimizar operaciones comerciales internacionales",
+    "Estrategia de negocio internacional",
+    "Desarrollar procesos de exportación-importación",
+    "Actividades de despacho aduanero",
+    "Diversificación de mercado a nivel internacional",
+    "Análisis de proveedores internacionales",
+    "Mejoras a cadena de suministro-Logística",
+    "Administrar sistemas de calidad",
+
+    # funcion-estadia[]
+    "Establecer relaciones comerciales",
+    "Plan de negocios de exportación-importación",
+    "Dirigir estrategias gerencias y de negociación internacional",
+    "Asesorar estrategias gerencias y de negociación internacional",
+    "Ejecutar estrategias gerencias y de negociación internacional",
+    "Aplicación de herramientas administrativas en un entorno internacional",
+    "Planes de mercadotecnia internacional",
+    "Proyectos de Inversión",
+    "Aplicación de normatividad internacional",
+    "Estrategias de competitividad de productos y servicios"
+]
+
+    # Crear placeholders para cada valor
+    placeholders = ', '.join([f":val{i}" for i in range(len(valores_validos))])
+
+    query = text(f"""
+        SELECT categoria, COUNT(*) AS cantidad
+        FROM (
+            SELECT 
+                CASE 
+                    WHEN FuncionesPrioritarias IN ({placeholders}) 
+                        THEN FuncionesPrioritarias 
+                    ELSE 'Otros' 
+                END AS categoria
+            FROM foest07
+
+            UNION ALL
+
+            SELECT 
+                CASE 
+                    WHEN FuncionesPrioritarias2 IN ({placeholders}) 
+                        THEN FuncionesPrioritarias2 
+                    ELSE 'Otros' 
+                END
+            FROM foest07
+
+            UNION ALL
+
+            SELECT 
+                CASE 
+                    WHEN FuncionesPrioritarias3 IN ({placeholders}) 
+                        THEN FuncionesPrioritarias3 
+                    ELSE 'Otros' 
+                END
+            FROM foest07
+        ) AS funciones_clasificadas
+        GROUP BY categoria
+        ORDER BY cantidad DESC
+    """)
+
+    # Diccionario de parámetros
+    parametros = {f"val{i}": valor for i, valor in enumerate(valores_validos)}
+
+    # Ejecutar la consulta
+    with engine.connect() as conn:
+        resultado = conn.execute(query, parametros).fetchall()
+        conteo_resultado = {row[0]: row[1] for row in resultado}
+        # Asegurarse de que 'Otros' esté presente en el resultado
+         
+    return f'{conteo_resultado}'  # Convertir el diccionario a una cadena para mostrar en la plantilla

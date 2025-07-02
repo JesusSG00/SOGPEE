@@ -261,6 +261,7 @@ def conteo():
     "Implementar procesos de Manufactura convencional y/o CNC mediante estándares",
     "Integración de sistemas mecánicos",
     "Simulación de Componentes por medio de herramientas computacionales para validar comportamiento dinámico",
+    "Integración de sistemas mecánicos",
     "Procedimientos de fabricación",
     "Determinar la implementación de normas de calidad nacional e internacional ",
     "Implementación de normas ambientales nacional e internacional",
@@ -306,7 +307,6 @@ def conteo():
 
     # funcion-estancia1[] y funcion-estancia2[]
     "Diseñar software",
-    "Aplicación adecuada de técnicas de desarrollo software",
     "Diagnóstico de requerimientos",
     "Implementar metodologías de modelado",
     "Optimizar operaciones comerciales internacionales",
@@ -333,7 +333,7 @@ def conteo():
 
  
 
-
+#funcion-estancia LNI
     "Diseñar estrategias organizadas",
     "Análisis de operaciones",
     "Identificación de mercados nacionales/internacionales",

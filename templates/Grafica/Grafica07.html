@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gráfica de Funciones</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/graficas.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div>
+    IS
+    <canvas id="miGrafica" width="600" height="400"></canvas>
+
+<script>
+    const datos = {{ datos | tojson }};
+    
+    const etiquetas = Object.keys(datos);
+    const valores = Object.values(datos);
+
+    const ctx = document.getElementById('miGrafica').getContext('2d');
+    const miGrafico = new Chart(ctx, {
+        type: 'pie',
+        data: {
+            labels: etiquetas,
+            datasets: [{
+                label: 'Cantidad de funciones',
+                data: valores,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: true }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</div>
+
+<div>
+    IF
+    
+    <canvas id="miGrafica2" width="600" height="400"></canvas>
+
+<script>
+    const datos2 = {{ datos2 | tojson }};
+    
+    const etiquetas2 = Object.keys(datos2);
+    const valores2 = Object.values(datos2);
+
+    const ctx2 = document.getElementById('miGrafica2').getContext('2d');
+    const miGrafico2 = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: etiquetas2,
+            datasets: [{
+                label: 'Cantidad de funciones',
+                data: valores2,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: true }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</div>
+
+<div>
+    ITM
+    
+    <canvas id="miGrafica4" width="600" height="400"></canvas>
+
+<script>
+    const datos4 = {{ datos4 | tojson }};
+    
+    const etiquetas4 = Object.keys(datos4);
+    const valores4 = Object.values(datos4);
+
+    const ctx4 = document.getElementById('miGrafica4').getContext('2d');
+    const miGrafico4 = new Chart(ctx4, {
+        type: 'pie',
+        data: {
+            labels: etiquetas4,
+            datasets: [{
+                label: 'Cantidad de funciones',
+                data: valores4,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: true }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</div>
+<div>
+    LNI
+    
+    <canvas id="miGrafica5" width="600" height="400"></canvas>
+
+<script>
+    const datos5 = {{ datos5 | tojson }};
+
+    const etiquetas5 = Object.keys(datos5);
+    const valores5 = Object.values(datos5);
+
+    const ctx5 = document.getElementById('miGrafica5').getContext('2d');
+    const miGrafico5 = new Chart(ctx5, {
+        type: 'pie',
+        data: {
+            labels: etiquetas5,
+            datasets: [{
+                label: 'Cantidad de funciones',
+                data: valores5,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: true }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</div>
+
+<div>
+    IMA
+    
+    <canvas id="miGrafica3" width="600" height="400"></canvas>
+
+<script>
+    const datos3 = {{ datos3 | tojson }};
+    
+    const etiquetas3 = Object.keys(datos3);
+    const valores3 = Object.values(datos3);
+
+    const ctx3 = document.getElementById('miGrafica3').getContext('2d');
+    const miGrafico3 = new Chart(ctx3, {
+        type: 'pie',
+        data: {
+            labels: etiquetas3,
+            datasets: [{
+                label: 'Cantidad de funciones',
+                data: valores3,
+                backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: false,
+            plugins: {
+                legend: { display: false },
+                tooltip: { enabled: true }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        precision: 0
+                    }
+                }
+            }
+        }
+    });
+</script>
+
+</div>
+    </div>
+
+</body>
+</html>

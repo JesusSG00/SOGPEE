@@ -6,6 +6,19 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/graficas.css') }}">
 </head>
 <body>
+    <div>
+        <form action="/conteoProcedimiento" method="post" id="formulario">
+            Procedimiento:
+            <select name="Procedimiento" onchange="this.form.submit()">
+                <option value="None">Seleccionar</option>
+                <option value="ESTNC1">Estancia 1</option>
+                <option value="ESTNC2">Estancia 2</option>
+                <option value="ESTD">Estadia</option>
+                <option value="0">Mostrar todo</option>
+            </select>
+
+        </form>
+    </div>
     <div class="container">
         <div>
     IS
@@ -19,7 +32,7 @@
 
     const ctx = document.getElementById('miGrafica').getContext('2d');
     const miGrafico = new Chart(ctx, {
-        type: 'pie',
+        type: 'bar',
         data: {
             labels: etiquetas,
             datasets: [{
@@ -63,7 +76,7 @@
 
     const ctx2 = document.getElementById('miGrafica2').getContext('2d');
     const miGrafico2 = new Chart(ctx2, {
-        type: 'pie',
+        type: 'bar',
         data: {
             labels: etiquetas2,
             datasets: [{
@@ -107,7 +120,7 @@
 
     const ctx4 = document.getElementById('miGrafica4').getContext('2d');
     const miGrafico4 = new Chart(ctx4, {
-        type: 'pie',
+        type: 'bar',
         data: {
             labels: etiquetas4,
             datasets: [{
@@ -150,7 +163,7 @@
 
     const ctx5 = document.getElementById('miGrafica5').getContext('2d');
     const miGrafico5 = new Chart(ctx5, {
-        type: 'pie',
+        type: 'bar',
         data: {
             labels: etiquetas5,
             datasets: [{
@@ -194,7 +207,7 @@
 
     const ctx3 = document.getElementById('miGrafica3').getContext('2d');
     const miGrafico3 = new Chart(ctx3, {
-        type: 'pie',
+        type: 'bar',
         data: {
             labels: etiquetas3,
             datasets: [{

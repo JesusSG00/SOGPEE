@@ -191,25 +191,43 @@ def aniobase():
     
 
 
-def conteo(valores_validos, tabla='foest07', campos=None):
+
+def conteo(valores_validos, Procedimiento, tabla='foest07', campos=None):
     if campos is None:
         campos = ['FuncionesPrioritarias', 'FuncionesPrioritarias2', 'FuncionesPrioritarias3']
 
-    placeholders = ', '.join([f":val{i}" for i in range(len(valores_validos))])
-
+    # Preparamos parámetros únicos y sus placeholders
+    parametros = {}
     unions = []
-    for campo in campos:
-        unions.append(f"""
+
+    for idx_campo, campo in enumerate(campos):
+        # Genera placeholders únicos por campo (val0_0, val1_0, ..., val0_1, etc.)
+        placeholders = []
+        for idx_valor, valor in enumerate(valores_validos):
+            key = f"val{idx_valor}_{idx_campo}"
+            parametros[key] = valor
+            placeholders.append(f":{key}")
+        
+        # Agrega también el Procedimiento
+        key_proc = f"proc_{idx_campo}"
+        parametros[key_proc] = Procedimiento
+
+        union = f"""
             SELECT 
                 CASE 
-                    WHEN {campo} IN ({placeholders}) 
+                    WHEN {campo} IN ({', '.join(placeholders)}) 
                         THEN {campo} 
                     ELSE 'Otros' 
                 END AS categoria
             FROM {tabla}
-        """)
+            WHERE Procedimiento IN :{key_proc}
+        """
+        unions.append(union)
+
+    # Unimos todas las subconsultas
     union_query = "\nUNION ALL\n".join(unions)
 
+    # Query final
     query = text(f"""
         SELECT categoria, COUNT(*) AS cantidad
         FROM (
@@ -219,12 +237,66 @@ def conteo(valores_validos, tabla='foest07', campos=None):
         ORDER BY cantidad DESC
     """)
 
-    parametros = {f"val{i}": valor for i, valor in enumerate(valores_validos)}
-
+    # Ejecutar
     with engine.connect() as conn:
         resultado = conn.execute(query, parametros).fetchall()
         conteo_resultado = {row[0]: row[1] for row in resultado}
-        # Puedes filtrar 'Otros' aquí si no lo quieres en la gráfica
         conteo_resultado = {k: v for k, v in conteo_resultado.items() if k != 'Otros'}
     return conteo_resultado
-    
+
+
+
+
+def conteoW(valores_validos, Procedimiento,Periodo, tabla='foest07', campos=None):
+    if campos is None:
+        campos = ['FuncionesPrioritarias', 'FuncionesPrioritarias2', 'FuncionesPrioritarias3']
+
+    # Preparamos parámetros únicos y sus placeholders
+    parametros = {}
+    unions = []
+
+    for idx_campo, campo in enumerate(campos):
+        # Genera placeholders únicos por campo (val0_0, val1_0, ..., val0_1, etc.)
+        placeholders = []
+        for idx_valor, valor in enumerate(valores_validos):
+            key = f"val{idx_valor}_{idx_campo}"
+            parametros[key] = valor
+            placeholders.append(f":{key}")
+        
+        # Agrega también el Procedimiento
+        key_proc = f"proc_{idx_campo}"
+        key_periodo = f"periodo_{idx_campo}"
+        parametros[key_proc] = Procedimiento
+        parametros[key_periodo] = Periodo
+
+        union = f"""
+            SELECT 
+                CASE 
+                    WHEN {campo} IN ({', '.join(placeholders)}) 
+                        THEN {campo} 
+                    ELSE 'Otros' 
+                END AS categoria
+            FROM {tabla}
+            WHERE Procedimiento = :{key_proc} AND Periodo = :{key_periodo}
+        """
+        unions.append(union)
+
+    # Unimos todas las subconsultas
+    union_query = "\nUNION ALL\n".join(unions)
+
+    # Query final
+    query = text(f"""
+        SELECT categoria, COUNT(*) AS cantidad
+        FROM (
+            {union_query}
+        ) AS funciones_clasificadas
+        GROUP BY categoria
+        ORDER BY cantidad DESC
+    """)
+
+    # Ejecutar
+    with engine.connect() as conn:
+        resultado = conn.execute(query, parametros).fetchall()
+        conteo_resultado = {row[0]: row[1] for row in resultado}
+        conteo_resultado = {k: v for k, v in conteo_resultado.items() if k != 'Otros'}
+    return conteo_resultado

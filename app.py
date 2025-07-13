@@ -32,6 +32,223 @@ def graficas08():
     resultado = graficar08()
     return resultado
 
+
+@app.route('/conteoProcedimiento',methods=['POST'])
+def conteoProcedimiento():
+    
+    valores_validosIF = [
+    "Analizar Recursos-Económicos",
+    "Planificar de recursos para su uso de forma eficiente",
+    "Diagnosticar el estado actual de la organización",
+    "Diseñar estrategias financieras",
+    "Formular alternativas optimas de administración",
+    "Diagnosticar variables económicas",
+    "Identificar elementos que afectan el desarrollo de la organización",
+    "Analizar variables económicas",
+    "Simular de escenarios para plan estratégico de acción",
+    "Cuantificar impacto en organización",
+    "Estudios técnicos económicos",
+    "Gestionar recursos",
+
+    # Estancia II
+    "Construir estrategias financieras",
+    "Desarrollar estrategias costo-beneficio",
+    "Diseñar alternativas de negocio",
+    "Gestionar proyectos de inversión",
+    "Sistematizar procesos administrativos mediante las TIC´S",
+    "Generar reportes ejecutivos y técnicos para la toma de decisiones",
+    "Diseñar modelos financieras y económicos",
+    "Transferir tecnología y conocimiento para la creación de negocios inteligentes",
+    "Desarrollo de negocios inteligentes",
+    "Análisis de tendencias y hábitos del mercado",
+
+    # Estadía
+    "Identificar variables económicas, contables, legales y administrativas",
+    "Aplicar fundamentos matemáticos y estadísticos",
+    "Diagnosticar aspectos financieros",
+    "Diagnosticar variables del entorno económico",
+    "Evaluar proyectos con base a variables del entorno económico",
+    "Diseñar modelos financieros aplicando las TIC´s",
+    "Construir proyectos de inversión",
+    "Transferencia tecnológica en el sector",
+    "Integración de estrategias financieras, bursátiles y empresariales",
+    "Optimizar recursos"
+
+    ]
+    
+    valores_validosIS = [
+
+    # funcion-estancia1[] y funcion-estancia2[]
+    "Diseñar software",
+    "Diagnóstico de requerimientos",
+    "Implementar metodologías de modelado",
+    "Optimizar operaciones comerciales internacionales",
+    "Estructurar datos",
+    "Desarrollar interfaces para su validación",
+    "Aplicar normatividad y estándares",
+    "Representación técnica del software",
+    "Estructurar diseños de software con base en requerimientos",
+    "Aplicación de metodologías de diagnóstico",
+
+    # funcion-estadia[]
+    "Dirigir proyectos de software",
+    "Gestionar proyectos de software",
+    "Aplicación de la metodología de gestión de proyectos",
+    "Determinar herramientas administrativas y financieras",
+    "Coordinar el plan de pruebas de software",
+    "Ejecución de pruebas de software",
+    "Planes de mercadotecnia internacional",
+    "Aplicación de estandares para aseguramiento de calidad de software",
+    "Planear y coordinar mantenimiento de software",
+    "Uso de metodologías de mantenimiento de software",
+    "Implementar ingeniería inversa y reingeniería",
+    "Aplicación de estándares y normatividad aplicación y mejora del software"
+
+
+
+    ]
+
+    
+    valores_validosIMA = [
+        
+    # Estancia I
+    "Dimensionar de componentes Mecánicos",
+    "Establecimiento de procedimientos de manufactura",
+    "Aplicar herramientas de medición mediante las TIC´s",
+    "Identificar características dimensionales y geométricas",
+    "Aplicar herramientas mediante las TIC´s para generar planos de taller",
+    "Implementar manual de mantenimiento",
+    "Reestructuración de procesos",
+    "Estrategias de desarrollo",
+    "Mantenimiento mecánico",
+
+    # Estancia II
+    "Proponer procesos de manufactura de componentes mecánicos",
+    "Establecer procedimientos de fabricación",
+    "Establecer normas de calidad y seguridad",
+    "Implementar procesos de manufactura convencional-CNC",
+    "Implementar normas de la industria",
+    "Definir componentes mecánicos",
+    "Integrar sistemas mecánicos",
+    "Simular modelos de componentes mecánicos mediante las TIC´s",
+    "Mantenimiento mecánico",
+
+    # Estadía
+    "Establecer procedimientos de fabricación que cumplan con normas de calidad y seguridad",
+    "Implementar procesos de Manufactura convencional y/o CNC mediante estándares",
+    "Integración de sistemas mecánicos",
+    "Simulación de Componentes por medio de herramientas computacionales para validar comportamiento dinámico",
+    "Integración de sistemas mecánicos",
+    "Procedimientos de fabricación",
+    "Determinar la implementación de normas de calidad nacional e internacional ",
+    "Implementación de normas ambientales nacional e internacional",
+    "Operación de industria 4.0",
+    "Dirección de Recursos Humanos",
+    "Establecer mantenimiento mecánico",
+    "Implementación de procesos de manufactura por medio de tecnología",
+    "Estrategias para el desarrollo de vehículos para el cuidado y protección del medio ambiente"
+    ]
+
+    valores_validosITM = [
+        
+    # Estancia I
+    "Estructurar sistemas de producción",
+    "Control estadístico de calidad",
+    "Aplicar software de diseño",
+    "Implementación de normatividad para optimizar recursos",
+    "Análisis de rentabilidad de productos",
+    "Implementación de calidad en productos y servicios",
+
+    # Estancia II
+    "Gestión procesos de manufactura",
+    "Gestionar estándares de calidad",
+    "Estructurar mejoras en los procesos productivos",
+    "Planear diagnostico de procesos de producción",
+    "Controlar procesos de producción",
+    "Eficientar el manejo de recursos (Humanos, materiales, financieros)",
+    "Desarrollar sistemas de calidad",
+    "Coordinar planes de mantenimiento de TPM, jidoka ",
+    "Estimación de costo-beneficio",
+    "Manejar software especializado",
+    "Manejo de Equipo y maquinaria auxiliar en la organización",
+
+    # Estadía
+    "Evaluar proyectos productivos estratégicos e innovadores",
+    "Aplicar software de simulación",
+    "Aplicar herramientas de manufactura avanzada",
+    "Gestionar propuestas tecnológicas innovadoras",
+    "Diseñar productos utilizando paquetes CAD-CAM-CAE",
+    "Validar proyectos productivos",
+    "Toma de decisiones para mejora de competitividad",
+    "Generar planos y especificaciones de producto",
+    "Analizar procesos y productos",
+    "Generar estrategias de productividad y competitividad"
+
+
+    ]
+
+    valores_validosLNI = [
+       
+    
+    "Diseñar estrategias organizadas",
+    "Análisis de operaciones",
+    "Identificación de mercados nacionales/internacionales",
+    "Planeación estratégica de negocios",
+    "Evaluación del entorno de mercado",
+    "Análisis de proveedores, clientes y propiedades",
+    "Identificación de oportunidad de negocios",
+    "Mejoras administrativas",
+    "Gestión de procesos administrativos",
+
+   
+    "Optimizar funciones comerciales internacionales",
+    "Optimizar operaciones legales internacionales",
+    "Optimizar operaciones financieras internacionales",
+    "Optimizar operaciones comerciales internacionales (Negocios)",
+    "Estrategia de negocio internacional",
+    "Desarrollar procesos de exportación-importación",
+    "Actividades de despacho aduanero",
+    "Diversificación de mercado a nivel internacional",
+    "Análisis de proveedores internacionales",
+    "Mejoras a cadena de suministro-Logística",
+    "Administrar sistemas de calidad",
+
+    # funcion-estadia[]
+    "Establecer relaciones comerciales",
+    "Plan de negocios de exportación-importación",
+    "Dirigir estrategias gerencias y de negociación internacional",
+    "Asesorar estrategias gerencias y de negociación internacional",
+    "Ejecutar estrategias gerencias y de negociación internacional",
+    "Aplicación de herramientas administrativas en un entorno internacional",
+    "Planes de mercadotecnia internacional",
+    "Proyectos de Inversión",
+    "Aplicación de normatividad internacional",
+    "Estrategias de competitividad de productos y servicios"
+]
+
+    Periodo = periodoCuatrimestral()
+    anio = aniobase()
+    Periodo = f'{Periodo} - {anio}'
+    Procedimiento = request.form['Procedimiento']
+    if Procedimiento == "0":
+        prodecimientos = ['ESTNC1', 'ESTNC2', 'ESTD']
+        datos = conteo(valores_validosIS,prodecimientos)
+        datos2 = conteo(valores_validosIF,prodecimientos)
+        datos3 = conteo(valores_validosIMA,prodecimientos)
+        datos4 = conteo(valores_validosITM,prodecimientos)
+        datos5 = conteo(valores_validosLNI,prodecimientos)
+        return render_template('Grafica/Grafica07.html',datos=datos,datos2=datos2,datos3=datos3,datos4=datos4,datos5=datos5)
+
+    else:
+        datos = conteoW(valores_validosIS,Procedimiento,Periodo)
+        datos2 = conteoW(valores_validosIF,Procedimiento,Periodo)
+        datos3 = conteoW(valores_validosIMA,Procedimiento,Periodo)
+        datos4 = conteoW(valores_validosITM,Procedimiento,Periodo)
+        datos5 = conteoW(valores_validosLNI,Procedimiento,Periodo)
+        return render_template('Grafica/Grafica07.html',datos=datos,datos2=datos2,datos3=datos3,datos4=datos4,datos5=datos5)
+
+
+
 @app.route('/vercalificacion07',methods=['POST'])
 def graficas07():
     
@@ -203,7 +420,7 @@ def graficas07():
     "Optimizar funciones comerciales internacionales",
     "Optimizar operaciones legales internacionales",
     "Optimizar operaciones financieras internacionales",
-    "Optimizar operaciones comerciales internacionales",
+    "Optimizar operaciones comerciales internacionales (Negocios)",
     "Estrategia de negocio internacional",
     "Desarrollar procesos de exportación-importación",
     "Actividades de despacho aduanero",
@@ -226,14 +443,19 @@ def graficas07():
 ]
 
 
-
-    datos = conteo(valores_validosIS)
-    datos2 = conteo(valores_validosIF)
-    datos3 = conteo(valores_validosIMA)
-    datos4 = conteo(valores_validosITM)
-    datos5 = conteo(valores_validosLNI)
+    prodecimientos = ['ESTNC1', 'ESTNC2', 'ESTD']
+    datos = conteo(valores_validosIS,prodecimientos)
+    datos2 = conteo(valores_validosIF,prodecimientos)
+    datos3 = conteo(valores_validosIMA,prodecimientos)
+    datos4 = conteo(valores_validosITM,prodecimientos)
+    datos5 = conteo(valores_validosLNI,prodecimientos)
 
     return render_template('Grafica/Grafica07.html',datos=datos,datos2=datos2,datos3=datos3,datos4=datos4,datos5=datos5)
+
+
+
+
+
 #Pagina principal
 @app.route('/')
 def index():

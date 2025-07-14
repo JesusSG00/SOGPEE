@@ -1,243 +1,218 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
+    <meta charset="UTF-8">
     <title>Gráfica de Funciones</title>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/graficas.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/verCalificacion02.css') }}">
+
+    <!-- Bootstrap CSS -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+        crossorigin="anonymous"
+    />
+
+    <!-- Estilos personalizados -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/verCalificacion02.css') }}">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <div>
-        <form action="/conteoProcedimiento" method="post" id="formulario">
-            Procedimiento:
-            <select name="Procedimiento" onchange="this.form.submit()">
-                <option value="None">Seleccionar</option>
-                <option value="ESTNC1">Estancia 1</option>
-                <option value="ESTNC2">Estancia 2</option>
-                <option value="ESTD">Estadia</option>
-                <option value="0">Mostrar todo</option>
-            </select>
+    <!-- Cabecera -->
+    <header class="container-fluid d-flex justify-content-center bg-white p-2"> 
 
-        </form>
+            <form action="/verMasCalificaciones" method="post">
+                <button type="submit" class="custom-btn">← Atrás</button>
+            </form>
+
+            <div class="logoUPT ms-3">
+                <a href="/" class="logo-upt">
+                    <img src="../static/img/logo_upt.png" alt="Logo UPT" height="125">
+                </a>
+            </div>
+        </header>
+        <br>
+        <p></p>
+
+    <!-- Filtro arriba de todo -->
+<!-- Filtro centrado -->
+<div class="containerr mb-4">
+    <div class="row justify-content-center">
+        <div class="col-md-auto"> <!-- col-md-auto permite que el ancho se ajuste al contenido -->
+            <form action="/conteoProcedimiento" method="post" id="formulario" class="d-flex align-items-center gap-2">
+                <label for="Procedimiento" class="form-label mb-0 fw-semibold">Procedimiento:</label>
+                <select name="Procedimiento" id="Procedimiento" class="form-select mx-auto" style="min-width: 200px;" onchange="this.form.submit()">
+                    <option value="None">Seleccionar</option>
+                    <option value="ESTNC1">Estancia 1</option>
+                    <option value="ESTNC2">Estancia 2</option>
+                    <option value="ESTD">Estadía</option>
+                    <option value="0">Mostrar todo</option>
+                </select>
+            </form>
+        </div>
     </div>
+</div>
+
+
+<style>
+    /* Estilo para el card del filtro */
+    .filtro-card {
+        background: #ffffff; /* Fondo blanco */
+        border: 1px solid #ced4da; /* Borde gris */
+        border-radius: 0.5rem; /* Bordes redondeados */
+        padding: 1rem; /* Espaciado interno */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra más pronunciada */
+        transition: transform 0.3s; /* Transición suave al pasar el mouse */
+    }
+
+    /* Efecto al pasar el mouse sobre el card */
+    .filtro-card:hover {
+        transform: translateY(-2px); /* Levantar ligeramente el card */
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* Sombra más intensa */
+    }
+
+    /* Estilo del select */
+    #Procedimiento {
+        min-width: 220px; /* Ancho mínimo */
+        border-radius: 0.5rem; /* Bordes redondeados */
+        padding: 0.5rem; /* Espaciado interno */
+        font-size: 1rem; /* Tamaño de fuente */
+        background-color: #f8f9fa; /* Fondo gris claro */
+        border: 1px solid #007bff; /* Borde azul */
+        transition: border-color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+    }
+
+    /* Cambiar el color del borde al enfocar */
+    #Procedimiento:focus {
+        border-color: #0056b3; /* Borde azul más oscuro al enfocar */
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Sombra al enfocar */
+        outline: none; /* Quitar el contorno por defecto */
+    }
+
+    /* Estilo del label */
+    .form-label {
+        color: #343a40; /* Color del texto */
+        font-weight: bold; /* Negrita */
+    }
+</style>
+
+
+
+
+
+
     <div class="container">
         <div>
-    IS
-    <canvas id="miGrafica" width="600" height="400"></canvas>
+            IS
+            <canvas id="miGrafica" width="600" height="400"></canvas>
+        </div>
 
-<script>
-    const datos = {{ datos | tojson }};
-    
-    const etiquetas = Object.keys(datos);
-    const valores = Object.values(datos);
+        <div>
+            IF
+            <canvas id="miGrafica2" width="600" height="400"></canvas>
+        </div>
 
-    const ctx = document.getElementById('miGrafica').getContext('2d');
-    const miGrafico = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: etiquetas,
-            datasets: [{
-                label: 'Cantidad de funciones',
-                data: valores,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: { enabled: true }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        precision: 0
-                    }
-                }
-            }
-        }
-    });
-</script>
+        <div>
+            ITM
+            <canvas id="miGrafica4" width="600" height="400"></canvas>
+        </div>
 
-</div>
+        <div>
+            LNI
+            <canvas id="miGrafica5" width="600" height="400"></canvas>
+        </div>
 
-<div>
-    IF
-    
-    <canvas id="miGrafica2" width="600" height="400"></canvas>
-
-<script>
-    const datos2 = {{ datos2 | tojson }};
-    
-    const etiquetas2 = Object.keys(datos2);
-    const valores2 = Object.values(datos2);
-
-    const ctx2 = document.getElementById('miGrafica2').getContext('2d');
-    const miGrafico2 = new Chart(ctx2, {
-        type: 'bar',
-        data: {
-            labels: etiquetas2,
-            datasets: [{
-                label: 'Cantidad de funciones',
-                data: valores2,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: { enabled: true }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        precision: 0
-                    }
-                }
-            }
-        }
-    });
-</script>
-
-</div>
-
-<div>
-    ITM
-    
-    <canvas id="miGrafica4" width="600" height="400"></canvas>
-
-<script>
-    const datos4 = {{ datos4 | tojson }};
-    
-    const etiquetas4 = Object.keys(datos4);
-    const valores4 = Object.values(datos4);
-
-    const ctx4 = document.getElementById('miGrafica4').getContext('2d');
-    const miGrafico4 = new Chart(ctx4, {
-        type: 'bar',
-        data: {
-            labels: etiquetas4,
-            datasets: [{
-                label: 'Cantidad de funciones',
-                data: valores4,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: { enabled: true }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        precision: 0
-                    }
-                }
-            }
-        }
-    });
-</script>
-
-</div>
-<div>
-    LNI
-    
-    <canvas id="miGrafica5" width="600" height="400"></canvas>
-
-<script>
-    const datos5 = {{ datos5 | tojson }};
-
-    const etiquetas5 = Object.keys(datos5);
-    const valores5 = Object.values(datos5);
-
-    const ctx5 = document.getElementById('miGrafica5').getContext('2d');
-    const miGrafico5 = new Chart(ctx5, {
-        type: 'bar',
-        data: {
-            labels: etiquetas5,
-            datasets: [{
-                label: 'Cantidad de funciones',
-                data: valores5,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: { enabled: true }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        precision: 0
-                    }
-                }
-            }
-        }
-    });
-</script>
-
-</div>
-
-<div>
-    IMA
-    
-    <canvas id="miGrafica3" width="600" height="400"></canvas>
-
-<script>
-    const datos3 = {{ datos3 | tojson }};
-    
-    const etiquetas3 = Object.keys(datos3);
-    const valores3 = Object.values(datos3);
-
-    const ctx3 = document.getElementById('miGrafica3').getContext('2d');
-    const miGrafico3 = new Chart(ctx3, {
-        type: 'bar',
-        data: {
-            labels: etiquetas3,
-            datasets: [{
-                label: 'Cantidad de funciones',
-                data: valores3,
-                backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                borderColor: 'rgba(54, 162, 235, 1)',
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: false,
-            plugins: {
-                legend: { display: false },
-                tooltip: { enabled: true }
-            },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        precision: 0
-                    }
-                }
-            }
-        }
-    });
-</script>
-
-</div>
+        <div>
+            IMA
+            <canvas id="miGrafica3" width="600" height="400"></canvas>
+        </div>
     </div>
 
+    <!-- Scripts para las gráficas -->
+    <script>
+        const datos = {{ datos | tojson }};
+        const datos2 = {{ datos2 | tojson }};
+        const datos3 = {{ datos3 | tojson }};
+        const datos4 = {{ datos4 | tojson }};
+        const datos5 = {{ datos5 | tojson }};
+
+        new Chart(document.getElementById('miGrafica').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: Object.keys(datos),
+                datasets: [{
+                    label: 'Cantidad de funciones',
+                    data: Object.values(datos),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: { responsive: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+        });
+
+        new Chart(document.getElementById('miGrafica2').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: Object.keys(datos2),
+                datasets: [{
+                    label: 'Cantidad de funciones',
+                    data: Object.values(datos2),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: { responsive: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+        });
+
+        new Chart(document.getElementById('miGrafica3').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: Object.keys(datos3),
+                datasets: [{
+                    label: 'Cantidad de funciones',
+                    data: Object.values(datos3),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: { responsive: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+        });
+
+        new Chart(document.getElementById('miGrafica4').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: Object.keys(datos4),
+                datasets: [{
+                    label: 'Cantidad de funciones',
+                    data: Object.values(datos4),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: { responsive: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+        });
+
+        new Chart(document.getElementById('miGrafica5').getContext('2d'), {
+            type: 'bar',
+            data: {
+                labels: Object.keys(datos5),
+                datasets: [{
+                    label: 'Cantidad de funciones',
+                    data: Object.values(datos5),
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: { responsive: false, plugins: { legend: { display: false } }, scales: { y: { beginAtZero: true, ticks: { precision: 0 } } } }
+        });
+    </script>
 </body>
 </html>

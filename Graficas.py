@@ -60,7 +60,7 @@ FROM foest02
 def graficar02():
     PeriodoActivo = periodoCuatrimestral()
     anio = aniobase()
-    Periodo = PeriodoActivo + "-" + anio
+    Periodo = PeriodoActivo + " - " + anio
     row = obtenerPromedios02(Periodo)
     promedios = [
     row["Promedio1"], row["Promedio2"], row["Promedio3"],
@@ -97,10 +97,94 @@ def graficar02():
 
 
 
-from flask import render_template
-from sqlalchemy import text
-from conexion import engine
 
+def graficar02seleccionado(Periodo):
+    
+    row = obtenerPromedios02(Periodo)
+    promedios = [
+    row["Promedio1"], row["Promedio2"], row["Promedio3"],
+    row["Promedio4"], row["Promedio5"], row["Promedio6"],
+    row["Promedio7"], row["Promedio8"], row["Promedio9"],
+    row["Promedio10"], row["PromedioActitud"],row["Promedio11"],
+    row["Promedio12"], row["Promedio13"], row["Promedio14"],
+    row["Promedio15"], row["Promedio16"], row["PromedioDesarrollo"]
+    
+]
+    
+    
+    if promedios:
+        etiquetas = [
+            "Puntualidad", "Responsabilidad", "Ética",
+            "Toma de Decisiones", "Liderazgo", "Expresa Ideas",
+            "Comunicación Asertiva", "Resolución de Situaciones",
+            "Actitud Favorable", "Trabajo en Equipo", "Promedio Actitud",
+            "Estrategias", "Acciones de Mejora", "Procesos de Operación",
+            "Plantea Soluciones", "Responde Necesidades", "Cumple Tiempo",
+            "Promedio Desarrollo"
+        ]
+        datos_promedios = promedios
+        num_actividades = len(etiquetas)
+        puntos_colores = [
+        'rgba(54, 162, 235, 1)' if i not in [10, num_actividades-1] else 'rgba(255, 0, 0, 1)'
+        for i in range(num_actividades)
+        ]
+
+    return render_template('/Grafica/GraficaFoest02.html',
+                       etiquetas=etiquetas,
+                       datos_promedios=datos_promedios,puntos_colores=puntos_colores,Periodo=Periodo)
+
+
+
+def obtenerPromedios03():
+    query = text("""SELECT
+       ROUND(AVG(calificacionproyectop1.Calificacion), 2) AS Promedio1,
+   ROUND(AVG(calificacionproyectop2.Calificacion), 2) AS Promedio2,
+   ROUND(AVG(calificacionproyectop3.Calificacion), 2) AS Promedio3
+       
+FROM proyecto
+JOIN calificacionproyectop1 ON proyecto.Nombre = calificacionproyectop1.Proyecto
+JOIN calificacionproyectop2 ON proyecto.Nombre = calificacionproyectop2.Proyecto
+JOIN calificacionproyectop3 ON proyecto.Nombre = calificacionproyectop3.Proyecto;""")
+    
+    with engine.connect() as conn:
+        result = conn.execute(query).mappings().first()
+        row = result
+        if row:
+            promedios = {
+                "Promedio1": row["Promedio1"],
+                "Promedio2": row["Promedio2"],
+                "Promedio3": row["Promedio3"]
+            }
+            return promedios
+        else:
+            return None
+
+def obtenerPromedios03Procedimiento(Procedimiento):
+    query = text("""SELECT
+       ROUND(AVG(calificacionproyectop1.Calificacion), 2) AS Promedio1,
+   ROUND(AVG(calificacionproyectop2.Calificacion), 2) AS Promedio2,
+   ROUND(AVG(calificacionproyectop3.Calificacion), 2) AS Promedio3
+                 
+       
+FROM proyecto
+JOIN calificacionproyectop1 ON proyecto.Nombre = calificacionproyectop1.Proyecto
+JOIN calificacionproyectop2 ON proyecto.Nombre = calificacionproyectop2.Proyecto
+JOIN calificacionproyectop3 ON proyecto.Nombre = calificacionproyectop3.Proyecto
+                 JOIN equipos ON proyecto.ProyectoID = equipos.Id_Proyecto
+                 WHERE equipos.Procedimiento = :Procedimiento;""")
+    
+    with engine.connect() as conn:
+        result = conn.execute(query,{"Procedimiento":Procedimiento}).mappings().first()
+        row = result
+        if row:
+            promedios = {
+                "Promedio1": row["Promedio1"],
+                "Promedio2": row["Promedio2"],
+                "Promedio3": row["Promedio3"]
+            }
+            return promedios
+        else:
+            return None
 
 def obtenerPromedios08():
     query = text("""SELECT 
@@ -136,6 +220,48 @@ FROM foest08;""")
             return promedios
         else:
             return None
+
+
+def graficar03():
+    row = obtenerPromedios03()
+    promedios = [
+    row["Promedio1"], row["Promedio2"], row["Promedio3"]
+    ]
+    
+    
+    if promedios:
+        etiquetas = [
+            "PARCIAL 1", "PARCIAL 2", "PARCIAL 3"
+        ]
+        datos_promedios = promedios
+        
+        
+
+    return render_template('/Grafica/GraficaFoest03.html',
+                       etiquetas=etiquetas,
+                       datos_promedios=datos_promedios)
+
+
+def graficar03Procedimiento(Procedimiento):
+    row = obtenerPromedios03Procedimiento(Procedimiento)
+    promedios = [
+    row["Promedio1"], row["Promedio2"], row["Promedio3"]
+    ]
+    
+    
+    if promedios:
+        etiquetas = [
+            "PARCIAL 1", "PARCIAL 2", "PARCIAL 3"
+        ]
+        datos_promedios = promedios
+        
+        
+
+    return render_template('/Grafica/GraficaFoest03.html',
+                       etiquetas=etiquetas,
+                       datos_promedios=datos_promedios)
+
+
 
 
 

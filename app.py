@@ -27,11 +27,22 @@ def graficas():
     resultado = graficar02()
     return resultado
 
+
+@app.route('/graficasfiltro',methods=['POST'])
+def graficarFiltro():
+    Periodo = request.form['Periodo']
+    resultado = graficar02seleccionado(Periodo)
+    return resultado
+
 @app.route('/graficas08',methods=['POST'])
 def graficas08():
     resultado = graficar08()
     return resultado
 
+@app.route('/graficar03',methods=['POST'])
+def graficas03():
+    resultado = graficar03()
+    return resultado
 
 @app.route('/conteoProcedimiento',methods=['POST'])
 def conteoProcedimiento():
@@ -1096,9 +1107,16 @@ def vercalificacion02():
     PeriodoActivo = periodoCuatrimestral()
     anio = aniobase()
     Periodo = PeriodoActivo + " - " + anio
-    resultado  = cargarCalificaciones02(Periodo)
-    return render_template('perfiles/Coordinacion/vercalificacion02.html', resultado=resultado,Periodo=Periodo)
+    resultado  = cargarCalificaciones02()
+    return render_template('perfiles/Coordinacion/vercalificacion02.html', resultado=resultado,Periodo=Periodo,anio =anio)
 
+@app.route('/filtrar02',methods=['POST'])
+def filtrar02():
+    Periodo = request.form['Periodo']
+    anio = aniobase()
+    resultado = cargarCalificaciones02Filtro(Periodo,anio)
+    if resultado:
+        return render_template('perfiles/Coordinacion/vercalificacion02.html', resultado=resultado,Periodo=Periodo,anio =anio)
 
 @app.route('/calificacionCompleta08',methods=['POST'])
 def calificacionCompleta08():
@@ -1116,15 +1134,43 @@ def calificacionCompleta03():
 def verMasCalificaciones():
     return render_template('perfiles/Coordinacion/verCalificaciones.html')
 
+@app.route('/filtrar03', methods=['POST'])
+def filtrar03():
+    Procedimiento = request.form['Procedimiento']
+    resultado = cargarCalificaciones03Filtro(Procedimiento)
+    return render_template('perfiles/Coordinacion/vercalificacion03.html', resultado=resultado)
+
+
+
+
+@app.route('/graficar03seleccionado', methods=['POST'])
+def graficar03seleccionado():
+    Procedimiento = request.form['Procedimiento']
+    resultado = graficar03Procedimiento(Procedimiento)
+    return resultado
+    
+
+
+
+
 @app.route('/vercalificacion03',methods=['POST'])
 def verCalificacion03():
     resultado = cargarCalificaciones03()
     return render_template('perfiles/Coordinacion/vercalificacion03.html',resultado = resultado)
 
+
+@app.route('/filtrar08',methods=['POST'])
+def filtrar08():
+    anio = aniobase()
+    Periodo = request.form['Periodo']
+    resultado = cargarCalificaciones08Filtro(Periodo)
+    return render_template('perfiles/Coordinacion/vercalificaciones08.html', resultado=resultado,anio=anio)
+
 @app.route('/vercalificacion08',methods=['POST'])
 def verCalificacion08():
+    anio = aniobase()
     resultado = cargarCalificaciones08()
-    return render_template('perfiles/Coordinacion/vercalificaciones08.html',resultado = resultado)
+    return render_template('perfiles/Coordinacion/vercalificaciones08.html',resultado = resultado,anio=anio)
 
 @app.route('/calificacionCompleta', methods=['POST'])
 def cargarCalificaciones02Completas():
@@ -1581,22 +1627,14 @@ def encuestaSatisfaccion():
     return render_template('Cuestionarios/evaluacion_cuestionario.html',
                          Matricula=Matricula, correo=Correo)
 
-def guardarForm08(question11,question12,question13,question14,question15,question16,question17,question18,question19,prom,veracidad,matricula):
-    try:
-        query = text("INSERT INTO foest08 (Pregunta01,Pregunta02,Pregunta03,Pregunta04,Pregunta05,Pregunta06,Pregunta07,Pregunta08,Pregunta09, Promedio, Veracidad, Matricula) VALUES (:Pregunta01, :Pregunta02, :Pregunta03,:Pregunta04,:Pregunta05,:Pregunta06,:Pregunta07,:Pregunta08,:Pregunta09, :Promedio,:Veracidad,:Matricula)")
-        with engine.connect() as conn:
-            conn.execute(query,{'Pregunta01':question11,'Pregunta02':question12,'Pregunta03':question13,'Pregunta04':question14,'Pregunta05':question15,'Pregunta06':question16,'Pregunta07':question17,'Pregunta08':question18,'Pregunta09':question19,'Promedio':prom,'Veracidad':veracidad,'Matricula':matricula})
-            conn.commit()
-            return True
-    except Exception as e:
-        return f'error---------------->{e}'
+
 
 
 def guardarForm08C(question11,question12,question13,question14,question15,question16,question17,question18,question19,prom,veracidad,Comentarios,matricula,periodo,anio):
     try:
         query = text("INSERT INTO foest08 (Pregunta01,Pregunta02,Pregunta03,Pregunta04,Pregunta05,Pregunta06,Pregunta07,Pregunta08,Pregunta09, Promedio, Veracidad,Comentarios, Matricula, Periodo) VALUES (:Pregunta01, :Pregunta02, :Pregunta03,:Pregunta04,:Pregunta05,:Pregunta06,:Pregunta07,:Pregunta08,:Pregunta09, :Promedio,:Veracidad,:Comentarios,:Matricula,:Periodo)")
         with engine.connect() as conn:
-            conn.execute(query,{'Pregunta01':question11,'Pregunta02':question12,'Pregunta03':question13,'Pregunta04':question14,'Pregunta05':question15,'Pregunta06':question16,'Pregunta07':question17,'Pregunta08':question18,'Pregunta09':question19,'Promedio':prom,'Veracidad':veracidad,'Comentarios':Comentarios,'Matricula':matricula, 'Periodo':periodo+ "-" +anio})
+            conn.execute(query,{'Pregunta01':question11,'Pregunta02':question12,'Pregunta03':question13,'Pregunta04':question14,'Pregunta05':question15,'Pregunta06':question16,'Pregunta07':question17,'Pregunta08':question18,'Pregunta09':question19,'Promedio':prom,'Veracidad':veracidad,'Comentarios':Comentarios,'Matricula':matricula, 'Periodo':periodo+ " - " +anio})
             conn.commit()
             return True
     except Exception as e:

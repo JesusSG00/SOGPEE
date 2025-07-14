@@ -38,13 +38,13 @@
             <div class="container">
                 <div class="row justify-content-center text-center">
                     <div class="col-12 mb-5">
-                        <h1>Calificaciones FO-EST-02  {{Periodo}}</h1>
-                        <form action="" method="post">
-                            <select name="" id="">
-                                <option value="">SELECCIONAR PERIODO</option>
-                                <option value="ENERO-ABRIL">ENERO-ABRIL</option>
-                                <option value="MAYO-AGOSTO">MAYO-AGOSTO</option>
-                                <option value="SEPTIEMBRE-DICIEMBRE">SEPTIEMBRE-DICIEMBRE</option>
+                        <h1>Calificaciones FO-EST-02 {{anio}}</h1>
+                        <form action="/filtrar02" method="post">
+                            <select name="Periodo" onchange="this.form.submit()">
+                                <option value="0">SELECCIONAR PERIODO</option>
+                                <option value="ENERO-ABRIL - {{anio}}">ENERO-ABRIL</option>
+                                <option value="MAYO-AGOSTO - {{anio}}">MAYO-AGOSTO</option>
+                                <option value="SEPTIEMBRE-DICIEMBRE - {{anio}}">SEPTIEMBRE-DICIEMBRE</option>
                             </select>
                         </form>
                         

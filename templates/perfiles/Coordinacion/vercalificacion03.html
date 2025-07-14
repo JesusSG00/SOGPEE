@@ -39,12 +39,12 @@
                 <div class="row justify-content-center text-center">
                     <div class="col-12 mb-5">
                         <h1>Calificaciones FO-EST-03</h1>
-                       <form action="" method="post">
-                            <select name="" id="">
-                                <option value="">SELECCIONAR PERIODO</option>
-                                <option value="ENERO-ABRIL">ENERO-ABRIL</option>
-                                <option value="MAYO-AGOSTO">MAYO-AGOSTO</option>
-                                <option value="SEPTIEMBRE-DICIEMBRE">SEPTIEMBRE-DICIEMBRE</option>
+                       <form action="/filtrar03" method="post">
+                            <select name="Procedimiento" id="" onchange="this.form.submit()">
+                                <option value="">SELECCIONAR PROCEDIMIENTO</option>
+                                <option value="ESTNC1">ESTANCIA 1</option>
+                                <option value="ESTNC2">ESTANCIA 2</option>
+                                <option value="ESTD">ESTADIA</option>
                             </select>
                         </form>
                     </div>

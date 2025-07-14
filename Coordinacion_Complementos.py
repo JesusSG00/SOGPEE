@@ -4,13 +4,14 @@ from sqlalchemy import text
 
 #Calificaciones de los formatos 2, 3 y 8
 
-def cargarCalificaciones08():
+def cargarCalificaciones08Filtro(Periodo):
     try:
         query = text("""
-            SELECT Matricula,Promedio,Comentarios FROM foest08;
+            SELECT Matricula,Promedio,Comentarios,Periodo FROM foest08
+                     WHERE Periodo = :Periodo;
         """)
         with engine.connect() as conn:
-            rows = conn.execute(query).fetchall()  
+            rows = conn.execute(query,{"Periodo":Periodo}).fetchall()  
             
             if not rows:
                 return '<div class="alert alert-warning text-center">No hay datos disponibles</div>'
@@ -23,6 +24,7 @@ def cargarCalificaciones08():
                         <th>Matrícula</th>
                         <th>Promedio</th>
                         <th>Comentarios</th>
+                        <th>Periodo</th>
                         <th><div>
                         <form action="/graficas08" method="post">
                             <button type="submit" class="btn btn-primary">Graficar todo</button>
@@ -39,6 +41,7 @@ def cargarCalificaciones08():
                     <td>{fila[0]}</td>
                     <td>{fila[1]}</td>
                     <td>{fila[2]}</td>
+                    <td>{fila[3]}</td>
 
                     <td>
                         <form action="/calificacionCompleta08" method="post">
@@ -57,17 +60,73 @@ def cargarCalificaciones08():
     except Exception as e:
         return f'<div class="alert alert-danger text-center">Error al cargar las calificaciones: {str(e)}</div>'
 
-def cargarCalificaciones02(Periodo):
+def cargarCalificaciones08():
+    try:
+        query = text("""
+            SELECT Matricula,Promedio,Comentarios,Periodo FROM foest08;
+        """)
+        with engine.connect() as conn:
+            rows = conn.execute(query).fetchall()  
+            
+            if not rows:
+                return '<div class="alert alert-warning text-center">No hay datos disponibles</div>'
+
+            resultado = '''
+            <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Promedio</th>
+                        <th>Comentarios</th>
+                        <th>Periodo</th>
+                        <th><div>
+                        <form action="/graficas08" method="post">
+                            <button type="submit" class="btn btn-primary">Graficar todo</button>
+                        </form>
+                    </div></th>
+                   
+                    </tr>
+                </thead>
+                <tbody>
+            '''
+            for fila in rows:
+                resultado += f'''
+                <tr>
+                    <td>{fila[0]}</td>
+                    <td>{fila[1]}</td>
+                    <td>{fila[2]}</td>
+                    <td>{fila[3]}</td>
+
+                    <td>
+                        <form action="/calificacionCompleta08" method="post">
+                            <input type="hidden" name="Matricula" value="{fila[0]}">
+                            <button type="submit" class="btn btn-success btn-sm">Ver calif. completas</button>
+                        </form>
+                    </td>
+                </tr>
+                '''
+            resultado += '''
+                </tbody>
+            </table>
+            </div>
+            '''
+            return resultado
+    except Exception as e:
+        return f'<div class="alert alert-danger text-center">Error al cargar las calificaciones: {str(e)}</div>'
+
+
+def cargarCalificaciones02():
     try:
         query = text("""
             SELECT foest02.Miembro, estudiante.Nombre1, estudiante.Nombre2, estudiante.ApellidoP, estudiante.ApellidoM,
                    foest02.PromedioActitud, foest02.PromedioDesarrollo, Periodo
             FROM estudiante 
             JOIN foest02 ON estudiante.Matricula = foest02.miembro
-                     WHERE Periodo = :Periodo;
+                     ;
         """)
         with engine.connect() as conn:
-            rows = conn.execute(query,{'Periodo':Periodo}).fetchall()  
+            rows = conn.execute(query).fetchall()  
             
             if not rows:
                 return '<div class="alert alert-warning text-center">No hay datos disponibles</div>'
@@ -87,6 +146,73 @@ def cargarCalificaciones02(Periodo):
                         <th>Periodo</th>
                         <th><div>
                         <form action="/graficas" method="post">
+                            <button type="submit" class="btn btn-primary">Graficar periodo activo</button>
+                        </form>
+                    </div></th>
+                    </tr>
+                </thead>
+                <tbody>
+            '''
+            for fila in rows:
+                resultado += f'''
+                <tr>
+                    <td>{fila[0]}</td>
+                    <td>{fila[1]}</td>
+                    <td>{fila[2]}</td>
+                    <td>{fila[3]}</td>
+                    <td>{fila[4]}</td>
+                    <td>{int(fila[5])}</td>
+                    <td>{int(fila[6])}</td>
+                    <td>{fila[7]}</td>
+                    <td>
+                        <form action="/calificacionCompleta" method="post">
+                            <input type="hidden" name="Miembro" value="{fila[0]}">
+                            <button type="submit" class="btn btn-success btn-sm">Ver calif. completas</button>
+                        </form>
+                    </td>
+                </tr>
+                '''
+            resultado += '''
+                </tbody>
+            </table>
+            </div>
+            '''
+            return resultado
+    except Exception as e:
+        return f'<div class="alert alert-danger text-center">Error al cargar las calificaciones: {str(e)}</div>'
+
+
+def cargarCalificaciones02Filtro(Periodo,anio):
+    try:
+        query = text("""
+            SELECT foest02.Miembro, estudiante.Nombre1, estudiante.Nombre2, estudiante.ApellidoP, estudiante.ApellidoM,
+                   foest02.PromedioActitud, foest02.PromedioDesarrollo, Periodo
+            FROM estudiante 
+            JOIN foest02 ON estudiante.Matricula = foest02.miembro
+                     WHERE Periodo = :Periodo;
+        """)
+        with engine.connect() as conn:
+            rows = conn.execute(query,{'Periodo':Periodo}).fetchall()  
+            
+            if not rows:
+                return '<div class="alert alert-warning text-center">No hay datos disponibles</div>'
+
+            resultado = f'''
+            <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Matrícula</th>
+                        <th>Nombre</th>
+                        <th>Segundo Nombre</th>
+                        <th>Apellido Paterno</th>
+                        <th>Apellido Materno</th>
+                        <th>Prom. Actitud</th>
+                        <th>Prom. Desarrollo</th>
+                        <th>Periodo</th>
+                        <th><div>
+                        <form action="/graficasfiltro" method="post">
+                            <input type="hidden" name="Periodo" value="{Periodo}">
                             <button type="submit" class="btn btn-primary">Graficar</button>
                         </form>
                     </div></th>
@@ -122,14 +248,21 @@ def cargarCalificaciones02(Periodo):
     except Exception as e:
         return f'<div class="alert alert-danger text-center">Error al cargar las calificaciones: {str(e)}</div>'
 
+
 def cargarCalificaciones03():
     try:
         query = text("""
-            SELECT proyecto.Nombre,calificacionproyectop1.Calificacion,calificacionproyectop2.Calificacion,calificacionproyectop3.Calificacion
+            SELECT DISTINCT proyecto.Nombre,
+       calificacionproyectop1.Calificacion,
+       calificacionproyectop2.Calificacion,
+       calificacionproyectop3.Calificacion,
+       equipos.Procedimiento
 FROM proyecto
 JOIN calificacionproyectop1 ON proyecto.Nombre = calificacionproyectop1.Proyecto
 JOIN calificacionproyectop2 ON proyecto.Nombre = calificacionproyectop2.Proyecto
-JOIN calificacionproyectop3 ON proyecto.Nombre = calificacionproyectop3.Proyecto;
+JOIN calificacionproyectop3 ON proyecto.Nombre = calificacionproyectop3.Proyecto
+JOIN equipos ON proyecto.ProyectoID = equipos.Id_Proyecto;
+
         """)
         with engine.connect() as conn:
             rows = conn.execute(query).fetchall()  
@@ -146,9 +279,10 @@ JOIN calificacionproyectop3 ON proyecto.Nombre = calificacionproyectop3.Proyecto
                         <th>Parcial 1</th>
                         <th>Parcial 2</th>
                         <th>Parcial 3</th>
+                        <th>Procedimiento</th>
                         <th><div>
-                        <form action="" method="post">
-                            <button type="button" class="btn btn-primary">Graficar todo</button>
+                        <form action="/graficar03" method="post">
+                            <button type="submit" class="btn btn-primary">Graficar todo</button>
                         </form>
                     </div></th>
                     </tr>
@@ -162,6 +296,7 @@ JOIN calificacionproyectop3 ON proyecto.Nombre = calificacionproyectop3.Proyecto
                     <td>{fila[1]}</td>
                     <td>{fila[2]}</td>
                     <td>{fila[3]}</td>
+                    <td>{fila[4]}</td>
                  
                     <td>
                         <form action="/calificacionCompleta03" method="post">
@@ -180,6 +315,77 @@ JOIN calificacionproyectop3 ON proyecto.Nombre = calificacionproyectop3.Proyecto
             return resultado
     except Exception as e:
         return f'<div class="alert alert-danger text-center">Error al cargar las calificaciones: {str(e)}</div>'
+
+
+def cargarCalificaciones03Filtro(Procedimiento):
+    try:
+        query = text("""
+            SELECT DISTINCT proyecto.Nombre,
+       calificacionproyectop1.Calificacion,
+       calificacionproyectop2.Calificacion,
+       calificacionproyectop3.Calificacion,
+       equipos.Procedimiento
+FROM proyecto
+JOIN calificacionproyectop1 ON proyecto.Nombre = calificacionproyectop1.Proyecto
+JOIN calificacionproyectop2 ON proyecto.Nombre = calificacionproyectop2.Proyecto
+JOIN calificacionproyectop3 ON proyecto.Nombre = calificacionproyectop3.Proyecto
+JOIN equipos ON proyecto.ProyectoID = equipos.Id_Proyecto
+                     WHERE equipos.Procedimiento = :Procedimiento;
+
+        """)
+        with engine.connect() as conn:
+            rows = conn.execute(query,{"Procedimiento":Procedimiento}).fetchall()  
+            
+            if not rows:
+                return '<div class="alert alert-warning text-center">No hay datos disponibles</div>'
+
+            resultado = f'''
+            <div class="table-responsive">
+            <table class="table table-bordered text-center align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Proyecto</th>
+                        <th>Parcial 1</th>
+                        <th>Parcial 2</th>
+                        <th>Parcial 3</th>
+                        <th>Procedimiento</th>
+                        <th><div>
+                        <form action="/graficar03seleccionado" method="post">
+                            <input type="hidden" name="Procedimiento" value="{Procedimiento}">
+                            <button type="submit" class="btn btn-primary">Graficar</button>
+                        </form>
+                    </div></th>
+                    </tr>
+                </thead>
+                <tbody>
+            '''
+            for fila in rows:
+                resultado += f'''
+                <tr>
+                    <td>{fila[0]}</td>
+                    <td>{fila[1]}</td>
+                    <td>{fila[2]}</td>
+                    <td>{fila[3]}</td>
+                    <td>{fila[4]}</td>
+                 
+                    <td>
+                        <form action="/calificacionCompleta03" method="post">
+                            <input type="hidden" name="Nombre" value="{fila[0]}">
+
+                            <button type="submit" class="btn btn-success btn-sm">Ver calif. completas</button>
+                        </form>
+                    </td>
+                </tr>
+                '''
+            resultado += '''
+                </tbody>
+            </table>
+            </div>
+            '''
+            return resultado
+    except Exception as e:
+        return f'<div class="alert alert-danger text-center">Error al cargar las calificaciones: {str(e)}</div>'
+
 
 
 

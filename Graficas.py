@@ -61,7 +61,9 @@ def graficar02():
     PeriodoActivo = periodoCuatrimestral()
     anio = aniobase()
     Periodo = PeriodoActivo + " - " + anio
+    
     row = obtenerPromedios02(Periodo)
+    
     promedios = [
     row["Promedio1"], row["Promedio2"], row["Promedio3"],
     row["Promedio4"], row["Promedio5"], row["Promedio6"],
@@ -99,7 +101,7 @@ def graficar02():
 
 
 def graficar02seleccionado(Periodo):
-    
+  
     row = obtenerPromedios02(Periodo)
     promedios = [
     row["Promedio1"], row["Promedio2"], row["Promedio3"],

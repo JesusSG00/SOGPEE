@@ -22,6 +22,13 @@ def metodo_no_permitido(e):
     flash("Acceso no permitido directamente a esta página.")
     return f'no'
 
+
+@app.route('/generarExcel02',methods=['POST'])
+def generarExcel02():
+    PeriodoSeleccionado = request.form['PeriodoSeleccionado']
+    resultado = excel02filtrado(PeriodoSeleccionado)
+    return resultado
+
 @app.route('/graficas',methods=['POST'])
 def graficas():
     resultado = graficar02()
@@ -676,9 +683,9 @@ def evaluacion_foest02():
     Carrera = request.form['Carrera']
     NombreEmpresa = request.form['NombreEmpresa']
     projectTitl = request.form['projectTitl']
-    periodo = periodoCuatrimestral()
-    anio = aniobase()
-    return render_template('Cuestionarios/evaluacion_foest02.html',nombreasesor=nombreasesor,resultado=resultado,GradoEstudios=GradoEstudios,Carrera=Carrera,NombreEmpresa=NombreEmpresa,projectTitl=projectTitl,ProyectoID=ProyectoID,periodo=periodo,anio=anio)
+    periodo = request.form['periodo']
+    
+    return render_template('Cuestionarios/evaluacion_foest02.html',nombreasesor=nombreasesor,resultado=resultado,GradoEstudios=GradoEstudios,Carrera=Carrera,NombreEmpresa=NombreEmpresa,projectTitl=projectTitl,ProyectoID=ProyectoID,periodo=periodo)
 
 
 #Validacion del login de coordinacion
@@ -1063,6 +1070,7 @@ def EvEmpresasiguiente():
     giro = request.form['Giro']
     tipoempresa = request.form['tipoempresa']
     periodo = request.form['periodo']
+    
     equipo = request.form['equipo']
     nombre_empresa = request.form['companyName']
     grado_estudios = request.form['advisorDegree']
@@ -1114,7 +1122,7 @@ def vercalificacion02():
 def filtrar02():
     Periodo = request.form['Periodo']
     anio = aniobase()
-    resultado = cargarCalificaciones02Filtro(Periodo,anio)
+    resultado = cargarCalificaciones02Filtro(Periodo)
     if resultado:
         return render_template('perfiles/Coordinacion/vercalificacion02.html', resultado=resultado,Periodo=Periodo,anio =anio)
 
@@ -2363,10 +2371,10 @@ def aniobase():
     
 @app.route('/foest02Evaluar', methods=['POST'])
 def foest02Evaluar():
-    anio = aniobase()
+    
     Asesor = request.form.get('nombreasesor')
     Periodo = request.form.get('Periodo')
-    Periodo = f"{Periodo}-{anio}"
+    
     Proyecto = request.form.get('Proyecto')
     Miembro = request.form.get('Miembro')
     Empresa = request.form.get('NombreEmpresa')

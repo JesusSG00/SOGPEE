@@ -1,6 +1,12 @@
-from flask import render_template
+from flask import render_template,send_file
 from conexion import engine
 from sqlalchemy import text
+
+import pandas as pd
+import io
+from openpyxl import Workbook
+from openpyxl.styles import Font, PatternFill
+from openpyxl.utils.dataframe import dataframe_to_rows
 
 #Calificaciones de los formatos 2, 3 y 8
 
@@ -20,6 +26,18 @@ def cargarCalificaciones08Filtro(Periodo):
             <div class="table-responsive">
             <table class="table table-bordered text-center align-middle">
                 <thead class="table-light">
+                    <tr>
+                       
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thexcel"><div>
+                        <form action="/graficas" method="post">
+                            <button type="submit" class="btn btn-primary" id="excel">Generar excel</button>
+                        </form>
+                    </div></th>
+                    </tr>
                     <tr>
                         <th>Matrícula</th>
                         <th>Promedio</th>
@@ -46,7 +64,7 @@ def cargarCalificaciones08Filtro(Periodo):
                     <td>
                         <form action="/calificacionCompleta08" method="post">
                             <input type="hidden" name="Matricula" value="{fila[0]}">
-                            <button type="submit" class="btn btn-success btn-sm">Ver calif. completas</button>
+                            <button type="submit" class="btn btn-success btn-sm"id="calificaciones">Ver calif. completas</button>
                         </form>
                     </td>
                 </tr>
@@ -76,6 +94,20 @@ def cargarCalificaciones08():
             <table class="table table-bordered text-center align-middle">
                 <thead class="table-light">
                     <tr>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        
+                        
+                        
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thexcel"><div>
+                        <form action="/graficas" method="post">
+                            <button type="submit" class="btn btn-primary" id="excel">Generar excel</button>
+                        </form>
+                    </div></th>
+                    </tr>
+                    <tr>
                         <th>Matrícula</th>
                         <th>Promedio</th>
                         <th>Comentarios</th>
@@ -101,7 +133,7 @@ def cargarCalificaciones08():
                     <td>
                         <form action="/calificacionCompleta08" method="post">
                             <input type="hidden" name="Matricula" value="{fila[0]}">
-                            <button type="submit" class="btn btn-success btn-sm">Ver calif. completas</button>
+                            <button type="submit" class="btn btn-success btn-sm"id="calificaciones">Ver calif. completas</button>
                         </form>
                     </td>
                 </tr>
@@ -135,6 +167,21 @@ def cargarCalificaciones02():
             <div class="table-responsive">
             <table class="table table-bordered text-center align-middle">
                 <thead class="table-light">
+                <tr>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thexcel"><div>
+                        <form action="/graficas" method="post">
+                            <button type="submit" class="btn btn-primary" id="excel">Generar excel</button>
+                        </form>
+                    </div></th>
+                    </tr>
                     <tr>
                         <th>Matrícula</th>
                         <th>Nombre</th>
@@ -150,6 +197,8 @@ def cargarCalificaciones02():
                         </form>
                     </div></th>
                     </tr>
+                    
+                    
                 </thead>
                 <tbody>
             '''
@@ -167,7 +216,7 @@ def cargarCalificaciones02():
                     <td>
                         <form action="/calificacionCompleta" method="post">
                             <input type="hidden" name="Miembro" value="{fila[0]}">
-                            <button type="submit" class="btn btn-success btn-sm">Ver calif. completas</button>
+                            <button type="submit" class="btn btn-success btn-sm" id="calificaciones">Ver calif. completas</button>
                         </form>
                     </td>
                 </tr>
@@ -182,7 +231,7 @@ def cargarCalificaciones02():
         return f'<div class="alert alert-danger text-center">Error al cargar las calificaciones: {str(e)}</div>'
 
 
-def cargarCalificaciones02Filtro(Periodo,anio):
+def cargarCalificaciones02Filtro(Periodo):
     try:
         query = text("""
             SELECT foest02.Miembro, estudiante.Nombre1, estudiante.Nombre2, estudiante.ApellidoP, estudiante.ApellidoM,
@@ -201,6 +250,22 @@ def cargarCalificaciones02Filtro(Periodo,anio):
             <div class="table-responsive">
             <table class="table table-bordered text-center align-middle">
                 <thead class="table-light">
+                    <tr>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thnborder"></th>
+                        <th id="thexcel"><div>
+                        <form action="/generarExcel02" method="post">
+                            <input type="hidden" name="PeriodoSeleccionado" value="{Periodo}">
+                            <button type="submit" class="btn btn-primary" id="excel">Generar excel</button>
+                        </form>
+                    </div></th>
+                    </tr>
                     <tr>
                         <th>Matrícula</th>
                         <th>Nombre</th>
@@ -234,7 +299,7 @@ def cargarCalificaciones02Filtro(Periodo,anio):
                     <td>
                         <form action="/calificacionCompleta" method="post">
                             <input type="hidden" name="Miembro" value="{fila[0]}">
-                            <button type="submit" class="btn btn-success btn-sm">Ver calif. completas</button>
+                            <button type="submit" class="btn btn-success btn-sm" id="calificaciones">Ver calif. completas</button>
                         </form>
                     </td>
                 </tr>
@@ -556,3 +621,98 @@ def cargarproyectoscoordinacion():
             return tarjetas
         else:
             return '<div class="alert alert-warning text-center">NADA POR MOSTRAR</div>'
+        
+
+
+
+
+
+
+
+
+
+
+def excel02filtrado(periodo):
+    try:
+        # Consulta SQL con parámetro :Periodo
+        query = text("""
+            SELECT foest02.Miembro, estudiante.Nombre1, estudiante.Nombre2, 
+                   estudiante.ApellidoP, estudiante.ApellidoM,foest02.Puntualidad,
+                   foest02.Responsabilidad, foest02.Etica, foest02.TomaDecisiones,
+                   foest02.Liderazgo, foest02.ExpresaIdeas, foest02.ComunicacionAsertiva,
+                   foest02.ResolucionSituaciones, foest02.ActitudFavorable,foest02.TrabajoEnEquipo,
+                   foest02.PromedioActitud,foest02.Estrategias, foest02.AccionesMejora,
+                   foest02.ProcesosOperacion, foest02.PlanteaSoluciones,foest02.RespondeNecesidades,
+                   foest02.CumpleTiempo,foest02.PromedioDesarrollo, Periodo
+            FROM estudiante 
+            JOIN foest02 ON estudiante.Matricula = foest02.Miembro
+            WHERE Periodo = :Periodo;
+        """)
+
+        # Ejecutar la consulta
+        with engine.connect() as conn:
+            result = conn.execute(query, {'Periodo': periodo})
+            rows = result.fetchall()
+            columns = result.keys()
+
+        if not rows:
+            return f"No se encontraron resultados para el periodo {periodo}", 404
+
+        # Convertir a DataFrame y personalizar encabezados
+        df = pd.DataFrame(rows, columns=columns)
+        df.columns = [
+            "Matrícula", "Primer Nombre", "Segundo Nombre", "Apellido Paterno", "Apellido Materno",
+            "Puntualidad", "Responsabilidad", "Ética", "Toma de Decisiones", "Liderazgo",
+            "Expresa Ideas", "Comunicación Asertiva", "Resolución de Situaciones",
+            "Actitud Favorable", "Trabajo en Equipo",
+            "Promedio de Actitud","Estrategias", "Acciones de Mejora",
+            "Procesos de Operación", "Plantea Soluciones", "Responde Necesidades",
+            "Cumple Tiempos",
+            "Promedio de Desarrollo", "Periodo"
+        ]
+
+        # Crear archivo Excel con openpyxl
+        wb = Workbook()
+        ws = wb.active
+        ws.title = f"Periodo {periodo}"
+
+        # Escribir encabezados y datos
+        for i, row in enumerate(dataframe_to_rows(df, index=False, header=True), 1):
+            ws.append(row)
+            if i == 1:
+                for cell in ws[1]:
+                    cell.font = Font(bold=True, color="FFFFFF")
+                    cell.fill = PatternFill(start_color="4F81BD", end_color="4F81BD", fill_type="solid")
+
+        # Ajustar ancho de columnas
+        for col in ws.columns:
+            max_length = max(len(str(cell.value)) if cell.value else 0 for cell in col)
+            ws.column_dimensions[col[0].column_letter].width = max_length + 2
+
+
+     # Colorear toda la columna P y W de amarillo (incluyendo encabezado)
+        yellow_fill = PatternFill(start_color="FFFC00", end_color="FFFC00", fill_type="solid")
+        for row in ws.iter_rows(min_row=1, max_row=ws.max_row):
+            row[15].fill = yellow_fill  # Columna P (índice 15, empieza en 0)
+            row[22].fill = yellow_fill  # Columna W (índice 22, empieza en 0)
+            ws[1][15].font = Font(bold=True)  # Encabezado columna P
+            ws[1][22].font = Font(bold=True)  # Encabezado columna W
+
+
+        # Guardar el Excel en memoria
+        output = io.BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        # Enviar archivo al navegador
+        return send_file(
+            output,
+            download_name=f"{periodo}.xlsx",
+            as_attachment=True,
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+
+    except Exception as e:
+        return f"Error al generar el Excel: {e}", 500
+
+

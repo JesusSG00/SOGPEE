@@ -2,13 +2,14 @@ from flask import render_template,send_file
 from conexion import engine
 from sqlalchemy import text
 
+
 import pandas as pd
 import io
 from openpyxl import Workbook
 from openpyxl.styles import Font, PatternFill
 from openpyxl.utils.dataframe import dataframe_to_rows
 
-#Calificaciones de los formatos 2, 3 y 8
+
 
 def cargarCalificaciones08Filtro(Periodo):
     try:
@@ -22,7 +23,7 @@ def cargarCalificaciones08Filtro(Periodo):
             if not rows:
                 return '<div class="alert alert-warning text-center">No hay datos disponibles</div>'
 
-            resultado = '''
+            resultado = f'''
             <div class="table-responsive">
             <table class="table table-bordered text-center align-middle">
                 <thead class="table-light">
@@ -33,7 +34,8 @@ def cargarCalificaciones08Filtro(Periodo):
                         <th id="thnborder"></th>
                         <th id="thnborder"></th>
                         <th id="thexcel"><div>
-                        <form action="/graficas" method="post">
+                        <form action="/excel08filtro" method="post">
+                            <input type="hidden" name="PeriodoSeleccionado" value="{Periodo}">
                             <button type="submit" class="btn btn-primary" id="excel">Generar excel</button>
                         </form>
                     </div></th>
@@ -102,7 +104,7 @@ def cargarCalificaciones08():
                         <th id="thnborder"></th>
                         <th id="thnborder"></th>
                         <th id="thexcel"><div>
-                        <form action="/graficas" method="post">
+                        <form action="/excel08" method="post">
                             <button type="submit" class="btn btn-primary" id="excel">Generar excel</button>
                         </form>
                     </div></th>
@@ -177,8 +179,8 @@ def cargarCalificaciones02():
                         <th id="thnborder"></th>
                         <th id="thnborder"></th>
                         <th id="thexcel"><div>
-                        <form action="/graficas" method="post">
-                            <button type="submit" class="btn btn-primary" id="excel">Generar excel</button>
+                        <form action="/excel02" method="post">
+                            <button type="submit" class="btn btn-primary" id="excel">Excel periodo activo</button>
                         </form>
                     </div></th>
                     </tr>
@@ -636,14 +638,14 @@ def excel02filtrado(periodo):
     try:
         # Consulta SQL con parámetro :Periodo
         query = text("""
-            SELECT foest02.Miembro, estudiante.Nombre1, estudiante.Nombre2, 
-                   estudiante.ApellidoP, estudiante.ApellidoM,foest02.Puntualidad,
+            SELECT Periodo,foest02.Miembro, estudiante.Nombre1, estudiante.Nombre2, 
+                   estudiante.ApellidoP, estudiante.ApellidoM,estudiante.Grupo,foest02.Puntualidad,
                    foest02.Responsabilidad, foest02.Etica, foest02.TomaDecisiones,
                    foest02.Liderazgo, foest02.ExpresaIdeas, foest02.ComunicacionAsertiva,
                    foest02.ResolucionSituaciones, foest02.ActitudFavorable,foest02.TrabajoEnEquipo,
                    foest02.PromedioActitud,foest02.Estrategias, foest02.AccionesMejora,
                    foest02.ProcesosOperacion, foest02.PlanteaSoluciones,foest02.RespondeNecesidades,
-                   foest02.CumpleTiempo,foest02.PromedioDesarrollo, Periodo
+                   foest02.CumpleTiempo,foest02.PromedioDesarrollo
             FROM estudiante 
             JOIN foest02 ON estudiante.Matricula = foest02.Miembro
             WHERE Periodo = :Periodo;
@@ -661,20 +663,20 @@ def excel02filtrado(periodo):
         # Convertir a DataFrame y personalizar encabezados
         df = pd.DataFrame(rows, columns=columns)
         df.columns = [
-            "Matrícula", "Primer Nombre", "Segundo Nombre", "Apellido Paterno", "Apellido Materno",
+            "Periodo","Matrícula", "Primer Nombre", "Segundo Nombre", "Apellido Paterno", "Apellido Materno","Grupo",
             "Puntualidad", "Responsabilidad", "Ética", "Toma de Decisiones", "Liderazgo",
             "Expresa Ideas", "Comunicación Asertiva", "Resolución de Situaciones",
             "Actitud Favorable", "Trabajo en Equipo",
             "Promedio de Actitud","Estrategias", "Acciones de Mejora",
             "Procesos de Operación", "Plantea Soluciones", "Responde Necesidades",
             "Cumple Tiempos",
-            "Promedio de Desarrollo", "Periodo"
+            "Promedio de Desarrollo"
         ]
 
         # Crear archivo Excel con openpyxl
         wb = Workbook()
         ws = wb.active
-        ws.title = f"Periodo {periodo}"
+        ws.title = f"FO-EST-02 {periodo}"
 
         # Escribir encabezados y datos
         for i, row in enumerate(dataframe_to_rows(df, index=False, header=True), 1):
@@ -707,12 +709,281 @@ def excel02filtrado(periodo):
         # Enviar archivo al navegador
         return send_file(
             output,
-            download_name=f"{periodo}.xlsx",
+            download_name=f"FO-EST-02 {periodo}.xlsx",
             as_attachment=True,
             mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
         )
 
     except Exception as e:
         return f"Error al generar el Excel: {e}", 500
+
+
+def excel08(periodo):
+    try:
+        # Consulta SQL con parámetro :Periodo
+        query = text("""
+SELECT foest08.Periodo,foest08.Matricula,estudiante.Nombre1,estudiante.Nombre2,estudiante.ApellidoP,estudiante.ApellidoM,estudiante.Grupo,foest08.Pregunta01,foest08.Pregunta02,foest08.Pregunta03,foest08.Pregunta04,foest08.Pregunta05,foest08.Pregunta06,foest08.Pregunta07,foest08.Pregunta08,foest08.Pregunta09,foest08.Promedio,foest08.Veracidad,foest08.Comentarios
+                     from foest08
+                     JOIN estudiante ON foest08.Matricula = estudiante.Matricula
+                     WHERE foest08.periodo = :periodo;
+        """)
+
+        # Ejecutar la consulta
+        with engine.connect() as conn:
+            result = conn.execute(query,{"periodo":periodo})
+            rows = result.fetchall()
+            columns = result.keys()
+
+        if not rows:
+            return f"No se encontraron resultados para el periodo {periodo}", 404
+
+        # Convertir a DataFrame y personalizar encabezados
+        df = pd.DataFrame(rows, columns=columns)
+        df.columns = [
+            "Periodo","Matrícula", "Primer Nombre", "Segundo Nombre", "Apellido Paterno", "Apellido Materno","Grupo",
+            "¿La coordinación de estancias y estadías ofrece un servicio de calidad?", "¿Consideras que el responsable de vinculación proporciona información útil para que los alumnos encuentren empresa dónde realizar su estancia/estadía?", "¿La plataforma para generar cartas de representación es eficiente y fácil de utilizar?", "¿La gestión de mi carta de representación fue oportuna?", "¿La asignación de tu asesor académico fue oportuna?",
+            "¿La capacitación sobre la estructura y elaboración del proyecto de estancia/estadía recibida por parte del asesor académico fue adecuada?", "¿El asesor académico asistió constantemente a las asesorías programadas?", "¿El asesor académico te apoyó en la aclaración de dudas técnicas durante el desarrollo de tu proyecto?",
+            "¿El asesor académico mantuvo contacto con el asesor empresarial para un adecuado desarrollo del proyecto de estancia/estadía?","Promedio", "Veracidad",
+            "Comentarios"
+        ]
+
+        # Crear archivo Excel con openpyxl
+        wb = Workbook()
+        ws = wb.active
+        ws.title = f"FO-EST-08 {periodo}"
+
+        # Escribir encabezados y datos
+        for i, row in enumerate(dataframe_to_rows(df, index=False, header=True), 1):
+            ws.append(row)
+            if i == 1:
+                for cell in ws[1]:
+                    cell.font = Font(bold=True, color="FFFFFF")
+                    cell.fill = PatternFill(start_color="4F81BD", end_color="4F81BD", fill_type="solid")
+
+        # Ajustar ancho de columnas
+        for col in ws.columns:
+            max_length = max(len(str(cell.value)) if cell.value else 0 for cell in col)
+            ws.column_dimensions[col[0].column_letter].width = max_length+2
+
+
+     # Colorear toda la columna P y W de amarillo (incluyendo encabezado)
+        yellow_fill = PatternFill(start_color="FFFC00", end_color="FFFC00", fill_type="solid")
+        for row in ws.iter_rows(min_row=1, max_row=ws.max_row):
+            row[15].fill = yellow_fill  # Columna P (índice 15, empieza en 0)
+            ws[1][15].font = Font(bold=True)  # Encabezado columna P
+            
+
+
+        # Guardar el Excel en memoria
+        output = io.BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        # Enviar archivo al navegador
+        return send_file(
+            output,
+            download_name=f"FO-EST-08 {periodo}.xlsx",
+            as_attachment=True,
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+
+    except Exception as e:
+        return f"Error al generar el Excel: {e}", 500
+
+
+
+
+def excel07P(periodo,procedimiento):
+
+    try:
+        # Consulta SQL con parámetro :Periodo
+        query = text("""SELECT 
+	foest07.Periodo,
+    estudiante.Grupo,
+    GROUP_CONCAT(CONCAT(estudiante.Nombre1, ' ', estudiante.ApellidoP, ' ', estudiante.ApellidoM) SEPARATOR ', ') AS Integrantes,
+    foest07.TituloProyecto,
+    foest07.NombreEmpresa,
+    estudiante.Carrera,
+    foest07.Procedimiento,
+    GROUP_CONCAT(DISTINCT
+    TRIM(BOTH ', ' FROM CONCAT_WS(', ',
+        NULLIF(TRIM(foest07.FuncionesPrioritarias), ''),
+        NULLIF(TRIM(foest07.FuncionesPrioritarias2), ''),
+        NULLIF(TRIM(foest07.FuncionesPrioritarias3), '')
+    ))
+    SEPARATOR ', '
+) AS FuncionesPrioritarias,
+    foest07.ResolvioNecesidad,
+    foest07.InteresParticipacion,
+    foest07.RealizaInvestigacion,
+    foest07.DispuestoContratar,
+    foest07.PorqueContratar,
+    foest07.ApruebaEdicion,
+    foest07.ClausulaEspecial
+FROM estudiante
+JOIN equipos ON estudiante.Matricula = equipos.Matricula
+JOIN proyecto ON equipos.Id_Proyecto = proyecto.ProyectoID
+JOIN foest07 ON proyecto.Nombre = foest07.TituloProyecto
+WHERE foest07.Periodo = :periodo AND foest07.Procedimiento = :procedimiento
+GROUP BY equipos.NoEquipo, foest07.TituloProyecto, estudiante.Grupo;""")
+
+        # Ejecutar la consulta
+        with engine.connect() as conn:
+            result = conn.execute(query,{"periodo":periodo, "procedimiento":procedimiento})
+            rows = result.fetchall()
+            columns = result.keys()
+
+        if not rows:
+            return f"No se encontraron resultados para el periodo {periodo}", 404
+
+        # Convertir a DataFrame y personalizar encabezados
+        df = pd.DataFrame(rows, columns=columns)
+        df.columns = [
+            "Periodo","Grupo", "Integrantes", "Titulo del proyecto", "Nombre de la empresa", "Carrera","Procedimiento",
+            "Funciones prioritarias", "El proyecto resolvió su necesidad", "Le interesaría participar en proyectos de investigación y desarrollo tecnológico,asesorados por la UPT",
+            "¿Realiza investigación y desarrollo en su empresa?", "¿Estaria dispuesto a contratar a egresados de la UPT?", "¿Por qué?","Aprueba edición del proyecto por parte de la UPT",
+            "Clausula especial de las condiciones de edición por parte del asesor empresarial en caso de existir"
+        ]
+
+        # Crear archivo Excel con openpyxl
+        wb = Workbook()
+        ws = wb.active
+        ws.title = f"FO-EST-07 {periodo} {procedimiento}"
+
+        # Escribir encabezados y datos
+        for i, row in enumerate(dataframe_to_rows(df, index=False, header=True), 1):
+            ws.append(row)
+            if i == 1:
+                for cell in ws[1]:
+                    cell.font = Font(bold=True, color="FFFFFF")
+                    cell.fill = PatternFill(start_color="4F81BD", end_color="4F81BD", fill_type="solid")
+
+        # Ajustar ancho de columnas
+        for col in ws.columns:
+            max_length = max(len(str(cell.value)) if cell.value else 0 for cell in col)
+            ws.column_dimensions[col[0].column_letter].width = max_length+2
+
+
+     # Colorear toda la columna P y W de amarillo (incluyendo encabezado)
+       
+        
+
+        # Encuentra el índice de la columna "Funciones prioritarias"
+        # Encuentra el índice de la columna "Funciones prioritarias"
+       
+
+                # Guardar el Excel en memoria
+        output = io.BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        # Enviar archivo al navegador
+        return send_file(
+            output,
+            download_name=f"FO-EST-07 {periodo} {procedimiento}.xlsx",
+            as_attachment=True,
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+
+    except Exception as e:
+        return f"Error al generar el Excel: {e}", 500
+
+
+
+def excel07(periodo):
+
+    try:
+        # Consulta SQL con parámetro :Periodo
+        query = text("""SELECT 
+	foest07.Periodo,
+    estudiante.Grupo,
+    GROUP_CONCAT(CONCAT(estudiante.Nombre1, ' ', estudiante.ApellidoP, ' ', estudiante.ApellidoM) SEPARATOR ', ') AS Integrantes,
+    foest07.TituloProyecto,
+    foest07.NombreEmpresa,
+    estudiante.Carrera,
+    foest07.Procedimiento,
+    GROUP_CONCAT(DISTINCT
+    TRIM(BOTH ', ' FROM CONCAT_WS(', ',
+        NULLIF(TRIM(foest07.FuncionesPrioritarias), ''),
+        NULLIF(TRIM(foest07.FuncionesPrioritarias2), ''),
+        NULLIF(TRIM(foest07.FuncionesPrioritarias3), '')
+    ))
+    SEPARATOR ', '
+) AS FuncionesPrioritarias,
+    foest07.ResolvioNecesidad,
+    foest07.InteresParticipacion,
+    foest07.RealizaInvestigacion,
+    foest07.DispuestoContratar,
+    foest07.PorqueContratar,
+    foest07.ApruebaEdicion,
+    foest07.ClausulaEspecial
+FROM estudiante
+JOIN equipos ON estudiante.Matricula = equipos.Matricula
+JOIN proyecto ON equipos.Id_Proyecto = proyecto.ProyectoID
+JOIN foest07 ON proyecto.Nombre = foest07.TituloProyecto
+WHERE foest07.Periodo = :periodo
+GROUP BY equipos.NoEquipo, foest07.TituloProyecto, estudiante.Grupo;""")
+
+        # Ejecutar la consulta
+        with engine.connect() as conn:
+            result = conn.execute(query,{"periodo":periodo})
+            rows = result.fetchall()
+            columns = result.keys()
+
+        if not rows:
+            return f"No se encontraron resultados para el periodo {periodo}", 404
+
+        # Convertir a DataFrame y personalizar encabezados
+        df = pd.DataFrame(rows, columns=columns)
+        df.columns = [
+            "Periodo","Grupo", "Integrantes", "Titulo del proyecto", "Nombre de la empresa", "Carrera","Procedimiento",
+            "Funciones prioritarias", "El proyecto resolvió su necesidad", "Le interesaría participar en proyectos de investigación y desarrollo tecnológico,asesorados por la UPT",
+            "¿Realiza investigación y desarrollo en su empresa?", "¿Estaria dispuesto a contratar a egresados de la UPT?", "¿Por qué?","Aprueba edición del proyecto por parte de la UPT",
+            "Clausula especial de las condiciones de edición por parte del asesor empresarial en caso de existir"
+        ]
+
+        # Crear archivo Excel con openpyxl
+        wb = Workbook()
+        ws = wb.active
+        ws.title = f"FO-EST-07 {periodo}"
+
+        # Escribir encabezados y datos
+        for i, row in enumerate(dataframe_to_rows(df, index=False, header=True), 1):
+            ws.append(row)
+            if i == 1:
+                for cell in ws[1]:
+                    cell.font = Font(bold=True, color="FFFFFF")
+                    cell.fill = PatternFill(start_color="4F81BD", end_color="4F81BD", fill_type="solid")
+
+        # Ajustar ancho de columnas
+        for col in ws.columns:
+            max_length = max(len(str(cell.value)) if cell.value else 0 for cell in col)
+            ws.column_dimensions[col[0].column_letter].width = max_length+2
+
+
+     # Colorear toda la columna P y W de amarillo (incluyendo encabezado)
+       
+        
+
+        # Encuentra el índice de la columna "Funciones prioritarias"
+        # Encuentra el índice de la columna "Funciones prioritarias"
+       
+
+                # Guardar el Excel en memoria
+        output = io.BytesIO()
+        wb.save(output)
+        output.seek(0)
+
+        # Enviar archivo al navegador
+        return send_file(
+            output,
+            download_name=f"FO-EST-07 {periodo}.xlsx",
+            as_attachment=True,
+            mimetype='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+        )
+
+    except Exception as e:
+        return f"Error al generar el Excel: {e}", 500
+
 
 

@@ -106,15 +106,17 @@
         <div class="form-group">
     <label for="parcial">Generar excel</label>
     <div class="periodo-buttons">
-        <form action="/generarExcel07" method="post"><button type="submit">ENERO - ABRIL - {{anio}}</button>
-       
+        <form action="/generarExcel07P" method="post"><button type="submit">ENERO - ABRIL - {{anio}}</button>
+        <input type="text" name="Procedimiento" value="{{Procedimiento}}" hidden>
         <input type="hidden" name="Periodo" value="ENERO - ABRIL - {{anio}}">
         </form>
-        <form action="/generarExcel07" method="post"><button type="submit">MAYO - AGOSTO - {{anio}}</button>
+        <form action="/generarExcel07P" method="post"><button type="submit">MAYO - AGOSTO - {{anio}}</button>
+            <input type="text" name="Procedimiento" value="{{Procedimiento}}" hidden>
         <input type="hidden" name="Periodo" value="MAYO - AGOSTO - {{anio}}">
         
         </form>
-        <form action="/generarExcel07" method="post"><button type="submit">SEPTIEMBRE - DICIEMBRE - {{anio}}</button>
+        <form action="/generarExcel07P" method="post"><button type="submit">SEPTIEMBRE - DICIEMBRE - {{anio}}</button>
+            <input type="text" name="Procedimiento" value="{{Procedimiento}}" hidden>
         <input type="hidden" name="Periodo" value="SEPTIEMBRE - DICIEMBRE - {{anio}}">
         
         </form>

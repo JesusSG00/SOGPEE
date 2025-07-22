@@ -23,6 +23,41 @@ def metodo_no_permitido(e):
     return f'no'
 
 
+@app.route('/generarExcel07',methods=['POST'])
+def fexcel07():
+    periodo = request.form['Periodo']
+    resultado = excel07(periodo)
+    return resultado
+
+
+@app.route('/generarExcel07P',methods=['POST'])
+def fexcel07P():
+    periodo = request.form['Periodo']
+    procedimiento = request.form['Procedimiento']
+    resultado = excel07P(periodo,procedimiento)
+    return resultado
+
+
+@app.route('/excel08',methods=['POST'])
+def fexcel08():
+    periodo = periodoCuatrimestral()
+    anio = aniobase()
+    periodo = f'{periodo} - {anio}'
+    resultado = excel08(periodo)
+    return resultado
+@app.route('/excel08filtro',methods=['POST'])
+def generarExcel08():
+    PeriodoSeleccionado = request.form['PeriodoSeleccionado']
+    resultado = excel08(PeriodoSeleccionado)
+    return resultado
+
+@app.route('/excel02',methods=['POST'])
+def excel02():
+    periodo = periodoCuatrimestral()
+    anio = aniobase()
+    periodo = f'{periodo} - {anio}'
+    resultado = excel02filtrado(periodo)
+    return resultado
 @app.route('/generarExcel02',methods=['POST'])
 def generarExcel02():
     PeriodoSeleccionado = request.form['PeriodoSeleccionado']
@@ -255,7 +290,7 @@ def conteoProcedimiento():
         datos3 = conteo(valores_validosIMA,prodecimientos)
         datos4 = conteo(valores_validosITM,prodecimientos)
         datos5 = conteo(valores_validosLNI,prodecimientos)
-        return render_template('Grafica/Grafica07.html',datos=datos,datos2=datos2,datos3=datos3,datos4=datos4,datos5=datos5)
+        return render_template('Grafica/Grafica07.html',datos=datos,datos2=datos2,datos3=datos3,datos4=datos4,datos5=datos5,anio=anio)
 
     else:
         datos = conteoW(valores_validosIS,Procedimiento,Periodo)
@@ -263,7 +298,7 @@ def conteoProcedimiento():
         datos3 = conteoW(valores_validosIMA,Procedimiento,Periodo)
         datos4 = conteoW(valores_validosITM,Procedimiento,Periodo)
         datos5 = conteoW(valores_validosLNI,Procedimiento,Periodo)
-        return render_template('Grafica/Grafica07.html',datos=datos,datos2=datos2,datos3=datos3,datos4=datos4,datos5=datos5)
+        return render_template('Grafica/Grafica07_2.html',datos=datos,datos2=datos2,datos3=datos3,datos4=datos4,datos5=datos5,anio=anio,Procedimiento =Procedimiento)
 
 
 
@@ -467,8 +502,8 @@ def graficas07():
     datos3 = conteo(valores_validosIMA,prodecimientos)
     datos4 = conteo(valores_validosITM,prodecimientos)
     datos5 = conteo(valores_validosLNI,prodecimientos)
-
-    return render_template('Grafica/Grafica07.html',datos=datos,datos2=datos2,datos3=datos3,datos4=datos4,datos5=datos5)
+    anio = aniobase()
+    return render_template('Grafica/Grafica07.html',datos=datos,datos2=datos2,datos3=datos3,datos4=datos4,datos5=datos5,anio=anio)
 
 
 
@@ -2101,6 +2136,8 @@ def estancia1():
     porque = request.form['porque_contratar']
     aprueba = request.form['Aprueba']
     clausula_especial = request.form.get('clausula_especial')
+    if clausula_especial == "":
+        clausula_especial = "No aplica"
    
     
     
@@ -2114,7 +2151,7 @@ def estancia1():
             if row[0] == Nombreproyecto and row[1] == procedimiento:
                 return f'Error: ya se ha registrado el proyecto {Nombreproyecto} con el procedimiento {procedimiento}'
 
-    fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3)
+    fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3, resolvio,interes,investigacion,contratar_egresados,porque,aprueba,clausula_especial)
     if fo07:
         return render_template('login/asesorEmpresarial3.html')
 
@@ -2130,6 +2167,8 @@ def estancia2():
     equipo = request.form['equipo']
     procedimiento = request.form['procedimiento']
     periodo = request.form['periodo']
+    funcionestancia2_otros = request.form.get("funcion-estancia2_otros")
+
     Nombreproyecto = request.form['nombreProyecto']
     empresa= request.form['nombre_empresa']
     gradoEstudios = request.form['grado_estudios']
@@ -2145,6 +2184,10 @@ def estancia2():
     funcionEstancia2 = funcionEstancia[1]
     funcionEstancia3 = funcionEstancia[2]
     
+    if funcionEstancia3 == "Otras funciones":
+        funcionEstancia3 = funcionestancia2_otros
+
+
     resolvio = request.form['resolvio_necesidad']
     interes = request.form['interes_participar']
     investigacion = request.form['investigacion_desarrollo']
@@ -2152,11 +2195,12 @@ def estancia2():
     porque = request.form['porque_contratar']
     aprueba = request.form['Aprueba']
     clausula_especial = request.form.get('clausula_especial')
-    if aprueba == "No":
-        funcionEstancia3 = clausula_especial
+    if clausula_especial == "":
+        clausula_especial = "No aplica"
+   
   
 
-    fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3)
+    fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3, resolvio,interes,investigacion,contratar_egresados,porque,aprueba,clausula_especial)
     if fo07:
         return render_template('login/asesorEmpresarial3.html')
 
@@ -2173,6 +2217,8 @@ def estadia():
     equipo = request.form['equipo']
     procedimiento = request.form['procedimiento']
     periodo = request.form['periodo']
+    funcionestadia_otros = request.form.get("funcion-estadia_otros")
+
     Nombreproyecto = request.form['nombreProyecto']
     empresa= request.form['nombre_empresa']
     gradoEstudios = request.form['grado_estudios']
@@ -2188,6 +2234,10 @@ def estadia():
     funcionEstancia2 = funcionEstancia[1]
     funcionEstancia3 = funcionEstancia[2]
     
+    if funcionEstancia3 == "Otras funciones":
+        funcionEstancia3 = funcionestadia_otros
+
+
     resolvio = request.form['resolvio_necesidad']
     interes = request.form['interes_participar']
     investigacion = request.form['investigacion_desarrollo']
@@ -2195,22 +2245,28 @@ def estadia():
     porque = request.form['porque_contratar']
     aprueba = request.form['Aprueba']
     clausula_especial = request.form.get('clausula_especial')
-    if aprueba == "No":
-        funcionEstancia3 = clausula_especial
+    if clausula_especial == "":
+        clausula_especial = "No aplica"
+   
   
 
-    fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3)
+    fo07 = guardarFOEST07(periodo,Nombreproyecto,equipo,procedimiento,empresa,modalidad,gradoEstudios,NombreAsesor,tipoempresa,giro,capital,anios_operacion,tamanio_empresa,mercado,carrera,funcionEstancia1,funcionEstancia2,funcionEstancia3, resolvio,interes,investigacion,contratar_egresados,porque,aprueba,clausula_especial)
     if fo07:
         return render_template('login/asesorEmpresarial3.html')
 
     
 
-def guardarFOEST07(Periodo, TituloProyecto, NoEquipo, Procedimiento, NombreEmpresa, Modalidad, GradoEstudiosAsesorEmp, NombreAsesorEmp, TipoEmpresa, GiroEmpresa, Capital, AniosOperacion, TamanioEmpresa, MercadoVenta, Carrera, funcionEstancia1, funcionEstancia2, funcionEstancia3):
+def guardarFOEST07(Periodo, TituloProyecto, NoEquipo, Procedimiento, NombreEmpresa, 
+                   Modalidad, GradoEstudiosAsesorEmp, NombreAsesorEmp, TipoEmpresa, GiroEmpresa, 
+                   Capital, AniosOperacion, TamanioEmpresa, MercadoVenta, Carrera, funcionEstancia1, 
+                   funcionEstancia2, funcionEstancia3,resolvio,interes,investigacion,contratar_egresados,porque,aprueba,clausula_especial):
     query = text("""
         INSERT INTO foest07 
-        (Periodo, TituloProyecto, NoEquipo, Procedimiento, NombreEmpresa, Modalidad, GradoEstudiosAsesorEmp, NombreAsesorEmp, TipoEmpresa, GiroEmpresa, Capital, AniosOperacion, TamanioEmpresa, MercadoVenta, Carrera, FuncionesPrioritarias, FuncionesPrioritarias2, FuncionesPrioritarias3)
+        (Periodo, TituloProyecto, NoEquipo, Procedimiento, NombreEmpresa, Modalidad, GradoEstudiosAsesorEmp,
+                NombreAsesorEmp, TipoEmpresa, GiroEmpresa, Capital, AniosOperacion, TamanioEmpresa, MercadoVenta, Carrera,
+                FuncionesPrioritarias, FuncionesPrioritarias2, FuncionesPrioritarias3,ResolvioNecesidad, InteresParticipacion,RealizaInvestigacion,DispuestoContratar,PorqueContratar,ApruebaEdicion, ClausulaEspecial)
         VALUES 
-        (:Periodo, :TituloProyecto, :NoEquipo, :Procedimiento, :NombreEmpresa, :Modalidad, :GradoEstudiosAsesorEmp, :NombreAsesorEmp, :TipoEmpresa, :GiroEmpresa, :Capital, :AniosOperacion, :TamanioEmpresa, :MercadoVenta, :Carrera, :funcionEstancia1, :funcionEstancia2, :funcionEstancia3)
+        (:Periodo, :TituloProyecto, :NoEquipo, :Procedimiento, :NombreEmpresa, :Modalidad, :GradoEstudiosAsesorEmp, :NombreAsesorEmp, :TipoEmpresa, :GiroEmpresa, :Capital, :AniosOperacion, :TamanioEmpresa, :MercadoVenta, :Carrera, :funcionEstancia1, :funcionEstancia2, :funcionEstancia3,:resolvio, :interes, :investigacion, :contratar_egresados, :porque, :aprueba, :clausula_especial)
     """)
 
     try:
@@ -2234,7 +2290,14 @@ def guardarFOEST07(Periodo, TituloProyecto, NoEquipo, Procedimiento, NombreEmpre
                     "Carrera": Carrera,
                     "funcionEstancia1": funcionEstancia1,
                     "funcionEstancia2": funcionEstancia2,
-                    "funcionEstancia3": funcionEstancia3
+                    "funcionEstancia3": funcionEstancia3,
+                    "resolvio": resolvio,
+                    "interes": interes,
+                    "investigacion": investigacion,
+                    "contratar_egresados": contratar_egresados,
+                    "porque": porque,
+                    "aprueba": aprueba,
+                    "clausula_especial": clausula_especial
                 })
                 
         return True  
